@@ -49,6 +49,6 @@ describe('notificationText', () => {
     expect(notificationText({ personId: 'sadiq', kind: 'error', name: 'Sadiq', text: 'Gateway timeout' }))
       .toEqual({ title: 'Sadiq hit an error', body: 'Gateway timeout' });
     expect(notificationText({ personId: 'pam', kind: 'needs-you', name: 'Pam Beesly', text: '' }))
-      .toEqual({ title: 'Pam needs you', body: 'Open Dunder Mifflin OS to answer.' });
+      .toEqual({ title: 'Pam needs you', body: 'Open Agents Ka Ghar to answer.' });
   });
 });

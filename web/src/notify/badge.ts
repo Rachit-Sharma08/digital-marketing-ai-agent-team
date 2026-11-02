@@ -1,5 +1,5 @@
 // The tab's title badge ("(2) Dunder Mifflin OS") and favicon (the DM mark, with a red dot when something needs you). Pure.
-export const BASE_TITLE = 'Dunder Mifflin OS';
+export const BASE_TITLE = 'Agents Ka Ghar';
 
 export function badgeTitle(count: number, base = BASE_TITLE): string {
   if (count <= 0) return base;

@@ -34,6 +34,6 @@ export function pruneUnseen(unseen: Unseen, presence: Readonly<Record<string, Pr
 export function notificationText(e: AttentionEvent): { title: string; body: string } {
   const who = shortName(e.name);
   return e.kind === 'error'
-    ? { title: `${who} hit an error`, body: e.text || 'Open Dunder Mifflin OS to see what happened.' }
-    : { title: `${who} needs you`, body: e.text || 'Open Dunder Mifflin OS to answer.' };
+    ? { title: `${who} hit an error`, body: e.text || 'Open Agents Ka Ghar to see what happened.' }
+    : { title: `${who} needs you`, body: e.text || 'Open Agents Ka Ghar to answer.' };
 }

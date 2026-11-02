@@ -4,7 +4,7 @@ import { E2E_TOKEN } from '../playwright.auth.config';
 test('a token-protected office asks once, then loads read-only', async ({ page, context }) => {
   await page.goto('/?demo=0');
   await expect(page).toHaveURL(/\/login\?next=%2F%3Fdemo%3D0$/);
-  await expect(page).toHaveTitle('Sign in · Dunder Mifflin OS');
+  await expect(page).toHaveTitle('Sign in · Agents Ka Ghar');
 
   await page.getByLabel('Access token').fill('not-the-token-not-the-token');
   await page.getByRole('button', { name: 'Sign in' }).click();

@@ -10,12 +10,12 @@ test.describe('notifications', () => {
     const feed = await liveWithFeed(page);
     await page.goto('/');
     await expect(page.getByTestId('source')).toHaveText('Live');
-    await expect(page).toHaveTitle('Dunder Mifflin OS');
+    await expect(page).toHaveTitle('Agents Ka Ghar');
     expect(await favicon(page)).not.toContain('circle');
 
     await setAway(page, true);
     feed.push([dwightErrors]);
-    await expect(page).toHaveTitle('(1) Dunder Mifflin OS');
+    await expect(page).toHaveTitle('(1) Agents Ka Ghar');
     expect(await favicon(page)).toContain('circle');
     expect(await fakeState(page)).toEqual({ notes: [], permAsked: 0, tones: 0 }); // both opt-in, never asked on load
 
@@ -23,7 +23,7 @@ test.describe('notifications', () => {
     const away = page.getByRole('region', { name: 'While you were away' });
     await expect(away).toContainText('Dwight hit an error: Ad account locked');
     await expect(away).toContainText('Kelly finished and is idle');
-    await expect(page).toHaveTitle('Dunder Mifflin OS');
+    await expect(page).toHaveTitle('Agents Ka Ghar');
     expect(await favicon(page)).not.toContain('circle');
     await away.getByRole('button', { name: 'Dwight hit an error: Ad account locked' }).click();
     await expect(page.getByRole('dialog', { name: 'Dwight Schrute' })).toBeVisible();
@@ -38,7 +38,7 @@ test.describe('notifications', () => {
     await expect(page.getByTestId('source')).toHaveText('Live');
     await setAway(page, true);
     feed.push([{ presence: { pam: { status: 'needs-input', activity: 'Approve the Council agenda?' } } }]);
-    await expect(page).toHaveTitle('(1) Dunder Mifflin OS');
+    await expect(page).toHaveTitle('(1) Agents Ka Ghar');
     await setAway(page, false);
     await expect(page.getByRole('region', { name: 'While you were away' })).toContainText('Pam needs you: Approve the Council agenda?');
   });
@@ -60,7 +60,7 @@ test.describe('notifications', () => {
 
     await setAway(page, true);
     feed.push([dwightErrors]);
-    await expect(page).toHaveTitle('(1) Dunder Mifflin OS');
+    await expect(page).toHaveTitle('(1) Agents Ka Ghar');
     const state = await fakeState(page);
     expect(state.notes).toEqual([{ title: 'Dwight hit an error', body: 'Ad account locked' }]);
     expect(state.tones).toBeGreaterThan(afterPreview);

@@ -87,8 +87,8 @@ export function TopBar({
   return (
     <header className="topbar">
       <div className="brand">
-        <span className="brand-mark" aria-hidden="true">DM</span>
-        <span className="brand-name">Dunder Mifflin <strong>OS</strong></span>
+        <span className="brand-mark" aria-hidden="true">AG</span>
+        <span className="brand-name">Agents Ka <strong>Ghar</strong></span>
       </div>
       {demo ?? (
         <span className={`source source-${source.kind}`} title={source.detail} data-testid="source">

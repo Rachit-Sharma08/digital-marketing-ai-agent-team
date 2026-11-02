@@ -18,7 +18,7 @@ export type CliCommand =
   | { readonly kind: 'version' }
   | { readonly kind: 'error'; readonly message: string };
 
-export const HELP_TEXT = `Dunder Mifflin OS: the office floor plan for your Hermes bots, in the browser.
+export const HELP_TEXT = `Agents Ka Ghar: the office floor plan for your Hermes bots, in the browser.
 
 Usage: npx dunder-mifflin-os [options]
 

@@ -42,12 +42,12 @@ export function loginPageHtml(opts: { next: string; error?: string }): string {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Sign in · Dunder Mifflin OS</title>
+<title>Sign in · Agents Ka Ghar</title>
 <style>${STYLE}</style>
 </head>
 <body>
 <main>
-<h1>Dunder Mifflin <strong>OS</strong></h1>
+<h1>Agents Ka <strong>Ghar</strong></h1>
 <p>This office is reachable from other devices, so it asks for its access token once per browser.</p>
 ${error}<form method="post" action="${LOGIN_PATH}">
 <label for="token">Access token</label>

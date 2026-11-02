@@ -29,7 +29,7 @@ export function banner(env: Env, url: string, home: string): string {
   const signIn = env.DMOS_ACCESS_TOKEN?.trim() ? ['  Sign-in: required (the access token in DMOS_ACCESS_TOKEN)'] : [];
   return [
     '',
-    `  Dunder Mifflin OS is open at ${url}`,
+    `  Agents Ka Ghar is open at ${url}`,
     `  Data:    ${data}`,
     `  Writes:  ${writes}`,
     ...signIn,

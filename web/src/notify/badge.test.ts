@@ -3,9 +3,9 @@ import { BASE_TITLE, badgeTitle, faviconHref, faviconSvg } from './badge';
 
 describe('tab title badge', () => {
   it('prefixes the count, and drops it at zero', () => {
-    expect(badgeTitle(2)).toBe('(2) Dunder Mifflin OS');
+    expect(badgeTitle(2)).toBe('(2) Agents Ka Ghar');
     expect(badgeTitle(0)).toBe(BASE_TITLE);
-    expect(badgeTitle(120)).toBe('(99+) Dunder Mifflin OS');
+    expect(badgeTitle(120)).toBe('(99+) Agents Ka Ghar');
   });
 });
 

@@ -10,7 +10,7 @@
     "start": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
     "serve": "DMOS_SERVE_WEB=1 NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
     "demo": "DMOS_SOURCE=fixture NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
-    "test": "NODE_OPTIONS=--disable-warning=ExperimentalWarning vitest run",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "record-fixture": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx scripts/record-fixture.ts",
     "live-summary": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx scripts/live-summary.ts",

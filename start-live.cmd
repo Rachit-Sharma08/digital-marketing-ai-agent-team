@@ -1,5 +1,5 @@
 @echo off
 title Agents Ka Ghar - Live (Hermes)
-cd /d D:\Projects\dunder-mifflin-os
-node bin\dunder-mifflin-os.mjs --port 4319 --hermes-home D:\hermes --open
+cd /d D:\Projects\agents-ka-ghar
+node bin\agents-ka-ghar.mjs --port 4319 --hermes-home D:\hermes --open
 pause

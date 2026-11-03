@@ -1,5 +1,5 @@
 # Opens the Agents Ka Ghar demo in the browser, starting the server first if it is down.
-$repo = 'D:\Projects\dunder-mifflin-os'
+$repo = 'D:\Projects\agents-ka-ghar'
 $port = 4318
 $url = "http://127.0.0.1:$port/"
 

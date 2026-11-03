@@ -1,7 +1,7 @@
 {
-  "name": "dunder-mifflin-os",
+  "name": "agents-ka-ghar",
   "version": "0.1.0",
-  "description": "A browser \"operating system\" for a Hermes bot fleet, drawn as an isometric office floor plan. Unofficial fan project; not affiliated with NBCUniversal or The Office.",
+  "description": "A browser \"operating system\" for a Hermes bot fleet, drawn as an isometric office floor plan. Unofficial fan project; not affiliated with the original rights holder or the workspace.",
   "keywords": [
     "hermes",
     "ai-agents",
@@ -15,15 +15,15 @@
   "author": "Stephen Thorn",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stephenlthorn/dunder-mifflin-os.git"
+    "url": "git+https://github.com/stephenlthorn/agents-ka-ghar.git"
   },
   "bugs": {
-    "url": "https://github.com/stephenlthorn/dunder-mifflin-os/issues"
+    "url": "https://github.com/stephenlthorn/agents-ka-ghar/issues"
   },
-  "homepage": "https://github.com/stephenlthorn/dunder-mifflin-os#readme",
+  "homepage": "https://github.com/stephenlthorn/agents-ka-ghar#readme",
   "type": "module",
   "bin": {
-    "dunder-mifflin-os": "bin/dunder-mifflin-os.mjs"
+    "agents-ka-ghar": "bin/agents-ka-ghar.mjs"
   },
   "files": [
     "bin/",
@@ -46,23 +46,23 @@
   ],
   "scripts": {
     "dev": "concurrently -k -n server,web -c blue,green \"npm:dev:server\" \"npm:dev:web\"",
-    "dev:server": "npm run dev -w @dmos/server",
-    "dev:web": "npm run dev -w @dmos/web --",
-    "demo": "npm run build && node bin/dunder-mifflin-os.mjs --demo",
-    "demo:server": "concurrently -k -n server,web -c yellow,green \"npm run demo -w @dmos/server\" \"npm:dev:web\"",
-    "build": "npm run build -w @dmos/web",
-    "build:demo-static": "npm run build:demo-static -w @dmos/web",
-    "start": "npm run build && npm run serve -w @dmos/server",
+    "dev:server": "npm run dev -w @akg/server",
+    "dev:web": "npm run dev -w @akg/web --",
+    "demo": "npm run build && node bin/agents-ka-ghar.mjs --demo",
+    "demo:server": "concurrently -k -n server,web -c yellow,green \"npm run demo -w @akg/server\" \"npm:dev:web\"",
+    "build": "npm run build -w @akg/web",
+    "build:demo-static": "npm run build:demo-static -w @akg/web",
+    "start": "npm run build && npm run serve -w @akg/server",
     "test": "npm run test:web && npm run test:server",
     "test:web": "vitest run",
-    "test:server": "npm test -w @dmos/server",
+    "test:server": "npm test -w @akg/server",
     "e2e": "playwright test -c web/playwright.config.ts",
     "e2e:live": "playwright test -c web/playwright.live.config.ts",
     "e2e:auth": "playwright test -c web/playwright.auth.config.ts",
     "e2e:demo": "playwright test -c web/playwright.demo.config.ts",
     "screenshots": "SCREENSHOTS=1 playwright test -c web/playwright.config.ts",
-    "portraits:check": "npm run portraits:check -w @dmos/server",
-    "typecheck": "tsc -p web/tsconfig.json --noEmit && npm run typecheck -w @dmos/server",
+    "portraits:check": "npm run portraits:check -w @akg/server",
+    "typecheck": "tsc -p web/tsconfig.json --noEmit && npm run typecheck -w @akg/server",
     "prepack": "npm run build",
     "pack:check": "npm pack --dry-run"
   },

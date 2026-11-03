@@ -13,7 +13,7 @@ test-results
 docs
 portraits
 headshots
-.dunder-mifflin-os
+.agents-ka-ghar
 **/*.tgz
 Dockerfile
 docker-compose.yml

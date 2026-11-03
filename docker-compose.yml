@@ -1,14 +1,14 @@
-# Dunder Mifflin OS with Docker Compose.
+# Agents Ka Ghar with Docker Compose.
 #
 #   docker compose --profile demo up demo                        # the demo day: no token, no Hermes, no mounts
-#   echo "DMOS_ACCESS_TOKEN=$(openssl rand -hex 24)" >> .env   # once, for live data; keep .env out of git
+#   echo "AKG_ACCESS_TOKEN=$(openssl rand -hex 24)" >> .env   # once, for live data; keep .env out of git
 #   docker compose up -d                                         # live: reads ~/.hermes, read-only
 #
-# Then open http://localhost:4318 (or your DMOS_PORT). The port is published on this machine's loopback only. The
+# Then open http://localhost:4318 (or your AKG_PORT). The port is published on this machine's loopback only. The
 # container listens on 0.0.0.0, which counts as remote, so the live office always requires a token (the server refuses
 # to start without one and logs why) and you sign in with it once. The demo serves only fiction, so it needs none.
 # (The token is not a compose-level `:?` requirement because compose checks those for every service, demo included.)
-# DMOS_ALLOW_WRITES=1 turns on chat and task creation, but the image has no `hermes` CLI, so they only work if you
+# AKG_ALLOW_WRITES=1 turns on chat and task creation, but the image has no `hermes` CLI, so they only work if you
 # add one; reading status, tasks, jobs and messages needs only the mounted files.
 
 x-hardening: &hardening
@@ -26,30 +26,30 @@ services:
   office:
     <<: *hardening
     build: .
-    image: dunder-mifflin-os:local
+    image: agents-ka-ghar:local
     ports:
-      - "127.0.0.1:${DMOS_PORT:-4318}:${DMOS_PORT:-4318}" # same port inside and out, so the browser's Origin matches
+      - "127.0.0.1:${AKG_PORT:-4318}:${AKG_PORT:-4318}" # same port inside and out, so the browser's Origin matches
     environment:
-      DMOS_PORT: ${DMOS_PORT:-4318}
-      DMOS_ACCESS_TOKEN: ${DMOS_ACCESS_TOKEN:-} # required: set it in .env (openssl rand -hex 24)
-      DMOS_ALLOW_WRITES: ${DMOS_ALLOW_WRITES:-0}
-      DMOS_STATUS_URL: http://host.docker.internal:9119/api/status
+      AKG_PORT: ${AKG_PORT:-4318}
+      AKG_ACCESS_TOKEN: ${AKG_ACCESS_TOKEN:-} # required: set it in .env (openssl rand -hex 24)
+      AKG_ALLOW_WRITES: ${AKG_ALLOW_WRITES:-0}
+      AKG_STATUS_URL: http://host.docker.internal:9119/api/status
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - ${HERMES_HOME:-~/.hermes}:/hermes:ro
-      - ${DMOS_PORTRAITS_DIR:-~/.dunder-mifflin-os/portraits}:/portraits:ro
-      - ${DMOS_HEADSHOTS_DIR:-~/.dunder-mifflin-os/headshots}:/headshots:ro
+      - ${AKG_PORTRAITS_DIR:-~/.agents-ka-ghar/portraits}:/portraits:ro
+      - ${AKG_HEADSHOTS_DIR:-~/.agents-ka-ghar/headshots}:/headshots:ro
 
   demo:
     <<: *hardening
     profiles: ["demo"]
     build: .
-    image: dunder-mifflin-os:local
-    command: ["--demo"] # "Threat Level Midnight": the scripted demo day; chat and new tasks stay in memory
+    image: agents-ka-ghar:local
+    command: ["--demo"] # "Campaign Daybook": the scripted demo day; chat and new tasks stay in memory
     ports:
-      - "127.0.0.1:${DMOS_PORT:-4318}:${DMOS_PORT:-4318}" # same port inside and out, so the browser's Origin matches
+      - "127.0.0.1:${AKG_PORT:-4318}:${AKG_PORT:-4318}" # same port inside and out, so the browser's Origin matches
     environment:
-      DMOS_PORT: ${DMOS_PORT:-4318}
-      DMOS_ACCESS_TOKEN: ${DMOS_ACCESS_TOKEN:-} # optional for the demo
-      DMOS_DEMO_SPEED: ${DMOS_DEMO_SPEED:-60}
+      AKG_PORT: ${AKG_PORT:-4318}
+      AKG_ACCESS_TOKEN: ${AKG_ACCESS_TOKEN:-} # optional for the demo
+      AKG_DEMO_SPEED: ${AKG_DEMO_SPEED:-60}

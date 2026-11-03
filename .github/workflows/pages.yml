@@ -1,7 +1,7 @@
 name: Pages
 
 # Builds the static demo day (`npm run build:demo-static`, no server) and publishes it to GitHub Pages at
-# https://<owner>.github.io/dunder-mifflin-os/. The build uses relative asset paths, so it works under that sub-path.
+# https://<owner>.github.io/agents-ka-ghar/. The build uses relative asset paths, so it works under that sub-path.
 
 on:
   push:

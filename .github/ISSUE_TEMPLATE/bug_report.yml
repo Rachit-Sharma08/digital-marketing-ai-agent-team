@@ -1,5 +1,5 @@
 name: Bug report
-description: Something in Dunder Mifflin OS doesn't work as it should.
+description: Something in Agents Ka Ghar doesn't work as it should.
 labels: ["bug"]
 body:
   - type: markdown
@@ -19,7 +19,7 @@ body:
     attributes:
       label: Steps to reproduce
       placeholder: |
-        1. Run `npx dunder-mifflin-os --demo`
+        1. Run `npx agents-ka-ghar --demo`
         2. Click ...
     validations:
       required: true
@@ -46,7 +46,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: "`npx dunder-mifflin-os --version`, the image tag or the commit."
+      description: "`npx agents-ka-ghar --version`, the image tag or the commit."
     validations:
       required: true
   - type: input

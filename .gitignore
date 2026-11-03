@@ -11,7 +11,7 @@ test-results/
 .env
 .env.*
 
-# Logs, including the approvals/control-verb audit log (DMOS_AUDIT_LOG) if it is pointed inside the tree.
+# Logs, including the approvals/control-verb audit log (AKG_AUDIT_LOG) if it is pointed inside the tree.
 *.log
 audit.log*
 *.audit.jsonl
@@ -19,11 +19,11 @@ audit.log*
 # Live screenshots show real Hermes data (task titles, job names); keep them local.
 docs/screenshots/live-*.png
 
-# Staff photos and bot headshots never enter the repo: The Office's characters and photos are NBCUniversal's (personal
-# use only). They live outside it, in ~/.dunder-mifflin-os/portraits and ~/.dunder-mifflin-os/headshots
-# (DMOS_PORTRAITS_DIR, DMOS_HEADSHOTS_DIR). Ignore any copy that lands in the tree, and screenshots of the live app
+# Staff photos and bot headshots never enter the repo: the workspace's characters and photos are the original rights holder's (personal
+# use only). They live outside it, in ~/.agents-ka-ghar/portraits and ~/.agents-ka-ghar/headshots
+# (AKG_PORTRAITS_DIR, AKG_HEADSHOTS_DIR). Ignore any copy that lands in the tree, and screenshots of the live app
 # with photos in them.
 portraits/
 headshots/
-.dunder-mifflin-os/
+.agents-ka-ghar/
 portraits-*.png

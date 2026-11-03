@@ -12,6 +12,6 @@
 - [ ] `npm run typecheck` is clean
 - [ ] No secrets, real Hermes data, personal paths, host names, emails or customer names
 - [ ] No photos or show assets (logos, stills, audio); new art is original
-- [ ] Safe defaults kept (loopback bind, read-only unless `DMOS_ALLOW_WRITES=1`, token for remote access)
+- [ ] Safe defaults kept (loopback bind, read-only unless `AKG_ALLOW_WRITES=1`, token for remote access)
 - [ ] `shared/contract.ts` changes are additive and called out above
 - [ ] README / SECURITY.md updated if behaviour or settings changed

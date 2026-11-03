@@ -35,7 +35,7 @@ jobs:
         run: npm run e2e
       - name: E2E sign-in (real server, fixture data)
         run: npm run e2e:auth
-      - name: E2E demo day (static build from a sub-path, and the server with DMOS_SOURCE=demo)
+      - name: E2E demo day (static build from a sub-path, and the server with AKG_SOURCE=demo)
         run: npm run e2e:demo
       - name: Package contents
         run: npm pack --dry-run
@@ -54,17 +54,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Build
-        run: docker build -t dunder-mifflin-os:ci .
+        run: docker build -t agents-ka-ghar:ci .
       - name: Demo container (no token, no keys) serves the demo day
         run: |
-          docker run -d --name dmos --read-only --cap-drop ALL -p 127.0.0.1:4318:4318 dunder-mifflin-os:ci --demo
+          docker run -d --name akg --read-only --cap-drop ALL -p 127.0.0.1:4318:4318 agents-ka-ghar:ci --demo
           for _ in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:4318/api/demo/clock | grep -q 'Threat Level Midnight'; then exit 0; fi
+            if curl -fsS http://127.0.0.1:4318/api/demo/clock | grep -q 'Campaign Daybook'; then exit 0; fi
             sleep 1
           done
-          docker logs dmos
+          docker logs akg
           exit 1
       - name: Live container refuses to start without an access token
         run: |
-          docker run --name dmos-live --read-only --cap-drop ALL dunder-mifflin-os:ci && exit 1
-          docker logs dmos-live 2>&1 | grep -q DMOS_ACCESS_TOKEN
+          docker run --name akg-live --read-only --cap-drop ALL agents-ka-ghar:ci && exit 1
+          docker logs akg-live 2>&1 | grep -q AKG_ACCESS_TOKEN

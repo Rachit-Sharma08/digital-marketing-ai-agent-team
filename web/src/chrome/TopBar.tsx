@@ -11,6 +11,7 @@ type Props = {
   source: { kind: 'loading' | 'live' | 'demo'; detail: string };
   paletteKey: string;
   onAskPam: () => void;
+  onOpenTeam?: () => void;
   view: 'map' | 'list';
   onToggleView: () => void;
   settingsOpen: boolean;
@@ -81,7 +82,7 @@ function Corporate({ badge, onOpen }: { badge: CorporateBadge; onOpen: () => voi
 }
 
 export function TopBar({
-  counts, source, paletteKey, onAskPam, view, onToggleView, settingsOpen, onToggleSettings, gearRef, settings, readOnly = false, needYou = null, onOpenInbox,
+  counts, source, paletteKey, onAskPam, onOpenTeam, view, onToggleView, settingsOpen, onToggleSettings, gearRef, settings, readOnly = false, needYou = null, onOpenInbox,
   onOpenCalendar, corporate = null, onOpenCorporate, demo,
 }: Props) {
   return (
@@ -117,6 +118,11 @@ export function TopBar({
         <button type="button" className="chrome-btn ask-pam-btn" aria-label="Ask Pam: search and commands" aria-keyshortcuts="Meta+K Control+K" onClick={onAskPam}>
           <SearchIcon /><span className="btn-label">Ask Pam</span><kbd>{paletteKey}</kbd>
         </button>
+        {onOpenTeam && (
+          <button type="button" className="chrome-btn" aria-label="Team console: type a command" title="Team console: type a command" onClick={onOpenTeam}>
+            <span aria-hidden="true">✦</span><span className="btn-label">Team</span>
+          </button>
+        )}
         {onOpenCalendar && (
           <button type="button" className="chrome-btn icon-only" aria-label="Party Planning Committee calendar" title="Party Planning Committee calendar" onClick={onOpenCalendar}>
             <CalendarIcon />

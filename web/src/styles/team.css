@@ -1,0 +1,60 @@
+/* Team console: a small floating panel over the floor. Inherits the office palette from app.css. */
+.team-console {
+  position: fixed;
+  right: 20px;
+  bottom: 72px;
+  width: min(460px, calc(100vw - 24px));
+  max-height: min(72vh, 640px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  overflow: auto;
+  background: var(--panel, #fbf7ee);
+  color: inherit;
+  border: 1px solid #00000022;
+  border-radius: 10px;
+  box-shadow: 0 18px 48px #00000033;
+  z-index: 60;
+}
+
+.team-console header { display: flex; align-items: center; justify-content: space-between; }
+
+.team-close {
+  border: 0; background: none; cursor: pointer; font-size: 20px; line-height: 1;
+  padding: 0 4px; color: inherit;
+}
+
+.team-console form { display: flex; gap: 8px; align-items: flex-end; }
+
+.team-console textarea {
+  flex: 1; resize: vertical; font: inherit; padding: 8px 10px;
+  border: 1px solid #00000033; border-radius: 6px; background: #fff;
+}
+
+.team-console form button {
+  font: inherit; padding: 8px 14px; border-radius: 6px; cursor: pointer;
+  border: 1px solid #00000033; background: #2f3540; color: #fff;
+}
+.team-console form button:disabled { opacity: 0.45; cursor: default; }
+
+.team-hint { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; }
+.team-hint button {
+  font: inherit; font-size: 12px; padding: 4px 8px; cursor: pointer;
+  border: 1px dashed #00000044; border-radius: 999px; background: none; color: inherit;
+}
+
+.team-reply { display: flex; flex-direction: column; gap: 6px; }
+
+.team-route { display: flex; gap: 8px; align-items: center; margin: 0; }
+.team-agent { font-weight: 600; }
+.team-model { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: #2f354022; }
+
+.team-why { margin: 0; font-size: 12px; opacity: 0.7; }
+
+.team-answer {
+  white-space: pre-wrap; font-size: 14px; line-height: 1.5;
+  padding: 10px; border-radius: 6px; background: #ffffff; border: 1px solid #00000018;
+}
+
+.team-error { margin: 0; color: #9b1f2e; font-size: 13px; }

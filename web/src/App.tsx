@@ -36,6 +36,7 @@ import { useNotifications } from './notify/useNotifications';
 import { type FleetFilter, filterCounts, hiddenByFilter } from './office/filters';
 import { fleetCounts } from './office/status';
 import { AskPam } from './pam/AskPam';
+import { TeamConsole } from './team/TeamConsole';
 import { type PamItem, type ViewMode, buildPamItems } from './pam/items';
 import { usePamRecents } from './pam/usePamRecents';
 import { usePrefs } from './prefs/usePrefs';
@@ -62,6 +63,7 @@ export function App() {
   const [viewPick, setViewPick] = useState<ViewMode | null>(null);
   const [focusRequest, setFocusRequest] = useState<FocusRequest | null>(null);
   const [chatFor, setChatFor] = useState<string | null>(null);
+  const [teamOpen, setTeamOpen] = useState(false);
   const returnFocus = useRef<Element | null>(null);
   const gear = useRef<HTMLButtonElement>(null);
   const demo = state.phase === 'demo';
@@ -198,6 +200,7 @@ export function App() {
         source={source}
         paletteKey={PALETTE_KEY}
         onAskPam={() => toggle('palette')}
+        onOpenTeam={() => setTeamOpen((o) => !o)}
         view={view}
         onToggleView={() => setViewPick(view === 'map' ? 'list' : 'map')}
         settingsOpen={overlay === 'settings'}
@@ -242,6 +245,7 @@ export function App() {
         <AskPam snapshot={snapshot} items={pamItems} recents={recents} live={!demo} onRun={run} onClose={() => closeOverlay()} />
       )}
       {overlay === 'shortcuts' && <ShortcutsSheet paletteKey={PALETTE_KEY} singleKeys={prefs.singleKeys} onClose={() => closeOverlay()} />}
+      {teamOpen && <TeamConsole onClose={() => setTeamOpen(false)} />}
       {invite.invited && delight.value.dundies.phase === 'ready' && delight.value.dundies.digest.awards.length > 0 && (
         <DundiesInvite awards={delight.value.dundies.digest.awards.length} onStart={() => { invite.seen(); openDundies(); }} onDismiss={invite.seen} />
       )}

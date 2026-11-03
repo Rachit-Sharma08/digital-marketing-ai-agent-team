@@ -5,6 +5,6 @@ export default defineConfig({
     include: ['test/**/*.test.ts'],
     environment: 'node',
     testTimeout: 10_000,
-    env: { DMOS_QUIET: '1' },
+    env: { AKG_QUIET: '1' },
   },
 });

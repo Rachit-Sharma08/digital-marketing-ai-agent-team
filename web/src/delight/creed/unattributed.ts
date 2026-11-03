@@ -1,4 +1,4 @@
-// Creed's corner in the browser: what the server lists (GET /api/unattributed: agents without a desk, cards and
+// Unattributed activity in the browser: what the server lists (GET /api/unattributed: agents without a desk, cards and
 // requests whose owner has none) plus what the snapshot alone shows (requests with no person, open cards nobody owns
 // outside any room), so the fixture demo and older servers still have a corner. Pure.
 import type { OfficeSnapshot } from '@shared/contract';

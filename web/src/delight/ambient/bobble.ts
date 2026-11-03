@@ -1,4 +1,4 @@
-// Dwight's bobblehead nods when the bot at his desk finishes a run: it goes from working to idle, one of its cards is
+// Desk toy nods when the bot at his desk finishes a run: it goes from working to idle, one of its cards is
 // just done, or (when the snapshot carries fresh jobs) a scheduled job finished a run. Compares two snapshots; pure.
 import type { OfficeSnapshot } from '@shared/contract';
 

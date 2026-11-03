@@ -33,7 +33,7 @@ describe('parseUsageReport', () => {
   const good = {
     period: '7d', from: 'f', to: 't', generatedAt: 'g', currency: 'USD', estimate: true, priceTable: { asOf: '2026-10-06', source: 's', models: 9 },
     rows: [
-      { personId: 'dwight', name: 'Dwight Schrute', adapterId: 'hermes', adapterLabel: 'Hermes', usage: summary },
+      { personId: 'dwight', name: 'Meera Kaur', adapterId: 'hermes', adapterLabel: 'Hermes', usage: summary },
       { personId: 'temp-cc', name: 'paper-site', adapterId: 'claude-code', adapterLabel: 'Claude Code', usage: null, unavailable: 'No usage data from Claude Code' },
       { personId: 'bad', usage: summary },
     ],

@@ -1,4 +1,4 @@
-// Creed's corner: GET /api/unattributed every minute (live; the static demo answers it too), merged with what the
+// Unattributed activity: GET /api/unattributed every minute (live; the static demo answers it too), merged with what the
 // snapshot shows by itself. Demo mode and servers without the endpoint get the snapshot's part only.
 import { useEffect, useMemo, useState } from 'react';
 import type { OfficeSnapshot } from '@shared/contract';

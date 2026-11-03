@@ -1,4 +1,4 @@
-// Everything Ask Pam can find, built from a snapshot: people, chats with bots, rooms, places, tasks, scheduled jobs and actions.
+// Everything Ask the team can find, built from a snapshot: people, chats with bots, rooms, places, tasks, scheduled jobs and actions.
 import type { OfficeSnapshot, Person, Room, Task } from '@shared/contract';
 import type { ControlRequest } from '@shared/controls';
 import { AREAS, SEATS } from '@shared/office';

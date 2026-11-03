@@ -38,7 +38,7 @@ export function demoBudgets(s: OfficeSnapshot): BudgetsReport {
   return { generatedAt: s.generatedAt, currency: 'USD', estimate: true, autoPause: false, warnAt: 0.8, budgets };
 }
 
-/** "Pause Dwight?" -> what the demo says instead of acting. */
+/** "Pause Meera?" -> what the demo says instead of acting. */
 export const demoControlReply = (title: string): string => {
   const what = title.replace(/[?…]+$/, '');
   return `Demo: nothing was sent. Live, this would: ${what.charAt(0).toLowerCase()}${what.slice(1)}.`;

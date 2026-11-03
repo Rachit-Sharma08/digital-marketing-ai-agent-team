@@ -1,4 +1,4 @@
-// Kevin's chili spill: a bot in error has spilled a pot of chili at its desk. A red-brown puddle on the floor and the
+// Kevin's import error: a bot in error has spilled a pot of chili at its desk. A red-brown puddle on the floor and the
 // tipped pot, drawn in the seat's own frame (origin on the floor under the chair, perspective-scaled by the caller).
 // The spill plays once when the error starts (a crashed run doesn't loop) and then just lies there; with reduced
 // motion it is simply there. The real error text stays on the bot's status chip. Decorative: aria-hidden, no clicks.

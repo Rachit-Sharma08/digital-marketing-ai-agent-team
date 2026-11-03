@@ -1,5 +1,5 @@
 // The delight layer on the map, above the drawing and below the chips: Dundie trophies on the winners' desks, Creed's
-// thought bubble, and the easter eggs you can click (the World's Best Boss mug, Stanley's crossword). Nothing here
+// thought bubble, and the easter eggs you can click (the Office mug, Office crossword). Nothing here
 // blocks a click on anything else; trophies and the bubble take no pointer events at all. (The light through the
 // windows is CSS on the map: data-daylight.)
 import { memo, useMemo } from 'react';
@@ -47,7 +47,7 @@ export const TrophyLayer = memo(function TrophyLayer({ placements }: { placement
   );
 });
 
-/** Creed's thought bubble, above the drawing so the desk clutter in front of him never hides it. */
+/** Unattributed thought bubble, above the drawing so the desk clutter in front of him never hides it. */
 export const CreedLayer = memo(function CreedLayer({ placements }: { placements: readonly Placement[] }) {
   const { mode, unattributed } = useDelight();
   const pl = placements.find((p) => p.personId === CREED_DESK);

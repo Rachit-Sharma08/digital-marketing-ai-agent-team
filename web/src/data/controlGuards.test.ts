@@ -44,8 +44,8 @@ describe('parseBudgetsReport', () => {
   it('drops malformed budgets and lines but keeps the rest', () => {
     const report = parseBudgetsReport({
       ...REPORT,
-      budgets: [...REPORT.budgets, { personId: 'kevin', name: 'Kevin', level: 'hungry', lines: [], action: 'none' },
-        { personId: 'jim', name: 'Jim', level: 'ok', action: 'none', lines: [{ ...LINE, level: 'ok', limit: -1 }, { ...LINE, level: 'ok', spent: null, ratio: null }] }],
+      budgets: [...REPORT.budgets, { personId: 'kevin', name: 'Diya', level: 'hungry', lines: [], action: 'none' },
+        { personId: 'jim', name: 'Simran', level: 'ok', action: 'none', lines: [{ ...LINE, level: 'ok', limit: -1 }, { ...LINE, level: 'ok', spent: null, ratio: null }] }],
     });
     expect(report?.budgets.map((b) => [b.personId, b.lines.length])).toEqual([['dwight', 1], ['jim', 1]]);
   });

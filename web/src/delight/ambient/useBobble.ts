@@ -1,4 +1,4 @@
-// Dwight's bobblehead nods for a few seconds when the bot at his desk finishes a run (bobble.ts).
+// Desk toy nods for a few seconds when the bot at his desk finishes a run (bobble.ts).
 import { useEffect, useRef, useState } from 'react';
 import type { OfficeSnapshot } from '@shared/contract';
 import { finishedRun } from './bobble';

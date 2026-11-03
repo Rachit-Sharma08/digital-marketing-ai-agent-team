@@ -27,6 +27,6 @@ describe('Pretzel Day', () => {
   });
 
   it('hands a pretzel to every bot that finished a card today', () => {
-    expect(pretzelLine(DEMO_OFFICE, new Date(DEMO_OFFICE.generatedAt))).toBe('Pretzel Day! Free pretzels for the 1 bot who finished a card today: Pam.');
+    expect(pretzelLine(DEMO_OFFICE, new Date(DEMO_OFFICE.generatedAt))).toBe('Pretzel Day! Free pretzels for the 1 bot who finished a card today: Team Lead.');
   });
 });

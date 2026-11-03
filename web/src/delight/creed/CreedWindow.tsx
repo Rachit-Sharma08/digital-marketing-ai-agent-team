@@ -1,4 +1,4 @@
-// Creed's corner: the raw list of activity the office can't put at anyone's desk (agents without a desk, cards nobody
+// Unattributed activity: the raw list of activity the office can't put at anyone's desk (agents without a desk, cards nobody
 // owns, requests from deskless agents), with the adapter and agent ids as reported. "Unattributed activity" in Toby mode.
 import { sinceText } from '../../office/status';
 import { useDelight } from '../DelightContext';

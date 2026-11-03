@@ -9,7 +9,7 @@ export function delightPamItems({ toby, creedCount }: { toby: boolean; creedCoun
   return [
     {
       id: 'action:dundies', kind: 'action', label: toby ? 'Weekly review' : 'The Dundies',
-      detail: toby ? 'Most cards done, zero errors, fastest approvals: the last 7 days' : 'This week’s awards, presented by Michael',
+      detail: toby ? 'Most cards done, zero errors, fastest approvals: the last 7 days' : 'This week’s awards',
       fields: [[toby ? 'Weekly review' : 'The Dundies', 1], ['awards weekly review dundies winners trophy digest', 0.8]], action: { type: 'dundies' },
     },
     {

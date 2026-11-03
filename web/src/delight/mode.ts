@@ -4,7 +4,7 @@
 
 export type DelightMode = {
   toby: boolean; // HR-approved: nothing silly on screen
-  jokes: boolean; // chili spills, trophies, Creed's thought bubble, the ceremony's names and Michael
+  jokes: boolean; // chili spills, trophies, Creed's thought bubble, the ceremony's names and Team Lead
   ambient: boolean; // day and night through the windows, Dwight's bobblehead
   eggs: boolean; // easter eggs
   sounds: boolean; // any sound at all

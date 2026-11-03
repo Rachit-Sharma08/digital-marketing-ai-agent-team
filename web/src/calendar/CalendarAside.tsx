@@ -62,7 +62,7 @@ export function CalendarAside({ view, selected, jobs, people, colors, timeZone, 
             <span className="muted"> · {people.get(nextJob.personId)?.name ?? nextJob.personId}</span><br />
             {dateTime(next.at, timeZone)} <span className="muted">({inText(next.at, now)})</span>
           </p>
-        ) : <p className="muted">Nothing scheduled. Angela approves.</p>}
+        ) : <p className="muted">Nothing scheduled. Team approves.</p>}
       </section>
       {job && selected
         ? <JobCard job={job} run={selected} people={people} colors={colors} timeZone={timeZone} live={live} onOpenPerson={onOpenPerson} />

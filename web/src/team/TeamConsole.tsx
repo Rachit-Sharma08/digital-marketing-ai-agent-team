@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 type Reply = {
   agent: { kind: string; person: string; title: string; reason: string };
-  model: { tier: string; id: string; label: string };
+  model: { tier: string; provider: string; id: string; label: string };
   answer: string;
   tookMs: number;
 };
@@ -67,7 +67,7 @@ export function TeamConsole({ onClose }: { onClose: () => void }) {
         <div className="team-reply">
           <p className="team-route">
             <span className="team-agent">{reply.agent.title}</span>
-            <span className="team-model">{reply.model.label}</span>
+            <span className="team-model">{reply.model.label} ({reply.model.tier})</span>
           </p>
           <p className="team-why">{reply.agent.reason} · {reply.tookMs} ms</p>
           <div className="team-answer">{reply.answer}</div>

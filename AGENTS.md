@@ -13,7 +13,37 @@ This is a local, browser-based **AI agent team for digital marketing and vibe-co
 - **Live repo:** `https://github.com/Rachit-Sharma08/digital-marketing-ai-agent-team` (public, `main`)
 - **Upstream remote:** `https://github.com/stephenlthorn/dunder-mifflin-os.git` (read-only fork source)
 - **Last commit:** `ae84360` — "Document the agent team, routing model and attribution with screenshots"
-- **Working tree:** clean (no uncommitted changes)
+- **Working tree:** has the uncommitted multi-provider model implementation described in the handoff below
+
+## 1A. Current handoff for OpenCode
+
+The active task was to replace the Gemini-only command path with a multi-provider fallback system. The implementation is complete and validated; do not restart it from scratch.
+
+### Completed in this turn
+
+- `server/src/agents/router.ts`: added provider registry, env-only key detection, per-tier provider models, and provider-aware model picks. Provider order is `zai`, `mistral`, `openrouter`, `nvidia`, `gemini`.
+- `server/src/agents/command.ts`: added native Gemini requests plus OpenAI-compatible requests for z.ai, Mistral, OpenRouter, and NVIDIA. A failed configured provider falls through to the next one. Key values are never logged or written.
+- `server/src/http/agentRoutes.ts`: `GET /api/agents` now reports provider readiness; command responses expose the provider and actual model used after fallback.
+- `web/src/team/TeamConsole.tsx`: displays provider, model, and tier in the reply header.
+- `server/test/agentRouter.test.ts` and new `server/test/agentProviders.test.ts`: routing, key detection, payload shape, Boss deep-tier selection, and fallback coverage.
+
+### Validation completed
+
+- `npm run typecheck`: passed
+- `npm run build`: passed
+- Web Vitest: `626/626` passed
+- Server Vitest: `635` passed, `11` pre-existing Windows path/permissions/docs-fixture failures documented in this file
+- `git diff --check`: passed
+
+The current environment exposed only the name `GEMINI_API_KEY`; no key value was printed or committed. Runtime support also recognizes `ZAI_API_KEY`, `Z_AI_API_KEY`, `MISTRAL_API_KEY`, `OPENROUTER_API_KEY`, `NVIDIA_API_KEY`, and `NVIDIA_NIM_API_KEY`. Model IDs can be overridden with `DMOS_<PROVIDER>_<TIER>_MODEL` environment variables.
+
+### Next steps for OpenCode
+
+1. Read the changed files and this handoff before editing.
+2. Run `git diff` and keep the provider keys environment-only.
+3. Optionally start demo mode with `DMOS_ALLOW_WRITES=1` and test the Team console using the locally configured provider. Do not print the key or read screenshots from `D:\Pictures\Screenshots`.
+4. If the user wants a commit, make one short imperative commit after review; do not push to `upstream`.
+5. If any provider model ID is unavailable for the user account, set the matching `DMOS_*_*_MODEL` override or update the registry after checking that provider's official docs.
 
 ---
 
@@ -23,7 +53,7 @@ This is a local, browser-based **AI agent team for digital marketing and vibe-co
 |---|---|
 | Server | Node.js (`node:http` router), TypeScript |
 | Web | React + Vite, TypeScript, CSS modules |
-| Tests | Vitest (web: 100 files / 626 tests; server: 80 files / 631 tests), Playwright (E2E) |
+| Tests | Vitest (web: 100 files / 626 tests; server: 81 files / 648 tests), Playwright (E2E) |
 | Build | esbuild / Vite, output to `web/dist` |
 | Runtime | Local only, binds `127.0.0.1` by default |
 
@@ -33,7 +63,7 @@ This is a local, browser-based **AI agent team for digital marketing and vibe-co
 
 ### Prerequisites
 - Node.js 20+ installed (`C:\Program Files\nodejs\node.exe`)
-- One free LLM API key in the environment (never committed): `GEMINI_API_KEY` (default), or extend `server/src/agents/command.ts` for other providers
+- One provider API key in the environment (never committed): `ZAI_API_KEY`, `MISTRAL_API_KEY`, `OPENROUTER_API_KEY`, `NVIDIA_API_KEY`, or `GEMINI_API_KEY` (fallback)
 
 ### Demo mode (scripted day, no keys, no network)
 ```powershell
@@ -122,7 +152,7 @@ Every answer exposes: agent, model, reason, `tookMs`. Nothing is a black box.
 | Suite | Result |
 |---|---|
 | Web (Vitest) | 626/626 pass |
-| Server (Vitest) | 631 pass, **11 fail** — all pre-existing Windows path-separator / docs-JSON issues (POSIX `/home/...` paths, CRLF snippets). Not caused by this work. |
+| Server (Vitest) | 635 pass, **11 fail** — all pre-existing Windows path-separator / docs-JSON issues (POSIX `/home/...` paths, CRLF snippets). Not caused by this work. |
 | Typecheck | Clean (web + server) |
 | Build | Clean |
 

@@ -21,6 +21,7 @@ describe('pickAgent', () => {
   it('always explains itself and picks a real model id', () => {
     const pick = pickAgent('plan a launch campaign');
     expect(pick.reason).toContain(pick.model.label);
-    expect(pick.model.id).toMatch(/^gemini-/);
+    expect(pick.model.provider).toMatch(/^(zai|mistral|openrouter|nvidia|gemini)$/);
+    expect(pick.model.id.length).toBeGreaterThan(2);
   });
 });

@@ -4,7 +4,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createRateLimiter } from './rateLimit.ts';
 import { sendError, sendJson } from './respond.ts';
-import { pickAgent } from '../agents/router.ts';
+import { availableProviders, pickAgent, PROVIDERS } from '../agents/router.ts';
 import { hasKey, runCommand } from '../agents/command.ts';
 
 type Ctx = { req: IncomingMessage; res: ServerResponse; cors: Record<string, string>; params: ReadonlyArray<string> };
@@ -22,7 +22,8 @@ export function agentRoutes(jsonBody: (ctx: Ctx) => Promise<Record<string, unkno
         const sample = pickAgent('');
         sendJson(res, 200, {
           ready: hasKey(),
-          fallback: 'Add GEMINI_API_KEY to the environment to run commands.',
+          fallback: 'Add a provider API key to the environment to run commands.',
+          providers: PROVIDERS.map((provider) => ({ id: provider.id, label: provider.label, ready: availableProviders().includes(provider.id) })),
           team: [
             'seo', 'ads', 'email', 'social', 'analytics', 'design', 'code', 'content', 'general',
           ].map((kind) => {
@@ -49,7 +50,7 @@ export function agentRoutes(jsonBody: (ctx: Ctx) => Promise<Record<string, unkno
         if (!out.ok) return sendError(ctx.res, out.status, out.error, ctx.cors);
         sendJson(ctx.res, 200, {
           agent: { kind: pick.kind, person: pick.person, title: pick.title, reason: pick.reason },
-          model: { tier: pick.model.tier, id: pick.model.id, label: pick.model.label },
+          model: { tier: out.tier, provider: out.provider, id: out.model, label: out.label },
           answer: out.answer,
           tookMs: Date.now() - started,
         }, ctx.cors);

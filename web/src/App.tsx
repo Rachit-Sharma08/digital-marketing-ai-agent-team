@@ -1,7 +1,6 @@
-// Dunder Mifflin OS: top bar, the office floor plan (or the list view) as the desktop, OS windows, the taskbar, and
-// the overlays: Ask Pam (⌘K), the shortcuts sheet (?) and settings. Notifications badge the tab while you're away.
-// The delight layer (delight/) rides along: the Dundies, Creed's corner, ambient life and easter eggs, or none of it
-// in Toby mode.
+// Agents Ka Ghar: top bar, the office floor plan (or the list view) as the desktop, OS windows, the taskbar, and
+// the overlays: Ask Pam (⌘K), the shortcuts sheet (?) and settings. The delight layer (delight/) rides along:
+// creative corner, ambient life and easter eggs.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Approval, Presence, Task } from '@shared/contract';
 import type { Decision } from './data/approvalsApi';

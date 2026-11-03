@@ -1,5 +1,5 @@
-// HR · Approvals: Toby Flenderson's desk is the inbox of everything agents wait on you for (Toby himself stays
-// "No bot yet"). Newest first, from the snapshot, so it stays live over SSE.
+// HR · Approvals: the HR desk is the inbox of everything agents wait on you for. Newest first, from the snapshot,
+// so it stays live over SSE.
 import type { Approval, OfficeSnapshot } from '@shared/contract';
 import type { BudgetStatus } from '@shared/controls';
 import { budgetHeadline } from '../../budgets/budgetModel';
@@ -40,7 +40,7 @@ export function ApprovalsWindow({ snapshot, writable, demo, now, onDecided, onOp
         Agents ask here; you sign off. {items.length ? `${items.length} waiting.` : ''} Every decision goes in the audit log first.
       </p>
       {items.length === 0
-        ? <p className="approvals-empty">Nothing to sign. Toby will let you know.</p>
+        ? <p className="approvals-empty">Nothing to sign. HR will let you know.</p>
         : (
           <ul className="approvals-list">
             {items.map((a) => (

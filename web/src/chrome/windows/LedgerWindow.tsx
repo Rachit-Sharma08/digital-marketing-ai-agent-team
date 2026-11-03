@@ -1,4 +1,4 @@
-// "Angela's ledger": tokens and estimated cost per bot for today, 7 or 30 days, biggest first, with bars drawn to
+// "Finance ledger": tokens and estimated cost per bot for today, 7 or 30 days, biggest first, with bars drawn to
 // scale and the totals. Every cost is an estimate; a bot whose adapter keeps no usage says so instead of showing 0.
 import { useState } from 'react';
 import type { OfficeSnapshot } from '@shared/contract';
@@ -56,7 +56,7 @@ export function LedgerWindow({ snapshot, demo, onOpenTimeline, budgets = null, o
           ))}
         </div>
       </div>
-      {usage.phase === 'loading' && <p className="muted" role="status">Angela is counting…</p>}
+      {usage.phase === 'loading' && <p className="muted" role="status">Finance is counting…</p>}
       {usage.phase === 'error' && <p className="chat-error" role="alert">{usage.error}</p>}
       {view && report && (
         <>

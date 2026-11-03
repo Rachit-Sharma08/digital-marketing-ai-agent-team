@@ -1,5 +1,5 @@
 // A bot's person window has two tabs: Desk (who they are, status, tasks, jobs, chat) and Timeline (the documentary
-// crew: what they did and the day in one paragraph). Angela's window also opens her ledger.
+// crew: what they did and the day in one paragraph). The finance lead's window also opens the finance ledger.
 import type { OfficeSnapshot, Person } from '@shared/contract';
 import type { BudgetStatus } from '@shared/controls';
 import type { PendingControl } from './useControls';

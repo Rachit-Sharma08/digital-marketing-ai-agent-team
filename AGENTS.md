@@ -109,20 +109,24 @@ Router lives in `server/src/agents/router.ts`. First matching keyword wins (orde
 
 | Specialist | Person (desk) | Title | Keywords |
 |---|---|---|---|
-| seo | oscar | SEO analyst | seo, keyword, serp, backlink, meta tag, search console |
-| ads | dwight | Paid ads manager | ads, ad copy, google ads, meta ads, roas, cpc, ctr |
-| email | andy | Email marketer | email, subject line, drip, newsletter, cold mail |
-| social | kelly | Social media lead | instagram, linkedin, twitter, reel, caption, hashtag |
-| analytics | angela | Analytics lead | analytics, ga4, report, metric, conversion rate, funnel |
-| design | ryan | Creative director | design, banner, thumbnail, creative, layout, brand |
-| code | sadiq | Web developer | code, bug, fix, react, api, next.js, typescript, html, css, deploy |
-| content | pam | Content writer | blog, article, content, copy, landing page, write |
-| general | michael | Marketing lead | fallback (nothing else matched) |
+| seo | oscar | SEO analyst (Neha Rao) | seo, keyword, serp, backlink, meta tag, search console |
+| ads | dwight | Campaigns lead (Meera Kaur) | ads, ad copy, google ads, meta ads, roas, cpc, ctr |
+| email | andy | Community & email (Aisha Malik) | email, subject line, drip, sequence, newsletter, cold mail |
+| social | kelly | Social media lead (Priya Singh) | instagram, linkedin, twitter, reel, caption, hashtag |
+| analytics | angela | Finance lead (Fatima Ali) | analytics, ga4, report, metric, conversion rate, funnel |
+| design | ryan | AI & research (Tara Joshi) | design, banner, thumbnail, creative, layout, brand |
+| code | sadiq | IT & deploy (Safina Ahmed) | code, bug, fix, react, api, next.js, typescript, html, css, deploy |
+| content | pam | Content writer (Aanya Sharma) | blog, article, content, copy, landing page, write |
+| general | michael | Boss — Marketing lead (Zara Khan) | fallback (nothing else matched) |
+
+**Boss routing:** Zara Khan (person id `michael`) always gets the strongest model tier (`deep`), regardless of command length.
 
 **Model tiers** (Gemini free tier):
 - `fast` → `gemini-3.5-flash-lite` (short copy, captions)
 - `balanced` → `gemini-3.5-flash` (normal strategy/writing)
-- `deep` → `gemini-3.5-flash` (audits, plans, >40 words or deep words like audit/strategy/plan)
+- `deep` → `gemini-3.8-flash` (audits, plans, long multi-step asks)
+
+Every answer exposes: agent, model, reason, `tookMs`. Nothing is a black box.
 
 Every answer exposes: agent, model, reason, `tookMs`. Nothing is a black box.
 

@@ -1,6 +1,6 @@
 // Live check of the timeline and usage reads against the real ~/.hermes (read-only). Prints COUNTS ONLY: events
 // per kind, token totals and how many models were priced; never titles, text, model names or ids.
-// Usage: npm run live-observability -w @dmos/server
+// Usage: npm run live-observability -w @akg/server
 import { createHermesAdapter } from '../src/adapters/hermes.ts';
 import { createLiveSource } from '../src/hermes/liveSource.ts';
 import { HERMES_HOME } from '../src/config.ts';

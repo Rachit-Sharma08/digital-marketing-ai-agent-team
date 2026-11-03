@@ -1,5 +1,5 @@
 // GET /api/rooms/:id/messages. A group room reads its Telegram group in the lead's and members' state.db
-// (plus the lead's Dunder Mifflin OS thread); a direct line reads the bot's Telegram DM + OS thread.
+// (plus the lead's Agents Ka Ghar thread); a direct line reads the bot's Telegram DM + OS thread.
 import type { AgentMessage } from '../adapters/types.ts';
 import type { HermesSource, MessageQuery, RawMessage, RoomChat } from '../hermes/types.ts';
 import { roomById } from '../rooms.ts';

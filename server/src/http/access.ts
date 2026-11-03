@@ -1,4 +1,4 @@
-// Sign-in for remote access (DMOS_ACCESS_TOKEN). With no token configured every request passes (local use stays
+// Sign-in for remote access (AKG_ACCESS_TOKEN). With no token configured every request passes (local use stays
 // token-free). With one, only /api/health and the sign-in page are open: API calls get 401 and pages go to /login.
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { log } from '../log.ts';
@@ -37,7 +37,7 @@ export function createAccess(opts: AccessOptions): Access {
     const next = safeNext(form.value.get('next'));
     if (!tokenMatches(form.value.get('token'), secret)) {
       log('auth.login_failed');
-      return sendLoginPage(res, 401, { next, error: 'That token did not match. Check DMOS_ACCESS_TOKEN and try again.' });
+      return sendLoginPage(res, 401, { next, error: 'That token did not match. Check AKG_ACCESS_TOKEN and try again.' });
     }
     const secure = needsSecureCookie(req);
     log('auth.login', { secure });

@@ -1,5 +1,5 @@
 // The office's view of what agents did and what they cost: a person's timeline ("the documentary crew") and
-// tokens + estimated cost per bot ("Angela's ledger"). Routes each person to the adapter seated at their desk.
+// tokens + estimated cost per bot ("Fatima's ledger"). Routes each person to the adapter seated at their desk.
 //
 // Budgets (budgets/monitor.ts) use `usageIn(personId, window)`; `usageOf(personId, period)` is one bot's UsageRow, whose
 // `usage.cost` is the estimated USD for the period (null = nothing priced, `usage: null` = its adapter keeps no

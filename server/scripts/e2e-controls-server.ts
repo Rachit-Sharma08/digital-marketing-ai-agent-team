@@ -1,4 +1,4 @@
-// A real Dunder Mifflin OS server (createApp: HTTP, sign-in/writes gates, control verbs, audit log, Corporate) in front
+// A real Agents Ka Ghar server (createApp: HTTP, sign-in/writes gates, control verbs, audit log, Corporate) in front
 // of a MOCK adapter, for the browser e2e tests of control verbs (web/e2e/controlsServer.ts starts it). Nothing here
 // talks to Hermes or any real agent. Prints one JSON line {port, dir} once listening; dir holds audit.log and
 // calls.log (one line per verb the mock adapter received). Stops on SIGTERM.
@@ -16,7 +16,7 @@ import { mergeSeatRules } from '../src/office/seating.ts';
 const AT = '2026-10-13T15:00:00.000Z';
 const args = process.argv.slice(2);
 const origin = args[args.indexOf('--origin') + 1] ?? 'http://127.0.0.1:5180';
-const dir = mkdtempSync(path.join(tmpdir(), 'dmos-e2e-controls-'));
+const dir = mkdtempSync(path.join(tmpdir(), 'akg-e2e-controls-'));
 const record = (what: string) => appendFileSync(path.join(dir, 'calls.log'), `${what}\n`);
 
 function mockAdapter(): AgentAdapter {
@@ -55,10 +55,10 @@ function mockAdapter(): AgentAdapter {
 
 const app = createApp({
   adapters: [mockAdapter()],
-  setup: defaultOfficeSetup(mergeSeatRules({}, { dwight: { adapter: 'mock', agent: 'seller' }, jim: { adapter: 'mock', agent: 'buyer' } })),
+  setup: defaultOfficeSetup(mergeSeatRules({}, { meera: { adapter: 'mock', agent: 'seller' }, simran: { adapter: 'mock', agent: 'buyer' } })),
   hermesHome: dir, headshotDir: dir, pollIntervalMs: 60_000, allowWrites: !args.includes('--read-only'), accessToken: null,
   auditFile: path.join(dir, 'audit.log'), allowedOrigins: new Set([origin]), budgetCheckMs: 0,
-  budgets: { autoPause: args.includes('--auto-pause'), limits: { dwight: { monthly: 20 }, jim: { daily: 5, monthly: 40 } } },
+  budgets: { autoPause: args.includes('--auto-pause'), limits: { meera: { monthly: 20 }, simran: { daily: 5, monthly: 40 } } },
 });
 app.server.listen(0, '127.0.0.1', () => {
   process.stdout.write(`${JSON.stringify({ port: (app.server.address() as AddressInfo).port, dir })}\n`);

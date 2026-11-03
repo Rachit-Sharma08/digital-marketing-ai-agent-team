@@ -1,6 +1,6 @@
 // The `webhook` adapter: "if it can POST, it can sit at a desk". Agents POST one JSON event at a time
 // (status, activity, task, message; see ingest/schema.ts and docs/adapters/webhook.md) to
-// POST /api/ingest/:agentId with `Authorization: Bearer $DMOS_INGEST_TOKEN`. Events are validated, rate-limited per
+// POST /api/ingest/:agentId with `Authorization: Bearer $AKG_INGEST_TOKEN`. Events are validated, rate-limited per
 // agent and kept in memory only (ingest/store.ts). The office can't chat or give tasks; it answers `approval` events
 // by POSTing the decision to the callback URL the agent gave (ingest/callback.ts; no callback = shown only), and
 // sends pause / resume / stop as signed `control` events to the callback an agent offered in a `controls` event.
@@ -23,7 +23,7 @@ export const WEBHOOK_BODY_LIMIT = 16 * 1024;
 
 export type WebhookAdapterOptions = {
   readonly id?: string;
-  readonly token: string; // DMOS_INGEST_TOKEN, already validated (ingest/auth.ts readIngestToken)
+  readonly token: string; // AKG_INGEST_TOKEN, already validated (ingest/auth.ts readIngestToken)
   readonly now?: () => number; // epoch ms
   readonly maxEventsPerMinute?: number; // per agent
   readonly post?: CallbackPost; // how decisions reach callbacks (default: fetch)

@@ -1,7 +1,7 @@
 // Which office character each agent becomes. Rules come from two places:
 //  - the built-in seating (roster.ts: the Hermes bots at their Office desks). A built-in desk only gets its bot when
 //    the adapter reports that agent, so the defaults never invent bots on someone else's machine;
-//  - the user's config (`seats:` in ~/.dunder-mifflin-os/config.yaml). A configured desk is kept for its agent even
+//  - the user's config (`seats:` in ~/.agents-ka-ghar/config.yaml). A configured desk is kept for its agent even
 //    before the agent first reports (it shows as offline), and `null` leaves a desk without a bot.
 // Agents no rule places become temps at the spare desks, in adapter order then agent order; the rest are reported
 // as unseated. Pure: no I/O.

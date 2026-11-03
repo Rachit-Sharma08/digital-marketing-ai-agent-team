@@ -41,7 +41,7 @@ export type OfficeServiceOptions = {
   readonly adapters: ReadonlyArray<AgentAdapter>;
   readonly setup: OfficeSetup;
   readonly now: () => EpochSeconds;
-  readonly allowWrites: boolean; // DMOS_ALLOW_WRITES; every write also needs the adapter's capability flag
+  readonly allowWrites: boolean; // AKG_ALLOW_WRITES; every write also needs the adapter's capability flag
   readonly audit?: AuditLog | null; // approval decisions and control verbs are refused without one
 };
 

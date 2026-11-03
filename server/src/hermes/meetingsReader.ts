@@ -16,7 +16,7 @@ const CANDIDATES = `WITH cand AS (
   SELECT t.id FROM tasks t
   WHERE t.created_at < ?
     AND MAX(t.created_at, COALESCE(t.started_at, 0), COALESCE(t.completed_at, 0), COALESCE(t.last_heartbeat_at, 0)) >= ?
-    AND (t.created_by = 'council' OR t.created_by LIKE 'dmos-%'
+    AND (t.created_by = 'council' OR t.created_by LIKE 'akg-%'
       OR EXISTS (SELECT 1 FROM kanban_notify_subs s WHERE s.task_id = t.id)
       OR EXISTS (SELECT 1 FROM task_links l WHERE l.parent_id = t.id OR l.child_id = t.id))
   ORDER BY t.created_at DESC LIMIT ${MAX_CARDS})`;

@@ -1,8 +1,8 @@
-// Entry point: `npm start` (live ~/.hermes), `npm run serve` (live + the built web app at /, DMOS_SERVE_WEB=1),
-// DMOS_SOURCE=fixture (the recorded Hermes sample) or DMOS_SOURCE=demo (the scripted demo day alone; demoMode.ts).
-// Which agent adapters run and who sits where comes from ~/.dunder-mifflin-os/config.yaml (officeConfig.ts; default:
-// Hermes alone). Binds 127.0.0.1 unless DMOS_HOST says otherwise, and then only with an access token (a demo-only
-// server excepted). Read-only unless DMOS_ALLOW_WRITES=1 (the demo turns writes on: they stay in memory).
+// Entry point: `npm start` (live ~/.hermes), `npm run serve` (live + the built web app at /, AKG_SERVE_WEB=1),
+// AKG_SOURCE=fixture (the recorded Hermes sample) or AKG_SOURCE=demo (the scripted demo day alone; demoMode.ts).
+// Which agent adapters run and who sits where comes from ~/.agents-ka-ghar/config.yaml (officeConfig.ts; default:
+// Hermes alone). Binds 127.0.0.1 unless AKG_HOST says otherwise, and then only with an access token (a demo-only
+// server excepted). Read-only unless AKG_ALLOW_WRITES=1 (the demo turns writes on: they stay in memory).
 import { existsSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -30,7 +30,7 @@ function startup(): Startup {
     const demo = demoStartup(process.env);
     const config = demo?.config ?? loadOfficeConfig({ env: process.env, home: os.homedir() });
     const demoOnly = isDemoOnly(config.adapters);
-    const access = resolveAccess({ host: HOST, publicOrigins: PUBLIC_ORIGINS, token: process.env.DMOS_ACCESS_TOKEN, demoOnly });
+    const access = resolveAccess({ host: HOST, publicOrigins: PUBLIC_ORIGINS, token: process.env.AKG_ACCESS_TOKEN, demoOnly });
     const adapters = createAdapters(config.adapters, {
       env: process.env, runner: execFileRunner, hermesHome: HERMES_HOME, hermesBin: HERMES_BIN, statusUrl: HERMES_STATUS_URL,
     });

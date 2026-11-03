@@ -1,7 +1,7 @@
 // The HTTP app: node:http + a small router. Wires the agent adapters (through the office service), the SSE hub,
 // the adapters' inbound endpoints, portraits and headshots. Read-only unless `allowWrites`; sign-in when
 // `accessToken` is set (inbound agent endpoints use their own bearer token instead). Binding (127.0.0.1 unless
-// DMOS_HOST) happens in main.ts.
+// AKG_HOST) happens in main.ts.
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import type { Capabilities, OfficeSnapshot } from '../../../shared/contract.ts';
 import type { EpochSeconds } from '../hermes/types.ts';
@@ -44,17 +44,17 @@ export type AppDeps = {
   setup?: OfficeSetup; // seating rules + staff; default: the built-in Hermes seating
   hermesHome: string;
   headshotDir: string | null; // null: no bot headshots (the demo)
-  portraitsDir?: string | null; // local staff photos (DMOS_PORTRAITS_DIR); absent = bot headshots only
+  portraitsDir?: string | null; // local staff photos (AKG_PORTRAITS_DIR); absent = bot headshots only
   pollIntervalMs: number;
   now?: () => EpochSeconds;
   allowedOrigins?: ReadonlySet<string>;
   allowedHosts?: ReadonlySet<string>; // Host names besides localhost (published via `tailscale serve`)
   webRoot?: string | null; // built web app (web/dist) served at / for `npm run start`; null/absent = API only
-  allowWrites?: boolean; // DMOS_ALLOW_WRITES=1: chat, task creation and any other non-GET route; default off
-  accessToken?: string | null; // DMOS_ACCESS_TOKEN: require sign-in; null/absent = open (local use)
+  allowWrites?: boolean; // AKG_ALLOW_WRITES=1: chat, task creation and any other non-GET route; default off
+  accessToken?: string | null; // AKG_ACCESS_TOKEN: require sign-in; null/absent = open (local use)
   timeZone?: string; // the zone scheduled jobs run in when their adapter doesn't say; default: this machine's
   prices?: PriceTable; // token prices for the ledger's cost estimates; default: the built-in dated table
-  auditFile?: string | null; // DMOS_AUDIT_LOG: decisions and control verbs are written here first; null/absent = refused
+  auditFile?: string | null; // AKG_AUDIT_LOG: decisions and control verbs are written here first; null/absent = refused
   audit?: AuditLog; // an audit log to use instead of auditFile (the demo keeps its own in memory)
   budgets?: BudgetConfig; // `budgets:` from config.yaml ("Corporate"); absent = none
   budgetCheckMs?: number; // how often Corporate checks budgets with no browser open; default 60 s, 0 = only on GET /api/budgets
@@ -130,7 +130,7 @@ export function createApp(deps: AppDeps): App {
         const roomId = safeDecode(params[0]);
         const result = isRoomIdShape(roomId) ? await office.messages(roomId, MESSAGES_LIMIT) : null;
         if (!result) return sendError(res, 404, 'Unknown room', cors);
-        sendJson(res, 200, result.messages, result.reason ? { ...cors, 'X-DMOS-Messages-Reason': result.reason } : cors);
+        sendJson(res, 200, result.messages, result.reason ? { ...cors, 'X-AKG-Messages-Reason': result.reason } : cors);
       },
     },
     {
@@ -188,11 +188,11 @@ export function createApp(deps: AppDeps): App {
         sendImage(res, image, cors);
       },
     },
-    ...observabilityRoutes(observability, () => now() * 1000), // timeline + usage (the documentary crew, Angela's ledger)
+    ...observabilityRoutes(observability, () => now() * 1000), // timeline + usage (the documentary crew, Fatima's ledger)
     ...controlRoutes({ act: office.act, budgets: corporate.check, actor, readBody: jsonBody, onChanged: () => void hub.refresh() }),
     ...demoRoutes(deps.adapters, jsonBody), // /api/demo/clock, only while a demo adapter runs
     ...agentRoutes(jsonBody), // the teammate command line: /api/agents, /api/agents/command
-    ...unattributedRoutes(office.read), // Creed's corner: agents, cards and requests no desk can hold
+    ...unattributedRoutes(office.read), // Naina's corner: agents, cards and requests no desk can hold
   ];
 
   async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> {
@@ -200,7 +200,7 @@ export function createApp(deps: AppDeps): App {
     const cors = corsHeaders(req.headers.origin, allowed);
     const url = new URL(req.url ?? '/', 'http://127.0.0.1');
     const { pathname } = url;
-    // Agents and Claude Code can't sign in with a cookie: their endpoints take DMOS_INGEST_TOKEN instead, and only
+    // Agents and Claude Code can't sign in with a cookie: their endpoints take AKG_INGEST_TOKEN instead, and only
     // exist while their adapter is configured (any other path under them is a 404). Ingest isn't a write to an
     // agent, so it works on a read-only server too.
     if (isInboundPath(pathname)) {

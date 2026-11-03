@@ -8,6 +8,6 @@ export function redact(text: string, max = 200): string {
 }
 
 export function log(event: string, fields: Readonly<Record<string, string | number | boolean | null>> = {}): void {
-  if (typeof process === 'undefined' || process.env.DMOS_QUIET === '1') return; // the static demo runs server code in a browser
+  if (typeof process === 'undefined' || process.env.AKG_QUIET === '1') return; // the static demo runs server code in a browser
   process.stderr.write(`${JSON.stringify({ at: new Date().toISOString(), event, ...fields })}\n`);
 }

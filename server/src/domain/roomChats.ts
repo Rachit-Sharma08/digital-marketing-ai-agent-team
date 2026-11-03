@@ -1,6 +1,6 @@
 // Which Telegram group (opaque chat key) is which room. Evidence, strongest first:
 //  1. channel_prompts naming "<Room> room" (the lead's prompt counts double),
-//  2. the Telegram group title ending in the room name ("Dunder Mifflin Ops"),
+//  2. the Telegram group title ending in the room name ("Agents Ka Ghar Ops"),
 //  3. elimination: a lead with exactly one unexplained lead chat and one unresolved room it leads.
 import type { RoomChat, TelegramRoomConfig } from '../hermes/types.ts';
 import { GROUP_ROOMS, HERMES_ROOM_NAMES, roomById } from '../rooms.ts';

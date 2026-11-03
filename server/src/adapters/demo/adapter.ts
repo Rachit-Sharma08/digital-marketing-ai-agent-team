@@ -1,7 +1,7 @@
-// The `demo` adapter, "Threat Level Midnight": a scripted, fictional office day (shared/demo) on a clock that runs at
+// The `demo` adapter, "Campaign Daybook": a scripted, fictional office day (shared/demo) on a clock that runs at
 // 1x, 10x or 60x and loops at 17:30. No keys, no ~/.hermes, no network. Chat answers with canned in-character lines
 // and new shared tasks live in memory, as do the control verbs (stop a card, run a job now, reassign; controls.ts) and
-// the scripted usage behind Angela's ledger and Corporate's budgets (usage.ts). Deterministic for a given start, speed and seed. The same module runs in the
+// the scripted usage behind Fatima's ledger and Corporate's budgets (usage.ts). Deterministic for a given start, speed and seed. The same module runs in the
 // browser for the static demo (web/src/demo/static), so both show exactly the same day.
 import type { Presence } from '../../../../shared/contract.ts';
 import { DEMO_CAST, DEMO_ROOMS, DEMO_TASK_ROOM, type DemoRoom } from '../../../../shared/demo/cast.ts';
@@ -85,7 +85,7 @@ export function createDemoAdapter(opts: DemoAdapterOptions = {}): DemoAdapter {
     const tasks = day.tasks.map((t): AgentTask => ({
       id: roomId(t.id), title: t.title, status: t.status, ownerAgentId: t.owner, ...(t.room ? { roomId: roomId(t.room) } : {}), shared: t.shared, updatedAt: t.updatedAt,
     }));
-    const strays = straysAt(minute).map((t): AgentTask => ({ // nobody's cards, in no room: Creed's corner
+    const strays = straysAt(minute).map((t): AgentTask => ({ // nobody's cards, in no room: Naina's corner
       id: roomId(`stray-${t.key}`), title: t.title, status: t.status, shared: false, updatedAt: t.updatedAt,
     }));
     return {

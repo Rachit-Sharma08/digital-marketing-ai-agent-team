@@ -1,10 +1,10 @@
-// `budgets:` in ~/.dunder-mifflin-os/config.yaml ("Corporate"): per-person USD limits for a day and/or a calendar month,
+// `budgets:` in ~/.agents-ka-ghar/config.yaml ("Corporate"): per-person USD limits for a day and/or a calendar month,
 // plus `autoPause` (default false). Keys are person ids (characters, or temps at spare desks).
 //
 //   budgets:
 //     autoPause: true              # at 100%, pause the bot when its adapter can pause (else: just alert)
-//     dwight: { monthly: 20 }
-//     kelly: { daily: 1.5, monthly: 30 }
+//     meera: { monthly: 20 }
+//     priya: { daily: 1.5, monthly: 30 }
 import { STAFF } from '../../../shared/office.ts';
 import type { BudgetPeriod } from '../../../shared/controls.ts';
 import { isRecord } from '../hermes/guards.ts';
@@ -37,7 +37,7 @@ function limits(personId: string, raw: unknown): BudgetLimits {
 
 export function parseBudgets(raw: unknown): { ok: true; value: BudgetConfig } | { ok: false; error: string } {
   try {
-    if (!isRecord(raw)) throw new BudgetError('budgets: expected a mapping like { dwight: { monthly: 20 } }');
+    if (!isRecord(raw)) throw new BudgetError('budgets: expected a mapping like { meera: { monthly: 20 } }');
     if (raw.autoPause !== undefined && typeof raw.autoPause !== 'boolean') throw new BudgetError('budgets.autoPause: true or false');
     const people = Object.entries(raw).filter(([k]) => k !== 'autoPause').map(([id, v]) => [id, limits(id, v)] as const);
     return { ok: true, value: { autoPause: raw.autoPause === true, limits: Object.freeze(Object.fromEntries(people)) } };

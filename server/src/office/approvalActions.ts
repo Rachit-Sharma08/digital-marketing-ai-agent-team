@@ -10,10 +10,10 @@ import type { Office } from './office.ts';
 import { refuseWrite } from './writes.ts';
 
 export type ActionOutcome = { ok: true } | { ok: false; status: number; error: string };
-export type Actor = 'local' | 'signed-in'; // signed in with DMOS_ACCESS_TOKEN, or an open local server
+export type Actor = 'local' | 'signed-in'; // signed in with AKG_ACCESS_TOKEN, or an open local server
 
 const GLOBAL_ID = /^([a-z][a-z0-9-]{0,11}):(.+)$/;
-export const AUDIT_UNAVAILABLE = 'Could not write the audit log (~/.dunder-mifflin-os/audit.log or DMOS_AUDIT_LOG), so nothing was done';
+export const AUDIT_UNAVAILABLE = 'Could not write the audit log (~/.agents-ka-ghar/audit.log or AKG_AUDIT_LOG), so nothing was done';
 
 type Options = {
   readonly adapters: ReadonlyArray<AgentAdapter>;

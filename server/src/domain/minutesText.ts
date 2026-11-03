@@ -35,7 +35,7 @@ export function who(author: string | null | undefined): Pick<Line, 'authorAgentI
   if (isBotProfile(bot)) return { authorAgentId: bot };
   if (author === 'user') return { author: 'You' };
   if (author === 'council') return { author: 'Council' };
-  if (author.startsWith(OS_CREATOR_PREFIX)) return { author: 'Dunder Mifflin OS' };
+  if (author.startsWith(OS_CREATOR_PREFIX)) return { author: 'Agents Ka Ghar' };
   return { author: clip(author, AUTHOR_MAX) };
 }
 

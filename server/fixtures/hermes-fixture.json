@@ -8,7 +8,7 @@
    "social: running run with a fresh heartbeat (working)",
    "skool: run crashed 10 min before recording (error)",
    "health: telegram platform disconnected (offline)",
-   "ops: a todo card created from Dunder Mifflin OS for campaigns (shared)"
+   "ops: a todo card created from Agents Ka Ghar for campaigns (shared)"
   ]
  },
  "state": {
@@ -233,13 +233,13 @@
    }
   ],
   "chatNames": {
-   "chat-hq": "Dunder Mifflin HQ",
-   "chat-council": "Dunder Mifflin Council",
-   "chat-outreach": "Dunder Mifflin Outreach",
-   "chat-content": "Dunder Mifflin Content",
-   "chat-skool": "Dunder Mifflin Skool",
-   "chat-ops": "Dunder Mifflin Ops",
-   "chat-rnd": "Dunder Mifflin R&D"
+   "chat-hq": "Agents Ka Ghar HQ",
+   "chat-council": "Agents Ka Ghar Council",
+   "chat-outreach": "Agents Ka Ghar Outreach",
+   "chat-content": "Agents Ka Ghar Content",
+   "chat-skool": "Agents Ka Ghar Skool",
+   "chat-ops": "Agents Ka Ghar Ops",
+   "chat-rnd": "Agents Ka Ghar R&D"
   },
   "kanban": {
    "tasks": [
@@ -257,7 +257,7 @@
     },
     {
      "id": "t_demo2",
-     "title": "Draft the Dundies recap post",
+     "title": "Draft the Highlights recap post",
      "assignee": "social",
      "status": "running",
      "createdBy": "user",
@@ -284,7 +284,7 @@
      "title": "Restock the conference room paper",
      "assignee": "campaigns",
      "status": "ready",
-     "createdBy": "dmos-ops",
+     "createdBy": "akg-ops",
      "tenant": null,
      "createdAt": 1791906062.554,
      "startedAt": null,
@@ -343,7 +343,7 @@
      "id": "t_fx005",
      "status": "done",
      "createdAt": 1791897130,
-     "title": "Plan the Dundies agenda",
+     "title": "Plan the Highlights agenda",
      "assignee": "chief",
      "createdBy": "user",
      "tenant": null,
@@ -427,7 +427,7 @@
      "id": "t_fx012",
      "status": "done",
      "createdAt": 1791856034,
-     "title": "Call back the Scranton prospects",
+     "title": "Call back the New Delhi prospects",
      "assignee": "tech",
      "createdBy": "council",
      "tenant": null,
@@ -535,7 +535,7 @@
      "id": "t_fx021",
      "status": "done",
      "createdAt": 1791813763,
-     "title": "Plan the Dundies agenda",
+     "title": "Plan the Highlights agenda",
      "assignee": "cfo",
      "createdBy": "user",
      "tenant": null,
@@ -619,7 +619,7 @@
      "id": "t_fx028",
      "status": "done",
      "createdAt": 1791802955,
-     "title": "Call back the Scranton prospects",
+     "title": "Call back the New Delhi prospects",
      "assignee": "social",
      "createdBy": "user",
      "tenant": null,
@@ -727,7 +727,7 @@
      "id": "t_fx037",
      "status": "done",
      "createdAt": 1791770292,
-     "title": "Plan the Dundies agenda",
+     "title": "Plan the Highlights agenda",
      "assignee": "tech",
      "createdBy": "council",
      "tenant": null,
@@ -1299,17 +1299,17 @@
    }
   ],
   "personas": {
-   "chief": "Pam Beesly",
-   "social": "Kelly Kapoor",
-   "strategist": "David Wallace",
+   "chief": "Aanya Sharma",
+   "social": "Priya Singh",
+   "strategist": "Sophia D Souza",
    "general": "J.A.R.V.I.S.",
    "tech": "Sadiq",
-   "cfo": "Angela Martin",
-   "cmo": "Michael Scott",
-   "ai-strategist": "Ryan Howard",
-   "campaigns": "Dwight Schrute",
-   "skool": "Andy Bernard",
-   "teacher": "Oscar Martinez"
+   "cfo": "Fatima Ali",
+   "cmo": "Zara Khan",
+   "ai-strategist": "Tara Joshi",
+   "campaigns": "Meera Kaur",
+   "skool": "Aisha Malik",
+   "teacher": "Neha Rao"
   }
  },
  "messages": [
@@ -1339,10 +1339,10 @@
   },
   {
    "profile": "tech",
-   "target": "os:dmos-ops",
+   "target": "os:akg-ops",
    "messages": [
     {
-     "uid": "fx-tech-osdmosops-1",
+     "uid": "fx-tech-osakgops-1",
      "profile": "tech",
      "role": "user",
      "text": "[Ops room] Who is on the paper pricing card?",
@@ -1351,10 +1351,10 @@
      "platformMessageId": null
     },
     {
-     "uid": "fx-tech-osdmosops-2",
+     "uid": "fx-tech-osakgops-2",
      "profile": "tech",
      "role": "assistant",
-     "text": "Michael has it in the Council round; results by 9pm.",
+     "text": "Zara has it in the Council round; results by 9pm.",
      "at": 1791889952.554,
      "origin": "os",
      "platformMessageId": null
@@ -1432,7 +1432,7 @@
      "uid": "fx-chief-groupchathq-2",
      "profile": "chief",
      "role": "assistant",
-     "text": "Two approvals: the Dundies budget and the warehouse rota.",
+     "text": "Two approvals: the Highlights budget and the warehouse rota.",
      "at": 1791887552.554,
      "origin": "telegram",
      "platformMessageId": null
@@ -1456,7 +1456,7 @@
      "uid": "fx-social-groupchatcontent-2",
      "profile": "social",
      "role": "assistant",
-     "text": "Three drafts queued: Dundies recap, paper facts, a Scranton shout-out.",
+     "text": "Three drafts queued: Highlights recap, paper facts, a New Delhi shout-out.",
      "at": 1791888152.554,
      "origin": "telegram",
      "platformMessageId": null

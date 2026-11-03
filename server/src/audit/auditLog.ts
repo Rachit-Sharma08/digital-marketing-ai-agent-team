@@ -1,4 +1,4 @@
-// The local append-only audit log (~/.dunder-mifflin-os/audit.log, DMOS_AUDIT_LOG): one JSON line per entry, written
+// The local append-only audit log (~/.agents-ka-ghar/audit.log, AKG_AUDIT_LOG): one JSON line per entry, written
 // with O_APPEND to a 0600 file in a 0700 directory, never rewritten or rotated by the server. Callers write an entry
 // BEFORE they act and refuse to act when append() returns false (fail closed). Text values are scrubbed (no tokens,
 // home paths, phone numbers or chat ids) and capped; JSON encoding keeps a newline in a value from forging an entry.

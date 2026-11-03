@@ -1,4 +1,4 @@
-// GET /api/unattributed: Creed's corner, what no desk can hold (office/unattributed.ts). Read-only, so it works on a
+// GET /api/unattributed: Naina's corner, what no desk can hold (office/unattributed.ts). Read-only, so it works on a
 // read-only server; sign-in protected like every other /api route (app.ts runs access first).
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import type { UnattributedReport } from '../../../shared/unattributed.ts';

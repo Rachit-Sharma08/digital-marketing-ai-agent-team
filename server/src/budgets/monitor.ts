@@ -1,4 +1,4 @@
-// "Corporate": reads each budgeted bot's usage for the day and the calendar month (Angela's ledger's prices), and at
+// "Corporate": reads each budgeted bot's usage for the day and the calendar month (Fatima's ledger's prices), and at
 // 100% of a budget freezes the expense account: it pauses the bot through the office's control verbs (audited, actor
 // 'corporate') ONLY when `budgets.autoPause` is true AND the bot's adapter can pause; otherwise it raises an alert for
 // you. Unpriced usage is never spend, so it never pauses anything. One pause attempt per bot per period window: if you

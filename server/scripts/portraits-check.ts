@@ -1,4 +1,4 @@
-// Lists which people on the map have a local portrait in DMOS_PORTRAITS_DIR (default ~/.dunder-mifflin-os/portraits)
+// Lists which people on the map have a local portrait in AKG_PORTRAITS_DIR (default ~/.agents-ka-ghar/portraits)
 // and which will show their bot headshot or the drawn character. Read-only; it never downloads anything.
 // Usage: npm run portraits:check
 import { readdirSync } from 'node:fs';

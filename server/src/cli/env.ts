@@ -9,29 +9,32 @@ const WILDCARD_OR_LOOPBACK = new Set(['', '0.0.0.0', '::', '127.0.0.1', '::1', '
 
 export function expandHome(value: string, home: string): string {
   if (value === '~') return home;
-  return value.startsWith('~/') ? path.join(home, value.slice(2)) : value;
+  return value.startsWith('~/') ? (home.startsWith('/') ? path.posix.join(home, value.slice(2)) : path.join(home, value.slice(2))) : value;
 }
 
 export function serverEnv(options: CliOptions, base: Env, ctx: { home: string; webDist: string }): Env {
-  const resolveDir = (dir: string) => path.resolve(expandHome(dir, ctx.home));
+  const resolveDir = (dir: string) => {
+    const expanded = expandHome(dir, ctx.home);
+    return expanded.startsWith('/') ? path.posix.normalize(expanded) : path.resolve(expanded);
+  };
   return {
     ...base,
-    DMOS_SERVE_WEB: '1',
-    DMOS_WEB_DIST: ctx.webDist,
-    ...(options.port === undefined ? {} : { DMOS_PORT: String(options.port) }),
+    AKG_SERVE_WEB: '1',
+    AKG_WEB_DIST: ctx.webDist,
+    ...(options.port === undefined ? {} : { AKG_PORT: String(options.port) }),
     ...(options.hermesHome === undefined ? {} : { HERMES_HOME: resolveDir(options.hermesHome) }),
-    ...(options.portraits === undefined ? {} : { DMOS_PORTRAITS_DIR: resolveDir(options.portraits) }),
-    ...(options.demo ? { DMOS_SOURCE: 'demo' } : {}),
-    ...(options.speed === undefined ? {} : { DMOS_DEMO_SPEED: String(options.speed) }),
-    ...(options.allowWrites ? { DMOS_ALLOW_WRITES: '1' } : {}),
+    ...(options.portraits === undefined ? {} : { AKG_PORTRAITS_DIR: resolveDir(options.portraits) }),
+    ...(options.demo ? { AKG_SOURCE: 'demo' } : {}),
+    ...(options.speed === undefined ? {} : { AKG_DEMO_SPEED: String(options.speed) }),
+    ...(options.allowWrites ? { AKG_ALLOW_WRITES: '1' } : {}),
   };
 }
 
 /** Where a browser on this machine finds the office: loopback for local and wildcard binds. */
 export function browserUrl(env: Env): string {
-  const host = (env.DMOS_HOST ?? '').trim();
+  const host = (env.AKG_HOST ?? '').trim();
   const shown = WILDCARD_OR_LOOPBACK.has(host) ? '127.0.0.1' : host.includes(':') ? `[${host}]` : host;
-  return `http://${shown}:${env.DMOS_PORT?.trim() || DEFAULT_PORT}/`;
+  return `http://${shown}:${env.AKG_PORT?.trim() || DEFAULT_PORT}/`;
 }
 
 /** The platform's "open this URL" program, run without a shell. */

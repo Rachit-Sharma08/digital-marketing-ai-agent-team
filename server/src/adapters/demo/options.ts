@@ -19,9 +19,9 @@ export function parseDemoSettings(raw: RawDemoSettings): SettingsResult {
   return { ok: true, value: Object.fromEntries(fields.flatMap((f) => (raw[f] === undefined ? [] : [[f, RULES[f].parse(raw[f])]]))) };
 }
 
-const ENV_NAMES = { speed: 'DMOS_DEMO_SPEED', start: 'DMOS_DEMO_START', seed: 'DMOS_DEMO_SEED' } as const;
+const ENV_NAMES = { speed: 'AKG_DEMO_SPEED', start: 'AKG_DEMO_START', seed: 'AKG_DEMO_SEED' } as const;
 
-/** DMOS_DEMO_SPEED, DMOS_DEMO_START and DMOS_DEMO_SEED; throws naming the variable when one is wrong. */
+/** AKG_DEMO_SPEED, AKG_DEMO_START and AKG_DEMO_SEED; throws naming the variable when one is wrong. */
 export function demoSettingsFromEnv(env: Readonly<Record<string, string | undefined>>): DemoSettings {
   const pick = (name: string) => (env[name]?.trim() ? env[name] : undefined);
   const result = parseDemoSettings({ speed: pick(ENV_NAMES.speed), start: pick(ENV_NAMES.start), seed: pick(ENV_NAMES.seed) });

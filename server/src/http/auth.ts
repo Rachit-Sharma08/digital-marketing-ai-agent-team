@@ -3,7 +3,7 @@
 import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import type { IncomingHttpHeaders } from 'node:http';
 
-export const SESSION_COOKIE = 'dmos_session';
+export const SESSION_COOKIE = 'akg_session';
 export const SESSION_MAX_AGE_S = 30 * 24 * 60 * 60;
 const MAX_TOKEN_INPUT = 1024;
 const MAX_NEXT = 512;
@@ -21,7 +21,7 @@ export function tokenMatches(candidate: unknown, token: string): boolean {
 
 /** The cookie value: an HMAC of a fixed label under the token. Rotating the token signs everyone out. */
 export function sessionValue(token: string): string {
-  return createHmac('sha256', token).update('dmos-session-v1').digest('base64url');
+  return createHmac('sha256', token).update('akg-session-v1').digest('base64url');
 }
 
 export function sessionCookie(value: string, secure: boolean): string {

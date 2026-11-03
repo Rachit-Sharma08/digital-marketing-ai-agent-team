@@ -2033,7 +2033,7 @@
     "tasks": [
      {
       "id": "fx-t-54b0625f41",
-      "title": "Plan the Dundies agenda",
+      "title": "Plan the Highlights agenda",
       "createdAt": 1791869752
      },
      {
@@ -2051,7 +2051,7 @@
      {
       "id": "fx-r-75d0275352",
       "taskId": "fx-t-54b0625f41",
-      "title": "Plan the Dundies agenda",
+      "title": "Plan the Highlights agenda",
       "status": "done",
       "outcome": "completed",
       "startedAt": 1791869802,

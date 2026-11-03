@@ -1,18 +1,18 @@
-// ~/.dunder-mifflin-os/config.yaml (or config.yml / config.json, or the file DMOS_CONFIG names): which agent
+// ~/.agents-ka-ghar/config.yaml (or config.yml / config.json, or the file AKG_CONFIG names): which agent
 // adapters run, and which character each agent becomes. Validated strictly at startup; a mistake stops the server
 // with a message naming the file and the field. Secrets never go here (the ingest token is an environment variable).
 //
 //   adapters: [hermes, webhook, claude-code]       # default: [hermes]; also demo (or { kind: demo, speed: 10 })
 //   adapters: [hermes, { kind: claude-code, decide: true, holdSeconds: 120 }]  # answer permission prompts in the office
 //   seats:
-//     dwight: { adapter: hermes, agent: campaigns }  # merged over the built-in Hermes seating (roster.ts)
-//     jim: { adapter: claude-code, agent: paper-site, role: Pair programmer }
-//     pam: null                                      # leave a desk without a bot
+//     meera: { adapter: hermes, agent: campaigns }  # merged over the built-in Hermes seating (roster.ts)
+//     simran: { adapter: claude-code, agent: paper-site, role: Pair programmer }
+//     aanya: null                                      # leave a desk without a bot
 //   prices:                                          # optional: token prices for the ledger (usage/configPrices.ts)
 //     models: { my-model: { input: 0.3, output: 1.2 } }
 //   budgets:                                         # optional: USD per bot per day/month ("Corporate", budgets/config.ts)
 //     autoPause: false                               # default; true pauses a bot at 100% when its adapter can pause
-//     dwight: { monthly: 20 }
+//     meera: { monthly: 20 }
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
@@ -136,9 +136,9 @@ export function parseOfficeConfig(raw: unknown, file: string): OfficeConfig {
 }
 
 export function loadOfficeConfig(opts: { env: Readonly<Record<string, string | undefined>>; home: string }): LoadedConfig {
-  const explicit = opts.env.DMOS_CONFIG?.trim();
-  if (explicit && !existsSync(explicit)) throw new Error(`DMOS_CONFIG: no file at ${explicit}`);
-  const dir = path.join(opts.home, '.dunder-mifflin-os');
+  const explicit = opts.env.AKG_CONFIG?.trim();
+  if (explicit && !existsSync(explicit)) throw new Error(`AKG_CONFIG: no file at ${explicit}`);
+  const dir = path.join(opts.home, '.agents-ka-ghar');
   const file = explicit || CONFIG_NAMES.map((n) => path.join(dir, n)).find((f) => existsSync(f)) || null;
   if (!file) return { file: null, ...parseOfficeConfig(undefined, 'defaults') };
   let raw: unknown;

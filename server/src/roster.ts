@@ -1,32 +1,32 @@
-// The Hermes bots of the example roster (docs/ARCHITECTURE.md): which profile keys exist, what each does, and the Office character
-// each sits as by default (DEFAULT_SEATS; ~/.dunder-mifflin-os/config.yaml `seats:` can move them). Every Hermes
+// The Hermes bots of the example roster (docs/ARCHITECTURE.md): which profile keys exist, what each does, and the team member
+// each sits as by default (DEFAULT_SEATS; ~/.agents-ka-ghar/config.yaml `seats:` can move them). Every Hermes
 // whitelist (chat, headshots, tasks) is derived from this list.
 
 export type RosterEntry = {
   readonly profile: string; // Hermes profile key, e.g. 'campaigns'
-  readonly personId: string; // Person.id, e.g. 'dwight'
+  readonly personId: string; // Person.id, e.g. 'meera'
   readonly role: string; // what the bot does, shown in the UI
 };
 
 export const ROSTER: ReadonlyArray<RosterEntry> = Object.freeze([
-  { profile: 'chief', personId: 'pam', role: 'Chief of staff: questions & handoffs' },
-  { profile: 'cmo', personId: 'michael', role: 'Council: marketing (CMO)' },
-  { profile: 'campaigns', personId: 'dwight', role: 'Campaigns & outreach' },
-  { profile: 'cfo', personId: 'angela', role: 'Council: finance (CFO)' },
-  { profile: 'teacher', personId: 'oscar', role: 'Teacher' },
-  { profile: 'social', personId: 'kelly', role: 'Content manager' },
-  { profile: 'skool', personId: 'andy', role: 'Skool community' },
-  { profile: 'ai-strategist', personId: 'ryan', role: 'Council: AI strategy' },
-  { profile: 'strategist', personId: 'david', role: 'Council: strategy' },
+  { profile: 'chief', personId: 'aanya', role: 'Chief of staff: questions & handoffs' },
+  { profile: 'cmo', personId: 'zara', role: 'Council: marketing (CMO)' },
+  { profile: 'campaigns', personId: 'meera', role: 'Campaigns & outreach' },
+  { profile: 'cfo', personId: 'fatima', role: 'Council: finance (CFO)' },
+  { profile: 'teacher', personId: 'neha', role: 'Teacher' },
+  { profile: 'social', personId: 'priya', role: 'Content manager' },
+  { profile: 'skool', personId: 'aisha', role: 'Skool community' },
+  { profile: 'ai-strategist', personId: 'tara', role: 'Council: AI strategy' },
+  { profile: 'strategist', personId: 'sophia', role: 'Council: strategy' },
   { profile: 'tech', personId: 'sadiq', role: 'CTO: leads Ops and R&D' },
-  { profile: 'general', personId: 'jarvis', role: 'General assistant' },
-  { profile: 'health', personId: 'ira', role: 'Personal health' },
+  { profile: 'general', personId: 'maya', role: 'General assistant' },
+  { profile: 'health', personId: 'isabella', role: 'Personal health' },
 ].map((e) => Object.freeze(e)));
 
 const BY_PROFILE: ReadonlyMap<string, RosterEntry> = new Map(ROSTER.map((e) => [e.profile, e]));
 const BY_PERSON: ReadonlyMap<string, RosterEntry> = new Map(ROSTER.map((e) => [e.personId, e]));
 
-/** The built-in seating: each Hermes bot at its Office character's desk (config `seats:` overrides it). */
+/** The built-in seating: each Hermes bot at its team member's desk (config `seats:` overrides it). */
 export const DEFAULT_SEATS: Readonly<Record<string, { readonly adapter: 'hermes'; readonly agent: string }>> = Object.freeze(
   Object.fromEntries(ROSTER.map((e) => [e.personId, Object.freeze({ adapter: 'hermes' as const, agent: e.profile })])),
 );

@@ -1,7 +1,7 @@
 // Delivering a decision (or a control verb) to a webhook agent: POST JSON to the callback URL it gave (https, or http
 // on loopback; checked in schema.ts), no redirects, a short timeout. Signed so the agent can tell it came from this office:
-//   X-DMOS-Timestamp: <unix seconds>
-//   X-DMOS-Signature: sha256=<hex HMAC-SHA256(DMOS_INGEST_TOKEN, "<timestamp>.<body>")>
+//   X-AKG-Timestamp: <unix seconds>
+//   X-AKG-Signature: sha256=<hex HMAC-SHA256(AKG_INGEST_TOKEN, "<timestamp>.<body>")>
 // The token itself is never sent. Logs the agent and the outcome, never the URL or the note.
 import { createHmac, randomUUID } from 'node:crypto';
 import type { ActionResult, ApprovalDecision } from '../types.ts';
@@ -22,7 +22,7 @@ export type SignedPostOptions = { post: CallbackPost; token: string; now: () => 
 /** POST one signed JSON body to an agent's callback: no redirects, a timeout, 2xx = taken. `what` names the log event. */
 async function postSigned(opts: SignedPostOptions, url: string, agentId: string, body: string, what: string): Promise<ActionResult<null>> {
   const timestamp = String(Math.floor(opts.now() / 1000));
-  const headers = { 'Content-Type': 'application/json', 'X-DMOS-Timestamp': timestamp, 'X-DMOS-Signature': signDecision(opts.token, timestamp, body) };
+  const headers = { 'Content-Type': 'application/json', 'X-AKG-Timestamp': timestamp, 'X-AKG-Signature': signDecision(opts.token, timestamp, body) };
   const ctrl = new AbortController();
   let timer: NodeJS.Timeout | undefined;
   const timeout = new Promise<'timeout'>((resolve) => { timer = setTimeout(() => { ctrl.abort(); resolve('timeout'); }, opts.timeoutMs); });

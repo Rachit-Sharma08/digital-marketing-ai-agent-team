@@ -1,5 +1,5 @@
 {
-  "name": "@dmos/server",
+  "name": "@akg/server",
   "private": true,
   "type": "module",
   "engines": {
@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx watch src/main.ts",
     "start": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
-    "serve": "DMOS_SERVE_WEB=1 NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
-    "demo": "DMOS_SOURCE=fixture NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
+    "serve": "AKG_SERVE_WEB=1 NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
+    "demo": "AKG_SOURCE=fixture NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx src/main.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "record-fixture": "NODE_OPTIONS=--disable-warning=ExperimentalWarning tsx scripts/record-fixture.ts",

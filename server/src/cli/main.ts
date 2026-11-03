@@ -1,4 +1,4 @@
-// `npx dunder-mifflin-os`: parse flags, make sure the web app is built, start the server (which serves it), wait
+// `npx agents-ka-ghar`: parse flags, make sure the web app is built, start the server (which serves it), wait
 // until it answers, print the URL and optionally open a browser. config.ts reads process.env when first imported,
 // so this file must not import it (or anything that does) before the environment is set.
 import { spawn, spawnSync } from 'node:child_process';
@@ -14,7 +14,7 @@ const ROOT = fileURLToPath(new URL('../../../', import.meta.url));
 const STARTUP_TIMEOUT_MS = 20_000;
 
 function fail(message: string, code = 1): never {
-  process.stderr.write(`dunder-mifflin-os: ${message}\n`);
+  process.stderr.write(`agents-ka-ghar: ${message}\n`);
   process.exit(code);
 }
 

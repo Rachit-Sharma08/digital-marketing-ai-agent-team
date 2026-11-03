@@ -38,7 +38,7 @@ async function callProvider(provider: ProviderId, pick: AgentPick, text: string)
   const config = PROVIDERS.find((p) => p.id === provider)!;
   const key = keyFor(provider);
   if (!key) return { ok: false, status: 501, error: `${config.label} is not configured.` };
-  const model = process.env[`DMOS_${provider.toUpperCase()}_${pick.model.tier.toUpperCase()}_MODEL`]?.trim() ?? config.models[pick.model.tier];
+  const model = process.env[`AKG_${provider.toUpperCase()}_${pick.model.tier.toUpperCase()}_MODEL`]?.trim() ?? config.models[pick.model.tier];
   const system = `${ROLE_PROMPTS[pick.kind]}\nReply in the user's language (Hindi/Hinglish if they wrote so). Be brief: no preamble, no filler.`;
   const isGemini = provider === 'gemini';
   const body = isGemini

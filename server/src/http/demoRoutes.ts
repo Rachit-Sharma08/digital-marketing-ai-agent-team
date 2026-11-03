@@ -1,5 +1,5 @@
 // GET/POST /api/demo/clock: the demo day's clock and its speed (1x, 10x, 60x). Present only while a demo adapter
-// runs (404 otherwise). Changing the speed is a POST, so like every write it needs DMOS_ALLOW_WRITES (the demo turns
+// runs (404 otherwise). Changing the speed is a POST, so like every write it needs AKG_ALLOW_WRITES (the demo turns
 // that on: its bots live in memory).
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { isDemoAdapter } from '../adapters/demo/adapter.ts';

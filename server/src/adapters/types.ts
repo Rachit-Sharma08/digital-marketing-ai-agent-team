@@ -1,7 +1,7 @@
 // The agent adapter contract. Everything the office knows about agents arrives through an AgentAdapter, and every
 // action the office takes on an agent goes back through one. Adapters speak in their own agent ids (a Hermes profile
 // key, a webhook agent id, a Claude Code project); which office character an agent becomes is decided outside them,
-// by the seating (server/src/office/seating.ts, from ~/.dunder-mifflin-os/config.yaml). Adapters never see people.
+// by the seating (server/src/office/seating.ts, from ~/.agents-ka-ghar/config.yaml). Adapters never see people.
 //
 // Invariants every adapter keeps (test/adapters/contractSuite.ts checks them):
 //  - free text it returns (names, roles, activity, task titles, messages) is scrubbed (domain/scrub.ts): no tokens,
@@ -65,7 +65,7 @@ export type ControlDone = { readonly note?: string };
 export type ControlResult = ActionResult<ControlDone | null>;
 
 /**
- * Something an agent is waiting on you for (the approvals inbox at Toby's desk). `id` is unique within the adapter
+ * Something an agent is waiting on you for (the approvals inbox at Sarah's desk). `id` is unique within the adapter
  * (the office prefixes the adapter id). The agent need not be on the roster (a Hermes card assigned to a human).
  */
 export type ApprovalRequest = {

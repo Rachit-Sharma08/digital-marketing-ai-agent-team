@@ -1,11 +1,11 @@
 // The `claude-code` adapter: each Claude Code session is a character. Claude Code's http hooks POST every event to
-// POST /api/hooks/claude-code (Authorization: Bearer $DMOS_INGEST_TOKEN); hookMap.ts turns them into statuses:
+// POST /api/hooks/claude-code (Authorization: Bearer $AKG_INGEST_TOKEN); hookMap.ts turns them into statuses:
 // working while tools run, needs-input on a permission request, idle on Stop, offline on SessionEnd. What a session
 // asks you (permission requests, questions) goes to the approvals inbox (pending.ts). The endpoint answers 204 with no
 // decision, so Claude Code carries on as it would without it, EXCEPT with `decisions` on (config `decide: true` and
-// DMOS_ALLOW_WRITES): then a PermissionRequest is held until you allow or deny it in the office, for up to `holdMs`.
+// AKG_ALLOW_WRITES): then a PermissionRequest is held until you allow or deny it in the office, for up to `holdMs`.
 // Agent ids come from the project folder ('paper-site'; a second concurrent session there is 'paper-site-2'), so
-// `seats: { jim: { adapter: claude-code, agent: paper-site } }` puts that project's session at Jim's desk.
+// `seats: { simran: { adapter: claude-code, agent: paper-site } }` puts that project's session at Simran's desk.
 // The hooks are also the session's timeline (hookTimeline.ts). Hooks carry no token counts, so there is no usage().
 // Stop (control verbs): the answer to the session's next PreToolUse/PostToolUse hook is {"continue": false,
 // "stopReason": …}, which the hooks protocol documents as ending Claude's turn. No pause: hooks cannot hold or resume.
@@ -24,7 +24,7 @@ export const CLAUDE_CODE_BODY_LIMIT = 1024 * 1024; // PostToolUse carries the to
 
 export type ClaudeCodeAdapterOptions = {
   readonly id?: string;
-  readonly token: string; // DMOS_INGEST_TOKEN, already validated
+  readonly token: string; // AKG_INGEST_TOKEN, already validated
   readonly now?: () => number; // epoch ms
   readonly maxEventsPerMinute?: number; // per session
   readonly endedGraceMs?: number; // how long an ended session stays on the map (offline)
@@ -38,7 +38,7 @@ type Session = { readonly agentId: string; readonly activity?: string };
 export const DEFAULT_HOLD_MS = 120_000;
 /** A stop waits this long for the session's next tool hook, then lapses (it must not end a later, unrelated turn). */
 export const STOP_TTL_MS = 120_000;
-export const STOP_REASON = 'Stopped from Dunder Mifflin OS';
+export const STOP_REASON = 'Stopped from Agents Ka Ghar';
 const STOPS_ON: ReadonlySet<string> = new Set(['PreToolUse', 'PostToolUse']); // hook events documented to honour continue: false
 const STOPPABLE: ReadonlySet<string> = new Set(['working', 'needs-input']);
 

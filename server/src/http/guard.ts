@@ -27,7 +27,7 @@ export function isAllowedHost(hostHeader: string | undefined, extraHosts: Readon
 
 export function corsHeaders(origin: string | undefined, allowed: ReadonlySet<string>): Record<string, string> {
   if (!origin || !allowed.has(origin)) return {};
-  return { 'Access-Control-Allow-Origin': origin, Vary: 'Origin', 'Access-Control-Expose-Headers': 'X-DMOS-Messages-Reason' };
+  return { 'Access-Control-Allow-Origin': origin, Vary: 'Origin', 'Access-Control-Expose-Headers': 'X-AKG-Messages-Reason' };
 }
 
 /** Returns true when the request was fully handled (rejected or preflight answered). */

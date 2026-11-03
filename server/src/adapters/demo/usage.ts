@@ -1,4 +1,4 @@
-// The demo day's token usage, for Angela's ledger and Corporate's budgets: each demo bot spends a fictional amount
+// The demo day's token usage, for Fatima's ledger and Corporate's budgets: each demo bot spends a fictional amount
 // per office day, accrued as the clock runs (nothing at 08:30, all of it at 17:30). Earlier days in a window count in
 // full. The imports bot runs on a local model nobody priced, so its gauge says "can't price chili-7b-local".
 import type { BudgetConfig } from '../../budgets/config.ts';
@@ -24,10 +24,10 @@ const DAILY: Readonly<Record<string, Spend>> = Object.freeze({
   wellness: { model: 'claude-haiku-demo', usd: 0.1, input: 40_000, output: 4_000 },
 });
 
-/** Corporate's budgets in the demo (person ids): two daily limits that bite in the afternoon, a monthly one, Kevin. */
+/** Corporate's budgets in the demo (person ids): two daily limits that bite in the afternoon, a monthly one, Diya. */
 export const DEMO_BUDGETS: BudgetConfig = Object.freeze({
   autoPause: false,
-  limits: Object.freeze({ dwight: { daily: 3 }, kelly: { daily: 1.5 }, kevin: { daily: 1 }, michael: { monthly: 40 } }),
+  limits: Object.freeze({ meera: { daily: 3 }, priya: { daily: 1.5 }, diya: { daily: 1 }, zara: { monthly: 40 } }),
 });
 
 const DAY_MS = 86_400_000;

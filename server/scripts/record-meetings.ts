@@ -1,5 +1,5 @@
 // Records fixtures/hermes-meetings.json: reads the meeting records of the last 7 days from ~/.hermes/kanban.db
-// (read-only), redacts them (redactMeetings.ts) and writes the fixture. Usage: npm run record-meetings -w @dmos/server
+// (read-only), redacts them (redactMeetings.ts) and writes the fixture. Usage: npm run record-meetings -w @akg/server
 import { writeFileSync } from 'node:fs';
 import { createLiveSource } from '../src/hermes/liveSource.ts';
 import { DEFAULT_MEETINGS_FIXTURE, type MeetingsFixture } from '../src/hermes/meetingsFixture.ts';

@@ -1,4 +1,4 @@
-// `prices:` in ~/.dunder-mifflin-os/config.yaml: add or correct model prices for the ledger's estimates.
+// `prices:` in ~/.agents-ka-ghar/config.yaml: add or correct model prices for the ledger's estimates.
 //
 //   prices:
 //     asOf: 2026-11-01                     # when you checked them (optional)

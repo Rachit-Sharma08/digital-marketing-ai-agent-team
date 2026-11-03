@@ -2,7 +2,7 @@
 // HermesSource (live files, or the recorded fixture for tests and demo mode), chats with `hermes chat`, creates
 // shared cards with `hermes kanban create`, answers the cards that wait on you (chat/approvalService.ts) and runs the
 // control verbs stop / run job now / reassign (chat/controlService.ts). Agents are profile keys; rooms keep their historical ids (ops, council,
-// dm-<profile>) so the Hermes chat sessions (dmos-<room>) carry on. Timeline and usage come from the source's
+// dm-<profile>) so the Hermes chat sessions (akg-<room>) carry on. Timeline and usage come from the source's
 // activity reads (hermes/liveActivity.ts or the recorded fixtures/hermes-activity.json). Meetings: minutes built
 // from kanban.db (no LLM).
 import type { EpochSeconds, HermesSource } from '../hermes/types.ts';

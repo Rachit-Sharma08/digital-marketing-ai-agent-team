@@ -1,11 +1,11 @@
 // The Claude Code settings.json "hooks" block that reports every session to the office
-// (docs/adapters/claude-code.md; print it with `npm run claude-code:hooks -w @dmos/server`).
+// (docs/adapters/claude-code.md; print it with `npm run claude-code:hooks -w @akg/server`).
 export const HOOK_EVENTS = Object.freeze([
   'SessionStart', 'UserPromptSubmit', 'PreToolUse', 'PostToolUse', 'PostToolUseFailure', 'PermissionRequest',
   'Notification', 'SubagentStart', 'SubagentStop', 'Stop', 'StopFailure', 'SessionEnd',
 ] as const);
 
-export const TOKEN_ENV = 'DMOS_INGEST_TOKEN';
+export const TOKEN_ENV = 'AKG_INGEST_TOKEN';
 /** Seconds the observe-only hooks may take; the server answers at once. */
 export const OBSERVE_TIMEOUT_S = 2;
 /** PermissionRequest may be held for a decision in the office (config `decide`, at most 270 s): wait longer than that. */

@@ -124,7 +124,7 @@ export type RoomChat = { readonly roomId: string; readonly chatKey: string; read
 export type MessageQuery = {
   readonly profile: string;
   readonly target: { readonly kind: 'group'; readonly chatKey: string } | { readonly kind: 'dm' } | { readonly kind: 'none' };
-  readonly osSessionTitle: string | null; // the Dunder Mifflin OS chat thread for this room in that profile
+  readonly osSessionTitle: string | null; // the Agents Ka Ghar chat thread for this room in that profile
   readonly limit: number;
 };
 

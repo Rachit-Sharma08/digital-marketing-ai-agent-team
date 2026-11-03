@@ -1,5 +1,5 @@
 // GET /api/portraits/:personId: a photo of someone on the map. Photos are never part of the repo; they live in a local
-// directory (DMOS_PORTRAITS_DIR, default ~/.dunder-mifflin-os/portraits) as <personId>.jpg or <personId>.png.
+// directory (AKG_PORTRAITS_DIR, default ~/.agents-ka-ghar/portraits) as <personId>.jpg or <personId>.png.
 // Only ids of people on the map are answered (allow-list), so a request can never name a path. Without a portrait
 // file, a person with a Hermes bot gets the bot's headshot; everyone else gets a 404 and the drawn character.
 import path from 'node:path';

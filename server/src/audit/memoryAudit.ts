@@ -1,5 +1,5 @@
 // An audit log kept in memory (the last `max` entries): for the demo, whose verbs only reach fictional in-memory bots,
-// so they never land in your real ~/.dunder-mifflin-os/audit.log. Also runs in the browser (the static demo): no I/O.
+// so they never land in your real ~/.agents-ka-ghar/audit.log. Also runs in the browser (the static demo): no I/O.
 import type { AuditEntry, AuditLog } from './auditLog.ts';
 
 export type MemoryAuditLog = AuditLog & { entries(): ReadonlyArray<AuditEntry & { readonly at: string }> };

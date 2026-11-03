@@ -14,7 +14,7 @@ const ARGS: Readonly<Record<ControlAction, ReadonlyArray<string>>> = {
 const SHAPES: Readonly<Record<string, readonly [RegExp, string]>> = {
   taskId: [TASK_ID, 'a card id (letters, digits, dots, colons, dashes or underscores)'],
   jobId: [JOB_ID, 'a job id (letters, digits, dashes or underscores)'],
-  to: [PERSON_ID, 'a person id like jim'],
+  to: [PERSON_ID, 'a person id like simran'],
 };
 
 class Invalid extends Error {}

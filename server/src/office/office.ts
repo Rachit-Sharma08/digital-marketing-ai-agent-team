@@ -15,7 +15,7 @@ export type OfficeSetup = {
   readonly spareSeatIds: ReadonlyArray<string>; // where temps sit, in order
 };
 
-/** `unattributed`: what no desk can hold (Creed's corner, GET /api/unattributed). */
+/** `unattributed`: what no desk can hold (Naina's corner, GET /api/unattributed). */
 export type Office = Composed & { readonly seating: Seating; readonly unattributed: ReadonlyArray<UnattributedItem> };
 
 export function defaultOfficeSetup(rules: MergedRules): OfficeSetup {

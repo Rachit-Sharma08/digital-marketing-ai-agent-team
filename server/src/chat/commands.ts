@@ -4,7 +4,7 @@ import { OS_CREATOR_PREFIX } from '../domain/tasks.ts';
 
 /** Seconds of wall clock the agent may use; below the server's 180 s timeout so it can wrap up. */
 export const CHAT_RUN_BUDGET_S = 170;
-export const CHAT_SESSION_PREFIX = 'dmos-';
+export const CHAT_SESSION_PREFIX = 'akg-';
 
 export function chatTarget(roomId: string): { profile: string; prefix: string } | null {
   const room = roomById(roomId);
@@ -29,8 +29,8 @@ export function buildKanbanCreateArgs(title: string, assigneeProfile: string, ro
 }
 
 /** What the office writes on a card it stops or hands over (fixed text: nothing from the browser reaches argv here). */
-export const STOP_REASON = 'Stopped from Dunder Mifflin OS';
-export const REASSIGN_REASON = 'Reassigned from Dunder Mifflin OS';
+export const STOP_REASON = 'Stopped from Agents Ka Ghar';
+export const REASSIGN_REASON = 'Reassigned from Agents Ka Ghar';
 
 /** Run a cron job now, in the job's own profile. `hermes cron run` runs it to the end (minutes for an agent job). */
 export function buildCronRunArgs(profile: string, jobId: string): string[] {

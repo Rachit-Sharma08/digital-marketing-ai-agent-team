@@ -8,7 +8,7 @@ import type { ActionResult, ApprovalDecision, ApprovalRequest, InboundResponse }
 export const NO_DECISION: InboundResponse = Object.freeze({ status: 204 });
 export const DECISION_ACTIONS = Object.freeze({ approve: 'Allow it once', reject: 'Deny it (your note goes to Claude)' });
 const MAX_ITEMS = 50;
-const REJECTED = 'Rejected in Dunder Mifflin OS';
+const REJECTED = 'Rejected in Agents Ka Ghar';
 
 type Item = {
   readonly request: ApprovalRequest;

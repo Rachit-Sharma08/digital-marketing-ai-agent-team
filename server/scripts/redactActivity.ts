@@ -5,7 +5,7 @@ import type { HermesActivity, UsageRecord } from '../src/hermes/activityTypes.ts
 
 export const TASK_TITLES = [
   'Reconcile the paper invoices', 'Prep the quarterly sales deck', 'Order toner for the copier', 'Draft the client follow-up',
-  'Plan the Dundies agenda', 'Audit the warehouse inventory', 'Update the price sheet', 'Write the safety training memo',
+  'Plan the Highlights agenda', 'Audit the warehouse inventory', 'Update the price sheet', 'Write the safety training memo',
 ];
 export const CRON_NAMES = ['Morning report', 'Lead digest', 'Inbox sweep', 'Weekly review', 'Health check', 'Evening wrap-up', 'Friday briefing', 'Backup check'];
 const SESSION_TITLES: Readonly<Record<string, string>> = { telegram: 'Direct chat', cli: 'Terminal session', api: 'API session' };

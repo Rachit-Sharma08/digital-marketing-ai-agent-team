@@ -1,4 +1,4 @@
-// Kanban cards -> contract Tasks. A card's room comes from (in order): the Dunder Mifflin OS created_by marker,
+// Kanban cards -> contract Tasks. A card's room comes from (in order): the Agents Ka Ghar created_by marker,
 // its notify subscription (group chat -> room, DM -> that bot's direct line), or council origin.
 // A card is SHARED when its room is ops/council or it is linked to a card of another assignee.
 import type { Task } from '../../../shared/contract.ts';
@@ -10,8 +10,8 @@ import { roomForChat } from './roomChats.ts';
 import { toIso, type RunView } from './presence.ts';
 import { scrubText } from './scrub.ts';
 
-/** created_by value for cards created from a Dunder Mifflin OS room: `dmos-<roomId>`. */
-export const OS_CREATOR_PREFIX = 'dmos-';
+/** created_by value for cards created from a Agents Ka Ghar room: `akg-<roomId>`. */
+export const OS_CREATOR_PREFIX = 'akg-';
 const DONE_WINDOW_S = 48 * 3600;
 const MAX_TASKS = 200;
 

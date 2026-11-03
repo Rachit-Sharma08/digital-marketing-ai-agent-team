@@ -1,5 +1,5 @@
 // The teammate command line: GET /api/agents lists who is on the team, POST /api/agents/command hands one typed
-// command to the router (router.ts) and the picked model (command.ts). POST is a write, so it needs DMOS_ALLOW_WRITES
+// command to the router (router.ts) and the picked model (command.ts). POST is a write, so it needs AKG_ALLOW_WRITES
 // like every other write; the answer is never stored.
 import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createRateLimiter } from './rateLimit.ts';

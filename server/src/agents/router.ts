@@ -1,7 +1,7 @@
 // Rule-based router: one typed command -> which teammate takes it and which model tier it needs.
 // Deterministic (keyword + length only) so the same command always picks the same agent, and the choice is
 // explainable in the UI. Provider selection is env-aware, but never reads keys from files.
-// The boss (Zara Khan, person id 'michael') always gets the strongest model tier ('deep').
+// The boss (Zara Khan, person id 'zara') always gets the strongest model tier ('deep').
 export type AgentKind = 'seo' | 'ads' | 'content' | 'social' | 'email' | 'analytics' | 'design' | 'code' | 'general';
 
 export type ModelTier = 'fast' | 'balanced' | 'deep';
@@ -25,7 +25,7 @@ export const PROVIDERS: ReadonlyArray<{ readonly id: ProviderId; readonly label:
   { id: 'gemini', label: 'Gemini', keyNames: ['GEMINI_API_KEY'], models: { fast: 'gemini-3.5-flash-lite', balanced: 'gemini-3.8-flash', deep: 'gemini-3.8-flash' } },
 ];
 
-const modelOverride = (provider: ProviderId, tier: ModelTier, env: NodeJS.ProcessEnv): string | undefined => env[`DMOS_${provider.toUpperCase()}_${tier.toUpperCase()}_MODEL`]?.trim() || undefined;
+const modelOverride = (provider: ProviderId, tier: ModelTier, env: NodeJS.ProcessEnv): string | undefined => env[`AKG_${provider.toUpperCase()}_${tier.toUpperCase()}_MODEL`]?.trim() || undefined;
 
 export function providerHasKey(provider: ProviderId, env: NodeJS.ProcessEnv = process.env): boolean {
   const config = PROVIDERS.find((p) => p.id === provider);
@@ -45,17 +45,17 @@ function modelFor(tier: ModelTier, env: NodeJS.ProcessEnv): ModelPick {
 
 // Order matters: the first kind whose keyword appears wins (ads before content, so "ad copy" is ads).
 const RULES: ReadonlyArray<{ readonly kind: AgentKind; readonly person: string; readonly title: string; readonly words: ReadonlyArray<string> }> = [
-  { kind: 'seo', person: 'oscar', title: 'SEO analyst', words: ['seo', 'keyword', 'ranking', 'serp', 'backlink', 'meta tag', 'search console', 'schema'] },
-  { kind: 'ads', person: 'dwight', title: 'Campaigns lead', words: ['ads', 'ad copy', 'google ads', 'meta ads', 'campaign', 'roas', 'cpc', 'ctr', 'audience', 'retarget'] },
-  { kind: 'email', person: 'andy', title: 'Community & email', words: ['email', 'subject line', 'drip', 'sequence', 'newsletter', 'cold mail', 'follow-up'] },
-  { kind: 'social', person: 'kelly', title: 'Social media lead', words: ['instagram', 'linkedin', 'twitter', 'reel', 'social', 'caption', 'hashtag', 'post'] },
-  { kind: 'analytics', person: 'angela', title: 'Finance lead', words: ['analytics', 'ga4', 'report', 'metric', 'conversion rate', 'funnel', 'dashboard', 'tracking'] },
-  { kind: 'design', person: 'ryan', title: 'AI & research', words: ['design', 'banner', 'thumbnail', 'creative', 'layout', 'brand'] },
+  { kind: 'seo', person: 'neha', title: 'SEO analyst', words: ['seo', 'keyword', 'ranking', 'serp', 'backlink', 'meta tag', 'search console', 'schema'] },
+  { kind: 'ads', person: 'meera', title: 'Campaigns lead', words: ['ads', 'ad copy', 'google ads', 'meta ads', 'campaign', 'roas', 'cpc', 'ctr', 'audience', 'retarget'] },
+  { kind: 'email', person: 'aisha', title: 'Community & email', words: ['email', 'subject line', 'drip', 'sequence', 'newsletter', 'cold mail', 'follow-up'] },
+  { kind: 'social', person: 'priya', title: 'Social media lead', words: ['instagram', 'linkedin', 'twitter', 'reel', 'social', 'caption', 'hashtag', 'post'] },
+  { kind: 'analytics', person: 'fatima', title: 'Finance lead', words: ['analytics', 'ga4', 'report', 'metric', 'conversion rate', 'funnel', 'dashboard', 'tracking'] },
+  { kind: 'design', person: 'tara', title: 'AI & research', words: ['design', 'banner', 'thumbnail', 'creative', 'layout', 'brand'] },
   { kind: 'code', person: 'sadiq', title: 'IT & deploy', words: ['code', 'bug', 'fix', 'react', 'api', 'next.js', 'typescript', 'html', 'css', 'deploy', 'website'] },
-  { kind: 'content', person: 'pam', title: 'Content writer', words: ['blog', 'article', 'content', 'copy', 'landing page', 'write'] },
+  { kind: 'content', person: 'aanya', title: 'Content writer', words: ['blog', 'article', 'content', 'copy', 'landing page', 'write'] },
 ];
 
-const GENERAL = { kind: 'general' as const, person: 'michael', title: 'Boss — Marketing lead', words: [] as ReadonlyArray<string> };
+const GENERAL = { kind: 'general' as const, person: 'zara', title: 'Boss — Marketing lead', words: [] as ReadonlyArray<string> };
 
 /** Audit-shaped asks need the deeper tier: they read many things at once and reason across them. */
 const DEEP_WORDS = ['audit', 'strategy', 'plan', 'analyse', 'analyze', 'compare', 'research', 'why', 'optimise', 'optimize', 'roadmap'];
@@ -67,7 +67,7 @@ export function pickAgent(text: string, env: NodeJS.ProcessEnv = process.env): A
   const rule = RULES.find((r) => r.words.some((w) => t.includes(w))) ?? GENERAL;
 
   // The boss always gets the strongest model tier.
-  const tier: ModelTier = rule.person === 'michael' ? 'deep' : deepOrNormal(t, rule.kind);
+  const tier: ModelTier = rule.person === 'zara' ? 'deep' : deepOrNormal(t, rule.kind);
 
   const model = modelFor(tier, env);
   const by = rule.kind === 'general' ? 'no specific skill matched — handled by the boss' : `handled by ${rule.title}`;

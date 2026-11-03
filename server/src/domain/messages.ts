@@ -6,7 +6,7 @@ import { toIso } from './presence.ts';
 import { scrubText } from './scrub.ts';
 
 export const MESSAGE_TEXT_MAX = 4000;
-const SENDER_TAG = /^\[[^\]:\n]{1,40}\]\s+/; // "[Jan Levinson] " / "[Ops room] "; not "[Replying to: …]"
+const SENDER_TAG = /^\[[^\]:\n]{1,40}\]\s+/; // "[Priya Singh] " / "[Ops room] "; not "[Replying to: …]"
 const SILENT = new Set(['NO_REPLY', '[SILENT]', 'HEARTBEAT_OK']);
 
 function clean(m: RawMessage): string {

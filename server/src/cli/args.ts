@@ -1,4 +1,4 @@
-// Command-line flags for `npx dunder-mifflin-os`. Pure: argv in, a command out (no I/O, no process.env).
+// Command-line flags for `npx agents-ka-ghar`. Pure: argv in, a command out (no I/O, no process.env).
 import { parseArgs } from 'node:util';
 import { parseSpeed, type DemoSpeed } from '../../../shared/demo/time.ts';
 
@@ -20,22 +20,22 @@ export type CliCommand =
 
 export const HELP_TEXT = `Agents Ka Ghar: the office floor plan for your Hermes bots, in the browser.
 
-Usage: npx dunder-mifflin-os [options]
+Usage: npx agents-ka-ghar [options]
 
 Options:
-  --demo               The demo day, "Threat Level Midnight": scripted bots, no keys,
+  --demo               The demo day, "Campaign Daybook": scripted bots, no keys,
                        nothing read from Hermes; chat and new tasks stay in memory
   --speed <1|10|60>    How fast the demo day runs (default 60: a day in 9 minutes)
   --open               Open the office in your browser once it is up
-  --port <n>           Port to listen on (default 4318, or DMOS_PORT)
+  --port <n>           Port to listen on (default 4318, or AKG_PORT)
   --hermes-home <dir>  Hermes home directory (default ~/.hermes, or HERMES_HOME)
-  --portraits <dir>    Local staff photos (default ~/.dunder-mifflin-os/portraits)
+  --portraits <dir>    Local staff photos (default ~/.agents-ka-ghar/portraits)
   --allow-writes       Turn on chat and task creation (read-only by default)
   -h, --help           Show this help
   -v, --version        Show the version
 
-The server listens on 127.0.0.1. To reach it from other devices set DMOS_PUBLIC_ORIGINS
-(e.g. a tailscale serve URL) and DMOS_ACCESS_TOKEN; see SECURITY.md.
+The server listens on 127.0.0.1. To reach it from other devices set AKG_PUBLIC_ORIGINS
+(e.g. a tailscale serve URL) and AKG_ACCESS_TOKEN; see SECURITY.md.
 `;
 
 const OPTIONS = {

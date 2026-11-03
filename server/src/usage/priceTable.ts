@@ -1,6 +1,6 @@
 // A small, dated price table for ESTIMATING what agents' tokens cost. Never fetched from the network: prices change,
 // so every cost the office shows is labelled an estimate along with this table's date. Add or correct models in
-// ~/.dunder-mifflin-os/config.yaml under `prices:` (officeConfig.ts) without touching code.
+// ~/.agents-ka-ghar/config.yaml under `prices:` (officeConfig.ts) without touching code.
 // USD per million tokens. cacheRead / cacheWrite default to 10% / 125% of input when left out (usage/pricing.ts).
 
 export type ModelPrice = {

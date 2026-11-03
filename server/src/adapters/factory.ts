@@ -1,4 +1,4 @@
-// Config adapter specs -> running adapters. Inbound adapters need DMOS_INGEST_TOKEN; without it startup fails. The demo
+// Config adapter specs -> running adapters. Inbound adapters need AKG_INGEST_TOKEN; without it startup fails. The demo
 // adapter needs nothing at all.
 import type { Runner } from '../chat/runner.ts';
 import { isOn } from '../envFlags.ts';
@@ -20,9 +20,9 @@ export type AdapterDeps = {
   readonly statusUrl: string | null;
 };
 
-/** Where a hermes adapter reads from: its config `source`, else DMOS_SOURCE=fixture (npm run demo), else ~/.hermes. */
+/** Where a hermes adapter reads from: its config `source`, else AKG_SOURCE=fixture (npm run demo), else ~/.hermes. */
 export function hermesSourceKind(spec: AdapterSpec, env: AdapterDeps['env']): 'live' | 'fixture' {
-  return spec.source ?? (env.DMOS_SOURCE === 'fixture' ? 'fixture' : 'live');
+  return spec.source ?? (env.AKG_SOURCE === 'fixture' ? 'fixture' : 'live');
 }
 
 function createOne(spec: AdapterSpec, deps: AdapterDeps): AgentAdapter {
@@ -34,11 +34,11 @@ function createOne(spec: AdapterSpec, deps: AdapterDeps): AgentAdapter {
       return createHermesAdapter({ id: spec.id, source, runner: deps.runner, hermesBin: deps.hermesBin });
     }
     case 'webhook':
-      return createWebhookAdapter({ id: spec.id, token: readIngestToken(deps.env.DMOS_INGEST_TOKEN) });
+      return createWebhookAdapter({ id: spec.id, token: readIngestToken(deps.env.AKG_INGEST_TOKEN) });
     case 'claude-code': // holding a permission prompt for the office is opt-in and needs writes on
       return createClaudeCodeAdapter({
-        id: spec.id, token: readIngestToken(deps.env.DMOS_INGEST_TOKEN),
-        decisions: spec.decide === true && isOn(deps.env.DMOS_ALLOW_WRITES),
+        id: spec.id, token: readIngestToken(deps.env.AKG_INGEST_TOKEN),
+        decisions: spec.decide === true && isOn(deps.env.AKG_ALLOW_WRITES),
         ...(spec.holdSeconds === undefined ? {} : { holdMs: spec.holdSeconds * 1000 }),
       });
     case 'demo':

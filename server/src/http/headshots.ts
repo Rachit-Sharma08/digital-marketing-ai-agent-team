@@ -1,5 +1,5 @@
 // GET /api/headshots/:profile. Whitelisted profile keys only: <profile>.jpg, else <profile>.png, from the headshots
-// directory (DMOS_HEADSHOTS_DIR, default ~/.dunder-mifflin-os/headshots; never part of the repo).
+// directory (AKG_HEADSHOTS_DIR, default ~/.agents-ka-ghar/headshots; never part of the repo).
 import path from 'node:path';
 import { isBotProfile } from '../roster.ts';
 import { readImageFile, type Image } from './images.ts';

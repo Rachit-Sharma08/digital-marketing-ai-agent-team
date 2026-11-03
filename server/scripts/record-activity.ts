@@ -1,6 +1,6 @@
 // Records fixtures/hermes-activity.json: reads each bot's last day of activity and 31 days of token usage from the
 // live ~/.hermes (read-only), redacts it (redactActivity.ts) and moves every time so the recording lines up with
-// fixtures/hermes-fixture.json (recordedAt). Prints counts only. Usage: npm run record-activity -w @dmos/server
+// fixtures/hermes-fixture.json (recordedAt). Prints counts only. Usage: npm run record-activity -w @akg/server
 import { writeFileSync } from 'node:fs';
 import { createLiveActivity } from '../src/hermes/liveActivity.ts';
 import { DEFAULT_ACTIVITY_FIXTURE, shiftActivity, type ActivityFixture } from '../src/hermes/fixtureActivity.ts';

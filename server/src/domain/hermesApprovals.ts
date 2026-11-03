@@ -17,7 +17,7 @@ import { scrubText } from './scrub.ts';
 
 const CARD_ID = /^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/;
 const STATUSES: ReadonlySet<string> = new Set(['blocked', 'review', 'triage']);
-const OS = 'in Dunder Mifflin OS';
+const OS = 'in Agents Ka Ghar';
 const DETAIL_MAX = 600;
 
 type Shape = 'bot-blocked' | 'todo' | 'review' | 'loop';

@@ -1,6 +1,6 @@
-// DMOS_SOURCE=demo (`npx dunder-mifflin-os --demo`, `npm run demo`, the Docker demo): run the scripted demo day alone.
+// AKG_SOURCE=demo (`npx agents-ka-ghar --demo`, `npm run demo`, the Docker demo): run the scripted demo day alone.
 // The config file is ignored (it could name Hermes), writes are on because they only reach the demo's in-memory bots
-// (DMOS_ALLOW_WRITES=0 still turns them off), Corporate watches the demo's own budgets (adapters/demo/usage.ts), and
+// (AKG_ALLOW_WRITES=0 still turns them off), Corporate watches the demo's own budgets (adapters/demo/usage.ts), and
 // main.ts serves no photos or headshots and audits in memory. Pure: env in, settings out.
 import type { AdapterSpec, LoadedConfig } from './officeConfig.ts';
 import { demoSettingsFromEnv } from './adapters/demo/options.ts';
@@ -12,14 +12,14 @@ import { isOff } from './envFlags.ts';
 
 type Env = Readonly<Record<string, string | undefined>>;
 
-export const isDemoSource = (env: Env): boolean => env.DMOS_SOURCE?.trim() === 'demo';
+export const isDemoSource = (env: Env): boolean => env.AKG_SOURCE?.trim() === 'demo';
 
-/** The demo's config and write switch, or null when DMOS_SOURCE isn't demo. Throws naming a bad DMOS_DEMO_* value. */
+/** The demo's config and write switch, or null when AKG_SOURCE isn't demo. Throws naming a bad AKG_DEMO_* value. */
 export function demoStartup(env: Env): { config: LoadedConfig; allowWrites: boolean } | null {
   if (!isDemoSource(env)) return null;
   const settings = demoSettingsFromEnv(env);
   const spec: AdapterSpec = Object.keys(settings).length ? { kind: 'demo', id: 'demo', demo: settings } : { kind: 'demo', id: 'demo' };
-  return { config: { file: null, adapters: [spec], seats: {}, budgets: DEMO_BUDGETS }, allowWrites: !isOff(env.DMOS_ALLOW_WRITES) };
+  return { config: { file: null, adapters: [spec], seats: {}, budgets: DEMO_BUDGETS }, allowWrites: !isOff(env.AKG_ALLOW_WRITES) };
 }
 
 /** The built-in seating, with every demo adapter's bots at their characters on top. */

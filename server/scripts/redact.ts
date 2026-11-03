@@ -7,8 +7,8 @@ import { roomById } from '../src/rooms.ts';
 
 const TASK_TITLES = [
   'Reconcile the paper invoices', 'Prep the quarterly sales deck', 'Order toner for the copier', 'Draft the client follow-up',
-  'Plan the Dundies agenda', 'Audit the warehouse inventory', 'Update the price sheet', 'Write the safety training memo',
-  'Schedule the party planning committee', 'Refresh the website banner', 'Review the expense reports', 'Call back the Scranton prospects',
+  'Plan the Highlights agenda', 'Audit the warehouse inventory', 'Update the price sheet', 'Write the safety training memo',
+  'Schedule the party planning committee', 'Refresh the website banner', 'Review the expense reports', 'Call back the New Delhi prospects',
   'Fix the conference room TV', 'Summarise the board meeting', 'Test the new phone system', 'Clean up the shared drive',
 ];
 const CRON_NAMES = ['Morning report', 'Evening wrap-up', 'Weekly review', 'Inbox sweep', 'Nightly backup check', 'Lead digest', 'Health check', 'Friday briefing'];
@@ -45,7 +45,7 @@ function redactKanban(k: KanbanState, chat: Remap): KanbanState {
   return {
     tasks: k.tasks.map((t, i) => ({
       ...t, id: id(t.id) as string, title: TASK_TITLES[i % TASK_TITLES.length] as string, assignee: keepAssignee(t.assignee), tenant: null,
-      createdBy: t.createdBy && (KEPT_CREATORS.has(t.createdBy) || t.createdBy.startsWith('dmos-')) ? t.createdBy : 'user',
+      createdBy: t.createdBy && (KEPT_CREATORS.has(t.createdBy) || t.createdBy.startsWith('akg-')) ? t.createdBy : 'user',
     })),
     runs: k.runs.flatMap((r) => (id(r.taskId) ? [{ ...r, taskId: id(r.taskId) as string }] : [])),
     subs: k.subs.flatMap((s) => (id(s.taskId) ? [{ ...s, taskId: id(s.taskId) as string, chatKey: chat(s.chatKey) }] : [])),
@@ -62,7 +62,7 @@ export function redactState(state: HermesState): { state: HermesState } {
   const chatNames = Object.fromEntries(Object.keys(state.chatNames).flatMap((k) => {
     const key = chat(k);
     const room = roomById(key.replace(/^chat-/, ''));
-    return room ? [[key, `Dunder Mifflin ${room.name}`]] : [];
+    return room ? [[key, `Agents Ka Ghar ${room.name}`]] : [];
   }));
   return {
     state: {

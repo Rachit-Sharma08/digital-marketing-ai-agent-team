@@ -7,16 +7,16 @@ import { isBotProfile } from '../src/roster.ts';
 import type { Remap } from './redact.ts';
 
 const TITLES = [
-  'Restock the conference room paper', 'Reconcile the Q4 paper invoices', 'Plan the Dundies agenda', 'Order toner for the copier',
+  'Restock the conference room paper', 'Reconcile the Q4 paper invoices', 'Plan the Highlights agenda', 'Order toner for the copier',
   'Draft the client follow-up', 'Audit the warehouse inventory', 'Update the price sheet', 'Write the safety training memo',
-  'Fix the conference room TV', 'Call back the Scranton prospects', 'Refresh the website banner', 'Review the expense reports',
+  'Fix the conference room TV', 'Call back the New Delhi prospects', 'Refresh the website banner', 'Review the expense reports',
 ];
 const ACTIONS = [
   'draft the paper price letter', 'call the three biggest clients', 'clean up the client list', 'book the warehouse safety drill',
-  'write the Dundies recap', 'fix the fax-to-email bridge', 'recut the sales video', 'audit the toner spend',
+  'write the Highlights recap', 'fix the fax-to-email bridge', 'recut the sales video', 'audit the toner spend',
 ];
 const COMMENTS = [
-  'On it. Results by end of day.', 'Blocked on the client list; asking Pam.', 'Done. Notes are on the card.', 'Moved this to tomorrow.',
+  'On it. Results by end of day.', 'Blocked on the client list; asking Aanya.', 'Done. Notes are on the card.', 'Moved this to tomorrow.',
   'Two numbers disagree; checking with Accounting.', 'Looks good to me.', 'Needs a second pair of eyes.', 'Handing this to the warehouse.',
 ];
 const SUMMARIES = [
@@ -46,7 +46,7 @@ export function redactMeetings(r: MeetingRecords, chat: Remap): MeetingRecords {
   return {
     tasks: r.tasks.map((t, i) => ({
       ...t, id: id(t.id), title: title(t, i), assignee: bot(t.assignee), tenant: null,
-      createdBy: t.createdBy && (KEPT_CREATORS.has(t.createdBy) || t.createdBy.startsWith('dmos-') || isBotProfile(t.createdBy)) ? t.createdBy : 'user',
+      createdBy: t.createdBy && (KEPT_CREATORS.has(t.createdBy) || t.createdBy.startsWith('akg-') || isBotProfile(t.createdBy)) ? t.createdBy : 'user',
     })),
     runs: r.runs.map((x, i) => ({ ...x, taskId: id(x.taskId), profile: bot(x.profile), summary: x.summary ? pick(SUMMARIES, i) : null })),
     subs: r.subs.map((s) => ({ ...s, taskId: id(s.taskId), chatKey: chat(s.chatKey), notifierProfile: bot(s.notifierProfile) })),

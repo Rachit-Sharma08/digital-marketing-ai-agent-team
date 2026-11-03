@@ -1,5 +1,5 @@
 // Where the demo's bots sit: each at its character's desk (shared/demo/cast.ts). Merged over the built-in seating
-// when a demo adapter runs, so Pam is the demo's front desk rather than a Hermes bot that isn't there.
+// when a demo adapter runs, so Aanya is the demo's front desk rather than a Hermes bot that isn't there.
 import { DEMO_CAST } from '../../../../shared/demo/cast.ts';
 import type { SeatRules } from '../../office/seating.ts';
 

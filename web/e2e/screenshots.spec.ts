@@ -1,6 +1,6 @@
 // Regenerates docs/screenshots with `npm run screenshots` (not part of the normal e2e run). Every shot is the demo day
-// ("Threat Level Midnight", demo.html: fictional, no server) at 11:05 office time, with the browser clock paused so
-// the shots come out the same each time: the Council is in session, Kevin's import has spilled, Dwight needs you.
+// ("Campaign Daybook", demo.html: fictional, no server) at 11:05 office time, with the browser clock paused so
+// the shots come out the same each time: the Council is in session, Diya's import has spilled, Meera needs you.
 import { fileURLToPath } from 'node:url';
 import { expect, type Page, test } from '@playwright/test';
 import { noServer, person } from './helpers';
@@ -25,12 +25,12 @@ test.describe('@screenshot docs screenshots', () => {
     await page.waitForTimeout(1600); // let the walk-in / chip layout settle
   });
 
-  test('Ask Pam palette', async ({ page }) => {
+  test('Ask Aanya palette', async ({ page }) => {
     await page.keyboard.press('ControlOrMeta+k');
-    await page.getByRole('combobox', { name: 'Ask Pam' }).fill('dw');
+    await page.getByRole('combobox', { name: 'Ask Aanya' }).fill('dw');
     await page.keyboard.press('ArrowDown');
     await page.waitForTimeout(200);
-    await page.screenshot({ path: out('ask-pam.png') });
+    await page.screenshot({ path: out('ask-aanya.png') });
   });
 
   test('full office map', async ({ page }) => {
@@ -38,8 +38,8 @@ test.describe('@screenshot docs screenshots', () => {
   });
 
   test('person window', async ({ page }) => {
-    await person(page, 'Dwight Schrute — sales — needs you').click();
-    const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
+    await person(page, 'Meera Kaur — sales — needs you').click();
+    const win = page.getByRole('dialog', { name: 'Meera Kaur' });
     await win.getByLabel('Message Direct line').fill('Go ahead and send them.');
     await win.getByRole('button', { name: 'Send' }).click();
     await page.clock.runFor(1000); // the canned reply "types" for a moment
@@ -54,7 +54,7 @@ test.describe('@screenshot docs screenshots', () => {
   });
 
   test('bullpen close-up', async ({ page }) => {
-    await page.mouse.move(560, 560); // reception and the Jim/Dwight desks
+    await page.mouse.move(560, 560); // reception and the Simran/Meera desks
     for (let i = 0; i < 2; i += 1) {
       await page.mouse.wheel(0, -240);
       await page.waitForTimeout(60);
@@ -76,8 +76,8 @@ test.describe('@screenshot docs screenshots at phone width', () => {
   });
 
   test('mobile person sheet', async ({ page }) => {
-    await page.getByRole('button', { name: /^Dwight Schrute — / }).tap();
-    await expect(page.getByRole('dialog', { name: 'Dwight Schrute' })).toBeVisible();
+    await page.getByRole('button', { name: /^Meera Kaur — / }).tap();
+    await expect(page.getByRole('dialog', { name: 'Meera Kaur' })).toBeVisible();
     await page.screenshot({ path: out('mobile-person-sheet.png') });
   });
 });

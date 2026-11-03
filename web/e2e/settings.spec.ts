@@ -26,15 +26,15 @@ test.describe('settings', () => {
     await page.goto('/?demo=1');
     await page.getByRole('button', { name: 'Settings' }).click();
     const settings = page.getByRole('dialog', { name: 'Settings' });
-    await settings.getByRole('switch', { name: /opens Ask Pam/ }).uncheck();
+    await settings.getByRole('switch', { name: /opens Ask Aanya/ }).uncheck();
     await settings.getByRole('switch', { name: /Single-key shortcuts/ }).uncheck();
     await page.keyboard.press('Escape');
     await page.keyboard.press('ControlOrMeta+k');
     await page.keyboard.press('?');
-    await expect(page.getByRole('dialog', { name: 'Ask Pam' })).toBeHidden();
+    await expect(page.getByRole('dialog', { name: 'Ask Aanya' })).toBeHidden();
     await expect(page.getByRole('dialog', { name: 'Keyboard shortcuts' })).toBeHidden();
-    await page.getByRole('button', { name: /Ask Pam/ }).click(); // the top-bar button always works
-    await expect(page.getByRole('dialog', { name: 'Ask Pam' })).toBeVisible();
+    await page.getByRole('button', { name: /Ask Aanya/ }).click(); // the top-bar button always works
+    await expect(page.getByRole('dialog', { name: 'Ask Aanya' })).toBeVisible();
   });
 
   test('blocked storage does not break the app', async ({ page }) => {

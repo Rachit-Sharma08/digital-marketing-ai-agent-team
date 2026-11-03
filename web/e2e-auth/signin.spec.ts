@@ -17,7 +17,7 @@ test('a token-protected office asks once, then loads read-only', async ({ page, 
   await expect(page.getByTestId('read-only')).toBeVisible();
   await expect(page.locator('[data-person]')).toHaveCount(23);
 
-  const session = (await context.cookies()).find((c) => c.name === 'dmos_session');
+  const session = (await context.cookies()).find((c) => c.name === 'akg_session');
   expect(session).toMatchObject({ httpOnly: true, sameSite: 'Strict' });
   expect(session?.value).not.toContain(E2E_TOKEN);
 

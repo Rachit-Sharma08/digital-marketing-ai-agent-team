@@ -1,4 +1,4 @@
-// "Needs you": hands go up, Pam's phone rings, the top bar counts, and HR · Approvals at Toby's desk decides.
+// "Needs you": hands go up, Aanya's phone rings, the top bar counts, and HR · Approvals at Sarah's desk decides.
 import { fileURLToPath } from 'node:url';
 import { expect, test, type Page } from '@playwright/test';
 import type { Approval, OfficeSnapshot } from '../../shared/contract';
@@ -19,21 +19,21 @@ test.describe('needs you on the map', () => {
     await expect(page.locator('[data-person]')).toHaveCount(23);
   });
 
-  test('hands go up over whoever is asking, Pam\'s phone rings, and the top bar counts them', async ({ page }) => {
-    await expect(page.locator('[data-person="andy"] .raised-hand')).toBeVisible();
+  test('hands go up over whoever is asking, Aanya\'s phone rings, and the top bar counts them', async ({ page }) => {
+    await expect(page.locator('[data-person="aisha"] .raised-hand')).toBeVisible();
     await expect(page.locator('[data-person="sadiq"]')).toHaveAttribute('data-asking', 'true'); // in error, still asking
-    await expect(page.locator('[data-person="dwight"] .raised-hand')).toHaveCount(0);
+    await expect(page.locator('[data-person="meera"] .raised-hand')).toHaveCount(0);
     await expect(page.locator('.reception-phone.is-ringing')).toHaveCount(1);
     await expect(page.locator('.reception-phone .phone-badge')).toHaveText('4');
     await expect(page.getByTestId('need-you')).toHaveAccessibleName('4 need you: open HR · Approvals');
-    await expect(person(page, 'Andy Bernard — skool — needs you')).toBeVisible();
+    await expect(person(page, 'Aisha Malik — skool — needs you')).toBeVisible();
   });
 
-  test('clicking Toby opens HR · Approvals at his desk; he stays "No bot yet"', async ({ page }) => {
-    await person(page, /^Toby Flenderson — no bot yet — HR · Approvals/).click();
+  test('clicking Sarah opens HR · Approvals at his desk; he stays "No bot yet"', async ({ page }) => {
+    await person(page, /^Sarah D Souza — no bot yet — HR · Approvals/).click();
     await expect(inbox(page)).toBeVisible();
-    await expect(inbox(page)).toContainText("Toby Flenderson's desk");
-    await expect(page.getByRole('dialog', { name: 'Toby Flenderson' })).toHaveCount(0);
+    await expect(inbox(page)).toContainText("Sarah D Souza's desk");
+    await expect(page.getByRole('dialog', { name: 'Sarah D Souza' })).toHaveCount(0);
     await expect(inbox(page).locator('[data-approval]')).toHaveCount(4);
   });
 
@@ -42,16 +42,16 @@ test.describe('needs you on the map', () => {
     await item(page, ANDY).getByLabel(/Note/).fill('Go ahead, skip the opt-outs');
     await item(page, ANDY).getByRole('button', { name: 'Approve' }).click();
     await expect(item(page, ANDY)).toHaveCount(0);
-    await expect(page.locator('[data-person="andy"] .raised-hand')).toHaveCount(0);
+    await expect(page.locator('[data-person="aisha"] .raised-hand')).toHaveCount(0);
     await expect(page.getByTestId('need-you')).toHaveAccessibleName('3 need you: open HR · Approvals');
-    await expect(person(page, /^Andy Bernard — skool — working/)).toBeVisible();
+    await expect(person(page, /^Aisha Malik — skool — working/)).toBeVisible();
   });
 
   test('a request the office only shows has no buttons', async ({ page }) => {
     await page.getByTestId('need-you').click();
-    const kelly = item(page, DEMO_APPROVALS[3]!);
-    await expect(kelly).toContainText('Answer this one where Kelly Kapoor runs');
-    await expect(kelly.getByRole('button', { name: 'Approve' })).toHaveCount(0);
+    const priya = item(page, DEMO_APPROVALS[3]!);
+    await expect(priya).toContainText('Answer this one where Priya Singh runs');
+    await expect(priya.getByRole('button', { name: 'Approve' })).toHaveCount(0);
   });
 });
 
@@ -91,13 +91,13 @@ test.describe('deciding against the server', () => {
     await page.getByTestId('need-you').click();
     await expect(item(page, ANDY).getByRole('button', { name: 'Approve' })).toBeDisabled();
     await expect(item(page, ANDY).getByRole('button', { name: 'Reject' })).toBeDisabled();
-    await expect(item(page, ANDY)).toContainText('DMOS_ALLOW_WRITES=1');
+    await expect(item(page, ANDY)).toContainText('AKG_ALLOW_WRITES=1');
     expect(posts).toBe(0);
   });
 
   test('a new request the status doesn\'t show rings the phone with the chime, if the chime is on', async ({ page }) => {
     await installFakes(page);
-    await page.addInitScript(() => localStorage.setItem('dmos.prefs.v1', JSON.stringify({ chime: true })));
+    await page.addInitScript(() => localStorage.setItem('akg.prefs.v1', JSON.stringify({ chime: true })));
     const feed = await liveWithFeed(page);
     await page.goto('/');
     await expect(page.getByTestId('source')).toHaveText('Live');
@@ -119,8 +119,8 @@ test.describe('@screenshot needs-you screenshots', () => {
 
   test('raised hands and the ringing phone', async ({ page }) => {
     const box = async (id: string) => (await page.locator(`[data-person="${id}"]`).boundingBox())!;
-    const [andy, pam] = [await box('andy'), await box('pam')];
-    await page.mouse.move((andy.x + pam.x) / 2, (andy.y + pam.y) / 2);
+    const [aisha, aanya] = [await box('aisha'), await box('aanya')];
+    await page.mouse.move((aisha.x + aanya.x) / 2, (aisha.y + aanya.y) / 2);
     for (let i = 0; i < 3; i += 1) {
       await page.mouse.wheel(0, -240);
       await page.waitForTimeout(60);
@@ -129,8 +129,8 @@ test.describe('@screenshot needs-you screenshots', () => {
     await page.screenshot({ path: out('needs-you-hand.png') });
   });
 
-  test('HR · Approvals at Toby\'s desk', async ({ page }) => {
-    await person(page, /^Toby Flenderson — /).click();
+  test('HR · Approvals at Sarah\'s desk', async ({ page }) => {
+    await person(page, /^Sarah D Souza — /).click();
     await expect(inbox(page)).toBeVisible();
     await page.screenshot({ path: out('approvals-inbox.png') });
   });

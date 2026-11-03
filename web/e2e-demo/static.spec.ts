@@ -12,16 +12,16 @@ test('loads from a sub-path with nothing but static files, and runs the day', as
   page.on('pageerror', (e) => errors.push(e.message));
 
   await page.goto('./?at=10:25');
-  await expect(page.getByTestId('demo-badge')).toHaveText('DEMO · Threat Level Midnight');
+  await expect(page.getByTestId('demo-badge')).toHaveText('DEMO · Campaign Daybook');
   await expect(page.locator('[data-person]')).toHaveCount(23);
-  await expect(person(page, 'Jim Halpert — no bot yet')).toBeVisible();
-  await expect.poll(() => seatOf(page, 'michael'), { timeout: 12_000 }).toMatch(/^seat\.conf\./); // the Council at 10:30
+  await expect(person(page, 'Simran Gill — no bot yet')).toBeVisible();
+  await expect.poll(() => seatOf(page, 'zara'), { timeout: 12_000 }).toMatch(/^seat\.conf\./); // the Council at 10:30
 
-  await person(page, /^Pam Beesly — /).click();
-  const pam = page.getByRole('dialog', { name: 'Pam Beesly' });
-  await pam.getByLabel('Message Direct line').fill('Any messages for me?');
-  await pam.getByRole('button', { name: 'Send' }).click();
-  await expect(pam.locator('.msg:not(.mine)').last()).toBeVisible();
+  await person(page, /^Aanya Sharma — /).click();
+  const aanya = page.getByRole('dialog', { name: 'Aanya Sharma' });
+  await aanya.getByLabel('Message Direct line').fill('Any messages for me?');
+  await aanya.getByRole('button', { name: 'Send' }).click();
+  await expect(aanya.locator('.msg:not(.mine)').last()).toBeVisible();
 
   expect(calls).toEqual([]);
   expect(failures).toEqual([]);

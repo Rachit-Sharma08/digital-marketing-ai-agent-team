@@ -2,8 +2,8 @@ import { expect, test, type Page } from '@playwright/test';
 import { DEMO_SNAPSHOT } from '../../shared/fixtures/demo-snapshot';
 import { liveServer, noServer } from './helpers';
 
-const palette = (page: Page) => page.getByRole('dialog', { name: 'Ask Pam' });
-const combo = (page: Page) => page.getByRole('combobox', { name: 'Ask Pam' });
+const palette = (page: Page) => page.getByRole('dialog', { name: 'Ask Aanya' });
+const combo = (page: Page) => page.getByRole('combobox', { name: 'Ask Aanya' });
 const openPalette = async (page: Page) => {
   await page.keyboard.press('ControlOrMeta+k');
   await expect(combo(page)).toBeFocused();
@@ -11,7 +11,7 @@ const openPalette = async (page: Page) => {
 const mapScale = (page: Page) => page.locator('svg.office-map > g[transform]').getAttribute('transform')
   .then((t) => Number(/scale\(([\d.]+)\)/.exec(t ?? '')?.[1] ?? Number.NaN));
 
-test.describe('Ask Pam (⌘K / Ctrl+K)', () => {
+test.describe('Ask Aanya (⌘K / Ctrl+K)', () => {
   test.beforeEach(async ({ page }) => {
     await noServer(page);
     await page.goto('/?demo=1');
@@ -22,28 +22,28 @@ test.describe('Ask Pam (⌘K / Ctrl+K)', () => {
     await openPalette(page);
     await expect(palette(page)).toBeVisible();
     await expect(combo(page)).toHaveAttribute('aria-expanded', 'true');
-    await expect(combo(page)).toHaveAttribute('placeholder', 'Dunder Mifflin, this is Pam…');
+    await expect(combo(page)).toHaveAttribute('placeholder', 'Agents Ka Ghar, this is Aanya…');
     await combo(page).fill('dwi');
     const first = page.getByRole('option').first();
-    await expect(first).toContainText('Dwight Schrute');
+    await expect(first).toContainText('Meera Kaur');
     await expect(first).toHaveAttribute('aria-selected', 'true');
     await expect(combo(page)).toHaveAttribute('aria-activedescendant', (await first.getAttribute('id'))!);
     await page.keyboard.press('Enter');
     await expect(palette(page)).toBeHidden();
-    await expect(page.getByRole('dialog', { name: 'Dwight Schrute' })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'Meera Kaur' })).toBeVisible();
     await openPalette(page);
-    await expect(page.getByRole('group', { name: 'Recent' }).getByRole('option').first()).toContainText('Dwight Schrute');
+    await expect(page.getByRole('group', { name: 'Recent' }).getByRole('option').first()).toContainText('Meera Kaur');
   });
 
   test('arrow keys move the active option, and Esc closes and gives focus back', async ({ page }) => {
     const zoomIn = page.getByRole('button', { name: 'Zoom in' });
     await zoomIn.focus();
     await openPalette(page);
-    await combo(page).fill('kelly');
+    await combo(page).fill('priya');
     const options = page.getByRole('option');
     await page.keyboard.press('ArrowDown');
     await expect(options.nth(1)).toHaveAttribute('aria-selected', 'true');
-    await expect(options.nth(1)).toContainText('Chat with Kelly');
+    await expect(options.nth(1)).toContainText('Chat with Priya');
     await page.keyboard.press('ArrowUp');
     await expect(options.nth(0)).toHaveAttribute('aria-selected', 'true');
     await page.keyboard.press('Tab'); // focus stays in the palette
@@ -56,27 +56,27 @@ test.describe('Ask Pam (⌘K / Ctrl+K)', () => {
   test('Shift+Enter glides the camera to the person and focuses them on the map', async ({ page }) => {
     const before = await mapScale(page);
     await openPalette(page);
-    await combo(page).fill('kelly');
+    await combo(page).fill('priya');
     await page.keyboard.press('Shift+Enter');
     await expect(palette(page)).toBeHidden();
-    await expect(page.locator('[data-person="kelly"]')).toBeFocused();
-    await expect(page.getByRole('tooltip')).toContainText('Kelly Kapoor');
+    await expect(page.locator('[data-person="priya"]')).toBeFocused();
+    await expect(page.getByRole('tooltip')).toContainText('Priya Singh');
     expect(await mapScale(page)).toBeGreaterThan(before * 1.5);
-    const box = (await page.locator('[data-person="kelly"]').boundingBox())!;
+    const box = (await page.locator('[data-person="priya"]').boundingBox())!;
     expect(Math.abs(box.x + box.width / 2 - 720)).toBeLessThan(80);
   });
 
   test('starting a chat with a bot opens their window with the composer focused', async ({ page }) => {
     await openPalette(page);
-    await combo(page).fill('chat jarvis');
+    await combo(page).fill('chat maya');
     await page.keyboard.press('Enter');
-    await expect(page.getByRole('dialog', { name: 'Jarvis' })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'Maya' })).toBeVisible();
     await expect(page.getByLabel('Message Direct line')).toBeFocused();
   });
 
   test('opens the Conference Room and toggles fleet filters', async ({ page }) => {
     await openPalette(page);
-    await expect(page.getByRole('group', { name: 'Ask Pam to…' })).toContainText('Open the Conference Room');
+    await expect(page.getByRole('group', { name: 'Ask Aanya to…' })).toContainText('Open the Conference Room');
     await page.getByRole('option', { name: /Open the Conference Room/ }).click();
     await expect(page.getByRole('dialog', { name: 'Conference Room — Ops room' })).toBeVisible();
 
@@ -84,7 +84,7 @@ test.describe('Ask Pam (⌘K / Ctrl+K)', () => {
     await combo(page).fill('only errors');
     await page.keyboard.press('Enter');
     await expect(page.getByRole('status').filter({ hasText: 'Showing only bots with errors' })).toBeVisible();
-    await expect(page.locator('.seat.is-dimmed [data-person="dwight"]')).toHaveCount(1);
+    await expect(page.locator('.seat.is-dimmed [data-person="meera"]')).toHaveCount(1);
     await expect(page.locator('.seat.is-dimmed [data-person="sadiq"]')).toHaveCount(0);
     await page.getByRole('button', { name: 'Show everyone' }).click();
     await expect(page.locator('.seat.is-dimmed')).toHaveCount(0);
@@ -97,7 +97,7 @@ test.describe('Ask Pam (⌘K / Ctrl+K)', () => {
     await expect(page.getByRole('option').first()).toContainText('Sadiq');
     await combo(page).fill('zzzz');
     await expect(page.getByRole('option')).toHaveCount(0);
-    await expect(palette(page)).toContainText('Pam couldn’t find “zzzz”');
+    await expect(palette(page)).toContainText('Aanya couldn’t find “zzzz”');
   });
 
   test('"/" opens it too, without typing the slash', async ({ page }) => {
@@ -108,14 +108,14 @@ test.describe('Ask Pam (⌘K / Ctrl+K)', () => {
   });
 });
 
-test.describe('Ask Pam on a live server', () => {
+test.describe('Ask Aanya on a live server', () => {
   test('offers no "Chat with …" while the server is read-only', async ({ page }) => {
     await liveServer(page); // no capabilities in the snapshot: read-only
     await page.goto('/');
     await expect(page.getByTestId('read-only')).toBeVisible();
     await openPalette(page);
-    await combo(page).fill('dwight');
-    await expect(page.getByRole('option').first()).toContainText('Dwight Schrute');
+    await combo(page).fill('meera');
+    await expect(page.getByRole('option').first()).toContainText('Meera Kaur');
     await expect(page.getByRole('option').filter({ hasText: 'Chat with' })).toHaveCount(0);
   });
 
@@ -123,7 +123,7 @@ test.describe('Ask Pam on a live server', () => {
     await liveServer(page, [], { ...DEMO_SNAPSHOT, capabilities: { writes: true } });
     await page.goto('/');
     await openPalette(page);
-    await combo(page).fill('chat dwight');
-    await expect(page.getByRole('option').first()).toContainText('Chat with Dwight');
+    await combo(page).fill('chat meera');
+    await expect(page.getByRole('option').first()).toContainText('Chat with Meera');
   });
 });

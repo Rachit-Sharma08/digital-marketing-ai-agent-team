@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { fakeState, installFakes, liveWithFeed, setAway } from './fakes';
 
-const dwightErrors = { presence: { dwight: { status: 'error', activity: 'Ad account locked' }, kelly: { status: 'idle' } } };
+const dwightErrors = { presence: { meera: { status: 'error', activity: 'Ad account locked' }, priya: { status: 'idle' } } };
 const favicon = (page: import('@playwright/test').Page) => page.locator('link[rel="icon"]').getAttribute('href');
 
 test.describe('notifications', () => {
@@ -21,12 +21,12 @@ test.describe('notifications', () => {
 
     await setAway(page, false);
     const away = page.getByRole('region', { name: 'While you were away' });
-    await expect(away).toContainText('Dwight hit an error: Ad account locked');
-    await expect(away).toContainText('Kelly finished and is idle');
+    await expect(away).toContainText('Meera hit an error: Ad account locked');
+    await expect(away).toContainText('Priya finished and is idle');
     await expect(page).toHaveTitle('Agents Ka Ghar');
     expect(await favicon(page)).not.toContain('circle');
-    await away.getByRole('button', { name: 'Dwight hit an error: Ad account locked' }).click();
-    await expect(page.getByRole('dialog', { name: 'Dwight Schrute' })).toBeVisible();
+    await away.getByRole('button', { name: 'Meera hit an error: Ad account locked' }).click();
+    await expect(page.getByRole('dialog', { name: 'Meera Kaur' })).toBeVisible();
     await away.getByRole('button', { name: 'Dismiss' }).click();
     await expect(away).toBeHidden();
   });
@@ -37,10 +37,10 @@ test.describe('notifications', () => {
     await page.goto('/');
     await expect(page.getByTestId('source')).toHaveText('Live');
     await setAway(page, true);
-    feed.push([{ presence: { pam: { status: 'needs-input', activity: 'Approve the Council agenda?' } } }]);
+    feed.push([{ presence: { aanya: { status: 'needs-input', activity: 'Approve the Council agenda?' } } }]);
     await expect(page).toHaveTitle('(1) Agents Ka Ghar');
     await setAway(page, false);
-    await expect(page.getByRole('region', { name: 'While you were away' })).toContainText('Pam needs you: Approve the Council agenda?');
+    await expect(page.getByRole('region', { name: 'While you were away' })).toContainText('Aanya needs you: Approve the Council agenda?');
   });
 
   test('browser notifications and the chime are switched on from Settings, and only then', async ({ page }) => {
@@ -62,7 +62,7 @@ test.describe('notifications', () => {
     feed.push([dwightErrors]);
     await expect(page).toHaveTitle('(1) Agents Ka Ghar');
     const state = await fakeState(page);
-    expect(state.notes).toEqual([{ title: 'Dwight hit an error', body: 'Ad account locked' }]);
+    expect(state.notes).toEqual([{ title: 'Meera hit an error', body: 'Ad account locked' }]);
     expect(state.tones).toBeGreaterThan(afterPreview);
   });
 

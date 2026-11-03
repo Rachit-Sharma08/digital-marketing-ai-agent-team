@@ -1,5 +1,5 @@
 {
-  "name": "@dmos/web",
+  "name": "@akg/web",
   "private": true,
   "type": "module",
   "scripts": {

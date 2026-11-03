@@ -43,18 +43,18 @@ async function pan(page: Page, dx: number, dy: number) {
 }
 
 test.describe('@screenshot delight layer screenshots', () => {
-  test('the Dundies ceremony', async ({ page }) => {
+  test('the Highlights ceremony', async ({ page }) => {
     await openDemoDay(page, '16:50');
     await page.keyboard.press('ControlOrMeta+k');
-    await page.getByRole('combobox', { name: 'Ask Pam' }).fill('dundies');
+    await page.getByRole('combobox', { name: 'Ask Aanya' }).fill('highlights');
     await page.keyboard.press('Enter');
-    const win = page.getByRole('dialog', { name: 'The Dundies' });
-    await expect(win.locator('[data-dundie="dont-go-in"]')).toBeVisible();
+    const win = page.getByRole('dialog', { name: 'The Highlights' });
+    await expect(win.locator('[data-highlight="dont-go-in"]')).toBeVisible();
     await page.waitForTimeout(2800); // the awards come in one by one
-    await page.screenshot({ path: out('dundies.png') });
+    await page.screenshot({ path: out('highlights.png') });
   });
 
-  test('Kevin\'s chili spill', async ({ page }) => {
+  test('Diya\'s chili spill', async ({ page }) => {
     await openDemoDay(page, '11:05');
     await zoomOn(page, '[data-chili]', 4, -30);
     await pan(page, 180, -260);
@@ -62,12 +62,12 @@ test.describe('@screenshot delight layer screenshots', () => {
     await page.screenshot({ path: out('chili-spill.png') });
   });
 
-  test('Creed\'s corner', async ({ page }) => {
+  test('Naina\'s corner', async ({ page }) => {
     await openDemoDay(page, '11:05');
-    await zoomOn(page, '[data-person="creed"]', 2);
-    await person(page, /^Creed Bratton — /).click();
+    await zoomOn(page, '[data-person="naina"]', 2);
+    await person(page, /^Naina Desai — /).click();
     await page.mouse.move(1300, 860);
-    await expect(page.getByRole('dialog', { name: 'Creed’s corner' }).locator('[data-unattributed]')).toHaveCount(3);
+    await expect(page.getByRole('dialog', { name: 'Naina’s corner' }).locator('[data-unattributed]')).toHaveCount(3);
     await page.screenshot({ path: out('creeds-corner.png') });
   });
 });

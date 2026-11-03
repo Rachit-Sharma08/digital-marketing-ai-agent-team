@@ -15,7 +15,7 @@ export async function liveServer(page: Page, events: unknown[] = [], snapshot: O
     headers: { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' },
     body: `retry: 60000\n\n${events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join('')}`,
   }));
-  await page.route('**/api/rooms/*/messages', (route) => route.fulfill({ json: [], headers: { 'X-DMOS-Messages-Reason': 'No messages in this room yet.' } }));
+  await page.route('**/api/rooms/*/messages', (route) => route.fulfill({ json: [], headers: { 'X-AKG-Messages-Reason': 'No messages in this room yet.' } }));
   await page.route('**/api/headshots/*', (route) => route.fulfill({ status: 404, body: '' }));
   await page.route('**/api/portraits/*', (route) => route.fulfill({ status: 404, body: '' }));
 }

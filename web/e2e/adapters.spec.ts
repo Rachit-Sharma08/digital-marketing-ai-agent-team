@@ -38,16 +38,16 @@ test.describe('agents from other adapters', () => {
   test('a Hermes bot keeps its composer', async ({ page }) => {
     await liveServer(page, [], WITH_TEMP);
     await page.goto('/');
-    await person(page, /^Dwight Schrute — /).click();
-    await expect(page.getByRole('dialog', { name: 'Dwight Schrute' }).getByRole('button', { name: 'Send' })).toBeVisible();
+    await person(page, /^Meera Kaur — /).click();
+    await expect(page.getByRole('dialog', { name: 'Meera Kaur' }).getByRole('button', { name: 'Send' })).toBeVisible();
   });
 
   test('on a read-only server nobody gets a composer, and the hint says how to turn writes on', async ({ page }) => {
     await liveServer(page, [], { ...WITH_TEMP, capabilities: { writes: false } });
     await page.goto('/');
-    await person(page, /^Dwight Schrute — /).click();
-    const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
-    await expect(win).toContainText('DMOS_ALLOW_WRITES=1');
+    await person(page, /^Meera Kaur — /).click();
+    const win = page.getByRole('dialog', { name: 'Meera Kaur' });
+    await expect(win).toContainText('AKG_ALLOW_WRITES=1');
     await expect(win.getByRole('button', { name: 'Send' })).toHaveCount(0);
   });
 });

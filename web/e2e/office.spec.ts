@@ -13,22 +13,22 @@ test.describe('the office map', () => {
       await expect(el).toHaveAttribute('role', 'button');
       await expect(el).toHaveAttribute('aria-label', new RegExp(`^${s.name} — `));
     }
-    await expect(person(page, 'Dwight Schrute — campaigns — working')).toBeVisible();
-    await expect(person(page, 'Jim Halpert — no bot yet')).toBeVisible();
+    await expect(person(page, 'Meera Kaur — campaigns — working')).toBeVisible();
+    await expect(person(page, 'Simran Gill — no bot yet')).toBeVisible();
   });
 
-  test('clicking Dwight opens his window with his status', async ({ page }) => {
+  test('clicking Meera opens his window with his status', async ({ page }) => {
     await noServer(page);
     await page.goto('/?demo=1');
-    await person(page, 'Dwight Schrute — campaigns — working').click();
-    const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
+    await person(page, 'Meera Kaur — campaigns — working').click();
+    const win = page.getByRole('dialog', { name: 'Meera Kaur' });
     await expect(win).toBeVisible();
     await expect(win.getByTestId('status-line')).toContainText('Working');
     await expect(win).toContainText('Auditing the Q4 campaign report');
     await expect(win).toContainText('Campaigns (audit & report)');
     await expect(win).toContainText('Chat room: Direct line — Bullpen');
     await expect(win).toContainText('Weekly campaign report');
-    await expect(page.getByRole('navigation', { name: 'Open windows' }).getByRole('button', { name: 'Dwight Schrute' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Open windows' }).getByRole('button', { name: 'Meera Kaur' })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(win).toBeHidden();
   });
@@ -49,16 +49,16 @@ test.describe('the office map', () => {
   test('people in a meeting are drawn in the Conference Room', async ({ page }) => {
     await noServer(page);
     await page.goto('/?demo=1');
-    const seat = await page.locator('[data-person="michael"]').evaluate((el) => el.closest('[data-seat]')?.getAttribute('data-seat'));
+    const seat = await page.locator('[data-person="zara"]').evaluate((el) => el.closest('[data-seat]')?.getAttribute('data-seat'));
     expect(seat).toMatch(/^seat\.conf\./);
   });
 
   test('keyboard: Tab to a person and press Enter to open their window', async ({ page }) => {
     await noServer(page);
     await page.goto('/?demo=1');
-    await person(page, /^Pam Beesly — /).focus();
+    await person(page, /^Aanya Sharma — /).focus();
     await page.keyboard.press('Enter');
-    await expect(page.getByRole('dialog', { name: 'Pam Beesly' })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: 'Aanya Sharma' })).toBeVisible();
   });
 });
 
@@ -68,27 +68,27 @@ test.describe('data sources', () => {
     await page.goto('/');
     await expect(page.getByTestId('source')).toHaveText('Demo');
     await expect(page.locator('[data-person]')).toHaveCount(23);
-    await person(page, 'Dwight Schrute — campaigns — working').click();
-    const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
+    await person(page, 'Meera Kaur — campaigns — working').click();
+    const win = page.getByRole('dialog', { name: 'Meera Kaur' });
     await win.getByLabel('Message Direct line').fill('How are the Q4 numbers?');
     await win.getByRole('button', { name: 'Send' }).click();
     await expect(win.locator('.msg.mine')).toContainText('How are the Q4 numbers?');
-    await expect(win.locator('.msg:not(.mine)')).toContainText('Dwight here');
+    await expect(win.locator('.msg:not(.mine)')).toContainText('Meera here');
   });
 
   test('an SSE update changes a status on the map', async ({ page }) => {
-    await liveServer(page, [{ presence: { dwight: { status: 'error', activity: 'Ad account locked' } } }]);
+    await liveServer(page, [{ presence: { meera: { status: 'error', activity: 'Ad account locked' } } }]);
     await page.goto('/');
     await expect(page.getByTestId('source')).toHaveText('Live');
-    await expect(person(page, 'Dwight Schrute — campaigns — error')).toBeVisible();
-    await expect(page.locator('[data-person="dwight"]')).toHaveAttribute('data-status', 'error');
+    await expect(person(page, 'Meera Kaur — campaigns — error')).toBeVisible();
+    await expect(page.locator('[data-person="meera"]')).toHaveAttribute('data-status', 'error');
   });
 
   test('an SSE update that moves a bot into a room walks them to the Conference Room', async ({ page }) => {
-    await liveServer(page, [{ presence: { kelly: { status: 'meeting', roomId: 'ops', activity: 'Fleet review' } } }]);
+    await liveServer(page, [{ presence: { priya: { status: 'meeting', roomId: 'ops', activity: 'Fleet review' } } }]);
     await page.goto('/');
-    await expect(person(page, 'Kelly Kapoor — social — in a meeting')).toBeVisible();
-    const seat = await page.locator('[data-person="kelly"]').evaluate((el) => el.closest('[data-seat]')?.getAttribute('data-seat'));
+    await expect(person(page, 'Priya Singh — social — in a meeting')).toBeVisible();
+    const seat = await page.locator('[data-person="priya"]').evaluate((el) => el.closest('[data-seat]')?.getAttribute('data-seat'));
     expect(seat).toMatch(/^seat\.conf\./);
   });
 });

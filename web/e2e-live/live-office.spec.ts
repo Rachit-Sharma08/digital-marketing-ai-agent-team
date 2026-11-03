@@ -76,15 +76,15 @@ test('the Conference Room shows the real Ops and Council members', async ({ page
   await page.screenshot({ path: shot('live-conference.png') });
 });
 
-test('opening Pam shows her real scheduled jobs', async ({ page }) => {
+test('opening Aanya shows her real scheduled jobs', async ({ page }) => {
   const snap = await liveSnapshot(page);
-  const jobs = snap.jobs?.pam ?? [];
-  const pam = snap.people.find((p) => p.id === 'pam')!;
-  await page.locator('[data-person="pam"]').click();
-  const win = page.getByRole('dialog', { name: pam.name });
-  await expect(win).toContainText(pam.bot!.role);
-  await expect(win.getByTestId('status-line')).toContainText(STATUS_META[presenceFor(pam, snap.presence).status].legend);
-  expect(jobs.length, 'Pam (chief) has scheduled jobs in ~/.hermes').toBeGreaterThan(0);
+  const jobs = snap.jobs?.aanya ?? [];
+  const aanya = snap.people.find((p) => p.id === 'aanya')!;
+  await page.locator('[data-person="aanya"]').click();
+  const win = page.getByRole('dialog', { name: aanya.name });
+  await expect(win).toContainText(aanya.bot!.role);
+  await expect(win.getByTestId('status-line')).toContainText(STATUS_META[presenceFor(aanya, snap.presence).status].legend);
+  expect(jobs.length, 'Aanya (chief) has scheduled jobs in ~/.hermes').toBeGreaterThan(0);
   await expect(win.locator('.job-list li')).toHaveCount(jobs.length);
   for (const job of jobs) await expect(win.locator('.job-list')).toContainText(job.name);
   await page.waitForTimeout(1200); // headshot + messages load

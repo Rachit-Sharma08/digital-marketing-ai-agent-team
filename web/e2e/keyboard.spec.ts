@@ -22,7 +22,7 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('keyboard navigation of the map', () => {
   test('Tab walks people and rooms in reading order, then on to the zoom controls', async ({ page }) => {
-    expect(ORDER).toHaveLength(30); // 23 people, 6 room signs, Angela's ledger
+    expect(ORDER).toHaveLength(30); // 23 people, 6 room signs, Fatima's ledger
     await page.getByRole('button', { name: 'Settings' }).focus();
     const seen: string[] = [];
     for (let i = 0; i < 40 && seen.length <= ORDER.length; i += 1) {
@@ -38,14 +38,14 @@ test.describe('keyboard navigation of the map', () => {
   });
 
   test('arrow keys, Home and End move between targets; Enter opens', async ({ page }) => {
-    const pam = ORDER.indexOf('person:pam');
-    await page.locator('[data-person="pam"]').focus();
+    const aanya = ORDER.indexOf('person:aanya');
+    await page.locator('[data-person="aanya"]').focus();
     await page.keyboard.press('ArrowRight');
-    expect(await focusedKey(page)).toBe(ORDER[pam + 1]);
+    expect(await focusedKey(page)).toBe(ORDER[aanya + 1]);
     await page.keyboard.press('ArrowLeft');
-    expect(await focusedKey(page)).toBe('person:pam');
+    expect(await focusedKey(page)).toBe('person:aanya');
     await page.keyboard.press('ArrowDown');
-    expect(await focusedKey(page)).not.toBe('person:pam');
+    expect(await focusedKey(page)).not.toBe('person:aanya');
     await page.keyboard.press('Home');
     expect(await focusedKey(page)).toBe(ORDER[0]);
     await page.keyboard.press('End');
@@ -56,14 +56,14 @@ test.describe('keyboard navigation of the map', () => {
   });
 
   test('"?" shows the shortcuts sheet and Esc closes it', async ({ page }) => {
-    await page.locator('[data-person="pam"]').focus();
+    await page.locator('[data-person="aanya"]').focus();
     await page.keyboard.press('?');
     const sheet = page.getByRole('dialog', { name: 'Keyboard shortcuts' });
     await expect(sheet).toBeVisible();
-    await expect(sheet).toContainText('Ask Pam');
+    await expect(sheet).toContainText('Ask Aanya');
     await expect(sheet).toContainText('Show on the map');
     await page.keyboard.press('Escape');
     await expect(sheet).toBeHidden();
-    await expect(page.locator('[data-person="pam"]')).toBeFocused();
+    await expect(page.locator('[data-person="aanya"]')).toBeFocused();
   });
 });

@@ -1,4 +1,4 @@
-// Control verbs and Corporate on the real server running the demo day (DMOS_SOURCE=demo): verbs reach only the
+// Control verbs and Corporate on the real server running the demo day (AKG_SOURCE=demo): verbs reach only the
 // in-memory demo bots, and the demo brings its own budgets (alerts only; demo bots can't be paused).
 import { expect, test } from '@playwright/test';
 import type { BudgetsReport } from '../../shared/controls';
@@ -7,7 +7,7 @@ import { person } from '../e2e/helpers';
 test('runs a job now, refuses pause, and reports the demo budgets', async ({ page, request }) => {
   const report = await (await request.get('/api/budgets')).json() as BudgetsReport;
   expect(report.autoPause).toBe(false);
-  expect(report.budgets.map((b) => b.personId).sort()).toEqual(['dwight', 'kelly', 'kevin', 'michael']);
+  expect(report.budgets.map((b) => b.personId).sort()).toEqual(['meera', 'priya', 'diya', 'zara']);
 
   await page.goto('/');
   await expect(page.locator('[data-person]')).toHaveCount(23);

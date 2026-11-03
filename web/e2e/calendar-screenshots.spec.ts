@@ -20,7 +20,7 @@ test.describe('@screenshot calendar and minutes', () => {
     await page.getByRole('button', { name: 'Party Planning Committee calendar' }).first().click();
     const win = page.getByRole('dialog', { name: 'Party Planning Committee' });
     await expect(win.getByTestId('cal-next')).toContainText('Next up');
-    await win.getByRole('button', { name: /^Skool member digest, Andy Bernard, 7:00 AM, didn’t run/ }).click();
+    await win.getByRole('button', { name: /^Skool member digest, Aisha Malik, 7:00 AM, didn’t run/ }).click();
     await win.click({ position: { x: 300, y: 12 } });
     await page.screenshot({ path: out('ppc-calendar-week.png') });
   });
@@ -29,7 +29,7 @@ test.describe('@screenshot calendar and minutes', () => {
     await page.getByRole('button', { name: 'Party Planning Committee calendar' }).first().click();
     const win = page.getByRole('dialog', { name: 'Party Planning Committee' });
     await win.getByRole('button', { name: 'Day', exact: true }).click();
-    await win.getByRole('button', { name: /^Trend scan, Ryan Howard/ }).click();
+    await win.getByRole('button', { name: /^Trend scan, Tara Joshi/ }).click();
     await win.click({ position: { x: 300, y: 12 } });
     await page.screenshot({ path: out('ppc-calendar-day.png') });
   });

@@ -22,13 +22,13 @@ test.describe('phone width', () => {
   });
 
   test('tapping someone opens their window as a full-screen sheet', async ({ page }) => {
-    await page.getByRole('button', { name: /^Dwight Schrute — campaigns — working/ }).tap();
-    const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
+    await page.getByRole('button', { name: /^Meera Kaur — campaigns — working/ }).tap();
+    const win = page.getByRole('dialog', { name: 'Meera Kaur' });
     await expect(win).toBeVisible();
     const box = (await win.boundingBox())!;
     expect(box.x).toBe(0);
     expect(box.width).toBe(390);
-    await win.getByRole('button', { name: 'Close Dwight Schrute' }).tap();
+    await win.getByRole('button', { name: 'Close Meera Kaur' }).tap();
     await expect(win).toBeHidden();
   });
 

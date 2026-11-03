@@ -20,15 +20,15 @@ test.describe('@screenshot control verbs and budgets', () => {
     await page.goto('/');
     await expect(page.locator('[data-person]')).toHaveCount(23);
     await page.waitForTimeout(1600);
-    await person(page, /^Dwight Schrute — /).click();
-    const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
+    await person(page, /^Meera Kaur — /).click();
+    const win = page.getByRole('dialog', { name: 'Meera Kaur' });
     await win.getByRole('button', { name: 'Reassign “Fax the paper order”' }).click();
-    await win.getByTestId('control-confirm').getByRole('combobox').selectOption('jim');
+    await win.getByTestId('control-confirm').getByRole('combobox').selectOption('simran');
     await expect(win.getByTestId('budget-gauge')).toContainText('125%');
     await page.screenshot({ path: out('controls-confirm.png') });
   });
 
-  test('Corporate: the top-bar badge and budgets in Angela\'s ledger', async ({ page, baseURL }) => {
+  test('Corporate: the top-bar badge and budgets in Fatima\'s ledger', async ({ page, baseURL }) => {
     server = await startControlsServer({ pageOrigin: new URL(baseURL!).origin, autoPause: true });
     await routeTo(page, server);
     await page.goto('/');
@@ -44,8 +44,8 @@ test.describe('@screenshot control verbs and budgets', () => {
     await page.goto('/?demo=1');
     await expect(page.locator('[data-person]')).toHaveCount(23);
     await page.waitForTimeout(1600);
-    await person(page, /^Kelly Kapoor — /).click();
-    const win = page.getByRole('dialog', { name: 'Kelly Kapoor' });
+    await person(page, /^Priya Singh — /).click();
+    const win = page.getByRole('dialog', { name: 'Priya Singh' });
     await win.getByRole('button', { name: 'Run “Post queue check” now' }).click();
     await expect(win.getByTestId('control-confirm')).toContainText('Run “Post queue check” now?');
     await page.screenshot({ path: out('controls-hermes-demo.png') });

@@ -18,7 +18,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } }],
   webServer: {
-    command: `npm run build -w @dmos/web && DMOS_PORT=${PORT} npm run serve -w @dmos/server`,
+    command: `npm run build -w @akg/web && AKG_PORT=${PORT} npm run serve -w @akg/server`,
     cwd: '..',
     url: `http://127.0.0.1:${PORT}/api/office`,
     reuseExistingServer: false,

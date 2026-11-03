@@ -9,10 +9,10 @@ const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAEElEQVR
 test.describe('portraits', () => {
   test('live: the person window shows the photo when the server has one', async ({ page }) => {
     await liveServer(page);
-    await page.route('**/api/portraits/dwight', (route) => route.fulfill({ status: 200, contentType: 'image/png', body: PNG }));
+    await page.route('**/api/portraits/meera', (route) => route.fulfill({ status: 200, contentType: 'image/png', body: PNG }));
     await page.goto('/');
-    await person(page, 'Dwight Schrute — campaigns — working').click();
-    const shot = page.getByRole('dialog', { name: 'Dwight Schrute' }).getByRole('img', { name: 'Dwight Schrute portrait' });
+    await person(page, 'Meera Kaur — campaigns — working').click();
+    const shot = page.getByRole('dialog', { name: 'Meera Kaur' }).getByRole('img', { name: 'Meera Kaur portrait' });
     await expect(shot).toHaveAttribute('data-state', 'photo');
     expect(await shot.locator('img').evaluate((img: HTMLImageElement) => img.naturalWidth)).toBe(4);
   });
@@ -35,8 +35,8 @@ test.describe('portraits', () => {
     page.on('request', (r) => { if (r.url().includes('/api/portraits/')) asked.push(r.url()); });
     await noServer(page);
     await page.goto('/?demo=1');
-    await person(page, 'Dwight Schrute — campaigns — working').click();
-    await expect(page.getByRole('dialog', { name: 'Dwight Schrute' }).getByRole('img', { name: 'Dwight Schrute portrait' }))
+    await person(page, 'Meera Kaur — campaigns — working').click();
+    await expect(page.getByRole('dialog', { name: 'Meera Kaur' }).getByRole('img', { name: 'Meera Kaur portrait' }))
       .toHaveAttribute('data-state', 'drawn');
     await page.getByRole('button', { name: /^Conference Room — / }).click();
     await expect(page.getByRole('dialog', { name: 'Conference Room — Ops room' }).locator('.member-list [data-portrait]').first()).toBeVisible();
@@ -47,27 +47,27 @@ test.describe('portraits', () => {
     await noServer(page);
     await page.goto('/?demo=1');
     const tip = page.getByRole('tooltip');
-    await page.locator('[data-person="dwight"]').hover();
-    await expect(tip).toContainText('Dwight Schrute');
+    await page.locator('[data-person="meera"]').hover();
+    await expect(tip).toContainText('Meera Kaur');
     await expect(tip).toContainText('campaigns · working');
     await expect(tip.locator('.portrait-tip')).toBeVisible();
     await page.mouse.move(5, 300);
     await expect(tip).toBeHidden();
-    await person(page, /^Jim Halpert — /).focus();
-    await expect(tip).toContainText('Jim Halpert');
+    await person(page, /^Simran Gill — /).focus();
+    await expect(tip).toContainText('Simran Gill');
     await expect(tip).toContainText('No bot yet');
   });
 
-  test('Sensei Ira keeps his name; the Hermes persona name is a second line in his window', async ({ page }) => {
+  test('Isabella D Costa keeps his name; the Hermes persona name is a second line in his window', async ({ page }) => {
     const snapshot: OfficeSnapshot = {
       ...DEMO_SNAPSHOT,
-      people: DEMO_SNAPSHOT.people.map((p) => (p.id === 'ira' ? { ...p, persona: 'Hank' } : p)),
+      people: DEMO_SNAPSHOT.people.map((p) => (p.id === 'isabella' ? { ...p, persona: 'Hank' } : p)),
     };
     await liveServer(page, [], snapshot);
     await page.goto('/');
-    await person(page, 'Sensei Ira — health — working').click();
-    const win = page.getByRole('dialog', { name: 'Sensei Ira' });
-    await expect(win).toContainText("Health & fitness · Dwight's sensei");
+    await person(page, 'Isabella D Costa — health — working').click();
+    const win = page.getByRole('dialog', { name: 'Isabella D Costa' });
+    await expect(win).toContainText("Health & fitness · Meera's sensei");
     await expect(win.locator('.persona-alias')).toHaveText('Hermes persona: Hank');
   });
 });

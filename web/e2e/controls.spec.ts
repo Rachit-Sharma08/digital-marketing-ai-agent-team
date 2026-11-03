@@ -17,12 +17,12 @@ const controlEvents = () => server.audit().filter((e) => String(e.event).startsW
 test('pause asks first: Cancel sends nothing, Confirm pauses and is audited', async ({ page }) => {
   await routeTo(page, server);
   await page.goto('/');
-  await person(page, /^Jim Halpert — /).click();
-  const win = page.getByRole('dialog', { name: 'Jim Halpert' });
-  const controls = win.getByRole('region', { name: 'Controls for Jim' });
+  await person(page, /^Simran Gill — /).click();
+  const win = page.getByRole('dialog', { name: 'Simran Gill' });
+  const controls = win.getByRole('region', { name: 'Controls for Simran' });
   await controls.getByRole('button', { name: 'Pause' }).click();
   const confirm = win.getByTestId('control-confirm');
-  await expect(confirm).toContainText('Pause Jim?');
+  await expect(confirm).toContainText('Pause Simran?');
   await expect(confirm.getByRole('button', { name: 'Pause' })).toBeFocused();
   await confirm.getByRole('button', { name: 'Cancel' }).click();
   await expect(confirm).toHaveCount(0);
@@ -30,7 +30,7 @@ test('pause asks first: Cancel sends nothing, Confirm pauses and is audited', as
 
   await controls.getByRole('button', { name: 'Pause' }).click();
   await win.getByTestId('control-confirm').getByRole('button', { name: 'Pause' }).click();
-  await expect(win.getByRole('status')).toContainText('Paused Jim Halpert.');
+  await expect(win.getByRole('status')).toContainText('Paused Simran Gill.');
   expect(server.calls()).toEqual(['pause:buyer']);
   expect(controlEvents()).toEqual([['control.request', 'pause', 'local'], ['control.done', 'pause', undefined]]);
 });
@@ -38,8 +38,8 @@ test('pause asks first: Cancel sends nothing, Confirm pauses and is audited', as
 test('Esc cancels a confirmation without closing the window', async ({ page }) => {
   await routeTo(page, server);
   await page.goto('/');
-  await person(page, /^Jim Halpert — /).click();
-  const win = page.getByRole('dialog', { name: 'Jim Halpert' });
+  await person(page, /^Simran Gill — /).click();
+  const win = page.getByRole('dialog', { name: 'Simran Gill' });
   await win.getByRole('button', { name: 'Stop current run' }).click();
   await expect(win.getByTestId('control-confirm')).toBeVisible();
   await page.keyboard.press('Escape');
@@ -51,8 +51,8 @@ test('Esc cancels a confirmation without closing the window', async ({ page }) =
 test('run a job now, stop a running card and hand a card to another bot', async ({ page }) => {
   await routeTo(page, server);
   await page.goto('/');
-  await person(page, /^Dwight Schrute — /).click();
-  const win = page.getByRole('dialog', { name: 'Dwight Schrute' });
+  await person(page, /^Meera Kaur — /).click();
+  const win = page.getByRole('dialog', { name: 'Meera Kaur' });
   const confirm = win.getByTestId('control-confirm');
 
   await win.getByRole('button', { name: 'Run “Morning sales report” now' }).click();
@@ -66,13 +66,13 @@ test('run a job now, stop a running card and hand a card to another bot', async 
 
   await win.getByRole('button', { name: 'Reassign “Fax the paper order”' }).click();
   await expect(confirm.getByRole('button', { name: 'Reassign' })).toBeDisabled();
-  await confirm.getByRole('combobox').selectOption('jim');
+  await confirm.getByRole('combobox').selectOption('simran');
   await confirm.getByRole('button', { name: 'Reassign' }).click();
-  await expect(win.getByRole('status')).toContainText('Fax the paper order: now with Jim Halpert.');
+  await expect(win.getByRole('status')).toContainText('Fax the paper order: now with Simran Gill.');
 
   expect(server.calls()).toEqual(['run-job:seller:job-report', 'stop:seller:card-1', 'reassign:seller:card-2->buyer']);
   expect(server.audit().filter((e) => e.event === 'control.request').map((e) => [e.action, e.job ?? e.task, e.to])).toEqual([
-    ['run-job', 'job-report', undefined], ['stop', 'card-1', undefined], ['reassign', 'card-2', 'jim'],
+    ['run-job', 'job-report', undefined], ['stop', 'card-1', undefined], ['reassign', 'card-2', 'simran'],
   ]);
 });
 
@@ -86,13 +86,13 @@ test('Corporate freezes an over-budget bot (autoPause on) and badges the top bar
   await expect(badge).toHaveAttribute('aria-label', /1 over budget/);
   expect(server.calls()).toEqual(['pause:seller']);
   expect(server.audit()[0]).toMatchObject({ event: 'control.request', action: 'pause', actor: 'corporate', reason: 'Over its monthly budget ($25.00 of $20.00)' });
-  await expect(person(page, /^Dwight Schrute — seller — offline/)).toBeVisible(); // the server pushed the paused bot to the map
+  await expect(person(page, /^Meera Kaur — seller — offline/)).toBeVisible(); // the server pushed the paused bot to the map
   await badge.click();
-  const ledger = page.getByRole('dialog', { name: 'Angela’s ledger' });
+  const ledger = page.getByRole('dialog', { name: 'Fatima’s ledger' });
   const budgets = ledger.getByTestId('ledger-budgets');
-  await expect(budgets.locator('[data-budget="dwight"]')).toContainText('Corporate froze the expense account');
-  await expect(budgets.locator('[data-budget="dwight"]')).toContainText('$25.00 of $20.00 · 125%');
-  await expect(budgets.locator('[data-budget="jim"]')).toContainText('$1.20 of $5.00 · 24%');
+  await expect(budgets.locator('[data-budget="meera"]')).toContainText('Corporate froze the expense account');
+  await expect(budgets.locator('[data-budget="meera"]')).toContainText('$25.00 of $20.00 · 125%');
+  await expect(budgets.locator('[data-budget="simran"]')).toContainText('$1.20 of $5.00 · 24%');
 });
 
 test('with autoPause off an over-budget bot only raises an alert: the need-you count and HR · Approvals', async ({ page, baseURL }) => {
@@ -103,26 +103,26 @@ test('with autoPause off an over-budget bot only raises an alert: the need-you c
   await expect(page.getByTestId('corporate')).toBeVisible();
   await expect(page.getByTestId('need-you')).toContainText('1');
   await page.getByTestId('need-you').click();
-  await expect(page.getByTestId('corporate-calls')).toContainText('Dwight Schrute Over budget: Corporate wants to talk to you. Auto-pause is off');
+  await expect(page.getByTestId('corporate-calls')).toContainText('Meera Kaur Over budget: Corporate wants to talk to you. Auto-pause is off');
   expect(server.calls()).toEqual([]);
-  await person(page, /^Dwight Schrute — /).click();
-  await expect(page.getByRole('dialog', { name: 'Dwight Schrute' }).getByTestId('budget-gauge')).toContainText('This month$25.00 of $20.00 · 125%');
+  await person(page, /^Meera Kaur — /).click();
+  await expect(page.getByRole('dialog', { name: 'Meera Kaur' }).getByTestId('budget-gauge')).toContainText('This month$25.00 of $20.00 · 125%');
 });
 
-test('Ask Pam opens a verb\'s confirmation in the bot\'s window', async ({ page }) => {
+test('Ask Aanya opens a verb\'s confirmation in the bot\'s window', async ({ page }) => {
   await routeTo(page, server);
   await page.goto('/');
   await expect(page.locator('[data-person]').first()).toBeVisible();
   await page.keyboard.press('Control+k');
-  await page.getByRole('combobox', { name: 'Ask Pam' }).fill('pause jim');
-  await expect(page.getByRole('option').first()).toContainText('Pause Jim');
+  await page.getByRole('combobox', { name: 'Ask Aanya' }).fill('pause simran');
+  await expect(page.getByRole('option').first()).toContainText('Pause Simran');
   await page.keyboard.press('Enter');
-  const win = page.getByRole('dialog', { name: 'Jim Halpert' });
-  await expect(win.getByTestId('control-confirm')).toContainText('Pause Jim?');
+  const win = page.getByRole('dialog', { name: 'Simran Gill' });
+  await expect(win.getByTestId('control-confirm')).toContainText('Pause Simran?');
   await win.getByRole('button', { name: 'Cancel' }).click();
-  await win.getByRole('button', { name: 'Close Jim Halpert' }).click();
-  await person(page, /^Jim Halpert — /).click(); // reopening the window does not ask again
-  await expect(page.getByRole('dialog', { name: 'Jim Halpert' })).toContainText('Purchasing');
+  await win.getByRole('button', { name: 'Close Simran Gill' }).click();
+  await person(page, /^Simran Gill — /).click(); // reopening the window does not ask again
+  await expect(page.getByRole('dialog', { name: 'Simran Gill' })).toContainText('Purchasing');
   await expect(page.getByTestId('control-confirm')).toHaveCount(0);
   expect(server.calls()).toEqual([]);
 });
@@ -132,11 +132,11 @@ test('a read-only server offers no controls and refuses them anyway', async ({ p
   server = await startControlsServer({ pageOrigin: new URL(baseURL!).origin, readOnly: true });
   await routeTo(page, server);
   await page.goto('/');
-  await person(page, /^Jim Halpert — /).click();
-  const win = page.getByRole('dialog', { name: 'Jim Halpert' });
+  await person(page, /^Simran Gill — /).click();
+  const win = page.getByRole('dialog', { name: 'Simran Gill' });
   await expect(win).toContainText('Purchasing');
   await expect(win.getByRole('region', { name: /Controls for/ })).toHaveCount(0);
-  const res = await page.request.post(`${server.base}/api/people/jim/actions`, { data: { action: 'pause' }, headers: { origin: new URL(baseURL!).origin } });
+  const res = await page.request.post(`${server.base}/api/people/simran/actions`, { data: { action: 'pause' }, headers: { origin: new URL(baseURL!).origin } });
   expect(res.status()).toBe(403);
-  expect(server.calls()).toEqual([]); // Corporate could not pause dwight either: read-only
+  expect(server.calls()).toEqual([]); // Corporate could not pause meera either: read-only
 });

@@ -1,4 +1,4 @@
-// Starts server/scripts/e2e-controls-server.ts: a REAL Dunder Mifflin OS server in front of a MOCK adapter (nothing
+// Starts server/scripts/e2e-controls-server.ts: a REAL Agents Ka Ghar server in front of a MOCK adapter (nothing
 // talks to Hermes). The browser's /api requests are routed to it with route.continue, so SSE streams through too.
 // What the mock adapter received and what was audited are read from the files the server writes.
 import { type ChildProcess, spawn } from 'node:child_process';
@@ -29,7 +29,7 @@ const lines = (file: string): string[] => {
 export async function startControlsServer(opts: { pageOrigin: string; readOnly?: boolean; autoPause?: boolean }): Promise<ControlsServer> {
   const flags = [...(opts.readOnly ? ['--read-only'] : []), ...(opts.autoPause ? ['--auto-pause'] : [])];
   const child: ChildProcess = spawn(process.execPath, ['--import', 'tsx', SCRIPT, '--origin', opts.pageOrigin, ...flags], {
-    cwd: path.join(ROOT, 'server'), env: { ...process.env, DMOS_QUIET: '1', NODE_OPTIONS: '--disable-warning=ExperimentalWarning' }, stdio: ['ignore', 'pipe', 'inherit'],
+    cwd: path.join(ROOT, 'server'), env: { ...process.env, AKG_QUIET: '1', NODE_OPTIONS: '--disable-warning=ExperimentalWarning' }, stdio: ['ignore', 'pipe', 'inherit'],
   });
   const first = await new Promise<string>((resolve, reject) => {
     const rl = createInterface({ input: child.stdout! });

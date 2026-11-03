@@ -14,7 +14,7 @@ export default defineConfig({
   use: { baseURL: `http://127.0.0.1:${PORT}`, viewport: { width: 1440, height: 900 }, trace: 'retain-on-failure' },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } }],
   webServer: {
-    command: `npm run build -w @dmos/web && DMOS_PORT=${PORT} DMOS_SOURCE=fixture DMOS_ACCESS_TOKEN=${E2E_TOKEN} npm run serve -w @dmos/server`,
+    command: `npm run build -w @akg/web && AKG_PORT=${PORT} AKG_SOURCE=fixture AKG_ACCESS_TOKEN=${E2E_TOKEN} npm run serve -w @akg/server`,
     cwd: '..',
     url: `http://127.0.0.1:${PORT}/api/health`,
     reuseExistingServer: false,

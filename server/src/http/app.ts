@@ -27,6 +27,7 @@ import { createInbound, isInboundPath } from './inbound.ts';
 import { isRecord } from '../hermes/guards.ts';
 import { createAccess } from './access.ts';
 import { demoRoutes } from './demoRoutes.ts';
+import { agentRoutes } from './agentRoutes.ts';
 import { createCalendarHandlers, type CalendarReply } from './calendarRoutes.ts';
 import { localTimeZone } from '../../../shared/schedule/zone.ts';
 import { observabilityRoutes } from './observabilityRoutes.ts';
@@ -190,6 +191,7 @@ export function createApp(deps: AppDeps): App {
     ...observabilityRoutes(observability, () => now() * 1000), // timeline + usage (the documentary crew, Angela's ledger)
     ...controlRoutes({ act: office.act, budgets: corporate.check, actor, readBody: jsonBody, onChanged: () => void hub.refresh() }),
     ...demoRoutes(deps.adapters, jsonBody), // /api/demo/clock, only while a demo adapter runs
+    ...agentRoutes(jsonBody), // the teammate command line: /api/agents, /api/agents/command
     ...unattributedRoutes(office.read), // Creed's corner: agents, cards and requests no desk can hold
   ];
 

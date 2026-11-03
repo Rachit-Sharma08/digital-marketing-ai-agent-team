@@ -14,8 +14,8 @@ describe('parseControlRequest', () => {
     expect(parseControlRequest({ action: 'stop', args: { taskId: 't_9f2a' } })).toEqual({ ok: true, value: { action: 'stop', args: { taskId: 't_9f2a' } } });
     expect(parseControlRequest({ action: 'run-job', args: { jobId: 'job3fa9c0e1b2d4' } }))
       .toEqual({ ok: true, value: { action: 'run-job', args: { jobId: 'job3fa9c0e1b2d4' } } });
-    expect(parseControlRequest({ action: 'reassign', args: { taskId: 'webhook:bot:card-1.2', to: 'jim' } }))
-      .toEqual({ ok: true, value: { action: 'reassign', args: { taskId: 'webhook:bot:card-1.2', to: 'jim' } } });
+    expect(parseControlRequest({ action: 'reassign', args: { taskId: 'webhook:bot:card-1.2', to: 'simran' } }))
+      .toEqual({ ok: true, value: { action: 'reassign', args: { taskId: 'webhook:bot:card-1.2', to: 'simran' } } });
   });
 
   it('refuses unknown verbs and bodies that are not objects', () => {
@@ -35,7 +35,7 @@ describe('parseControlRequest', () => {
     expect(parseControlRequest({ action: 'run-job', args: { jobId: '../../etc' } })).toMatchObject({ ok: false, error: expect.stringMatching(/^args.jobId/) });
     expect(parseControlRequest({ action: 'run-job', args: { jobId: '--accept-hooks' } })).toMatchObject({ ok: false });
     expect(parseControlRequest({ action: 'reassign', args: { taskId: 't1' } })).toEqual({ ok: false, error: 'reassign needs args.to' });
-    expect(parseControlRequest({ action: 'reassign', args: { taskId: 't1', to: 'Jim Halpert' } })).toMatchObject({ ok: false, error: expect.stringMatching(/^args.to/) });
+    expect(parseControlRequest({ action: 'reassign', args: { taskId: 't1', to: 'Simran Gill' } })).toMatchObject({ ok: false, error: expect.stringMatching(/^args.to/) });
     expect(parseControlRequest({ action: 'stop', args: { taskId: '-rf' } })).toMatchObject({ ok: false, error: expect.stringMatching(/^args.taskId/) });
     expect(parseControlRequest({ action: 'stop', args: { taskId: 'x'.repeat(200) } })).toMatchObject({ ok: false });
     expect(parseControlRequest({ action: 'stop', args: 'all' })).toEqual({ ok: false, error: 'args must be an object' });

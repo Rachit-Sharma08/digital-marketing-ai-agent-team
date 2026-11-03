@@ -35,7 +35,7 @@ describe('hermes adapter', () => {
   it('lists the twelve roster bots by profile, named after their Hermes persona', async () => {
     const snap = await createHermesAdapter({ source: createFixtureSource({ fixture }), runner, hermesBin: 'h', now: () => T }).snapshot();
     expect(snap.agents).toHaveLength(12);
-    expect(snap.agents.find((a) => a.id === 'campaigns')).toEqual({ id: 'campaigns', name: 'Dwight Schrute', role: 'Campaigns & outreach' });
+    expect(snap.agents.find((a) => a.id === 'campaigns')).toEqual({ id: 'campaigns', name: 'Meera Kaur', role: 'Campaigns & outreach' });
     expect(snap.presence.cmo).toMatchObject({ status: 'meeting', roomId: 'council' });
   });
 

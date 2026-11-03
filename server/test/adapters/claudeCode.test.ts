@@ -89,7 +89,7 @@ describe('POST /api/hooks/claude-code over HTTP', () => {
   beforeAll(async () => {
     app = createApp({
       adapters: [createClaudeCodeAdapter({ token: TOKEN })],
-      setup: defaultOfficeSetup(mergeSeatRules({}, { jim: { adapter: 'claude-code', agent: 'paper-site', role: 'Pair programmer' } })),
+      setup: defaultOfficeSetup(mergeSeatRules({}, { simran: { adapter: 'claude-code', agent: 'paper-site', role: 'Pair programmer' } })),
       hermesHome: '/nonexistent', headshotDir: '/nonexistent', pollIntervalMs: 60_000,
     });
     await new Promise<void>((resolve) => app.server.listen(0, '127.0.0.1', resolve));
@@ -115,13 +115,13 @@ describe('POST /api/hooks/claude-code over HTTP', () => {
   it('seats a mapped project at its character and shows it working, then needing you', async () => {
     for (const p of SESSION.slice(0, 5)) expect((await send(p)).status).toBe(204);
     let snap = await (await fetch(`${base}/api/office`)).json() as OfficeSnapshot;
-    expect(snap.people.find((p) => p.id === 'jim')).toMatchObject({
-      name: 'Jim Halpert', persona: 'paper-site', bot: { profile: 'paper-site', role: 'Pair programmer', adapter: 'claude-code' },
+    expect(snap.people.find((p) => p.id === 'simran')).toMatchObject({
+      name: 'Simran Gill', persona: 'paper-site', bot: { profile: 'paper-site', role: 'Pair programmer', adapter: 'claude-code' },
     });
-    expect(snap.presence.jim).toMatchObject({ status: 'working', activity: 'Running: Run the checkout tests' });
+    expect(snap.presence.simran).toMatchObject({ status: 'working', activity: 'Running: Run the checkout tests' });
     await send(SESSION[5]);
     snap = await (await fetch(`${base}/api/office`)).json() as OfficeSnapshot;
-    expect(snap.presence.jim).toMatchObject({ status: 'needs-input', activity: 'Needs permission for Bash (Run the checkout tests)' });
+    expect(snap.presence.simran).toMatchObject({ status: 'needs-input', activity: 'Needs permission for Bash (Run the checkout tests)' });
   });
 });
 

@@ -37,7 +37,7 @@ describeAdapterContract('demo', {
 
 describe('demo adapter: the scripted day', () => {
   it('seats every demo bot at its character', () => {
-    expect(demoSeatRules('demo')).toMatchObject({ pam: { adapter: 'demo', agent: 'frontdesk' }, kevin: { adapter: 'demo', agent: 'imports' } });
+    expect(demoSeatRules('demo')).toMatchObject({ aanya: { adapter: 'demo', agent: 'frontdesk' }, diya: { adapter: 'demo', agent: 'imports' } });
     expect(Object.keys(demoSeatRules('tlm'))).toHaveLength(DEMO_CAST.length);
   });
 
@@ -50,7 +50,7 @@ describe('demo adapter: the scripted day', () => {
     expect(snap.jobs?.it?.[0]).toMatchObject({ name: 'Fleet health check' });
   });
 
-  it('reports a few cards nobody owns, which the office lists in Creed\'s corner', async () => {
+  it('reports a few cards nobody owns, which the office lists in Naina\'s corner', async () => {
     const adapter = demo('11:05').adapter;
     const snap = await adapter.snapshot();
     const reading = { adapter: { id: adapter.id, kind: adapter.kind, label: adapter.label, capabilities: adapter.capabilities }, snapshot: snap };
@@ -77,7 +77,7 @@ describe('demo adapter: the scripted day', () => {
     const { adapter, advance } = demo('10:50');
     expect((await adapter.snapshot()).presence.imports?.status).toBe('working');
     advance(3000);
-    expect((await adapter.snapshot()).presence.imports).toMatchObject({ status: 'error', activity: expect.stringMatching(/chili/) });
+    expect((await adapter.snapshot()).presence.imports).toMatchObject({ status: 'error', activity: 'Import failed: 3,000 rows half-loaded' });
     advance(60_000 * 7); // past 17:30: back to the morning
     expect(adapter.demo.clock()).toMatchObject({ day: 1, time: expect.stringMatching(/T08:/) });
   });
@@ -151,7 +151,7 @@ describe('demo adapter: talking to the bots', () => {
   it('validates new tasks and forgets them when the day loops', async () => {
     const { adapter, advance } = demo('17:00');
     expect(await adapter.createTask!({ roomId: 'demo-council', title: 'x', assigneeAgentId: 'sales' })).toMatchObject({ ok: false, status: 400 });
-    expect(await adapter.createTask!({ roomId: 'demo-ops', title: 'x', assigneeAgentId: 'jim' })).toMatchObject({ ok: false, status: 400 });
+    expect(await adapter.createTask!({ roomId: 'demo-ops', title: 'x', assigneeAgentId: 'simran' })).toMatchObject({ ok: false, status: 400 });
     expect(await adapter.createTask!({ roomId: 'demo-ops', title: '', assigneeAgentId: 'sales' })).toMatchObject({ ok: false, status: 400 });
     expect(await adapter.createTask!({ roomId: 'demo-ops', title: 'Tidy up', assigneeAgentId: 'sales' })).toMatchObject({ ok: true });
     advance(40_000); // past 17:30

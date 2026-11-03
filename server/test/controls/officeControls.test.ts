@@ -65,7 +65,7 @@ function auditInto(log: Log, works = true): AuditLog {
 function setup(opts: { allowWrites?: boolean; audit?: 'ok' | 'broken' | 'none'; caps?: AgentCapabilities; narrow?: Partial<AgentCapabilities>; fail?: boolean } = {}) {
   const log: Log = { entries: [], calls: [] };
   const other = fakeAdapter(log, { id: 'other' });
-  const seats = mergeSeatRules({}, { dwight: { adapter: 'fake', agent: 'a1' }, jim: { adapter: 'fake', agent: 'a2' }, kevin: { adapter: 'other', agent: 'a1' } });
+  const seats = mergeSeatRules({}, { meera: { adapter: 'fake', agent: 'a1' }, simran: { adapter: 'fake', agent: 'a2' }, diya: { adapter: 'other', agent: 'a1' } });
   const audit = opts.audit === 'none' ? null : auditInto(log, opts.audit !== 'broken');
   const office = createOfficeService({
     adapters: [fakeAdapter(log, { caps: opts.caps, narrow: opts.narrow, fail: opts.fail }), other],
@@ -77,19 +77,19 @@ function setup(opts: { allowWrites?: boolean; audit?: 'ok' | 'broken' | 'none'; 
 describe('control verbs through the office', () => {
   it('are refused on a read-only server without auditing or calling the adapter', async () => {
     const { office, log } = setup({ allowWrites: false });
-    expect(await office.act('dwight', { action: 'pause' }, 'local')).toEqual({ ok: false, status: 403, error: READ_ONLY_ERROR });
+    expect(await office.act('meera', { action: 'pause' }, 'local')).toEqual({ ok: false, status: 403, error: READ_ONLY_ERROR });
     expect(log).toEqual({ entries: [], calls: [] });
   });
 
   it('are refused when the adapter does not declare the verb (501), and when this agent turned it off', async () => {
     const none = setup({ caps: NO_CAPABILITIES });
-    expect(await none.office.act('dwight', { action: 'pause' }, 'local')).toEqual({ ok: false, status: 501, error: "Fake agents can't be paused" });
-    expect(await none.office.act('dwight', { action: 'run-job', args: { jobId: 'job-on' } }, 'local'))
+    expect(await none.office.act('meera', { action: 'pause' }, 'local')).toEqual({ ok: false, status: 501, error: "Fake agents can't be paused" });
+    expect(await none.office.act('meera', { action: 'run-job', args: { jobId: 'job-on' } }, 'local'))
       .toEqual({ ok: false, status: 501, error: "Fake agents can't run jobs from the office" });
-    expect(await none.office.act('dwight', { action: 'reassign', args: { taskId: 'card-todo', to: 'jim' } }, 'local'))
+    expect(await none.office.act('meera', { action: 'reassign', args: { taskId: 'card-todo', to: 'simran' } }, 'local'))
       .toEqual({ ok: false, status: 501, error: "Fake agents can't hand cards over" });
     const narrowed = setup({ narrow: { pause: false } });
-    expect(await narrowed.office.act('dwight', { action: 'resume' }, 'local'))
+    expect(await narrowed.office.act('meera', { action: 'resume' }, 'local'))
       .toEqual({ ok: false, status: 501, error: 'This agent gave the office no way to pause it' });
     expect(none.log.calls).toEqual([]);
     expect(narrowed.log.calls).toEqual([]);
@@ -97,42 +97,42 @@ describe('control verbs through the office', () => {
 
   it('validate the body and the desk', async () => {
     const { office, log } = setup();
-    expect(await office.act('dwight', { action: 'terminate' }, 'local')).toMatchObject({ ok: false, status: 400 });
-    expect(await office.act('pam', { action: 'pause' }, 'local')).toEqual({ ok: false, status: 404, error: 'No agent at that desk' });
+    expect(await office.act('meera', { action: 'terminate' }, 'local')).toMatchObject({ ok: false, status: 400 });
+    expect(await office.act('aanya', { action: 'pause' }, 'local')).toEqual({ ok: false, status: 404, error: 'No agent at that desk' });
     expect(log.calls).toEqual([]);
   });
 
   it('write the audit entry first, then act, then record the outcome', async () => {
     const { office, log } = setup();
-    expect(await office.act('dwight', { action: 'pause' }, 'signed-in')).toEqual({ ok: true, value: { ok: true, action: 'pause', message: 'Paused Dwight Schrute.' } });
+    expect(await office.act('meera', { action: 'pause' }, 'signed-in')).toEqual({ ok: true, value: { ok: true, action: 'pause', message: 'Paused Meera Kaur.' } });
     expect(log.calls).toEqual(['pause:a1 (audited: control.request)']);
     expect(log.entries).toEqual([
-      { event: 'control.request', action: 'pause', person: 'dwight', adapter: 'fake', agent: 'a1', actor: 'signed-in' },
-      { event: 'control.done', action: 'pause', person: 'dwight' },
+      { event: 'control.request', action: 'pause', person: 'meera', adapter: 'fake', agent: 'a1', actor: 'signed-in' },
+      { event: 'control.done', action: 'pause', person: 'meera' },
     ]);
   });
 
   it('record a failure the adapter reports, and pass its status on', async () => {
     const { office, log } = setup({ fail: true });
-    expect(await office.act('dwight', { action: 'stop' }, 'local')).toEqual({ ok: false, status: 502, error: 'The agent said no' });
-    expect(log.entries.at(-1)).toEqual({ event: 'control.failed', action: 'stop', person: 'dwight', status: 502, error: 'The agent said no' });
+    expect(await office.act('meera', { action: 'stop' }, 'local')).toEqual({ ok: false, status: 502, error: 'The agent said no' });
+    expect(log.entries.at(-1)).toEqual({ event: 'control.failed', action: 'stop', person: 'meera', status: 502, error: 'The agent said no' });
   });
 
   it('do nothing when the audit log cannot be written (fail closed) or there is none', async () => {
     for (const audit of ['broken', 'none'] as const) {
       const { office, log } = setup({ audit });
-      expect(await office.act('dwight', { action: 'pause' }, 'local')).toMatchObject({ ok: false, status: 503, error: expect.stringMatching(/audit log/) });
+      expect(await office.act('meera', { action: 'pause' }, 'local')).toMatchObject({ ok: false, status: 503, error: expect.stringMatching(/audit log/) });
       expect(log.calls).toEqual([]);
     }
   });
 
   it('run a job only when it is one of this desk\'s jobs and switched on', async () => {
     const { office, log } = setup();
-    expect(await office.act('dwight', { action: 'run-job', args: { jobId: 'nope' } }, 'local')).toEqual({ ok: false, status: 404, error: 'No such job at this desk' });
-    expect(await office.act('jim', { action: 'run-job', args: { jobId: 'job-on' } }, 'local')).toEqual({ ok: false, status: 404, error: 'No such job at this desk' });
-    expect(await office.act('dwight', { action: 'run-job', args: { jobId: 'job-off' } }, 'local'))
+    expect(await office.act('meera', { action: 'run-job', args: { jobId: 'nope' } }, 'local')).toEqual({ ok: false, status: 404, error: 'No such job at this desk' });
+    expect(await office.act('simran', { action: 'run-job', args: { jobId: 'job-on' } }, 'local')).toEqual({ ok: false, status: 404, error: 'No such job at this desk' });
+    expect(await office.act('meera', { action: 'run-job', args: { jobId: 'job-off' } }, 'local'))
       .toEqual({ ok: false, status: 409, error: 'That job is paused where it runs; resume it there first' });
-    const ran = await office.act('dwight', { action: 'run-job', args: { jobId: 'job-on' } }, 'local');
+    const ran = await office.act('meera', { action: 'run-job', args: { jobId: 'job-on' } }, 'local');
     expect(ran).toEqual({ ok: true, value: { ok: true, action: 'run-job', message: 'Morning sales report: running now.' } });
     expect(log.calls).toEqual(['run-job:a1:job-on (audited: control.request)']);
     expect(log.entries[0]).toMatchObject({ event: 'control.request', action: 'run-job', job: 'job-on', jobName: 'Morning sales report' });
@@ -140,28 +140,28 @@ describe('control verbs through the office', () => {
 
   it('hand over only this desk\'s open cards, to another bot of the same adapter', async () => {
     const { office, log } = setup();
-    const to = (taskId: string, who: string) => office.act('dwight', { action: 'reassign', args: { taskId, to: who } }, 'local');
-    expect(await to('card-a2', 'jim')).toEqual({ ok: false, status: 404, error: 'No such card on this desk' });
-    expect(await to('card-done', 'jim')).toEqual({ ok: false, status: 409, error: 'That card is done' });
-    expect(await to('card-todo', 'dwight')).toEqual({ ok: false, status: 400, error: 'Pick someone else' });
-    expect(await to('card-todo', 'kevin')).toEqual({ ok: false, status: 400, error: 'Hand it to another Fake agent' });
-    expect(await to('card-todo', 'pam')).toEqual({ ok: false, status: 400, error: 'Hand it to another Fake agent' });
-    expect(await to('card-todo', 'jim')).toEqual({ ok: true, value: { ok: true, action: 'reassign', message: 'Fax the order: now with Jim Halpert.' } });
+    const to = (taskId: string, who: string) => office.act('meera', { action: 'reassign', args: { taskId, to: who } }, 'local');
+    expect(await to('card-a2', 'simran')).toEqual({ ok: false, status: 404, error: 'No such card on this desk' });
+    expect(await to('card-done', 'simran')).toEqual({ ok: false, status: 409, error: 'That card is done' });
+    expect(await to('card-todo', 'meera')).toEqual({ ok: false, status: 400, error: 'Pick someone else' });
+    expect(await to('card-todo', 'diya')).toEqual({ ok: false, status: 400, error: 'Hand it to another Fake agent' });
+    expect(await to('card-todo', 'aanya')).toEqual({ ok: false, status: 400, error: 'Hand it to another Fake agent' });
+    expect(await to('card-todo', 'simran')).toEqual({ ok: true, value: { ok: true, action: 'reassign', message: 'Fax the order: now with Simran Gill.' } });
     expect(log.calls).toEqual(['reassign:a1:card-todo->a2 (audited: control.request)']);
-    expect(log.entries[0]).toMatchObject({ task: 'card-todo', taskTitle: 'Fax the order', to: 'jim', toAgent: 'a2' });
+    expect(log.entries[0]).toMatchObject({ task: 'card-todo', taskTitle: 'Fax the order', to: 'simran', toAgent: 'a2' });
   });
 
   it('stop a named card only while it runs', async () => {
     const { office, log } = setup();
-    expect(await office.act('dwight', { action: 'stop', args: { taskId: 'card-todo' } }, 'local')).toEqual({ ok: false, status: 409, error: 'That card is not running' });
-    expect(await office.act('dwight', { action: 'stop', args: { taskId: 'card-run' } }, 'local')).toMatchObject({ ok: true });
-    expect(await office.act('dwight', { action: 'stop' }, 'local')).toMatchObject({ ok: true, value: { message: 'Stopped Dwight Schrute\'s current run.' } });
+    expect(await office.act('meera', { action: 'stop', args: { taskId: 'card-todo' } }, 'local')).toEqual({ ok: false, status: 409, error: 'That card is not running' });
+    expect(await office.act('meera', { action: 'stop', args: { taskId: 'card-run' } }, 'local')).toMatchObject({ ok: true });
+    expect(await office.act('meera', { action: 'stop' }, 'local')).toMatchObject({ ok: true, value: { message: 'Stopped Meera Kaur\'s current run.' } });
     expect(log.calls).toEqual(['stop:a1:card-run (audited: control.request)', 'stop:a1:- (audited: control.request,control.done,control.request)']);
   });
 
   it('let Corporate (the budget monitor) pause a bot, audited as corporate', async () => {
     const { office, log } = setup();
-    expect(await office.act('dwight', { action: 'pause' }, 'corporate', 'Over its monthly budget')).toMatchObject({ ok: true });
-    expect(log.entries[0]).toEqual({ event: 'control.request', action: 'pause', person: 'dwight', adapter: 'fake', agent: 'a1', actor: 'corporate', reason: 'Over its monthly budget' });
+    expect(await office.act('meera', { action: 'pause' }, 'corporate', 'Over its monthly budget')).toMatchObject({ ok: true });
+    expect(log.entries[0]).toEqual({ event: 'control.request', action: 'pause', person: 'meera', adapter: 'fake', agent: 'a1', actor: 'corporate', reason: 'Over its monthly budget' });
   });
 });

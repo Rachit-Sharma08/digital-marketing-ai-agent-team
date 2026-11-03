@@ -17,7 +17,7 @@ import { READ_ONLY_ERROR } from '../src/office/writes.ts';
 const NOW = 1_800_000_000;
 const AT = new Date(NOW * 1000).toISOString();
 const ALL: AgentCapabilities = { chat: false, createTask: false, approvals: true, pause: false, stop: false };
-const root = mkdtempSync(path.join(tmpdir(), 'dmos-approvals-'));
+const root = mkdtempSync(path.join(tmpdir(), 'akg-approvals-'));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
 
 const PENDING: ReadonlyArray<ApprovalRequest> = [
@@ -42,7 +42,7 @@ function fake(id: string, caps: AgentCapabilities, result: { ok: true; value: nu
 function office(opts: { allowWrites: boolean; audit?: AuditLog | null; adapter?: ReturnType<typeof fake> }) {
   const main = opts.adapter ?? fake('fake', ALL);
   const limited = fake('limited', NO_CAPABILITIES);
-  const setup = defaultOfficeSetup(mergeSeatRules({}, { jim: { adapter: 'fake', agent: 'a1' } }));
+  const setup = defaultOfficeSetup(mergeSeatRules({}, { simran: { adapter: 'fake', agent: 'a1' } }));
   const audit = opts.audit === undefined ? createAuditLog({ file: path.join(root, `${Math.random()}.log`) }) : opts.audit;
   const service = createOfficeService({ adapters: [main.adapter, limited.adapter], setup, now: () => NOW, allowWrites: opts.allowWrites, audit });
   return { service, calls: main.calls, audit };
@@ -68,7 +68,7 @@ describe('parseDecision', () => {
 describe('approvals through the office', () => {
   it('lists pending items as people, also on a read-only server', async () => {
     const { service } = office({ allowWrites: false });
-    expect((await service.approvals()).map((a) => [a.id, a.personId, a.decidable])).toEqual([['fake:ap-1', 'jim', true], ['fake:ap-2', 'jim', false]]);
+    expect((await service.approvals()).map((a) => [a.id, a.personId, a.decidable])).toEqual([['fake:ap-1', 'simran', true], ['fake:ap-2', 'simran', false]]);
   });
 
   it('refuses every decision on a read-only server without auditing or calling the adapter', async () => {
@@ -94,7 +94,7 @@ describe('approvals through the office', () => {
     expect(await service.resolveApproval('fake:ap-1', { decision: 'reject', note: 'not with sk-ant-api03-abcdefghijklmnopqrstuvwxyz' }, 'signed-in')).toEqual({ ok: true });
     expect(calls).toEqual(['ap-1:false:not with sk-ant-api03-abcdefghijklmnopqrstuvwxyz']);
     const [intent, outcome] = lines(audit);
-    expect(intent).toMatchObject({ event: 'approval.decide', approval: 'fake:ap-1', adapter: 'fake', agent: 'a1', person: 'jim', kind: 'permission', risk: 'high',
+    expect(intent).toMatchObject({ event: 'approval.decide', approval: 'fake:ap-1', adapter: 'fake', agent: 'a1', person: 'simran', kind: 'permission', risk: 'high',
       title: 'Run the deploy?', decision: 'reject', note: 'not with [secret]', actor: 'signed-in' });
     expect(outcome).toMatchObject({ event: 'approval.decided', approval: 'fake:ap-1', decision: 'reject' });
   });

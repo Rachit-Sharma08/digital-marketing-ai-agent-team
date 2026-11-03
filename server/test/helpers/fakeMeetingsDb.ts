@@ -31,7 +31,7 @@ export function makeMeetingsDb(file: string, opts: { withHistory?: boolean } = {
     ['t_old', 'Council 2026-11-01: old', null, 'cmo', 'done', 'council', MT0 - 90 * 86_400, null, MT0 - 90 * 86_400 + 60, null, null],
     ['t_la', 'Draft the launch post', null, 'social', 'todo', 'user', MT0 + 9000, null, null, null, null],
     ['t_lb', 'Approve the launch post', null, 'chief', 'todo', 'user', MT0 + 9000, null, null, null, null],
-    ['t_os', 'Order toner', null, 'campaigns', 'todo', 'dmos-ops', MT0 + 9500, null, null, null, null],
+    ['t_os', 'Order toner', null, 'campaigns', 'todo', 'akg-ops', MT0 + 9500, null, null, null, null],
   ];
   for (const r of tasks) t.run(...r);
   const run = db.prepare('INSERT INTO task_runs (task_id,profile,status,started_at,ended_at,outcome,summary,metadata,error) VALUES (?,?,?,?,?,?,?,?,?)');

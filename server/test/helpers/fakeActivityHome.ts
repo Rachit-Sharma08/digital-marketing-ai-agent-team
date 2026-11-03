@@ -56,7 +56,7 @@ export function logStamp(epoch: number): string {
 }
 
 export function makeFakeActivityHome(): string {
-  const home = mkdtempSync(path.join(tmpdir(), 'dmos-activity-'));
+  const home = mkdtempSync(path.join(tmpdir(), 'akg-activity-'));
   const p = (...parts: string[]) => path.join(home, 'profiles', 'campaigns', ...parts);
   mkdirSync(p('cron'), { recursive: true });
   mkdirSync(p('logs'), { recursive: true });
@@ -91,7 +91,7 @@ export function makeFakeActivityHome(): string {
   ]);
   db(path.join(home, 'kanban.db'), KANBAN, [
     ['INSERT INTO tasks (id,title,body,assignee,status,created_at) VALUES (?,?,?,?,?,?)', [
-      ['t_new', `Call the Scranton prospects ${SECRET}`, 'PRIVATE BODY', 'campaigns', 'ready', A0 - 500],
+      ['t_new', `Call the New Delhi prospects ${SECRET}`, 'PRIVATE BODY', 'campaigns', 'ready', A0 - 500],
       ['t_done', 'Weekly campaign report', 'PRIVATE BODY', 'campaigns', 'done', A0 - 9000],
       ['t_crash', 'Refresh the client list', null, 'campaigns', 'ready', A0 - 9000],
       ['t_other', 'Somebody else', null, 'tech', 'ready', A0 - 400],

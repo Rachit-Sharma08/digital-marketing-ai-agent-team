@@ -17,7 +17,7 @@ describe('redactActivity (fixture recording)', () => {
     const textOnly = LEAK_PATTERNS.filter(([kind]) => !kind.startsWith('long digit run')); // raw records keep epoch seconds (10 digits)
     expect(textOnly.filter(([, re]) => re.test(json)).map(([k]) => k)).toEqual([]);
     expect(json).not.toContain('1001234567890');
-    expect(json).not.toMatch(/Jan\]|Fourteen|Scranton|Leads chat|"s_tg"|"t_crash"|"j_digest"|"e3"|quota|MCP call failed sk/);
+    expect(json).not.toMatch(/Jan\]|Fourteen|New Delhi|Leads chat|"s_tg"|"t_crash"|"j_digest"|"e3"|quota|MCP call failed sk/);
     expect(red.messages.map((m) => [m.role, m.at])).toEqual(raw.messages.map((m) => [m.role, m.at]));
     expect(red.runs.map((r) => r.outcome)).toEqual(raw.runs.map((r) => r.outcome));
     expect(red.cron.map((c) => [c.ok, c.delivery, c.at])).toEqual(raw.cron.map((c) => [c.ok, c.delivery, c.at]));

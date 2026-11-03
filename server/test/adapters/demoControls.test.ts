@@ -1,4 +1,4 @@
-// The demo day ("Threat Level Midnight") takes the control verbs in memory: stop a running card (parked as blocked),
+// The demo day ("Campaign Daybook") takes the control verbs in memory: stop a running card (parked as blocked),
 // run a scheduled job now, hand a card to another demo bot. No pause, like Hermes. Everything resets when the day
 // loops. Its scripted usage feeds Corporate's budgets: estimated cost per bot, one bot on a model nobody can price.
 import { afterEach, describe, expect, it } from 'vitest';
@@ -82,7 +82,7 @@ describe('demo usage for Corporate', () => {
     const afternoon = demo('16:30');
     const cost = async (d: ReturnType<typeof demo>) => summariseUsage((await today(d.adapter, d.now()))!.models, BUILT_IN_PRICES).cost!;
     expect(await cost(morning)).toBeLessThan(await cost(afternoon));
-    expect(await cost(afternoon)).toBeGreaterThan(DEMO_BUDGETS.limits.kelly!.daily!); // Kelly is over her daily budget by late afternoon
+    expect(await cost(afternoon)).toBeGreaterThan(DEMO_BUDGETS.limits.priya!.daily!); // Priya is over her daily budget by late afternoon
   });
 
   it('has one bot on a model nobody can price', async () => {
@@ -101,6 +101,6 @@ describe('demo usage for Corporate', () => {
 
   it('budgets for the demo: no auto-pause, a mix of daily and monthly limits', () => {
     expect(DEMO_BUDGETS.autoPause).toBe(false);
-    expect(Object.keys(DEMO_BUDGETS.limits).sort()).toEqual(['dwight', 'kelly', 'kevin', 'michael']);
+    expect(Object.keys(DEMO_BUDGETS.limits).sort()).toEqual(['diya', 'meera', 'priya', 'zara']);
   });
 });

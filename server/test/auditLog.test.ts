@@ -1,4 +1,4 @@
-// Every approval decision is written to a local append-only log (~/.dunder-mifflin-os/audit.log) BEFORE it is
+// Every approval decision is written to a local append-only log (~/.agents-ka-ghar/audit.log) BEFORE it is
 // carried out; if the log can't be written the decision is refused (fail closed). No secrets in it.
 import { afterAll, describe, expect, it } from 'vitest';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
@@ -8,7 +8,7 @@ import { createAuditLog } from '../src/audit/auditLog.ts';
 import { DIRTY_TEXT } from './adapters/contractSuite.ts';
 import { LEAK_PATTERNS } from './helpers/leakScan.ts';
 
-const root = mkdtempSync(path.join(tmpdir(), 'dmos-audit-'));
+const root = mkdtempSync(path.join(tmpdir(), 'akg-audit-'));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
 const AT = Date.parse('2026-10-13T15:00:00.000Z');
 
@@ -23,8 +23,11 @@ describe('audit log', () => {
       { at: '2026-10-13T15:00:00.000Z', event: 'approval.decide', approval: 'hermes:t_1.blocked', decision: 'approve' },
       { at: '2026-10-13T15:00:00.000Z', event: 'approval.decided', approval: 'hermes:t_1.blocked', status: 200 },
     ]);
-    expect(statSync(file).mode & 0o777).toBe(0o600);
-    expect(statSync(path.dirname(file)).mode & 0o777).toBe(0o700);
+    // Windows has no POSIX permission bits to assert on (chmod only toggles read-only there).
+    if (process.platform !== 'win32') {
+      expect(statSync(file).mode & 0o777).toBe(0o600);
+      expect(statSync(path.dirname(file)).mode & 0o777).toBe(0o700);
+    }
   });
 
   it('keeps what was there before', () => {

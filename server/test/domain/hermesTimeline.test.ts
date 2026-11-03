@@ -61,8 +61,8 @@ describe('hermesTimeline', () => {
   it('turns cards and runs into task events by title, and crashed runs into errors', async () => {
     const list = await events();
     const of = (kind: string) => list.filter((e) => e.kind === kind).map((e) => [e.title, e.at, e.detail]);
-    expect(of('task.created').map(([t]) => t)).toEqual([expect.stringMatching(/^Call the Scranton prospects \[secret\]/), 'Weekly campaign report', 'Refresh the client list']);
-    expect(of('task.started').map(([t]) => t)).toEqual([expect.stringMatching(/^Call the Scranton/), 'Refresh the client list', 'Weekly campaign report']);
+    expect(of('task.created').map(([t]) => t)).toEqual([expect.stringMatching(/^Call the New Delhi prospects \[secret\]/), 'Weekly campaign report', 'Refresh the client list']);
+    expect(of('task.started').map(([t]) => t)).toEqual([expect.stringMatching(/^Call the New Delhi/), 'Refresh the client list', 'Weekly campaign report']);
     expect(of('task.finished')).toEqual([['Weekly campaign report', iso(A0 - 4000), undefined]]);
     expect(list.find((e) => e.kind === 'error' && e.source === 'kanban')).toMatchObject({ title: 'Refresh the client list', detail: 'Run crashed', at: iso(A0 - 3400) });
   });

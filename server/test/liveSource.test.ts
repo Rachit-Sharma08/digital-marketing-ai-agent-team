@@ -35,9 +35,9 @@ describe('live adapter readState (fake HERMES_HOME)', async () => {
   });
 
   it('reads the latest session per profile, cron jobs and personas', () => {
-    expect(state.sessions).toEqual([{ profile: 'tech', lastActivityAt: T0 - 40, title: 'dmos-ops', source: 'cli' }]);
+    expect(state.sessions).toEqual([{ profile: 'tech', lastActivityAt: T0 - 40, title: 'akg-ops', source: 'cli' }]);
     expect(state.cron.map((j) => j.name)).toEqual(['ops-heartbeat']);
-    expect(state.personas).toEqual({ tech: 'Sadiq', campaigns: 'Dwight Schrute' });
+    expect(state.personas).toEqual({ tech: 'Sadiq', campaigns: 'Meera Kaur' });
   });
 
   it('never carries chat ids, secrets, prompts or tool output', () => {
@@ -49,20 +49,20 @@ describe('live adapter readState (fake HERMES_HOME)', async () => {
 
   it('feeds a sane snapshot', () => {
     const snap = buildSnapshot(state, loadPeople(), T0);
-    expect(snap.presence.dwight).toMatchObject({ status: 'meeting', roomId: 'ops', activity: 'Shared ops card' });
-    expect(snap.presence.kelly).toMatchObject({ status: 'error', activity: 'Task crashed: Crashy card' });
-    expect(snap.presence.sadiq).toMatchObject({ status: 'working', activity: 'dmos-ops' });
-    expect(snap.presence.pam).toMatchObject({ status: 'offline' });
+    expect(snap.presence.meera).toMatchObject({ status: 'meeting', roomId: 'ops', activity: 'Shared ops card' });
+    expect(snap.presence.priya).toMatchObject({ status: 'error', activity: 'Task crashed: Crashy card' });
+    expect(snap.presence.sadiq).toMatchObject({ status: 'working', activity: 'akg-ops' });
+    expect(snap.presence.aanya).toMatchObject({ status: 'offline' });
   });
 });
 
 describe('live adapter readMessages', () => {
   it('reads a room\'s Telegram session and the OS thread, final texts only', async () => {
-    const res = await source.readMessages({ profile: 'tech', target: { kind: 'group', chatKey: keyOf(OPS_CHAT) }, osSessionTitle: 'dmos-ops', limit: 50 });
+    const res = await source.readMessages({ profile: 'tech', target: { kind: 'group', chatKey: keyOf(OPS_CHAT) }, osSessionTitle: 'akg-ops', limit: 50 });
     expect(res.ok).toBe(true);
     if (!res.ok) return;
     expect(res.messages.map((m) => [m.origin, m.role, m.text])).toEqual([
-      ['telegram', 'user', '[Jan Levinson] How is the copier?'],
+      ['telegram', 'user', '[Priya Singh] How is the copier?'],
       ['telegram', 'assistant', 'Copier is fine.'],
       ['os', 'user', '[Ops room] From the OS'],
       ['os', 'assistant', 'OS reply'],
@@ -71,7 +71,7 @@ describe('live adapter readMessages', () => {
   });
 
   it('reads the direct-line (DM) session', async () => {
-    const res = await source.readMessages({ profile: 'tech', target: { kind: 'dm' }, osSessionTitle: 'dmos-dm-tech', limit: 50 });
+    const res = await source.readMessages({ profile: 'tech', target: { kind: 'dm' }, osSessionTitle: 'akg-dm-tech', limit: 50 });
     expect(res.ok && res.messages.map((m) => m.text)).toEqual(['dm hello']);
   });
 

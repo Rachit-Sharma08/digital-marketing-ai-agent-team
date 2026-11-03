@@ -19,13 +19,13 @@ const STATE: HermesState = {
   ],
   chatNames: {},
   kanban: {
-    tasks: [{ id: 't_1', title: 'Ship the map', assignee: 'campaigns', status: 'running', createdBy: 'dmos-ops', tenant: null, createdAt: NOW - 600, startedAt: NOW - 300, completedAt: null, lastHeartbeatAt: NOW - 20 }],
+    tasks: [{ id: 't_1', title: 'Ship the map', assignee: 'campaigns', status: 'running', createdBy: 'akg-ops', tenant: null, createdAt: NOW - 600, startedAt: NOW - 300, completedAt: null, lastHeartbeatAt: NOW - 20 }],
     runs: [{ taskId: 't_1', profile: 'campaigns', status: 'running', outcome: null, startedAt: NOW - 300, endedAt: null, lastHeartbeatAt: NOW - 20 }],
     subs: [], links: [],
   },
   sessions: [{ profile: 'tech', lastActivityAt: NOW - 30, title: 'Set up new Ops room', source: 'telegram' }],
   cron: [],
-  personas: { tech: 'Sadiq', campaigns: 'Dwight Schrute' },
+  personas: { tech: 'Sadiq', campaigns: 'Meera Kaur' },
 };
 
 describe('buildSnapshot', () => {
@@ -33,37 +33,37 @@ describe('buildSnapshot', () => {
 
   it('keeps a keepName person\'s own name and shows the Hermes persona name beside it', () => {
     const withHank = buildSnapshot({ ...STATE, personas: { ...STATE.personas, health: 'Hank' } }, loadPeople(), NOW);
-    expect(withHank.people.find((p) => p.id === 'ira')).toMatchObject({ name: 'Sensei Ira', persona: 'Hank', bot: { profile: 'health' } });
-    expect(withHank.people.find((p) => p.id === 'dwight')).not.toHaveProperty('persona');
-    expect(snap.people.find((p) => p.id === 'ira')).toMatchObject({ name: 'Sensei Ira' });
-    expect(snap.people.find((p) => p.id === 'ira')).not.toHaveProperty('persona');
+    expect(withHank.people.find((p) => p.id === 'isabella')).toMatchObject({ name: 'Isabella D Costa', persona: 'Hank', bot: { profile: 'health' } });
+    expect(withHank.people.find((p) => p.id === 'meera')).not.toHaveProperty('persona');
+    expect(snap.people.find((p) => p.id === 'isabella')).toMatchObject({ name: 'Isabella D Costa' });
+    expect(snap.people.find((p) => p.id === 'isabella')).not.toHaveProperty('persona');
   });
 
   it('leaves out the persona line when it says the same as the name', () => {
-    const same = buildSnapshot({ ...STATE, personas: { health: 'Sensei Ira' } }, loadPeople(), NOW);
-    expect(same.people.find((p) => p.id === 'ira')).not.toHaveProperty('persona');
+    const same = buildSnapshot({ ...STATE, personas: { health: 'Isabella D Costa' } }, loadPeople(), NOW);
+    expect(same.people.find((p) => p.id === 'isabella')).not.toHaveProperty('persona');
   });
 
   it('carries every person, bots overlaid from the roster and live personas', () => {
     expect(snap.people).toHaveLength(23);
     const sadiq = snap.people.find((p) => p.id === 'sadiq');
     expect(sadiq).toMatchObject({ name: 'Sadiq', bot: { profile: 'tech', role: 'CTO: leads Ops and R&D' } });
-    expect(snap.people.find((p) => p.id === 'jim')?.bot).toBeUndefined();
+    expect(snap.people.find((p) => p.id === 'simran')?.bot).toBeUndefined();
   });
 
   it('derives presence per person', () => {
-    expect(snap.presence.dwight).toMatchObject({ status: 'meeting', roomId: 'ops', activity: 'Ship the map' });
+    expect(snap.presence.meera).toMatchObject({ status: 'meeting', roomId: 'ops', activity: 'Ship the map' });
     expect(snap.presence.sadiq).toMatchObject({ status: 'working', activity: 'Set up new Ops room' });
-    expect(snap.presence.michael).toMatchObject({ status: 'offline' });
-    expect(snap.presence.pam).toMatchObject({ status: 'offline', activity: 'No Telegram connection' });
-    expect(snap.presence.jim).toEqual({ status: 'no-bot' });
+    expect(snap.presence.zara).toMatchObject({ status: 'offline' });
+    expect(snap.presence.aanya).toMatchObject({ status: 'offline', activity: 'No Telegram connection' });
+    expect(snap.presence.simran).toEqual({ status: 'no-bot' });
     expect(Object.keys(snap.presence)).toHaveLength(23);
   });
 
   it('includes rooms and tasks and a timestamp', () => {
     expect(snap.generatedAt).toBe(iso(NOW));
     expect(snap.rooms.find((r) => r.id === 'ops')?.hermesRoom).toBe('Ops');
-    expect(snap.tasks).toEqual([{ id: 't_1', title: 'Ship the map', status: 'doing', ownerId: 'dwight', roomId: 'ops', shared: true, updatedAt: iso(NOW - 20) }]);
+    expect(snap.tasks).toEqual([{ id: 't_1', title: 'Ship the map', status: 'doing', ownerId: 'meera', roomId: 'ops', shared: true, updatedAt: iso(NOW - 20) }]);
   });
 
   it('never leaks chat keys into the snapshot', () => {
@@ -101,7 +101,7 @@ describe('toAgentMessages', () => {
   it('maps roles to authors (the bot\'s profile; none = the user), strips sender tags, drops NO_REPLY, sorts by time', () => {
     const msgs = toAgentMessages([
       raw({ uid: 'b', role: 'assistant', text: 'On it.', at: NOW + 2 }),
-      raw({ uid: 'a', role: 'user', text: '[Jan Levinson] status?', at: NOW + 1 }),
+      raw({ uid: 'a', role: 'user', text: '[Priya Singh] status?', at: NOW + 1 }),
       raw({ uid: 'c', role: 'assistant', text: 'NO_REPLY', at: NOW + 3 }),
       raw({ uid: 'd', role: 'user', text: '[Ops room] from the OS', at: NOW + 4, origin: 'os' }),
       raw({ uid: 'e', role: 'user', text: '[Replying to: "x"] ok', at: NOW + 5 }),

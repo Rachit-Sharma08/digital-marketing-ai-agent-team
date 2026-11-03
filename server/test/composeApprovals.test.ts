@@ -16,7 +16,7 @@ const WITH = { chat: true, createTask: true, approvals: true, pause: false, stop
 const WITHOUT = { ...WITH, approvals: false };
 
 const hermes: AdapterSnapshot = {
-  agents: [{ id: 'campaigns', name: 'Dwight Schrute', role: 'Campaigns' }, { id: 'chief', name: 'Pam Beesly', role: 'Chief' }, { id: 'tech', role: 'Tech' }],
+  agents: [{ id: 'campaigns', name: 'Meera Kaur', role: 'Campaigns' }, { id: 'chief', name: 'Aanya Sharma', role: 'Chief' }, { id: 'tech', role: 'Tech' }],
   presence: { campaigns: { status: 'working', activity: 'Selling paper' }, chief: { status: 'idle' }, tech: { status: 'needs-input', activity: 'Which repo?' } },
   tasks: [],
   rooms: [],
@@ -49,7 +49,7 @@ describe('approvals in the office snapshot', () => {
       requestedAt: iso(NOW - 60), risk: 'medium', decidable: true,
     });
     expect(snapshot.approvals?.[1]).toMatchObject({
-      personId: 'dwight', from: 'Dwight Schrute', risk: 'medium', decidable: true, actions: { approve: 'Unblock the card', reject: 'Archive the card' },
+      personId: 'meera', from: 'Meera Kaur', risk: 'medium', decidable: true, actions: { approve: 'Unblock the card', reject: 'Archive the card' },
     });
   });
 
@@ -59,17 +59,17 @@ describe('approvals in the office snapshot', () => {
   });
 
   it('shows a working or idle bot with a pending approval as needing you, with what it asks and since when', () => {
-    expect(snapshot.presence.dwight).toEqual({ status: 'needs-input', activity: 'Send the list?', since: iso(NOW - 3600) });
+    expect(snapshot.presence.meera).toEqual({ status: 'needs-input', activity: 'Send the list?', since: iso(NOW - 3600) });
     expect(snapshot.presence.sadiq).toMatchObject({ status: 'needs-input', activity: 'Which repo?' });
-    expect(snapshot.presence.pam).toMatchObject({ status: 'idle' });
-    expect(snapshot.presence.toby).toEqual({ status: 'no-bot' });
+    expect(snapshot.presence.aanya).toMatchObject({ status: 'idle' });
+    expect(snapshot.presence.sarah).toEqual({ status: 'no-bot' });
   });
 
   it('leaves a bot in a meeting, in error or offline as it is (its approval is still listed)', () => {
     for (const status of ['meeting', 'error', 'offline'] as const) {
       const snap = buildOffice(readings({ ...hermes, presence: { ...hermes.presence, campaigns: { status, activity: 'Busy', roomId: 'council' } } }), setup, NOW).snapshot;
-      expect(snap.presence.dwight?.status).toBe(status);
-      expect(snap.approvals?.some((a) => a.personId === 'dwight')).toBe(true);
+      expect(snap.presence.meera?.status).toBe(status);
+      expect(snap.approvals?.some((a) => a.personId === 'meera')).toBe(true);
     }
   });
 

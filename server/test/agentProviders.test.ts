@@ -17,7 +17,7 @@ describe('multi-provider model routing', () => {
 
   it('gives the general lead the strongest deep model available', () => {
     const pick = pickAgent('hello', { MISTRAL_API_KEY: 'present' });
-    expect(pick).toMatchObject({ kind: 'general', person: 'michael', model: { provider: 'mistral', tier: 'deep', id: 'mistral-large-latest' } });
+    expect(pick).toMatchObject({ kind: 'general', person: 'zara', model: { provider: 'mistral', tier: 'deep', id: 'mistral-large-latest' } });
   });
 
   it('uses an OpenAI-compatible provider payload and returns provider metadata', async () => {

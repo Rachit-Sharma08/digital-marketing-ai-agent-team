@@ -68,23 +68,23 @@ describe('hermesApprovals (cards -> approvals)', () => {
 describe('decisionCommands (the CLI each button runs)', () => {
   const ask = card({ id: 't_ask' });
   it('unblocks with your note, or comments and archives', () => {
-    expect(decisionCommands(ask, { approve: true })).toEqual([['kanban', 'unblock', 't_ask', '--reason=Approved in Dunder Mifflin OS']]);
-    expect(decisionCommands(ask, { approve: true, note: '-go ahead' })).toEqual([['kanban', 'unblock', 't_ask', '--reason=Approved in Dunder Mifflin OS: -go ahead']]);
+    expect(decisionCommands(ask, { approve: true })).toEqual([['kanban', 'unblock', 't_ask', '--reason=Approved in Agents Ka Ghar']]);
+    expect(decisionCommands(ask, { approve: true, note: '-go ahead' })).toEqual([['kanban', 'unblock', 't_ask', '--reason=Approved in Agents Ka Ghar: -go ahead']]);
     expect(decisionCommands(ask, { approve: false, note: 'not now' })).toEqual([
-      ['kanban', 'comment', 't_ask', 'Rejected in Dunder Mifflin OS: not now'], ['kanban', 'archive', 't_ask'],
+      ['kanban', 'comment', 't_ask', 'Rejected in Agents Ka Ghar: not now'], ['kanban', 'archive', 't_ask'],
     ]);
   });
 
   it('marks your own to-do done, or archives it', () => {
     const mine = card({ id: 't_mine', assignee: 'jan', blockKind: null });
-    expect(decisionCommands(mine, { approve: true, note: 'published' })).toEqual([['kanban', 'complete', 't_mine', '--result=Done in Dunder Mifflin OS: published']]);
-    expect(decisionCommands(mine, { approve: false })).toEqual([['kanban', 'comment', 't_mine', 'Rejected in Dunder Mifflin OS'], ['kanban', 'archive', 't_mine']]);
+    expect(decisionCommands(mine, { approve: true, note: 'published' })).toEqual([['kanban', 'complete', 't_mine', '--result=Done in Agents Ka Ghar: published']]);
+    expect(decisionCommands(mine, { approve: false })).toEqual([['kanban', 'comment', 't_mine', 'Rejected in Agents Ka Ghar'], ['kanban', 'archive', 't_mine']]);
   });
 
   it('accepts a review by completing it, or sends it back with the note', () => {
     const rev = card({ id: 't_rev', status: 'review', assignee: null, event: 'review_requested' });
-    expect(decisionCommands(rev, { approve: true })).toEqual([['kanban', 'complete', 't_rev', '--result=Accepted in Dunder Mifflin OS']]);
-    expect(decisionCommands(rev, { approve: false, note: 'tighten the hero' })).toEqual([['kanban', 'reopen-review', 't_rev', '--reason=Changes requested in Dunder Mifflin OS: tighten the hero']]);
+    expect(decisionCommands(rev, { approve: true })).toEqual([['kanban', 'complete', 't_rev', '--result=Accepted in Agents Ka Ghar']]);
+    expect(decisionCommands(rev, { approve: false, note: 'tighten the hero' })).toEqual([['kanban', 'reopen-review', 't_rev', '--reason=Changes requested in Agents Ka Ghar: tighten the hero']]);
   });
 
   it('has nothing to run for a card that is only shown', () => {

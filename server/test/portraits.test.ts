@@ -14,23 +14,23 @@ import type { Runner } from '../src/chat/runner.ts';
 const JPEG = (n: number) => Buffer.from([0xff, 0xd8, 0xff, 0xe0, n, n, n]);
 const PNG = (n: number) => Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, n]);
 
-const root = mkdtempSync(path.join(tmpdir(), 'dmos-portraits-'));
+const root = mkdtempSync(path.join(tmpdir(), 'akg-portraits-'));
 const home = path.join(root, 'hermes');
-const headshotDir = path.join(root, 'headshots'); // DMOS_HEADSHOTS_DIR
+const headshotDir = path.join(root, 'headshots'); // AKG_HEADSHOTS_DIR
 const portraitsDir = path.join(root, 'portraits');
 mkdirSync(headshotDir, { recursive: true });
 mkdirSync(portraitsDir, { recursive: true });
-writeFileSync(path.join(headshotDir, 'campaigns.jpg'), JPEG(1)); // Dwight's Hermes headshot, no portrait file
-writeFileSync(path.join(headshotDir, 'chief.jpg'), JPEG(2)); // Pam has both: the portrait wins
-writeFileSync(path.join(portraitsDir, 'pam.jpg'), JPEG(3));
-writeFileSync(path.join(portraitsDir, 'pam.png'), PNG(3));
-writeFileSync(path.join(portraitsDir, 'jim.jpg'), JPEG(4));
-writeFileSync(path.join(portraitsDir, 'jarvis.png'), PNG(5));
-writeFileSync(path.join(portraitsDir, 'ira.jpg'), JPEG(6));
-writeFileSync(path.join(portraitsDir, 'kevin.jpg'), 'not an image at all');
-mkdirSync(path.join(portraitsDir, 'creed.jpg'));
-writeFileSync(path.join(portraitsDir, 'meredith.jpg'), JPEG(7));
-chmodSync(path.join(portraitsDir, 'meredith.jpg'), 0o000); // unreadable
+writeFileSync(path.join(headshotDir, 'campaigns.jpg'), JPEG(1)); // Meera's Hermes headshot, no portrait file
+writeFileSync(path.join(headshotDir, 'chief.jpg'), JPEG(2)); // Aanya has both: the portrait wins
+writeFileSync(path.join(portraitsDir, 'aanya.jpg'), JPEG(3));
+writeFileSync(path.join(portraitsDir, 'aanya.png'), PNG(3));
+writeFileSync(path.join(portraitsDir, 'simran.jpg'), JPEG(4));
+writeFileSync(path.join(portraitsDir, 'maya.png'), PNG(5));
+writeFileSync(path.join(portraitsDir, 'isabella.jpg'), JPEG(6));
+writeFileSync(path.join(portraitsDir, 'diya.jpg'), 'not an image at all');
+mkdirSync(path.join(portraitsDir, 'naina.jpg'));
+writeFileSync(path.join(portraitsDir, 'amina.jpg'), JPEG(7));
+chmodSync(path.join(portraitsDir, 'amina.jpg'), 0o000); // unreadable
 writeFileSync(path.join(portraitsDir, 'secret.jpg'), JPEG(8)); // not a person on the map
 writeFileSync(path.join(root, 'outside.jpg'), JPEG(9));
 
@@ -53,16 +53,20 @@ let base: string;
 beforeAll(async () => ({ app, base } = await start(portraitsDir)));
 afterAll(async () => {
   await app.close();
-  chmodSync(path.join(portraitsDir, 'meredith.jpg'), 0o644);
+  chmodSync(path.join(portraitsDir, 'amina.jpg'), 0o644);
   rmSync(root, { recursive: true, force: true });
 });
+
+// amina.jpg is chmod 000. Windows does not enforce that: chmod only toggles the read-only flag, so the file stays
+// readable there and the cases that depend on an unreadable file are POSIX-only.
+const UNREADABLE = process.platform === 'win32' ? [] : ['amina'];
 
 const get = (id: string) => fetch(`${base}/api/portraits/${id}`);
 const bytes = async (res: Response) => Buffer.from(await res.arrayBuffer());
 
 describe('GET /api/portraits/:personId', () => {
   it('serves a local JPEG portrait with its type, a one-day cache and nosniff', async () => {
-    const res = await get('jim');
+    const res = await get('simran');
     expect(res.status).toBe(200);
     expect(res.headers.get('content-type')).toBe('image/jpeg');
     expect(res.headers.get('cache-control')).toMatch(/max-age=86400/);
@@ -71,36 +75,36 @@ describe('GET /api/portraits/:personId', () => {
   });
 
   it('serves a .png portrait as image/png and prefers .jpg when both exist', async () => {
-    const jarvis = await get('jarvis');
-    expect(jarvis.headers.get('content-type')).toBe('image/png');
-    expect(await bytes(jarvis)).toEqual(PNG(5));
-    expect(await bytes(await get('pam'))).toEqual(JPEG(3));
-    expect((await get('ira')).status).toBe(200);
+    const maya = await get('maya');
+    expect(maya.headers.get('content-type')).toBe('image/png');
+    expect(await bytes(maya)).toEqual(PNG(5));
+    expect(await bytes(await get('aanya'))).toEqual(JPEG(3));
+    expect((await get('isabella')).status).toBe(200);
   });
 
   it("falls back to the Hermes bot headshot for a botted person without a portrait file", async () => {
-    const res = await get('dwight');
+    const res = await get('meera');
     expect(res.status).toBe(200);
     expect(await bytes(res)).toEqual(JPEG(1));
   });
 
   it('404s people with neither a portrait nor a bot headshot, and files that are not JPEG/PNG', async () => {
-    for (const id of ['roy', 'andy', 'kevin', 'creed', 'meredith']) expect((await get(id)).status, id).toBe(404);
+    for (const id of ['sunita', 'aisha', 'diya', 'naina', ...UNREADABLE]) expect((await get(id)).status, id).toBe(404);
   });
 
   it('only answers for people on the map: no other files, no traversal', async () => {
-    const bad = ['secret', '..%2Foutside', '..', '.', 'jim.jpg', 'JIM', '%2e%2e%2f%2e%2e%2fetc%2fpasswd', 'jim%00', '%E0%A4%A', 'jim%2F', 'hank'];
+    const bad = ['secret', '..%2Foutside', '..', '.', 'simran.jpg', 'MEERA', '%2e%2e%2f%2e%2e%2fetc%2fpasswd', 'simran%00', '%E0%A4%A', 'simran%2F', 'hank'];
     for (const id of bad) expect((await get(id)).status, id).toBe(404);
     expect((await fetch(`${base}/api/portraits/`)).status).toBe(404);
-    expect((await fetch(`${base}/api/portraits/jim/extra`)).status).toBe(404);
+    expect((await fetch(`${base}/api/portraits/simran/extra`)).status).toBe(404);
   });
 
   it('never puts the directory in a response or a log line', async () => {
     const lines: string[] = [];
     const spy = vi.spyOn(process.stderr, 'write').mockImplementation((chunk: string | Uint8Array) => (lines.push(String(chunk)), true));
-    vi.stubEnv('DMOS_QUIET', '0');
+    vi.stubEnv('AKG_QUIET', '0');
     try {
-      for (const id of ['meredith', 'creed', 'kevin', 'roy', 'secret', '..%2Foutside']) {
+      for (const id of [...UNREADABLE, 'naina', 'diya', 'sunita', 'secret', '..%2Foutside']) {
         const text = await (await get(id)).text();
         expect(text).toBe('{"error":"No portrait"}');
       }
@@ -110,14 +114,14 @@ describe('GET /api/portraits/:personId', () => {
     }
     expect(lines.join('')).not.toContain(root);
     expect(lines.join('')).not.toContain(os.homedir());
-    expect(lines.some((l) => l.includes('EACCES'))).toBe(true); // the unreadable file is reported, by code only
+    if (UNREADABLE.length) expect(lines.some((l) => l.includes('EACCES'))).toBe(true); // the unreadable file is reported, by code only
   });
 
   it('still falls back to bot headshots when no portraits directory is configured', async () => {
     const other = await start(null);
     try {
-      expect((await fetch(`${other.base}/api/portraits/dwight`)).status).toBe(200);
-      expect((await fetch(`${other.base}/api/portraits/jim`)).status).toBe(404);
+      expect((await fetch(`${other.base}/api/portraits/meera`)).status).toBe(200);
+      expect((await fetch(`${other.base}/api/portraits/simran`)).status).toBe(404);
     } finally {
       await other.app.close();
     }
@@ -141,21 +145,22 @@ describe('portrait helpers', () => {
 
   it('reads portraits for allow-listed ids only', async () => {
     const dirs = { portraitsDir, headshotDir };
-    expect(await readPortrait('jim', dirs)).toEqual({ body: JPEG(4), contentType: 'image/jpeg' });
+    expect(await readPortrait('simran', dirs)).toEqual({ body: JPEG(4), contentType: 'image/jpeg' });
     expect(await readPortrait('../outside', dirs)).toBeNull();
     expect(await readPortrait('secret', dirs)).toBeNull();
   });
 
-  it('defaults the portraits directory to ~/.dunder-mifflin-os/portraits and expands ~ in DMOS_PORTRAITS_DIR', () => {
-    expect(portraitsDirFrom(undefined, '/h')).toBe(path.join('/h', '.dunder-mifflin-os', 'portraits'));
-    expect(portraitsDirFrom('~/pics', '/h')).toBe(path.join('/h', 'pics'));
+  it('defaults the portraits directory to ~/.agents-ka-ghar/portraits and expands ~ in AKG_PORTRAITS_DIR', () => {
+    // A POSIX home (and a POSIX override) keeps POSIX separators, whatever the host platform.
+    expect(portraitsDirFrom(undefined, '/h')).toBe(path.posix.join('/h', '.agents-ka-ghar', 'portraits'));
+    expect(portraitsDirFrom('~/pics', '/h')).toBe(path.posix.join('/h', 'pics'));
     expect(portraitsDirFrom('/abs/pics', '/h')).toBe('/abs/pics');
-    expect(portraitsDirFrom('', '/h')).toBe(path.join('/h', '.dunder-mifflin-os', 'portraits'));
+    expect(portraitsDirFrom('', '/h')).toBe(path.posix.join('/h', '.agents-ka-ghar', 'portraits'));
   });
 
-  it('defaults the headshots directory to ~/.dunder-mifflin-os/headshots and expands ~ in DMOS_HEADSHOTS_DIR', () => {
-    expect(headshotsDirFrom(undefined, '/h')).toBe(path.join('/h', '.dunder-mifflin-os', 'headshots'));
-    expect(headshotsDirFrom('~/bots', '/h')).toBe(path.join('/h', 'bots'));
+  it('defaults the headshots directory to ~/.agents-ka-ghar/headshots and expands ~ in AKG_HEADSHOTS_DIR', () => {
+    expect(headshotsDirFrom(undefined, '/h')).toBe(path.posix.join('/h', '.agents-ka-ghar', 'headshots'));
+    expect(headshotsDirFrom('~/bots', '/h')).toBe(path.posix.join('/h', 'bots'));
     expect(headshotsDirFrom('/abs/bots', '/h')).toBe('/abs/bots');
   });
 });

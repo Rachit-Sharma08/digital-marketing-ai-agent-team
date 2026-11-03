@@ -48,7 +48,7 @@ describe('annotateTasks (room + shared)', () => {
     expect(annotateTasks(k, ROOM_CHATS)[0]).toMatchObject({ roomId: 'council', shared: true });
   });
 
-  it('recognises cards created from Dunder Mifflin OS by their created_by marker', () => {
+  it('recognises cards created from Agents Ka Ghar by their created_by marker', () => {
     const k = kanban({ tasks: [task({ id: 't1', assignee: 'campaigns', createdBy: `${OS_CREATOR_PREFIX}ops` })] });
     expect(annotateTasks(k, ROOM_CHATS)[0]).toMatchObject({ roomId: 'ops', shared: true });
   });

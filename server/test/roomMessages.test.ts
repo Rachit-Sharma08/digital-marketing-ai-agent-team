@@ -29,7 +29,7 @@ describe('collectRoomMessages', () => {
     });
     const res = await collectRoomMessages(source, 'council', CHATS, 50);
     expect(queries.map((q) => [q.profile, q.target.kind, q.osSessionTitle])).toEqual([
-      ['chief', 'group', 'dmos-council'], ['cmo', 'group', null],
+      ['chief', 'group', 'akg-council'], ['cmo', 'group', null],
     ]);
     expect(res).toEqual({
       messages: [
@@ -43,14 +43,14 @@ describe('collectRoomMessages', () => {
   it('reads only the OS thread for a room with no Telegram group, and says why when empty', async () => {
     const { source, queries } = fakeSource({ skool: { ok: true, messages: [] } });
     const res = await collectRoomMessages(source, 'skool', [], 50);
-    expect(queries).toEqual([{ profile: 'skool', target: { kind: 'none' }, osSessionTitle: 'dmos-skool', limit: 50 }]);
+    expect(queries).toEqual([{ profile: 'skool', target: { kind: 'none' }, osSessionTitle: 'akg-skool', limit: 50 }]);
     expect(res).toEqual({ messages: [], reason: 'room-not-linked-to-a-telegram-group' });
   });
 
   it('reads the DM for a direct line', async () => {
     const { source, queries } = fakeSource({ tech: { ok: true, messages: [msg('tech', 'x', 'assistant', 'Hi', T)] } });
     const res = await collectRoomMessages(source, 'dm-tech', [], 10);
-    expect(queries[0]).toEqual({ profile: 'tech', target: { kind: 'dm' }, osSessionTitle: 'dmos-dm-tech', limit: 10 });
+    expect(queries[0]).toEqual({ profile: 'tech', target: { kind: 'dm' }, osSessionTitle: 'akg-dm-tech', limit: 10 });
     expect(res.messages).toHaveLength(1);
     expect(res.reason).toBeUndefined();
   });

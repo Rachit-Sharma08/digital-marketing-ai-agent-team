@@ -28,7 +28,7 @@ describe('deriveRoomChats', () => {
   });
 
   it('falls back to the Telegram group title when prompts say nothing', () => {
-    const rc = deriveRoomChats([cfg('tech', ['c_a', 'c_b'], ['c_a', 'c_b'])], { c_a: 'Dunder Mifflin Ops', c_b: 'Dunder Mifflin R&D' });
+    const rc = deriveRoomChats([cfg('tech', ['c_a', 'c_b'], ['c_a', 'c_b'])], { c_a: 'Agents Ka Ghar Ops', c_b: 'Agents Ka Ghar R&D' });
     expect(rc.map((r) => [r.roomId, r.chatKey])).toEqual([['ops', 'c_a'], ['rnd', 'c_b']]);
   });
 

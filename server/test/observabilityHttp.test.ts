@@ -46,17 +46,17 @@ const get = async (path: string) => {
 
 describe('GET /api/people/:id/timeline', () => {
   it('returns a Hermes bot\'s last 24 hours, newest first, scrubbed', async () => {
-    const { status, body } = await get('/api/people/dwight/timeline');
+    const { status, body } = await get('/api/people/meera/timeline');
     const t = body as TimelineResponse;
     expect(status).toBe(200);
-    expect(t).toMatchObject({ personId: 'dwight', available: true, adapter: { id: 'hermes', label: 'Hermes' }, since: new Date((T - 86_400) * 1000).toISOString() });
+    expect(t).toMatchObject({ personId: 'meera', available: true, adapter: { id: 'hermes', label: 'Hermes' }, since: new Date((T - 86_400) * 1000).toISOString() });
     expect(t.events.length).toBeGreaterThan(5);
     expect(leaks(JSON.stringify(t))).toEqual([]);
   });
 
   it('takes since and limit, and says when there was more', async () => {
     const since = new Date((T - 6 * 3600) * 1000).toISOString();
-    const t = (await get(`/api/people/dwight/timeline?limit=2&since=${encodeURIComponent(since)}`)).body as TimelineResponse;
+    const t = (await get(`/api/people/meera/timeline?limit=2&since=${encodeURIComponent(since)}`)).body as TimelineResponse;
     expect(t.events).toHaveLength(2);
     expect(t.truncated).toBe(true);
     expect(t.since).toBe(since);
@@ -64,15 +64,15 @@ describe('GET /api/people/:id/timeline', () => {
   });
 
   it('refuses a bad since or limit with 400 and an unknown person with 404', async () => {
-    expect((await get('/api/people/dwight/timeline?since=yesterday')).status).toBe(400);
-    expect((await get('/api/people/dwight/timeline?limit=0')).status).toBe(400);
+    expect((await get('/api/people/meera/timeline?since=yesterday')).status).toBe(400);
+    expect((await get('/api/people/meera/timeline?limit=0')).status).toBe(400);
     expect((await get('/api/people/gandalf/timeline')).status).toBe(404);
     expect((await get('/api/people/..%2Fetc/timeline')).status).toBe(404);
   });
 
   it('says why there is no timeline for someone without a bot', async () => {
-    const t = (await get('/api/people/jim/timeline')).body as TimelineResponse;
-    expect(t).toMatchObject({ personId: 'jim', available: false, reason: 'No bot yet', events: [] });
+    const t = (await get('/api/people/simran/timeline')).body as TimelineResponse;
+    expect(t).toMatchObject({ personId: 'simran', available: false, reason: 'No bot yet', events: [] });
   });
 
   it('shows webhook and Claude Code temps\' timelines too', async () => {
@@ -91,9 +91,9 @@ describe('GET /api/usage', () => {
     expect(status).toBe(200);
     expect(r).toMatchObject({ period: '30d', currency: 'USD', estimate: true, priceTable: { asOf: '2026-10-06' } });
     expect(r.priceTable.models).toBeGreaterThan(5);
-    const dwight = r.rows.find((row) => row.personId === 'dwight')!;
-    expect(dwight).toMatchObject({ name: 'Dwight Schrute', adapterId: 'hermes', adapterLabel: 'Hermes' });
-    expect(dwight.usage!.inputTokens).toBeGreaterThan(0);
+    const meera = r.rows.find((row) => row.personId === 'meera')!;
+    expect(meera).toMatchObject({ name: 'Meera Kaur', adapterId: 'hermes', adapterLabel: 'Hermes' });
+    expect(meera.usage!.inputTokens).toBeGreaterThan(0);
     const cc = r.rows.find((row) => row.personId === 'temp-claude-code-paper-site')!;
     expect(cc).toMatchObject({ usage: null, unavailable: 'No usage data from Claude Code' });
     expect(r.rows.find((row) => row.personId === 'temp-webhook-deploy-bot')).toMatchObject({ usage: null, unavailable: 'No usage data from Webhook' });
@@ -102,7 +102,7 @@ describe('GET /api/usage', () => {
     expect(r.rows.at(-1)?.usage).toBeNull(); // unavailable rows come last
     const costs = r.rows.flatMap((row) => (row.usage?.cost != null ? [row.usage.cost] : []));
     expect([...costs].sort((a, b) => b - a)).toEqual(costs);
-    expect(r.rows.some((row) => row.personId === 'jim')).toBe(false);
+    expect(r.rows.some((row) => row.personId === 'simran')).toBe(false);
   });
 
   it('defaults to today and refuses unknown periods', async () => {
@@ -115,7 +115,7 @@ describe('sign-in', () => {
   it('protects both endpoints like the rest of /api', async () => {
     const locked = await start({ accessToken: ACCESS });
     try {
-      for (const path of ['/api/usage?period=7d', '/api/people/dwight/timeline']) {
+      for (const path of ['/api/usage?period=7d', '/api/people/meera/timeline']) {
         expect((await fetch(`${locked.base}${path}`)).status, path).toBe(401);
       }
     } finally {

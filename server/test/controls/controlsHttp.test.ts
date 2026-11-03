@@ -17,7 +17,7 @@ import { mergeSeatRules } from '../../src/office/seating.ts';
 const NOW = 1_800_000_000;
 const TOKEN = 'controls-access-token-0123456789';
 const DEV = 'http://localhost:5173';
-const root = mkdtempSync(path.join(tmpdir(), 'dmos-controls-http-'));
+const root = mkdtempSync(path.join(tmpdir(), 'akg-controls-http-'));
 
 function fakeAdapter(calls: string[]): AgentAdapter {
   const ok = (what: string) => async () => (calls.push(what), { ok: true as const, value: null });
@@ -38,7 +38,7 @@ async function start(opts: { allowWrites: boolean; token?: string; budgets?: Bud
   n += 1;
   const audit = path.join(root, `audit-${n}.log`);
   const app = createApp({
-    adapters: [fakeAdapter(calls)], setup: defaultOfficeSetup(mergeSeatRules({}, { dwight: { adapter: 'fake', agent: 'a1' } })),
+    adapters: [fakeAdapter(calls)], setup: defaultOfficeSetup(mergeSeatRules({}, { meera: { adapter: 'fake', agent: 'a1' } })),
     hermesHome: root, headshotDir: root, pollIntervalMs: 60_000, now: () => NOW, allowWrites: opts.allowWrites, accessToken: opts.token ?? null,
     auditFile: audit, ...(opts.budgets ? { budgets: opts.budgets } : {}), budgetCheckMs: 0,
   });
@@ -56,10 +56,10 @@ let open: Server;
 let guarded: Server;
 let corporate: Server;
 beforeAll(async () => {
-  readOnly = await start({ allowWrites: false, budgets: { autoPause: true, limits: { dwight: { monthly: 20 } } } });
+  readOnly = await start({ allowWrites: false, budgets: { autoPause: true, limits: { meera: { monthly: 20 } } } });
   open = await start({ allowWrites: true });
-  guarded = await start({ allowWrites: true, token: TOKEN, budgets: { autoPause: false, limits: { dwight: { monthly: 20 } } } });
-  corporate = await start({ allowWrites: true, budgets: { autoPause: true, limits: { dwight: { daily: 100, monthly: 20 } } } });
+  guarded = await start({ allowWrites: true, token: TOKEN, budgets: { autoPause: false, limits: { meera: { monthly: 20 } } } });
+  corporate = await start({ allowWrites: true, budgets: { autoPause: true, limits: { meera: { daily: 100, monthly: 20 } } } });
 });
 afterAll(async () => {
   await Promise.all([readOnly, open, guarded, corporate].map((s) => s.app.close()));
@@ -68,36 +68,36 @@ afterAll(async () => {
 
 describe('POST /api/people/:id/actions', () => {
   it('is refused on a read-only server (403) without calling the adapter', async () => {
-    const res = await post(readOnly, 'dwight', { action: 'pause' });
+    const res = await post(readOnly, 'meera', { action: 'pause' });
     expect(res.status).toBe(403);
     expect(readOnly.calls).toEqual([]);
   });
 
   it('requires sign-in when an access token is set (401), then acts and audits it as signed in', async () => {
-    expect((await post(guarded, 'dwight', { action: 'stop' })).status).toBe(401);
+    expect((await post(guarded, 'meera', { action: 'stop' })).status).toBe(401);
     expect(guarded.calls).toEqual([]);
-    const res = await post(guarded, 'dwight', { action: 'stop' }, signedIn);
+    const res = await post(guarded, 'meera', { action: 'stop' }, signedIn);
     expect(res.status).toBe(200);
-    expect(await res.json() as ControlReply).toEqual({ ok: true, action: 'stop', message: "Stopped Dwight Schrute's current run." });
+    expect(await res.json() as ControlReply).toEqual({ ok: true, action: 'stop', message: "Stopped Meera Kaur's current run." });
     expect(guarded.calls).toEqual(['stop:a1']);
     expect(auditOf(guarded).map((e) => [e.event, e.action, e.actor])).toEqual([['control.request', 'stop', 'signed-in'], ['control.done', 'stop', undefined]]);
   });
 
   it('answers 400 for bad bodies, 404 for empty desks, 501 for verbs the adapter lacks, 415 without JSON', async () => {
-    expect((await post(open, 'dwight', { action: 'self-destruct' })).status).toBe(400);
-    expect((await post(open, 'pam', { action: 'pause' })).status).toBe(404);
+    expect((await post(open, 'meera', { action: 'self-destruct' })).status).toBe(400);
+    expect((await post(open, 'aanya', { action: 'pause' })).status).toBe(404);
     expect((await post(open, '..%2F..', { action: 'pause' })).status).toBe(404);
-    const noJobs = await post(open, 'dwight', { action: 'run-job', args: { jobId: 'job1' } });
+    const noJobs = await post(open, 'meera', { action: 'run-job', args: { jobId: 'job1' } });
     expect(noJobs.status).toBe(501);
     expect(await noJobs.json()).toEqual({ error: "Fake agents can't run jobs from the office" });
-    const plain = await fetch(`${open.base}/api/people/dwight/actions`, { method: 'POST', headers: { 'content-type': 'text/plain', origin: DEV }, body: 'pause' });
+    const plain = await fetch(`${open.base}/api/people/meera/actions`, { method: 'POST', headers: { 'content-type': 'text/plain', origin: DEV }, body: 'pause' });
     expect(plain.status).toBe(415);
     expect(open.calls).toEqual([]);
   });
 
   it('pauses and resumes, one audit pair each', async () => {
-    expect((await post(open, 'dwight', { action: 'pause' })).status).toBe(200);
-    expect((await post(open, 'dwight', { action: 'resume' })).status).toBe(200);
+    expect((await post(open, 'meera', { action: 'pause' })).status).toBe(200);
+    expect((await post(open, 'meera', { action: 'resume' })).status).toBe(200);
     expect(open.calls).toEqual(['pause:a1', 'resume:a1']);
     expect(auditOf(open).map((e) => e.event)).toEqual(['control.request', 'control.done', 'control.request', 'control.done']);
   });
@@ -105,8 +105,8 @@ describe('POST /api/people/:id/actions', () => {
   it('is rate-limited: 20 a minute, then 429', async () => {
     const limited = await start({ allowWrites: true });
     try {
-      for (let i = 0; i < 20; i += 1) expect((await post(limited, 'dwight', { action: 'nope' })).status).toBe(400);
-      const res = await post(limited, 'dwight', { action: 'pause' });
+      for (let i = 0; i < 20; i += 1) expect((await post(limited, 'meera', { action: 'nope' })).status).toBe(400);
+      const res = await post(limited, 'meera', { action: 'pause' });
       expect(res.status).toBe(429);
       expect(limited.calls).toEqual([]);
     } finally {
@@ -118,20 +118,20 @@ describe('POST /api/people/:id/actions', () => {
 describe('GET /api/budgets', () => {
   it('answers on a read-only server too, but cannot freeze anyone there: an alert with the reason', async () => {
     const report = await (await fetch(`${readOnly.base}/api/budgets`)).json() as BudgetsReport;
-    expect(report.budgets).toEqual([expect.objectContaining({ personId: 'dwight', level: 'over', action: 'alert', note: expect.stringMatching(/^Could not pause: Read-only mode/) })]);
+    expect(report.budgets).toEqual([expect.objectContaining({ personId: 'meera', level: 'over', action: 'alert', note: expect.stringMatching(/^Could not pause: Read-only mode/) })]);
     expect(readOnly.calls).toEqual([]);
   });
 
   it('requires sign-in when a token is set, and only alerts with autoPause off', async () => {
     expect((await fetch(`${guarded.base}/api/budgets`)).status).toBe(401);
     const report = await (await fetch(`${guarded.base}/api/budgets`, { headers: signedIn })).json() as BudgetsReport;
-    expect(report).toMatchObject({ autoPause: false, currency: 'USD', budgets: [{ personId: 'dwight', level: 'over', action: 'alert' }] });
+    expect(report).toMatchObject({ autoPause: false, currency: 'USD', budgets: [{ personId: 'meera', level: 'over', action: 'alert' }] });
     expect(report.budgets[0]!.lines).toEqual([expect.objectContaining({ period: 'monthly', limit: 20, spent: 25, ratio: 1.25 })]);
   });
 
   it('freezes an over-budget bot with autoPause on: paused once, audited as corporate with the reason', async () => {
     const report = await (await fetch(`${corporate.base}/api/budgets`)).json() as BudgetsReport;
-    expect(report.budgets[0]).toMatchObject({ personId: 'dwight', level: 'over', action: 'paused' });
+    expect(report.budgets[0]).toMatchObject({ personId: 'meera', level: 'over', action: 'paused' });
     expect(report.budgets[0]!.lines.map((l) => [l.period, l.level])).toEqual([['daily', 'ok'], ['monthly', 'over']]);
     expect(corporate.calls).toEqual(['pause:a1']);
     expect(auditOf(corporate)[0]).toMatchObject({ event: 'control.request', action: 'pause', actor: 'corporate', reason: 'Over its monthly budget ($25.00 of $20.00)' });

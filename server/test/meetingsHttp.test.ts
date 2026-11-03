@@ -16,7 +16,7 @@ import { LEAK_PATTERNS } from './helpers/leakScan.ts';
 const meetingsFixture = loadMeetingsFixture();
 if (!meetingsFixture) throw new Error('fixtures/hermes-meetings.json is missing');
 const T = Date.parse(meetingsFixture.recordedAt) / 1000;
-const home = mkdtempSync(path.join(tmpdir(), 'dmos-meetings-http-'));
+const home = mkdtempSync(path.join(tmpdir(), 'akg-meetings-http-'));
 const runner: Runner = async () => ({ stdout: '', stderr: '', code: 0, timedOut: false });
 const STAFF_IDS = new Set(STAFF.map((s) => s.id));
 
@@ -67,18 +67,18 @@ describe('GET /api/meetings (recorded, redacted kanban records)', () => {
     }
   });
 
-  it('a full Council session: chaired by Pam, every advisor present, rounds on the agenda, adjourned', async () => {
+  it('a full Council session: chaired by Aanya, every advisor present, rounds on the agenda, adjourned', async () => {
     const view = JSON.parse((await get(`?${WEEK}`)).text) as MeetingsView;
     const session = view.meetings.find((m) => m.title === 'Council 2026-10-08');
     expect(session).toMatchObject({ kind: 'council', roomId: 'council', status: 'adjourned' });
-    expect(session?.participantIds[0]).toBe('pam');
-    expect(session?.participantIds).toEqual(expect.arrayContaining(['michael', 'angela', 'sadiq', 'david', 'ryan']));
+    expect(session?.participantIds[0]).toBe('aanya');
+    expect(session?.participantIds).toEqual(expect.arrayContaining(['zara', 'fatima', 'sadiq', 'sophia', 'tara']));
     expect(session?.agenda.map((a) => a.title)).toEqual(expect.arrayContaining(['round 1 cmo', 'round 3 cfo', 'minutes']));
-    expect(session?.agenda.find((a) => a.title === 'round 1 cmo')?.ownerId).toBe('michael');
+    expect(session?.agenda.find((a) => a.title === 'round 1 cmo')?.ownerId).toBe('zara');
     const lines = session?.lines ?? [];
     expect(lines[0]).toMatchObject({ kind: 'opened', author: 'Council' });
     expect(lines.at(-1)).toMatchObject({ kind: 'closed', text: 'Adjourned', at: session?.endedAt });
-    expect(lines.find((l) => l.text === 'Picked up “round 1 cmo”')?.personId).toBe('michael');
+    expect(lines.find((l) => l.text === 'Picked up “round 1 cmo”')?.personId).toBe('zara');
     expect(lines.some((l) => l.kind === 'result')).toBe(true);
     const times = lines.map((l) => l.at);
     expect([...times].sort()).toEqual(times);

@@ -116,7 +116,7 @@ describe('claudeCodeHookSettings (the settings.json block in docs/adapters/claud
     expect(settings.hooks.PreToolUse).toEqual([{
       hooks: [{
         type: 'http', url: 'http://127.0.0.1:4318/api/hooks/claude-code', timeout: 2,
-        headers: { Authorization: 'Bearer $DMOS_INGEST_TOKEN' }, allowedEnvVars: ['DMOS_INGEST_TOKEN'],
+        headers: { Authorization: 'Bearer $AKG_INGEST_TOKEN' }, allowedEnvVars: ['AKG_INGEST_TOKEN'],
       }],
     }]);
   });
@@ -136,7 +136,7 @@ describe('claudeCodeHookSettings (the settings.json block in docs/adapters/claud
 
   it('matches the snippet in the docs', () => {
     const doc = readFileSync(new URL('../../../docs/adapters/claude-code.md', import.meta.url), 'utf8');
-    const block = /```json\n([\s\S]*?)\n```/.exec(doc)?.[1] ?? '';
+    const block = /```json\r?\n([\s\S]*?)\r?\n```/.exec(doc)?.[1] ?? '';
     expect(JSON.parse(block)).toEqual(settings);
   });
 });

@@ -13,10 +13,10 @@ import type { Runner } from '../src/chat/runner.ts';
 
 const fixture = loadFixture();
 const T = Date.parse(fixture.state.recordedAt) / 1000;
-const top = mkdtempSync(path.join(tmpdir(), 'dmos-static-'));
+const top = mkdtempSync(path.join(tmpdir(), 'akg-static-'));
 const dist = path.join(top, 'dist');
 mkdirSync(path.join(dist, 'assets'), { recursive: true });
-writeFileSync(path.join(dist, 'index.html'), '<!doctype html><title>Dunder Mifflin OS</title>');
+writeFileSync(path.join(dist, 'index.html'), '<!doctype html><title>Agents Ka Ghar</title>');
 writeFileSync(path.join(dist, 'assets', 'index-abc123.js'), 'console.log("hi")');
 writeFileSync(path.join(dist, 'assets', 'index-abc123.css'), 'body{}');
 writeFileSync(path.join(dist, 'assets', 'font-x.woff2'), Buffer.from([0x77, 0x4f, 0x46, 0x32]));
@@ -72,7 +72,7 @@ describe('serving the built web app (npm run start)', () => {
     expect(res.headers.get('content-type')).toBe('text/html; charset=utf-8');
     expect(res.headers.get('cache-control')).toBe('no-cache');
     expect(res.headers.get('x-content-type-options')).toBe('nosniff');
-    expect(await res.text()).toContain('Dunder Mifflin OS');
+    expect(await res.text()).toContain('Agents Ka Ghar');
   });
 
   it('serves hashed assets with the right MIME types and long caching', async () => {
@@ -88,7 +88,7 @@ describe('serving the built web app (npm run start)', () => {
   it('falls back to index.html for app routes (SPA), but 404s missing files', async () => {
     const route = await fetch(`${base}/rooms/ops?demo=0`);
     expect(route.status).toBe(200);
-    expect(await route.text()).toContain('Dunder Mifflin OS');
+    expect(await route.text()).toContain('Agents Ka Ghar');
     expect((await fetch(`${base}/assets/missing.js`)).status).toBe(404);
   });
 
@@ -118,7 +118,7 @@ describe('serving the built web app (npm run start)', () => {
   it('still rejects foreign Host headers (DNS rebinding)', async () => {
     const res = await rawGet(base, '/', 'GET', { host: 'evil.example:4318' });
     expect(res.status).toBe(403);
-    expect(res.body).not.toContain('Dunder Mifflin OS');
+    expect(res.body).not.toContain('Agents Ka Ghar');
   });
 });
 

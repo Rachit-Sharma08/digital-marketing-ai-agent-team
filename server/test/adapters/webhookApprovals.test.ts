@@ -9,7 +9,7 @@ import { answerNow } from './contractSuite.ts';
 
 const TOKEN = 'webhook-approvals-token-0123456789';
 const T0 = Date.parse('2026-10-13T15:00:00.000Z');
-const CALLBACK = 'https://deploy.example.com/dmos/decision';
+const CALLBACK = 'https://deploy.example.com/akg/decision';
 const post = (a: AgentAdapter, agentId: string, body: unknown) => answerNow(a.routes![0]!.handle({ params: [agentId], body }));
 const ask = (extra: Record<string, unknown> = {}) => ({ type: 'approval', id: 'deploy-42', title: 'Deploy v1.2 to production?', detail: 'Migrations: 3', risk: 'high', callback: CALLBACK, ...extra });
 
@@ -50,9 +50,9 @@ describe('webhook approvals', () => {
     const [s] = sent;
     expect(s!.url).toBe(CALLBACK);
     expect(JSON.parse(s!.body)).toEqual({ type: 'approval-decision', id: 'deploy-42', agent: 'deploy-bot', decision: 'reject', note: 'not on a Friday', decidedAt: new Date(T0).toISOString() });
-    const ts = s!.headers['X-DMOS-Timestamp'];
+    const ts = s!.headers['X-AKG-Timestamp'];
     expect(ts).toBe(String(T0 / 1000));
-    expect(s!.headers['X-DMOS-Signature']).toBe(`sha256=${createHmac('sha256', TOKEN).update(`${ts}.${s!.body}`).digest('hex')}`);
+    expect(s!.headers['X-AKG-Signature']).toBe(`sha256=${createHmac('sha256', TOKEN).update(`${ts}.${s!.body}`).digest('hex')}`);
     expect(JSON.stringify(s!.headers)).not.toContain(TOKEN);
     expect(await adapter.listApprovals!()).toEqual([]);
   });

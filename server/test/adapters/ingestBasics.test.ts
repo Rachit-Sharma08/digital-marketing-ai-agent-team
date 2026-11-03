@@ -5,10 +5,10 @@ import { createKeyedLimiter } from '../../src/adapters/ingest/keyedLimiter.ts';
 
 const TOKEN = 'a-long-enough-test-token-1234';
 
-describe('readIngestToken (DMOS_INGEST_TOKEN)', () => {
+describe('readIngestToken (AKG_INGEST_TOKEN)', () => {
   it('requires a token of at least 24 characters, trimmed', () => {
     expect(readIngestToken(`  ${TOKEN}\n`)).toBe(TOKEN);
-    for (const bad of [undefined, '', '   ', 'short-token']) expect(() => readIngestToken(bad)).toThrow(/DMOS_INGEST_TOKEN/);
+    for (const bad of [undefined, '', '   ', 'short-token']) expect(() => readIngestToken(bad)).toThrow(/AKG_INGEST_TOKEN/);
   });
 
   it('never echoes the token in its error', () => {

@@ -1,4 +1,4 @@
-// The HTTP API with a configured seating: Hermes `campaigns` moved from Dwight's desk to Jim's.
+// The HTTP API with a configured seating: Hermes `campaigns` moved from Meera's desk to Simran's.
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import type { AddressInfo } from 'node:net';
@@ -15,7 +15,7 @@ import type { OfficeSnapshot } from '../../shared/contract.ts';
 
 const fixture = loadFixture();
 const T = Date.parse(fixture.state.recordedAt) / 1000;
-const home = mkdtempSync(path.join(tmpdir(), 'dmos-seating-'));
+const home = mkdtempSync(path.join(tmpdir(), 'akg-seating-'));
 const headshots = path.join(home, 'headshots');
 mkdirSync(headshots, { recursive: true });
 writeFileSync(path.join(headshots, 'campaigns.jpg'), Buffer.from([0xff, 0xd8, 0xff, 0xe0, 9]));
@@ -28,7 +28,7 @@ let base: string;
 beforeAll(async () => {
   app = createApp({
     adapters: [createHermesAdapter({ source: createFixtureSource({ fixture }), runner, hermesBin: '/fake/hermes', now: () => T })],
-    setup: defaultOfficeSetup(mergeSeatRules(DEFAULT_SEATS, { jim: { adapter: 'hermes', agent: 'campaigns' } })),
+    setup: defaultOfficeSetup(mergeSeatRules(DEFAULT_SEATS, { simran: { adapter: 'hermes', agent: 'campaigns' } })),
     hermesHome: home, headshotDir: headshots, pollIntervalMs: 60_000, now: () => T, allowWrites: true, // exercises chat and tasks
   });
   await new Promise<void>((resolve) => app.server.listen(0, '127.0.0.1', resolve));
@@ -45,24 +45,24 @@ const post = (p: string, body: unknown) =>
 describe('a configured seating', () => {
   it('draws the bot at its new desk and leaves the old one without a bot', async () => {
     const snap = await (await fetch(`${base}/api/office`)).json() as OfficeSnapshot;
-    const jim = snap.people.find((p) => p.id === 'jim');
-    expect(jim).toMatchObject({ name: 'Dwight Schrute', bot: { profile: 'campaigns', adapter: 'hermes' } });
-    expect(snap.people.find((p) => p.id === 'dwight')?.bot).toBeUndefined();
-    expect(snap.presence.dwight).toEqual({ status: 'no-bot' });
-    expect(snap.rooms.find((r) => r.id === 'dm-campaigns')).toMatchObject({ memberIds: ['jim'], areaId: 'bullpen' });
-    expect(snap.tasks.find((t) => t.title === 'Restock the conference room paper')?.ownerId).toBe('jim');
+    const simran = snap.people.find((p) => p.id === 'simran');
+    expect(simran).toMatchObject({ name: 'Meera Kaur', bot: { profile: 'campaigns', adapter: 'hermes' } });
+    expect(snap.people.find((p) => p.id === 'meera')?.bot).toBeUndefined();
+    expect(snap.presence.meera).toEqual({ status: 'no-bot' });
+    expect(snap.rooms.find((r) => r.id === 'dm-campaigns')).toMatchObject({ memberIds: ['simran'], areaId: 'bullpen' });
+    expect(snap.tasks.find((t) => t.title === 'Restock the conference room paper')?.ownerId).toBe('simran');
   });
 
   it('answers chat as the new character and takes the new character as an assignee', async () => {
-    expect(await (await post('/api/chat', { roomId: 'dm-campaigns', text: 'hi' })).json()).toEqual([expect.objectContaining({ authorId: 'jim' })]);
-    const created = await post('/api/tasks', { roomId: 'ops', title: 'Sell paper', assignee: 'jim' });
+    expect(await (await post('/api/chat', { roomId: 'dm-campaigns', text: 'hi' })).json()).toEqual([expect.objectContaining({ authorId: 'simran' })]);
+    const created = await post('/api/tasks', { roomId: 'ops', title: 'Sell paper', assignee: 'simran' });
     expect(created.status).toBe(201);
-    expect(await created.json()).toMatchObject({ id: 't_new2', ownerId: 'jim' });
-    expect((await post('/api/tasks', { roomId: 'ops', title: 'Sell paper', assignee: 'dwight' })).status).toBe(400);
+    expect(await created.json()).toMatchObject({ id: 't_new2', ownerId: 'simran' });
+    expect((await post('/api/tasks', { roomId: 'ops', title: 'Sell paper', assignee: 'meera' })).status).toBe(400);
   });
 
   it('falls back to the bot\'s headshot for its new character only', async () => {
-    expect((await fetch(`${base}/api/portraits/jim`)).status).toBe(200);
-    expect((await fetch(`${base}/api/portraits/dwight`)).status).toBe(404);
+    expect((await fetch(`${base}/api/portraits/simran`)).status).toBe(200);
+    expect((await fetch(`${base}/api/portraits/meera`)).status).toBe(404);
   });
 });

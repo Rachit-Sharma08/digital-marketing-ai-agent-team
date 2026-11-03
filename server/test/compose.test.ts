@@ -11,7 +11,7 @@ const HERMES_CAPS = { chat: true, createTask: true, approvals: false, pause: fal
 const NONE = { chat: false, createTask: false, approvals: false, pause: false, stop: false };
 
 const hermesSnapshot: AdapterSnapshot = {
-  agents: [{ id: 'campaigns', name: 'Dwight Schrute', role: 'Campaigns' }, { id: 'health', name: 'Hank', role: 'Personal health' }],
+  agents: [{ id: 'campaigns', name: 'Meera Kaur', role: 'Campaigns' }, { id: 'health', name: 'Hank', role: 'Personal health' }],
   presence: { campaigns: { status: 'working', activity: 'Selling paper' }, health: { status: 'idle' } },
   tasks: [{ id: 't_1', title: 'Old card', status: 'todo', ownerAgentId: 'campaigns', shared: false, updatedAt: iso(NOW - 600) }],
   rooms: [
@@ -40,72 +40,72 @@ const readings: AdapterReading[] = [
 ];
 
 describe('buildOffice (adapters + seating -> OfficeSnapshot)', () => {
-  const setup = defaultOfficeSetup(mergeSeatRules(DEFAULT_SEATS, { jim: { adapter: 'webhook', agent: 'deploy-bot', role: 'Release manager' } }));
+  const setup = defaultOfficeSetup(mergeSeatRules(DEFAULT_SEATS, { simran: { adapter: 'webhook', agent: 'deploy-bot', role: 'Release manager' } }));
   const { snapshot: snap, roomOwners } = buildOffice(readings, setup, NOW);
   const person = (id: string) => snap.people.find((p) => p.id === id);
 
   it('keeps all 23 characters, gives seated ones their bot and appends temps', () => {
     expect(snap.people.slice(0, 23).map((p) => p.id)).toEqual(setup.people.map((p) => p.id));
-    expect(person('dwight')).toMatchObject({ name: 'Dwight Schrute', bot: { profile: 'campaigns', role: 'Campaigns', adapter: 'hermes', capabilities: HERMES_CAPS } });
-    expect(person('jim')).toMatchObject({ name: 'Jim Halpert', persona: 'Deploy Bot', bot: { profile: 'deploy-bot', role: 'Release manager', adapter: 'webhook', capabilities: NONE } });
-    expect(person('pam')?.bot).toBeUndefined(); // chief is not reported by this reading
+    expect(person('meera')).toMatchObject({ name: 'Meera Kaur', bot: { profile: 'campaigns', role: 'Campaigns', adapter: 'hermes', capabilities: HERMES_CAPS } });
+    expect(person('simran')).toMatchObject({ name: 'Simran Gill', persona: 'Deploy Bot', bot: { profile: 'deploy-bot', role: 'Release manager', adapter: 'webhook', capabilities: NONE } });
+    expect(person('aanya')?.bot).toBeUndefined(); // chief is not reported by this reading
     expect(snap.people.slice(23)).toEqual([expect.objectContaining({
       id: 'temp-webhook-nightly', name: 'nightly', title: 'Temp · Webhook', seatId: 'seat.spare.1', bot: expect.objectContaining({ profile: 'nightly', adapter: 'webhook' }),
     })]);
   });
 
   it('keeps a keepName character\'s own name and shows the agent\'s name as its persona', () => {
-    expect(person('ira')).toMatchObject({ name: 'Sensei Ira', persona: 'Hank', bot: { profile: 'health' } });
+    expect(person('isabella')).toMatchObject({ name: 'Isabella D Costa', persona: 'Hank', bot: { profile: 'health' } });
   });
 
   it('lets only Hermes personas rename a character: other agents keep the character\'s name', () => {
-    expect(person('dwight')?.name).toBe('Dwight Schrute'); // Hermes persona
-    expect(person('jim')).toMatchObject({ name: 'Jim Halpert', persona: 'Deploy Bot' });
-    expect(snap.rooms.find((r) => r.id === 'webhook-deploy-bot')?.name).toBe('Direct line: Jim Halpert');
+    expect(person('meera')?.name).toBe('Meera Kaur'); // Hermes persona
+    expect(person('simran')).toMatchObject({ name: 'Simran Gill', persona: 'Deploy Bot' });
+    expect(snap.rooms.find((r) => r.id === 'webhook-deploy-bot')?.name).toBe('Direct line: Simran Gill');
   });
 
   it('gives presence by person: the agent\'s, no-bot for the rest, scrubbed', () => {
-    expect(snap.presence.dwight).toEqual({ status: 'working', activity: 'Selling paper' });
-    expect(snap.presence.jim?.status).toBe('needs-input');
-    expect(snap.presence.jim?.activity).not.toMatch(/sk-ant|\/Users\//);
-    expect(snap.presence.pam).toEqual({ status: 'no-bot' });
+    expect(snap.presence.meera).toEqual({ status: 'working', activity: 'Selling paper' });
+    expect(snap.presence.simran?.status).toBe('needs-input');
+    expect(snap.presence.simran?.activity).not.toMatch(/sk-ant|\/Users\//);
+    expect(snap.presence.aanya).toEqual({ status: 'no-bot' });
     expect(snap.presence['temp-webhook-nightly']).toEqual({ status: 'working' });
     expect(Object.keys(snap.presence)).toHaveLength(24);
   });
 
   it('shows a configured agent that has not reported as offline', () => {
-    const silent = buildOffice(readings, defaultOfficeSetup(mergeSeatRules({}, { kevin: { adapter: 'webhook', agent: 'late-bot' } })), NOW);
-    expect(silent.snapshot.presence.kevin).toEqual({ status: 'offline', activity: 'Not reporting yet' });
-    expect(silent.snapshot.people.find((p) => p.id === 'kevin')).toMatchObject({ name: 'Kevin Malone', bot: { profile: 'late-bot', role: 'Webhook agent' } });
+    const silent = buildOffice(readings, defaultOfficeSetup(mergeSeatRules({}, { diya: { adapter: 'webhook', agent: 'late-bot' } })), NOW);
+    expect(silent.snapshot.presence.diya).toEqual({ status: 'offline', activity: 'Not reporting yet' });
+    expect(silent.snapshot.people.find((p) => p.id === 'diya')).toMatchObject({ name: 'Diya Patel', bot: { profile: 'late-bot', role: 'Webhook agent' } });
   });
 
   it('maps room members to people; direct lines sit at their member\'s desk and are named after them', () => {
     expect(snap.rooms.find((r) => r.id === 'dm-campaigns')).toEqual({
-      id: 'dm-campaigns', name: 'Direct line: Dwight Schrute', areaId: 'bullpen', kind: 'dm', hermesRoom: 'DM', memberIds: ['dwight'],
+      id: 'dm-campaigns', name: 'Direct line: Meera Kaur', areaId: 'bullpen', kind: 'dm', hermesRoom: 'DM', memberIds: ['meera'],
       adapter: 'hermes', capabilities: HERMES_CAPS,
     });
-    expect(snap.rooms.find((r) => r.id === 'webhook-deploy-bot')).toMatchObject({ areaId: 'bullpen', memberIds: ['jim'], capabilities: NONE });
+    expect(snap.rooms.find((r) => r.id === 'webhook-deploy-bot')).toMatchObject({ areaId: 'bullpen', memberIds: ['simran'], capabilities: NONE });
     expect(snap.rooms.find((r) => r.id === 'webhook-nightly')).toMatchObject({ memberIds: ['temp-webhook-nightly'] });
   });
 
   it('keeps the first adapter\'s room when two claim the same id, and records who owns each room', () => {
-    expect(snap.rooms.filter((r) => r.id === 'ops')).toEqual([expect.objectContaining({ name: 'Ops', adapter: 'hermes', memberIds: ['dwight'] })]);
+    expect(snap.rooms.filter((r) => r.id === 'ops')).toEqual([expect.objectContaining({ name: 'Ops', adapter: 'hermes', memberIds: ['meera'] })]);
     expect(roomOwners.get('ops')).toBe('hermes');
     expect(roomOwners.get('webhook-deploy-bot')).toBe('webhook');
   });
 
   it('moves an agent whose desk was cleared to a spare desk, and drops its direct line when no desk is left', () => {
-    const noIra = defaultOfficeSetup(mergeSeatRules(DEFAULT_SEATS, { ira: null }));
-    expect(buildOffice(readings, noIra, NOW).snapshot.rooms.find((r) => r.id === 'dm-health')?.memberIds).toEqual(['temp-hermes-health']);
-    const full = buildOffice(readings, { ...noIra, spareSeatIds: [] }, NOW).snapshot;
+    const noIsabella = defaultOfficeSetup(mergeSeatRules(DEFAULT_SEATS, { isabella: null }));
+    expect(buildOffice(readings, noIsabella, NOW).snapshot.rooms.find((r) => r.id === 'dm-health')?.memberIds).toEqual(['temp-hermes-health']);
+    const full = buildOffice(readings, { ...noIsabella, spareSeatIds: [] }, NOW).snapshot;
     expect(full.rooms.find((r) => r.id === 'dm-health')).toBeUndefined();
     expect(full.people.find((p) => p.id === 'temp-hermes-health')).toBeUndefined();
   });
 
   it('merges tasks newest first with owners as people, and jobs by person', () => {
-    expect(snap.tasks.map((t) => [t.id, t.ownerId])).toEqual([['webhook:deploy-bot:42', 'jim'], ['t_1', 'dwight']]);
+    expect(snap.tasks.map((t) => [t.id, t.ownerId])).toEqual([['webhook:deploy-bot:42', 'simran'], ['t_1', 'meera']]);
     expect(snap.tasks[0]).not.toHaveProperty('ownerAgentId');
-    expect(snap.jobs).toEqual({ dwight: [{ name: 'Daily outreach', schedule: '0 9 * * *', enabled: true }] });
+    expect(snap.jobs).toEqual({ meera: [{ name: 'Daily outreach', schedule: '0 9 * * *', enabled: true }] });
   });
 
   it('lists the adapters with their capabilities', () => {

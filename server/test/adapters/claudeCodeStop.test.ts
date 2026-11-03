@@ -30,7 +30,7 @@ describe('stopping a Claude Code session', () => {
     hook(adapter, 'PreToolUse', { tool_name: 'Bash', tool_input: { command: 'npm test', description: 'Run the tests' } });
     expect(await adapter.stop!('paper-site')).toEqual({ ok: true, value: { note: 'Claude Code stops at its next tool step (hooks cannot cut a reply short).' } });
     expect(hook(adapter, 'Notification', { notification_type: 'idle_prompt', message: 'waiting' })).toEqual({ status: 204 }); // notifications can't stop it
-    expect(hook(adapter, 'PostToolUse', { tool_name: 'Bash' })).toEqual({ status: 200, body: { continue: false, stopReason: 'Stopped from Dunder Mifflin OS' } });
+    expect(hook(adapter, 'PostToolUse', { tool_name: 'Bash' })).toEqual({ status: 200, body: { continue: false, stopReason: 'Stopped from Agents Ka Ghar' } });
     expect((await adapter.snapshot()).presence['paper-site']).toMatchObject({ status: 'idle', activity: 'Stopped from the office' });
     expect(hook(adapter, 'PreToolUse', { tool_name: 'Read', tool_input: { file_path: '/home/dev/paper-site/a.ts' } })).toEqual({ status: 204 });
   });

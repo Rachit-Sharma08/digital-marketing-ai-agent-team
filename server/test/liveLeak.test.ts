@@ -15,7 +15,7 @@ import { LEAK_PATTERNS, knownChatIds, scanForLeaks } from './helpers/leakScan.ts
 
 const HOME = process.env.HERMES_HOME ?? path.join(os.homedir(), '.hermes');
 const hasHermes = existsSync(path.join(HOME, 'profiles'));
-const STATUS_URL = process.env.DMOS_STATUS_URL ?? 'http://127.0.0.1:9119/api/status';
+const STATUS_URL = process.env.AKG_STATUS_URL ?? 'http://127.0.0.1:9119/api/status';
 const neverRun: Runner = async () => { throw new Error('the leak scan must not run hermes'); };
 
 async function firstSseFrame(url: string): Promise<string> {
@@ -51,7 +51,7 @@ describe.skipIf(!hasHermes)('live ~/.hermes: nothing secret leaves /api/*', () =
   beforeAll(async () => {
     app = createApp({
       adapters: [createHermesAdapter({ source: createLiveSource({ hermesHome: HOME, statusUrl: STATUS_URL }), runner: neverRun, hermesBin: '/nonexistent/hermes' })],
-      hermesHome: HOME, headshotDir: headshotsDirFrom(process.env.DMOS_HEADSHOTS_DIR, os.homedir()), pollIntervalMs: 60_000,
+      hermesHome: HOME, headshotDir: headshotsDirFrom(process.env.AKG_HEADSHOTS_DIR, os.homedir()), pollIntervalMs: 60_000,
     });
     await new Promise<void>((resolve) => app.server.listen(0, '127.0.0.1', resolve));
     base = `http://127.0.0.1:${(app.server.address() as AddressInfo).port}`;
@@ -72,7 +72,7 @@ describe.skipIf(!hasHermes)('live ~/.hermes: nothing secret leaves /api/*', () =
       const where = `/api/rooms/${room.id}/messages`;
       const res = await fetch(`${base}${where}`);
       expect(res.status, where).toBe(200);
-      pages.push([where, `${res.headers.get('x-dmos-messages-reason') ?? ''}\n${await res.text()}`]);
+      pages.push([where, `${res.headers.get('x-akg-messages-reason') ?? ''}\n${await res.text()}`]);
     }
     for (const where of ['/api/schedule', '/api/meetings']) {
       const res = await fetch(`${base}${where}`);

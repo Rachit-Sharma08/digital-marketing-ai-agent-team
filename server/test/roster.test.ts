@@ -12,24 +12,24 @@ const QUIET: HermesState = {
   kanban: { tasks: [], runs: [], subs: [], links: [] }, sessions: [], cron: [], personas: {},
 };
 
-const AREAS = ['lobby', 'reception', 'conference', 'michael', 'bullpen', 'kitchen', 'breakroom', 'restrooms', 'annex', 'warehouse'];
+const AREAS = ['lobby', 'reception', 'conference', 'zara', 'bullpen', 'kitchen', 'breakroom', 'restrooms', 'annex', 'warehouse'];
 
 describe('roster (profile -> person)', () => {
   it('maps every Hermes bot of the example roster to its Office person', () => {
-    expect(personForProfile('chief')).toBe('pam');
-    expect(personForProfile('cmo')).toBe('michael');
-    expect(personForProfile('campaigns')).toBe('dwight');
-    expect(personForProfile('cfo')).toBe('angela');
-    expect(personForProfile('teacher')).toBe('oscar');
-    expect(personForProfile('social')).toBe('kelly');
-    expect(personForProfile('skool')).toBe('andy');
-    expect(personForProfile('ai-strategist')).toBe('ryan');
-    expect(personForProfile('strategist')).toBe('david');
+    expect(personForProfile('chief')).toBe('aanya');
+    expect(personForProfile('cmo')).toBe('zara');
+    expect(personForProfile('campaigns')).toBe('meera');
+    expect(personForProfile('cfo')).toBe('fatima');
+    expect(personForProfile('teacher')).toBe('neha');
+    expect(personForProfile('social')).toBe('priya');
+    expect(personForProfile('skool')).toBe('aisha');
+    expect(personForProfile('ai-strategist')).toBe('tara');
+    expect(personForProfile('strategist')).toBe('sophia');
     expect(personForProfile('tech')).toBe('sadiq');
-    expect(personForProfile('general')).toBe('jarvis');
-    expect(personForProfile('health')).toBe('ira');
-    expect(rosterEntry('health')).toMatchObject({ personId: 'ira', role: 'Personal health' });
-    expect(DEFAULT_SEATS.ira).toEqual({ adapter: 'hermes', agent: 'health' });
+    expect(personForProfile('general')).toBe('maya');
+    expect(personForProfile('health')).toBe('isabella');
+    expect(rosterEntry('health')).toMatchObject({ personId: 'isabella', role: 'Personal health' });
+    expect(DEFAULT_SEATS.isabella).toEqual({ adapter: 'hermes', agent: 'health' });
     expect(ROSTER).toHaveLength(12);
   });
 
@@ -100,8 +100,8 @@ describe('people seam (shared/office.ts)', () => {
   });
 
   it('does not hand out STAFF objects (mutating a person cannot touch shared data)', () => {
-    const pam = people.find((p) => p.id === 'pam');
-    expect(pam?.look).not.toBe(STAFF.find((s) => s.id === 'pam')?.look);
+    const aanya = people.find((p) => p.id === 'aanya');
+    expect(aanya?.look).not.toBe(STAFF.find((s) => s.id === 'aanya')?.look);
   });
 });
 
@@ -123,15 +123,15 @@ describe('rooms', () => {
 
   it('adds a direct-line room per bot at that bot\'s desk area', () => {
     const dm = rooms.find((r) => r.id === 'dm-campaigns');
-    expect(dm).toMatchObject({ kind: 'dm', areaId: 'bullpen', memberIds: ['dwight'] });
-    expect(rooms.find((r) => r.id === 'dm-health')).toMatchObject({ areaId: 'kitchen', memberIds: ['ira'] });
-    expect(rooms.find((r) => r.id === 'dm-strategist')).toMatchObject({ areaId: 'lobby', memberIds: ['david'] });
+    expect(dm).toMatchObject({ kind: 'dm', areaId: 'bullpen', memberIds: ['meera'] });
+    expect(rooms.find((r) => r.id === 'dm-health')).toMatchObject({ areaId: 'kitchen', memberIds: ['isabella'] });
+    expect(rooms.find((r) => r.id === 'dm-strategist')).toMatchObject({ areaId: 'lobby', memberIds: ['sophia'] });
     expect(rooms.filter((r) => r.kind === 'dm')).toHaveLength(12);
   });
 
   it('lists council members as people ids', () => {
     const council = rooms.find((r) => r.id === 'council');
-    expect(council?.memberIds).toEqual(['pam', 'sadiq', 'david', 'ryan', 'michael', 'angela']);
+    expect(council?.memberIds).toEqual(['aanya', 'sadiq', 'sophia', 'tara', 'zara', 'fatima']);
   });
 
   it('only marks a room as a Hermes room when a chat was found for it', () => {

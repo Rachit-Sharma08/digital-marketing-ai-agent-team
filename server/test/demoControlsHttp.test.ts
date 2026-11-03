@@ -48,11 +48,11 @@ describe('the demo day takes control verbs', () => {
     expect(audit.entries().map((e) => [e.event, e.action, e.person])).toEqual([['control.request', 'run-job', 'sadiq'], ['control.done', 'run-job', 'sadiq']]);
   });
 
-  it('shows Corporate\'s demo budgets: Kelly over her daily budget, Kevin on a model nobody can price', async () => {
+  it('shows Corporate\'s demo budgets: Priya over her daily budget, Diya on a model nobody can price', async () => {
     const report = await (await fetch(`${base}/api/budgets`)).json() as BudgetsReport;
     expect(report.autoPause).toBe(false);
-    expect(report.budgets.find((b) => b.personId === 'kelly')).toMatchObject({ level: 'over', action: 'alert', note: 'Auto-pause is off (budgets.autoPause in config.yaml)' });
-    expect(report.budgets.find((b) => b.personId === 'kevin')).toMatchObject({ level: 'unpriced', lines: [expect.objectContaining({ unpricedModels: ['chili-7b-local'] })] });
-    expect(report.budgets.map((b) => b.personId).sort()).toEqual(['dwight', 'kelly', 'kevin', 'michael']);
+    expect(report.budgets.find((b) => b.personId === 'priya')).toMatchObject({ level: 'over', action: 'alert', note: 'Auto-pause is off (budgets.autoPause in config.yaml)' });
+    expect(report.budgets.find((b) => b.personId === 'diya')).toMatchObject({ level: 'unpriced', lines: [expect.objectContaining({ unpricedModels: ['chili-7b-local'] })] });
+    expect(report.budgets.map((b) => b.personId).sort()).toEqual(['diya', 'meera', 'priya', 'zara']);
   });
 });

@@ -10,7 +10,7 @@ describe('pickAgent', () => {
   });
 
   it('falls back to the marketing lead when nothing matches', () => {
-    expect(pickAgent('hello')).toMatchObject({ kind: 'general', person: 'michael' });
+    expect(pickAgent('hello')).toMatchObject({ kind: 'general', person: 'zara' });
   });
 
   it('gives short copy the fast model and long or audit work the deep one', () => {

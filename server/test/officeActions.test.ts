@@ -1,4 +1,4 @@
-// Writes through adapters (approvals: approvalActions.test.ts) need BOTH the server to allow writes (DMOS_ALLOW_WRITES) AND the adapter's capability flag.
+// Writes through adapters (approvals: approvalActions.test.ts) need BOTH the server to allow writes (AKG_ALLOW_WRITES) AND the adapter's capability flag.
 import { describe, expect, it } from 'vitest';
 import type { AgentCapabilities } from '../../shared/contract.ts';
 import type { AgentAdapter } from '../src/adapters/types.ts';
@@ -41,7 +41,7 @@ function fakeAdapter(id: string, agentId: string, full: boolean) {
 function service(allowWrites: boolean) {
   const fake = fakeAdapter('fake', 'a1', true);
   const limited = fakeAdapter('limited', 'b1', false);
-  const setup = defaultOfficeSetup(mergeSeatRules({}, { jim: { adapter: 'fake', agent: 'a1' }, kevin: { adapter: 'limited', agent: 'b1' } }));
+  const setup = defaultOfficeSetup(mergeSeatRules({}, { simran: { adapter: 'fake', agent: 'a1' }, diya: { adapter: 'limited', agent: 'b1' } }));
   const audit = { file: 'memory', append: () => true }; // control verbs are refused without an audit log (controls tests)
   return { office: createOfficeService({ adapters: [fake.adapter, limited.adapter], setup, now: () => NOW, allowWrites, audit }), fake, limited };
 }
@@ -51,26 +51,26 @@ describe('writes through adapters', () => {
     const { office, fake } = service(false);
     const readOnly = { ok: false, status: 403, error: READ_ONLY_ERROR };
     expect(await office.chat('fake-a1', 'hi')).toEqual(readOnly);
-    expect(await office.createTask({ roomId: 'fake-a1', title: 'x', assignee: 'jim' })).toEqual(readOnly);
-    for (const action of ['pause', 'resume', 'stop'] as const) expect(await office.act('jim', { action }, 'local')).toEqual(readOnly);
+    expect(await office.createTask({ roomId: 'fake-a1', title: 'x', assignee: 'simran' })).toEqual(readOnly);
+    for (const action of ['pause', 'resume', 'stop'] as const) expect(await office.act('simran', { action }, 'local')).toEqual(readOnly);
     expect(fake.calls).toEqual([]);
   });
 
   it('are refused for an adapter that does not declare the capability, even with writes on', async () => {
     const { office } = service(true);
     expect(await office.chat('limited-b1', 'hi')).toMatchObject({ ok: false, status: 501, error: "Limited agents can't receive messages" });
-    expect(await office.createTask({ roomId: 'limited-b1', title: 'x', assignee: 'kevin' })).toMatchObject({ ok: false, status: 501 });
-    expect(await office.act('kevin', { action: 'pause' }, 'local')).toMatchObject({ ok: false, status: 501, error: "Limited agents can't be paused" });
-    expect(await office.act('kevin', { action: 'stop' }, 'local')).toMatchObject({ ok: false, status: 501, error: "Limited agents can't be stopped" });
+    expect(await office.createTask({ roomId: 'limited-b1', title: 'x', assignee: 'diya' })).toMatchObject({ ok: false, status: 501 });
+    expect(await office.act('diya', { action: 'pause' }, 'local')).toMatchObject({ ok: false, status: 501, error: "Limited agents can't be paused" });
+    expect(await office.act('diya', { action: 'stop' }, 'local')).toMatchObject({ ok: false, status: 501, error: "Limited agents can't be stopped" });
   });
 
   it('go through when both allow, with people turned into agent ids and back', async () => {
     const { office, fake } = service(true);
-    expect(await office.chat('fake-a1', 'hi')).toEqual({ ok: true, value: [{ id: 'm1', roomId: 'fake-a1', authorId: 'jim', text: 'Done.', at: AT }] });
-    expect(await office.createTask({ roomId: 'fake-a1', title: 'Ship', assignee: 'jim' })).toMatchObject({ ok: true, value: { ownerId: 'jim' } });
-    expect(await office.act('jim', { action: 'pause' }, 'local')).toMatchObject({ ok: true });
-    expect(await office.act('jim', { action: 'stop' }, 'local')).toMatchObject({ ok: true });
+    expect(await office.chat('fake-a1', 'hi')).toEqual({ ok: true, value: [{ id: 'm1', roomId: 'fake-a1', authorId: 'simran', text: 'Done.', at: AT }] });
+    expect(await office.createTask({ roomId: 'fake-a1', title: 'Ship', assignee: 'simran' })).toMatchObject({ ok: true, value: { ownerId: 'simran' } });
+    expect(await office.act('simran', { action: 'pause' }, 'local')).toMatchObject({ ok: true });
+    expect(await office.act('simran', { action: 'stop' }, 'local')).toMatchObject({ ok: true });
     expect(fake.calls).toEqual(['chat:hi', 'task:a1', 'pause:a1', 'stop:a1']);
-    expect(await office.act('pam', { action: 'pause' }, 'local')).toMatchObject({ ok: false, status: 404 });
+    expect(await office.act('aanya', { action: 'pause' }, 'local')).toMatchObject({ ok: false, status: 404 });
   });
 });

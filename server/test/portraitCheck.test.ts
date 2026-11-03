@@ -2,30 +2,30 @@ import { describe, expect, it } from 'vitest';
 import { formatPortraitReport, portraitReport } from '../src/portraitCheck.ts';
 
 const PEOPLE = [
-  { id: 'dwight', name: 'Dwight Schrute', bot: true },
-  { id: 'jim', name: 'Jim Halpert', bot: false },
-  { id: 'jarvis', name: 'Jarvis', bot: true },
-  { id: 'roy', name: 'Roy Anderson', bot: false },
+  { id: 'meera', name: 'Meera Kaur', bot: true },
+  { id: 'simran', name: 'Simran Gill', bot: false },
+  { id: 'maya', name: 'Maya', bot: true },
+  { id: 'sunita', name: 'Sunita Verma', bot: false },
 ];
 
 describe('portraitReport', () => {
   it('sorts people into have / lack a local portrait and lists stray files', () => {
-    const report = portraitReport(PEOPLE, ['jim.jpg', 'jarvis.png', 'hank.jpg', 'SOURCES.md', 'raw', 'Dwight.JPG']);
-    expect(report.have).toEqual([{ id: 'jim', name: 'Jim Halpert', file: 'jim.jpg' }, { id: 'jarvis', name: 'Jarvis', file: 'jarvis.png' }]);
-    expect(report.missing).toEqual([{ id: 'dwight', name: 'Dwight Schrute', fallback: 'bot headshot' }, { id: 'roy', name: 'Roy Anderson', fallback: 'drawn' }]);
-    expect(report.ignored).toEqual(['Dwight.JPG', 'hank.jpg']);
+    const report = portraitReport(PEOPLE, ['simran.jpg', 'maya.png', 'hank.jpg', 'SOURCES.md', 'raw', 'Meera.JPG']);
+    expect(report.have).toEqual([{ id: 'simran', name: 'Simran Gill', file: 'simran.jpg' }, { id: 'maya', name: 'Maya', file: 'maya.png' }]);
+    expect(report.missing).toEqual([{ id: 'meera', name: 'Meera Kaur', fallback: 'bot headshot' }, { id: 'sunita', name: 'Sunita Verma', fallback: 'drawn' }]);
+    expect(report.ignored).toEqual(['Meera.JPG', 'hank.jpg']);
   });
 
   it('prefers .jpg like the server does', () => {
-    expect(portraitReport(PEOPLE, ['jim.png', 'jim.jpg']).have[0]).toMatchObject({ id: 'jim', file: 'jim.jpg' });
+    expect(portraitReport(PEOPLE, ['simran.png', 'simran.jpg']).have[0]).toMatchObject({ id: 'simran', file: 'simran.jpg' });
   });
 
   it('formats a readable summary', () => {
-    const text = formatPortraitReport(portraitReport(PEOPLE, ['jim.jpg']), '~/.dunder-mifflin-os/portraits');
-    expect(text).toContain('~/.dunder-mifflin-os/portraits');
+    const text = formatPortraitReport(portraitReport(PEOPLE, ['simran.jpg']), '~/.agents-ka-ghar/portraits');
+    expect(text).toContain('~/.agents-ka-ghar/portraits');
     expect(text).toMatch(/Have a portrait \(1\)/);
     expect(text).toMatch(/No portrait \(3\)/);
-    expect(text).toMatch(/roy\s+Roy Anderson\s+drawn character/);
-    expect(text).toMatch(/dwight\s+Dwight Schrute\s+bot headshot/);
+    expect(text).toMatch(/sunita\s+Sunita Verma\s+drawn character/);
+    expect(text).toMatch(/meera\s+Meera Kaur\s+bot headshot/);
   });
 });

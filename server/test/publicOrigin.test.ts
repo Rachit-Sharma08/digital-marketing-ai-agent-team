@@ -22,7 +22,7 @@ describe('parsePublicOrigins', () => {
 
   it('rejects anything that is not a bare https origin', () => {
     for (const bad of ['http://x.ts.net', 'https://x.ts.net/path', 'x.ts.net', 'https://user@x.ts.net', 'https://x.ts.net?q=1']) {
-      expect(() => parsePublicOrigins(bad)).toThrow(/DMOS_PUBLIC_ORIGINS/);
+      expect(() => parsePublicOrigins(bad)).toThrow(/AKG_PUBLIC_ORIGINS/);
     }
   });
 });
@@ -39,7 +39,7 @@ describe('allowed hosts and origins', () => {
 describe('a server published through tailscale serve', () => {
   const fixture = loadFixture();
   const T = Date.parse(fixture.state.recordedAt) / 1000;
-  const home = mkdtempSync(path.join(tmpdir(), 'dmos-public-'));
+  const home = mkdtempSync(path.join(tmpdir(), 'akg-public-'));
   const runner: Runner = async () => ({ stdout: 'Bears. Beets. Battlestar Galactica.\n', stderr: '', code: 0, timedOut: false });
   let app: App;
   let port = 0;

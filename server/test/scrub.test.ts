@@ -66,7 +66,7 @@ describe('free text is scrubbed wherever it leaves the server', () => {
 
   it('in task titles and the activity shown on the map', () => {
     expect(snap.tasks[0]?.title).toBe(CLEAN);
-    expect(snap.presence.dwight?.activity).toBe(CLEAN);
+    expect(snap.presence.meera?.activity).toBe(CLEAN);
     expect(snap.presence.sadiq?.activity).toBe(CLEAN);
   });
 
@@ -77,7 +77,7 @@ describe('free text is scrubbed wherever it leaves the server', () => {
   it('in chat messages, from you and from bots', () => {
     const base = { profile: 'tech', at: NOW, origin: 'telegram' as const, platformMessageId: null };
     const msgs = toAgentMessages([
-      { ...base, uid: 'a', role: 'user', text: `[Jan Levinson] ${LEAKY}` },
+      { ...base, uid: 'a', role: 'user', text: `[Priya Singh] ${LEAKY}` },
       { ...base, uid: 'b', role: 'assistant', text: `Done: /Users/someone/.hermes/kanban.db, call (570) 555-0123`, at: NOW + 1 },
     ], 'ops', 10);
     expect(msgs.map((m) => m.text)).toEqual([CLEAN, 'Done: [hermes path], call [phone]']);

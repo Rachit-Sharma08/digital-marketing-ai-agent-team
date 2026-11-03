@@ -27,20 +27,20 @@ describe('chat command builder', () => {
   });
 
   it('keeps one named Hermes session per room for continuity', () => {
-    expect(chatSessionTitle('ops')).toBe('dmos-ops');
-    expect(chatSessionTitle('dm-tech')).toBe('dmos-dm-tech');
+    expect(chatSessionTitle('ops')).toBe('akg-ops');
+    expect(chatSessionTitle('dm-tech')).toBe('akg-dm-tech');
   });
 
   it('builds argv with no shell, the text as a single --query= argument', () => {
-    expect(buildChatArgs('tech', 'dmos-ops', '[Ops room] -rf; $(whoami) "hi"')).toEqual([
-      '-p', 'tech', 'chat', '-Q', '-c', 'dmos-ops', '--create-if-missing', '--run-budget', '170',
+    expect(buildChatArgs('tech', 'akg-ops', '[Ops room] -rf; $(whoami) "hi"')).toEqual([
+      '-p', 'tech', 'chat', '-Q', '-c', 'akg-ops', '--create-if-missing', '--run-budget', '170',
       '--query=[Ops room] -rf; $(whoami) "hi"',
     ]);
   });
 
   it('builds the kanban create argv with the OS room marker', () => {
     expect(buildKanbanCreateArgs('Order more paper', 'campaigns', 'ops')).toEqual([
-      'kanban', 'create', '--assignee', 'campaigns', '--created-by', 'dmos-ops', '--json', 'Order more paper',
+      'kanban', 'create', '--assignee', 'campaigns', '--created-by', 'akg-ops', '--json', 'Order more paper',
     ]);
   });
 });
@@ -50,7 +50,7 @@ describe('chat service', () => {
     const { runner, calls } = recordingRunner(ok('\u001b[1mHello\u001b[0m from Ops.\n'));
     const chat = createChatService({ runner, hermesBin: '/bin/hermes', timeoutMs: 180_000, now: NOW });
     const result = await chat.send('ops', '  status?  ');
-    expect(calls).toEqual([{ file: '/bin/hermes', args: buildChatArgs('tech', 'dmos-ops', '[Ops room] status?'), timeoutMs: 180_000 }]);
+    expect(calls).toEqual([{ file: '/bin/hermes', args: buildChatArgs('tech', 'akg-ops', '[Ops room] status?'), timeoutMs: 180_000 }]);
     expect(result).toEqual({ ok: true, messages: [{ id: expect.stringMatching(/^os-tech-/), roomId: 'ops', authorAgentId: 'tech', text: 'Hello from Ops.', at: new Date(NOW()).toISOString() }] });
   });
 
@@ -113,7 +113,7 @@ describe('task service (kanban create)', () => {
     const res = await tasks.create({ roomId: 'ops', title: '  Order more paper ', assignee: 'campaigns' });
     expect(calls[0]?.args).toEqual(buildKanbanCreateArgs('Order more paper', 'campaigns', 'ops'));
     expect(res).toEqual({ ok: true, task: { id: 't_abc123', title: 'Order more paper', status: 'todo', ownerAgentId: 'campaigns', roomId: 'ops', shared: true, updatedAt: new Date(1_800_000_000_000).toISOString() } });
-    expect((await tasks.create({ roomId: 'ops', title: 'x', assignee: 'dwight' })).ok).toBe(false); // a person id, not a profile
+    expect((await tasks.create({ roomId: 'ops', title: 'x', assignee: 'meera' })).ok).toBe(false); // a person id, not a profile
   });
 
   it('rejects other rooms, unknown assignees and bad titles without running hermes', async () => {

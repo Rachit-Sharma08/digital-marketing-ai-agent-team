@@ -4,7 +4,7 @@ import { MIN_TOKEN_LENGTH, isLoopbackHost, isOn, parseBindHost, resolveAccess } 
 const TOKEN = 'a'.repeat(MIN_TOKEN_LENGTH);
 const TAILNET = 'https://office-box.example-tailnet.ts.net:4318';
 
-describe('parseBindHost (DMOS_HOST)', () => {
+describe('parseBindHost (AKG_HOST)', () => {
   it('defaults to 127.0.0.1', () => {
     expect(parseBindHost(undefined)).toBe('127.0.0.1');
     expect(parseBindHost('  ')).toBe('127.0.0.1');
@@ -19,7 +19,7 @@ describe('parseBindHost (DMOS_HOST)', () => {
 
   it('rejects anything else', () => {
     for (const bad of ['example.com', 'http://0.0.0.0', '0.0.0.0:4318', '999.1.1.1']) {
-      expect(() => parseBindHost(bad)).toThrow(/DMOS_HOST/);
+      expect(() => parseBindHost(bad)).toThrow(/AKG_HOST/);
     }
   });
 });
@@ -31,7 +31,7 @@ describe('isLoopbackHost', () => {
   });
 });
 
-describe('isOn (DMOS_ALLOW_WRITES)', () => {
+describe('isOn (AKG_ALLOW_WRITES)', () => {
   it('is on only for explicit yes values', () => {
     for (const v of ['1', 'true', 'TRUE', 'yes', 'on']) expect(isOn(v)).toBe(true);
     for (const v of [undefined, '', '0', 'false', 'no', 'off', 'maybe']) expect(isOn(v)).toBe(false);
@@ -45,12 +45,12 @@ describe('resolveAccess', () => {
   });
 
   it('requires a token when bound beyond loopback', () => {
-    expect(() => resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: undefined })).toThrow(/DMOS_ACCESS_TOKEN/);
+    expect(() => resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: undefined })).toThrow(/AKG_ACCESS_TOKEN/);
     expect(resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: TOKEN })).toEqual({ remote: true, token: TOKEN });
   });
 
   it('requires a token when published at a public origin, even on loopback', () => {
-    expect(() => resolveAccess({ host: '127.0.0.1', publicOrigins: [TAILNET], token: undefined })).toThrow(/DMOS_ACCESS_TOKEN/);
+    expect(() => resolveAccess({ host: '127.0.0.1', publicOrigins: [TAILNET], token: undefined })).toThrow(/AKG_ACCESS_TOKEN/);
     expect(resolveAccess({ host: '127.0.0.1', publicOrigins: [TAILNET], token: TOKEN })).toEqual({ remote: true, token: TOKEN });
   });
 

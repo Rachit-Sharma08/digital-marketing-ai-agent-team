@@ -12,9 +12,9 @@ import { seatDefaults } from '../src/demoMode.ts';
 import { hm } from '../../shared/demo/time.ts';
 import type { OfficeSnapshot } from '../../shared/contract.ts';
 
-const photos = mkdtempSync(path.join(tmpdir(), 'dmos-demo-photos-'));
+const photos = mkdtempSync(path.join(tmpdir(), 'akg-demo-photos-'));
 mkdirSync(path.join(photos, 'portraits'));
-writeFileSync(path.join(photos, 'portraits', 'pam.jpg'), Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 0x10]));
+writeFileSync(path.join(photos, 'portraits', 'aanya.jpg'), Buffer.from([0xff, 0xd8, 0xff, 0xe0, 0, 0x10]));
 afterAll(() => rmSync(photos, { recursive: true, force: true }));
 
 async function start(allowWrites: boolean): Promise<{ app: App; base: string }> {
@@ -39,15 +39,15 @@ describe('the demo day over HTTP', () => {
   it('serves the office with the demo cast at their desks and the rest without bots', async () => {
     const snap = await (await fetch(`${base}/api/office`)).json() as OfficeSnapshot;
     expect(snap.adapters).toEqual([expect.objectContaining({ id: 'demo', kind: 'demo', label: 'Demo', agents: 13 })]);
-    expect(snap.people.find((p) => p.id === 'dwight')).toMatchObject({ name: 'Dwight Schrute', bot: { profile: 'sales', adapter: 'demo' } });
-    expect(snap.presence.jim).toEqual({ status: 'no-bot' });
-    expect(snap.presence.michael).toMatchObject({ status: 'meeting', roomId: 'demo-council' });
+    expect(snap.people.find((p) => p.id === 'meera')).toMatchObject({ name: 'Meera Kaur', bot: { profile: 'sales', adapter: 'demo' } });
+    expect(snap.presence.simran).toEqual({ status: 'no-bot' });
+    expect(snap.presence.zara).toMatchObject({ status: 'meeting', roomId: 'demo-council' });
     expect(snap.rooms.filter((r) => r.areaId === 'conference').map((r) => r.id).sort()).toEqual(['demo-council', 'demo-ops']);
   });
 
   it('answers the clock, and changes its speed', async () => {
     const clock = await (await fetch(`${base}/api/demo/clock`)).json();
-    expect(clock).toMatchObject({ title: 'Threat Level Midnight', speed: 60, speeds: [1, 10, 60] });
+    expect(clock).toMatchObject({ title: 'Campaign Daybook', speed: 60, speeds: [1, 10, 60] });
     const res = await post(base, '/api/demo/clock', { speed: 10 });
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ speed: 10 });
@@ -58,16 +58,16 @@ describe('the demo day over HTTP', () => {
   it('chats with canned replies and creates shared tasks in memory', async () => {
     const chat = await post(base, '/api/chat', { roomId: 'demo-dm-imports', text: 'How is the import?' });
     expect(chat.status).toBe(200);
-    expect(await chat.json()).toEqual([expect.objectContaining({ authorId: 'kevin', roomId: 'demo-dm-imports' })]);
+    expect(await chat.json()).toEqual([expect.objectContaining({ authorId: 'diya', roomId: 'demo-dm-imports' })]);
     const history = await (await fetch(`${base}/api/rooms/demo-dm-imports/messages`)).json() as Array<{ authorId: string; text: string }>;
     expect(history.some((m) => m.authorId === 'you' && m.text === 'How is the import?')).toBe(true);
-    const task = await post(base, '/api/tasks', { roomId: 'demo-ops', title: 'Restock the paper', assignee: 'kelly' });
+    const task = await post(base, '/api/tasks', { roomId: 'demo-ops', title: 'Restock the paper', assignee: 'priya' });
     expect(task.status).toBe(201);
-    expect(await task.json()).toMatchObject({ title: 'Restock the paper', ownerId: 'kelly', roomId: 'demo-ops', status: 'todo' });
+    expect(await task.json()).toMatchObject({ title: 'Restock the paper', ownerId: 'priya', roomId: 'demo-ops', status: 'todo' });
   });
 
   it('never serves photos or headshots, even when files exist', async () => {
-    expect((await fetch(`${base}/api/portraits/pam`)).status).toBe(404);
+    expect((await fetch(`${base}/api/portraits/aanya`)).status).toBe(404);
     expect((await fetch(`${base}/api/headshots/chief`)).status).toBe(404);
   });
 });

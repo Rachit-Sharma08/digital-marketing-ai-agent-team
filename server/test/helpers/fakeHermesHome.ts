@@ -77,11 +77,11 @@ platforms:
         You are the CTO on the council in the Council room.
     home_channel:
       chat_id: '${DM_CHAT}'
-      name: Jan Levinson
+      name: Priya Singh
 `;
 
 export function makeFakeHermesHome(): string {
-  const home = mkdtempSync(path.join(tmpdir(), 'dmos-hermes-'));
+  const home = mkdtempSync(path.join(tmpdir(), 'akg-hermes-'));
   for (const p of ['tech', 'campaigns', 'social']) mkdirSync(path.join(home, 'profiles', p, 'cron'), { recursive: true });
   mkdirSync(path.join(home, 'personas'), { recursive: true });
   writeFileSync(path.join(home, 'gateway_state.json'), JSON.stringify({
@@ -92,7 +92,7 @@ export function makeFakeHermesHome(): string {
       'social:telegram': { state: 'connected', error_code: null, updated_at: '2026-10-13T01:00:00+00:00' },
     },
   }));
-  writeFileSync(path.join(home, 'personas', 'personas.json'), JSON.stringify({ tech: { character: 'Sadiq', voice: 'v' }, campaigns: { character: 'Dwight Schrute' } }));
+  writeFileSync(path.join(home, 'personas', 'personas.json'), JSON.stringify({ tech: { character: 'Sadiq', voice: 'v' }, campaigns: { character: 'Meera Kaur' } }));
   writeFileSync(path.join(home, 'profiles', 'tech', 'config.yaml'), TECH_CONFIG);
   writeFileSync(path.join(home, 'profiles', 'campaigns', 'config.yaml'), 'platforms:\n  telegram:\n    enabled: true\n');
   writeFileSync(path.join(home, 'profiles', 'tech', 'cron', 'jobs.json'), JSON.stringify({ jobs: [{ id: 'j1', name: 'ops-heartbeat', enabled: true, schedule_display: '0 9 * * *', last_status: 'ok', prompt: 'PRIVATE' }] }));
@@ -102,11 +102,11 @@ export function makeFakeHermesHome(): string {
     sessions: [
       ['s_ops', 'telegram', 'u1', OPS_CHAT, 'group', 'Paper Ops', T0 - 7200, 'Set up new Ops room', T0 - 100],
       ['s_dm', 'telegram', 'u1', DM_CHAT, 'dm', 'Jan', T0 - 9000, 'DM chat', T0 - 8000],
-      ['s_os', 'cli', null, null, null, null, T0 - 50, 'dmos-ops', T0 - 40],
+      ['s_os', 'cli', null, null, null, null, T0 - 50, 'akg-ops', T0 - 40],
       ['s_cron', 'cron', null, null, null, null, T0 - 20_000, null, T0 - 19_000],
     ],
     messages: [
-      ['s_ops', 'user', '[Jan Levinson] How is the copier?', null, T0 - 300, '901', 1, null, 'u_a'],
+      ['s_ops', 'user', '[Priya Singh] How is the copier?', null, T0 - 300, '901', 1, null, 'u_a'],
       ['s_ops', 'assistant', 'Checking the logs.', '[{"id":"call"}]', T0 - 290, null, 1, null, 'u_b'],
       ['s_ops', 'tool', '{"output":"secret tool output"}', null, T0 - 285, null, 1, null, 'u_c'],
       ['s_ops', 'assistant', 'Copier is fine.', null, T0 - 280, null, 1, null, 'u_d'],

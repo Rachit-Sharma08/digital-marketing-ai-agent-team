@@ -51,7 +51,7 @@ describe('GET /api/events (SSE)', () => {
 
     const first = (await stream.next()).value as { presence: Record<string, { status: string }>; tasks: unknown[] };
     expect(Object.keys(first.presence)).toHaveLength(23);
-    expect(first.presence.ira?.status).toBe('offline');
+    expect(first.presence.isabella?.status).toBe('offline');
     expect(Array.isArray(first.tasks)).toBe(true);
     expect(app.clientCount()).toBe(1);
 
@@ -60,8 +60,8 @@ describe('GET /api/events (SSE)', () => {
       gateway: s.gateway && { ...s.gateway, platforms: s.gateway.platforms.map((p) => (p.profile === 'health' ? { ...p, state: 'connected' } : p)) },
     });
     const second = (await stream.next()).value as { presence?: Record<string, { status: string }>; tasks?: unknown };
-    expect(Object.keys(second.presence ?? {})).toEqual(['ira']);
-    expect(second.presence?.ira?.status).not.toBe('offline');
+    expect(Object.keys(second.presence ?? {})).toEqual(['isabella']);
+    expect(second.presence?.isabella?.status).not.toBe('offline');
     expect(second.tasks).toBeUndefined();
 
     controller.abort();

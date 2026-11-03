@@ -1,4 +1,4 @@
-// How the demo is switched on: DMOS_SOURCE=demo (the CLI's --demo, npm run demo, Docker), the config file, the CLI.
+// How the demo is switched on: AKG_SOURCE=demo (the CLI's --demo, npm run demo, Docker), the config file, the CLI.
 import { DEMO_BUDGETS } from '../src/adapters/demo/usage.ts';
 import { describe, expect, it } from 'vitest';
 import { parseOfficeConfig } from '../src/officeConfig.ts';
@@ -26,11 +26,11 @@ describe('demo settings', () => {
     expect(() => parseOfficeConfig({ adapters: [{ kind: 'webhook', speed: 10 }] }, 'c')).toThrow(/adapters\[0\]: unknown field "speed"/);
   });
 
-  it('reads them from DMOS_DEMO_SPEED / _START / _SEED, refusing bad values by name', () => {
-    expect(demoSettingsFromEnv({ DMOS_DEMO_SPEED: '10', DMOS_DEMO_START: '11:50', DMOS_DEMO_SEED: '7' })).toEqual({ speed: 10, start: 710, seed: 7 });
+  it('reads them from AKG_DEMO_SPEED / _START / _SEED, refusing bad values by name', () => {
+    expect(demoSettingsFromEnv({ AKG_DEMO_SPEED: '10', AKG_DEMO_START: '11:50', AKG_DEMO_SEED: '7' })).toEqual({ speed: 10, start: 710, seed: 7 });
     expect(demoSettingsFromEnv({})).toEqual({});
-    expect(() => demoSettingsFromEnv({ DMOS_DEMO_SPEED: 'warp' })).toThrow(/DMOS_DEMO_SPEED/);
-    expect(() => demoSettingsFromEnv({ DMOS_DEMO_START: '3am' })).toThrow(/DMOS_DEMO_START/);
+    expect(() => demoSettingsFromEnv({ AKG_DEMO_SPEED: 'warp' })).toThrow(/AKG_DEMO_SPEED/);
+    expect(() => demoSettingsFromEnv({ AKG_DEMO_START: '3am' })).toThrow(/AKG_DEMO_START/);
   });
 
   it('builds a demo adapter from a spec', async () => {
@@ -42,29 +42,29 @@ describe('demo settings', () => {
   });
 });
 
-describe('DMOS_SOURCE=demo', () => {
+describe('AKG_SOURCE=demo', () => {
   it('runs the demo alone, ignoring the config file, with writes on (in memory) and no photos', () => {
-    expect(demoStartup({ DMOS_SOURCE: 'demo', DMOS_DEMO_SPEED: '10' })).toEqual({
+    expect(demoStartup({ AKG_SOURCE: 'demo', AKG_DEMO_SPEED: '10' })).toEqual({
       config: { file: null, adapters: [{ kind: 'demo', id: 'demo', demo: { speed: 10 } }], seats: {}, budgets: DEMO_BUDGETS }, allowWrites: true,
     });
-    expect(demoStartup({ DMOS_SOURCE: 'demo', DMOS_ALLOW_WRITES: '0' })?.allowWrites).toBe(false);
-    expect(demoStartup({ DMOS_SOURCE: 'fixture' })).toBeNull();
+    expect(demoStartup({ AKG_SOURCE: 'demo', AKG_ALLOW_WRITES: '0' })?.allowWrites).toBe(false);
+    expect(demoStartup({ AKG_SOURCE: 'fixture' })).toBeNull();
     expect(demoStartup({})).toBeNull();
   });
 
   it('seats demo bots at their characters over the built-in Hermes seating', () => {
     expect(seatDefaults([{ kind: 'hermes', id: 'hermes' }])).toEqual(DEFAULT_SEATS);
-    expect(seatDefaults([{ kind: 'demo', id: 'demo' }])).toMatchObject({ pam: { adapter: 'demo', agent: 'frontdesk' }, kevin: { adapter: 'demo', agent: 'imports' } });
+    expect(seatDefaults([{ kind: 'demo', id: 'demo' }])).toMatchObject({ aanya: { adapter: 'demo', agent: 'frontdesk' }, diya: { adapter: 'demo', agent: 'imports' } });
   });
 
   it('needs no access token beyond loopback: it only serves fiction', () => {
     expect(resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: undefined, demoOnly: true })).toEqual({ remote: true, token: null });
-    expect(() => resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: undefined, demoOnly: false })).toThrow(/DMOS_ACCESS_TOKEN/);
+    expect(() => resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: undefined, demoOnly: false })).toThrow(/AKG_ACCESS_TOKEN/);
     expect(resolveAccess({ host: '0.0.0.0', publicOrigins: [], token: 'a'.repeat(16), demoOnly: true }).token).toBe('a'.repeat(16));
   });
 });
 
-describe('npx dunder-mifflin-os --demo', () => {
+describe('npx agents-ka-ghar --demo', () => {
   const run = (argv: string[]) => {
     const cmd = parseCliArgs(argv);
     if (cmd.kind !== 'run') throw new Error(`expected run, got ${cmd.kind}`);
@@ -77,13 +77,13 @@ describe('npx dunder-mifflin-os --demo', () => {
     expect(parseCliArgs(['--speed', '5']).kind).toBe('error');
     expect(parseCliArgs(['--speed', '10']).kind).toBe('error'); // only with --demo
     const env = serverEnv(run(['--demo', '--speed', '10']), {}, ctx);
-    expect(env).toMatchObject({ DMOS_SOURCE: 'demo', DMOS_DEMO_SPEED: '10' });
+    expect(env).toMatchObject({ AKG_SOURCE: 'demo', AKG_DEMO_SPEED: '10' });
     expect(browserUrl(env)).toBe('http://127.0.0.1:4318/');
   });
 
   it('says it is the demo day and that writes stay in memory', () => {
-    const text = banner({ DMOS_SOURCE: 'demo' }, 'http://127.0.0.1:4318/', '/home/pat');
-    expect(text).toContain('Threat Level Midnight');
+    const text = banner({ AKG_SOURCE: 'demo' }, 'http://127.0.0.1:4318/', '/home/pat');
+    expect(text).toContain('Campaign Daybook');
     expect(text).toMatch(/Writes:\s+on, in memory only/);
     expect(text).not.toContain('.hermes');
   });

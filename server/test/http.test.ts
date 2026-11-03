@@ -12,8 +12,8 @@ import type { Runner } from '../src/chat/runner.ts';
 const fixture = loadFixture();
 const T = Date.parse(fixture.state.recordedAt) / 1000;
 const DEV = 'http://localhost:5173';
-const home = mkdtempSync(path.join(tmpdir(), 'dmos-http-'));
-const headshots = path.join(home, 'headshots'); // DMOS_HEADSHOTS_DIR
+const home = mkdtempSync(path.join(tmpdir(), 'akg-http-'));
+const headshots = path.join(home, 'headshots'); // AKG_HEADSHOTS_DIR
 mkdirSync(headshots, { recursive: true });
 writeFileSync(path.join(headshots, 'tech.jpg'), Buffer.from([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3]));
 writeFileSync(path.join(headshots, 'general.png'), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
@@ -54,7 +54,7 @@ describe('GET /api/office', () => {
     expect(text).not.toMatch(/chat-|c_[0-9a-f]{16}/);
     const snap = JSON.parse(text);
     expect(snap.people).toHaveLength(23);
-    expect(snap.presence.michael.status).toBe('meeting');
+    expect(snap.presence.zara.status).toBe('meeting');
   });
 });
 
@@ -99,8 +99,8 @@ describe('GET /api/rooms/:id/messages', () => {
   it('returns [] with a reason header when there is no local source', async () => {
     const res = await fetch(`${base}/api/rooms/dm-health/messages`, { headers: { origin: DEV } });
     expect(await res.json()).toEqual([]);
-    expect(res.headers.get('x-dmos-messages-reason')).toBe('not-in-fixture');
-    expect(res.headers.get('access-control-expose-headers')).toContain('X-DMOS-Messages-Reason');
+    expect(res.headers.get('x-akg-messages-reason')).toBe('not-in-fixture');
+    expect(res.headers.get('access-control-expose-headers')).toContain('X-AKG-Messages-Reason');
   });
 
   it('404s unknown rooms', async () => {
@@ -113,7 +113,7 @@ describe('POST /api/chat', () => {
   it('returns the bot reply as ChatMessages', async () => {
     const res = await postJson('/api/chat', { roomId: 'dm-campaigns', text: 'Identity theft is not a joke' });
     expect(res.status).toBe(200);
-    expect(await res.json()).toEqual([expect.objectContaining({ roomId: 'dm-campaigns', authorId: 'dwight', text: 'Bears. Beets. Battlestar Galactica.' })]);
+    expect(await res.json()).toEqual([expect.objectContaining({ roomId: 'dm-campaigns', authorId: 'meera', text: 'Bears. Beets. Battlestar Galactica.' })]);
   });
 
   it('validates input', async () => {
@@ -139,13 +139,13 @@ describe('POST /api/chat', () => {
 
 describe('POST /api/tasks', () => {
   it('creates a shared Ops card', async () => {
-    const res = await postJson('/api/tasks', { roomId: 'ops', title: 'Restock paper', assignee: 'dwight' });
+    const res = await postJson('/api/tasks', { roomId: 'ops', title: 'Restock paper', assignee: 'meera' });
     expect(res.status).toBe(201);
-    expect(await res.json()).toMatchObject({ id: 't_new1', title: 'Restock paper', status: 'todo', ownerId: 'dwight', roomId: 'ops', shared: true });
+    expect(await res.json()).toMatchObject({ id: 't_new1', title: 'Restock paper', status: 'todo', ownerId: 'meera', roomId: 'ops', shared: true });
   });
 
   it('rejects other rooms', async () => {
-    expect((await postJson('/api/tasks', { roomId: 'hq', title: 'x', assignee: 'dwight' })).status).toBe(400);
+    expect((await postJson('/api/tasks', { roomId: 'hq', title: 'x', assignee: 'meera' })).status).toBe(400);
   });
 });
 

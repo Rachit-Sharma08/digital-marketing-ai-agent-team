@@ -10,7 +10,7 @@ import { answerNow } from './contractSuite.ts';
 
 const TOKEN = 'webhook-controls-token-0123456789';
 const T0 = Date.parse('2026-10-13T15:00:00.000Z');
-const CALLBACK = 'https://deploy.example.com/dmos/control';
+const CALLBACK = 'https://deploy.example.com/akg/control';
 const post = (a: AgentAdapter, agentId: string, body: unknown) => answerNow(a.routes![0]!.handle({ params: [agentId], body }));
 
 type Sent = { url: string; headers: Record<string, string>; body: string };
@@ -65,8 +65,8 @@ describe('webhook control verbs', () => {
     expect(s!.url).toBe(CALLBACK);
     const body = JSON.parse(s!.body) as Record<string, unknown>;
     expect(body).toEqual({ type: 'control', id: expect.stringMatching(/^[0-9a-f-]{36}$/), agent: 'deploy-bot', action: 'pause', requestedAt: new Date(T0).toISOString() });
-    const ts = s!.headers['X-DMOS-Timestamp']!;
-    expect(s!.headers['X-DMOS-Signature']).toBe(`sha256=${createHmac('sha256', TOKEN).update(`${ts}.${s!.body}`).digest('hex')}`);
+    const ts = s!.headers['X-AKG-Timestamp']!;
+    expect(s!.headers['X-AKG-Signature']).toBe(`sha256=${createHmac('sha256', TOKEN).update(`${ts}.${s!.body}`).digest('hex')}`);
     expect(s!.body).not.toContain(TOKEN);
     expect((await adapter.snapshot()).presence['deploy-bot']).toMatchObject({ status: 'offline', activity: 'Paused from the office' });
     expect(await adapter.resume!('deploy-bot')).toEqual({ ok: true, value: null });

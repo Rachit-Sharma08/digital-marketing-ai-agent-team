@@ -1,5 +1,5 @@
 // Claude Code permission prompts in the approvals inbox. PermissionRequest can answer allow/deny synchronously, so
-// with `decisions` on (config `decide: true` + DMOS_ALLOW_WRITES) the hook is held until you decide, the hold runs
+// with `decisions` on (config `decide: true` + AKG_ALLOW_WRITES) the hook is held until you decide, the hold runs
 // out, Claude Code hangs up or the session moves on. Otherwise (and for Notification prompts) the item is shown only.
 import { describe, expect, it } from 'vitest';
 import { createClaudeCodeAdapter } from '../../src/adapters/claudeCode/adapter.ts';
@@ -61,7 +61,7 @@ describe('claude-code permission prompts as approvals', () => {
     expect(item).toMatchObject({ title: 'Write checkout.ts', detail: 'src/checkout.ts', risk: 'medium' });
     await adapter.resolveApproval!(item!.id, { approve: false, note: 'use the existing helper' });
     expect(await answer).toEqual({ status: 200, body: { hookSpecificOutput: { hookEventName: 'PermissionRequest',
-      decision: { behavior: 'deny', message: 'Rejected in Dunder Mifflin OS: use the existing helper' } } } });
+      decision: { behavior: 'deny', message: 'Rejected in Agents Ka Ghar: use the existing helper' } } } });
   });
 
   it('lets Claude Code ask in the terminal when the hold runs out', async () => {

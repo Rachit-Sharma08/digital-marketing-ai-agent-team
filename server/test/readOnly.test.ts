@@ -11,7 +11,7 @@ import type { Runner } from '../src/chat/runner.ts';
 const fixture = loadFixture();
 const T = Date.parse(fixture.state.recordedAt) / 1000;
 const DEV = 'http://localhost:5173';
-const home = mkdtempSync(path.join(tmpdir(), 'dmos-readonly-'));
+const home = mkdtempSync(path.join(tmpdir(), 'akg-readonly-'));
 
 let runs = 0;
 const runner: Runner = async (_file, args) => {
@@ -57,7 +57,7 @@ describe('read-only by default', () => {
     const task = await post(readOnly.base, '/api/tasks', { roomId: 'ops', title: 'Restock paper', assignee: 'campaigns' });
     for (const res of [chat, task]) {
       expect(res.status).toBe(403);
-      expect(((await res.json()) as { error: string }).error).toMatch(/read-only.*DMOS_ALLOW_WRITES=1/i);
+      expect(((await res.json()) as { error: string }).error).toMatch(/read-only.*AKG_ALLOW_WRITES=1/i);
     }
     expect(runs).toBe(before);
   });
@@ -68,7 +68,7 @@ describe('read-only by default', () => {
   });
 });
 
-describe('DMOS_ALLOW_WRITES=1', () => {
+describe('AKG_ALLOW_WRITES=1', () => {
   it('advertises and allows writes', async () => {
     const snap = (await (await fetch(`${writable.base}/api/office`)).json()) as Snap;
     expect(snap.capabilities).toEqual({ writes: true });

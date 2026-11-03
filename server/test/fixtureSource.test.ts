@@ -31,17 +31,17 @@ describe('fixture adapter', () => {
   it('produces a snapshot that covers every status', async () => {
     const snap = buildSnapshot(await source.readState(), loadPeople(), T);
     expect(snap.people).toHaveLength(23);
-    expect(snap.presence.michael).toMatchObject({ status: 'meeting', roomId: 'council' });
-    expect(snap.presence.kelly).toMatchObject({ status: 'working', activity: 'Draft the Dundies recap post' });
-    expect(snap.presence.andy).toMatchObject({ status: 'error', activity: 'Task crashed: Import the Skool member list' });
-    expect(snap.presence.ira).toMatchObject({ status: 'offline' });
-    expect(snap.presence.jim).toEqual({ status: 'no-bot' });
+    expect(snap.presence.zara).toMatchObject({ status: 'meeting', roomId: 'council' });
+    expect(snap.presence.priya).toMatchObject({ status: 'working', activity: 'Draft the Highlights recap post' });
+    expect(snap.presence.aisha).toMatchObject({ status: 'error', activity: 'Task crashed: Import the Skool member list' });
+    expect(snap.presence.isabella).toMatchObject({ status: 'offline' });
+    expect(snap.presence.simran).toEqual({ status: 'no-bot' });
     expect(Object.values(snap.presence).filter((p) => p.status === 'no-bot')).toHaveLength(11);
     expect(snap.rooms.filter((r) => r.hermesRoom && r.kind !== 'dm').map((r) => r.id).sort())
       .toEqual(['content', 'council', 'hq', 'ops', 'outreach', 'rnd', 'skool']);
     expect(snap.jobs?.sadiq?.length).toBeGreaterThan(0);
     for (const j of Object.values(snap.jobs ?? {}).flat()) expect(`${j.name} ${j.schedule}`).not.toMatch(/\d{6,}/);
-    expect(snap.tasks.find((t) => t.title === 'Restock the conference room paper')).toMatchObject({ status: 'todo', roomId: 'ops', shared: true, ownerId: 'dwight' });
+    expect(snap.tasks.find((t) => t.title === 'Restock the conference room paper')).toMatchObject({ status: 'todo', roomId: 'ops', shared: true, ownerId: 'meera' });
   });
 
   it('serves synthetic room messages, council merged across bots', async () => {
@@ -59,8 +59,8 @@ describe('fixture adapter', () => {
     const later = T + 86_400;
     const demo = createFixtureSource({ fixture, shift: true, now: () => later });
     const snap = buildSnapshot(await demo.readState(), loadPeople(), later);
-    expect(snap.presence.kelly?.status).toBe('working');
-    expect(snap.presence.michael?.status).toBe('meeting');
+    expect(snap.presence.priya?.status).toBe('working');
+    expect(snap.presence.zara?.status).toBe('meeting');
     expect(shiftState(fixture.state, 0)).toBe(fixture.state);
   });
 });

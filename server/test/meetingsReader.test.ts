@@ -6,7 +6,7 @@ import { readMeetingRecords } from '../src/hermes/meetingsReader.ts';
 import { createChatKeyer } from '../src/hermes/chatKey.ts';
 import { MT0, OPS_CHAT_ID, makeMeetingsDb } from './helpers/fakeMeetingsDb.ts';
 
-const dir = mkdtempSync(path.join(tmpdir(), 'dmos-meetings-'));
+const dir = mkdtempSync(path.join(tmpdir(), 'akg-meetings-'));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
 const keyOf = createChatKeyer(Buffer.from('test'));
 const WEEK = { from: MT0 - 86_400, to: MT0 + 6 * 86_400 };

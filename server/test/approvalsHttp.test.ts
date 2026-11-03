@@ -16,7 +16,7 @@ const NOW = 1_800_000_000;
 const AT = new Date(NOW * 1000).toISOString();
 const TOKEN = 'approvals-access-token-0123456789';
 const DEV = 'http://localhost:5173';
-const root = mkdtempSync(path.join(tmpdir(), 'dmos-approvals-http-'));
+const root = mkdtempSync(path.join(tmpdir(), 'akg-approvals-http-'));
 
 function fakeAdapter() {
   let pending: ReadonlyArray<ApprovalRequest> = [{ id: 'ap-1', agentId: 'a1', kind: 'permission', title: 'Run the deploy?', requestedAt: AT, risk: 'high' }];
@@ -40,7 +40,7 @@ async function start(opts: { allowWrites: boolean; token?: string }): Promise<Se
   const { adapter, calls } = fakeAdapter();
   const audit = path.join(root, `${opts.allowWrites}-${opts.token ? 'token' : 'open'}.log`);
   const app = createApp({
-    adapters: [adapter], setup: defaultOfficeSetup(mergeSeatRules({}, { toby: null, jim: { adapter: 'fake', agent: 'a1' } })),
+    adapters: [adapter], setup: defaultOfficeSetup(mergeSeatRules({}, { sarah: null, simran: { adapter: 'fake', agent: 'a1' } })),
     hermesHome: root, headshotDir: root, pollIntervalMs: 60_000, now: () => NOW, allowWrites: opts.allowWrites, accessToken: opts.token ?? null, auditFile: audit,
   });
   await new Promise<void>((resolve) => app.server.listen(0, '127.0.0.1', resolve));
@@ -66,10 +66,10 @@ afterAll(async () => {
 describe('the approvals API', () => {
   it('lists pending approvals, also read-only, and puts them in the office snapshot (the bot needs you)', async () => {
     const list = (await (await fetch(`${readOnly.base}/api/approvals`)).json()) as Approval[];
-    expect(list).toEqual([expect.objectContaining({ id: 'fake:ap-1', personId: 'jim', from: 'Jim Halpert', risk: 'high', decidable: true })]);
+    expect(list).toEqual([expect.objectContaining({ id: 'fake:ap-1', personId: 'simran', from: 'Simran Gill', risk: 'high', decidable: true })]);
     const snap = (await (await fetch(`${readOnly.base}/api/office`)).json()) as OfficeSnapshot;
     expect(snap.approvals?.map((a) => a.id)).toEqual(['fake:ap-1']);
-    expect(snap.presence.jim).toMatchObject({ status: 'needs-input', activity: 'Run the deploy?' });
+    expect(snap.presence.simran).toMatchObject({ status: 'needs-input', activity: 'Run the deploy?' });
   });
 
   it('refuses decisions on a read-only server (403) without calling the adapter', async () => {

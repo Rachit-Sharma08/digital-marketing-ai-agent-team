@@ -72,7 +72,7 @@ describe('parseTelegramConfig (config.yaml, telegram room fields only)', () => {
         enabled: true, require_mention: true,
         group_allowed_chats: [-1001, '-1002'], free_response_chats: [-1001],
         channel_prompts: { '-1001': 'Rules.\n\nYou lead the Ops room.', '-1002': 'Rules.\n\nYou are the CTO on the council in the Council room.' },
-        home_channel: { chat_id: 555, name: 'Jan Levinson' },
+        home_channel: { chat_id: 555, name: 'Priya Singh' },
       },
     },
   };
@@ -84,7 +84,7 @@ describe('parseTelegramConfig (config.yaml, telegram room fields only)', () => {
       groupChats: ['k(-1001)', 'k(-1002)'], leadChats: ['k(-1001)'],
       roomHints: { 'k(-1001)': 'Ops', 'k(-1002)': 'Council' },
     });
-    expect(JSON.stringify(cfg)).not.toMatch(/hunter2|555|Jan Levinson/);
+    expect(JSON.stringify(cfg)).not.toMatch(/hunter2|555|Priya Singh/);
   });
 
   it('copes with a profile that has no telegram groups', () => {
@@ -107,8 +107,8 @@ describe('parseCronJobs / parsePersonas', () => {
   });
 
   it('maps persona character names by profile', () => {
-    expect(parsePersonas({ chief: { character: 'Pam Beesly', voice: 'long text' }, bad: 'x', '../x': { character: 'X' } }))
-      .toEqual({ chief: 'Pam Beesly' });
+    expect(parsePersonas({ chief: { character: 'Aanya Sharma', voice: 'long text' }, bad: 'x', '../x': { character: 'X' } }))
+      .toEqual({ chief: 'Aanya Sharma' });
     expect(parsePersonas(null)).toEqual({});
   });
 });

@@ -8,7 +8,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { readKanbanWaiting } from '../src/hermes/kanbanWaiting.ts';
 
 const T0 = 1_800_000_000;
-const root = mkdtempSync(path.join(tmpdir(), 'dmos-waiting-'));
+const root = mkdtempSync(path.join(tmpdir(), 'akg-waiting-'));
 afterAll(() => rmSync(root, { recursive: true, force: true }));
 
 function board(name: string, opts: { blockKind?: boolean; comments?: boolean; events?: boolean } = {}): string {
@@ -22,7 +22,7 @@ function board(name: string, opts: { blockKind?: boolean; comments?: boolean; ev
   const task = db.prepare(`INSERT INTO tasks (${cols}) VALUES (${cols.split(',').map(() => '?').join(',')})`);
   const rows: Array<Array<string | number | null>> = [
     ['t_ask', 'Send the client list?', 'campaigns', 'blocked', 'chief', T0 - 900, 'needs_input'],
-    ['t_mine', 'Publish the Dundies program', 'jan', 'blocked', 'party-planner', T0 - 800, null],
+    ['t_mine', 'Publish the Highlights program', 'jan', 'blocked', 'party-planner', T0 - 800, null],
     ['t_rev', 'Review the landing page', null, 'review', 'tech', T0 - 700, null],
     ['t_loop', 'Flaky deploy', 'tech', 'triage', 'tech', T0 - 600, 'transient'],
     ['t_run', 'Running card', 'tech', 'running', 'tech', T0 - 500, null],

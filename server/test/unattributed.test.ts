@@ -1,4 +1,4 @@
-// Creed's corner on the server: agents without a desk, cards whose owner has no desk, and requests from deskless
+// Naina's corner on the server: agents without a desk, cards whose owner has no desk, and requests from deskless
 // agents, worked out from the adapters' readings and the seating. Text leaves scrubbed.
 import { describe, expect, it } from 'vitest';
 import type { AdapterSnapshot } from '../src/adapters/types.ts';
@@ -13,7 +13,7 @@ const iso = (s: number) => new Date(s * 1000).toISOString();
 const CAPS = { chat: false, createTask: false, approvals: true, pause: false, stop: false };
 
 const hermes: AdapterSnapshot = {
-  agents: [{ id: 'campaigns', name: 'Dwight Schrute', role: 'Campaigns' }],
+  agents: [{ id: 'campaigns', name: 'Meera Kaur', role: 'Campaigns' }],
   presence: { campaigns: { status: 'working' } },
   tasks: [
     { id: 't_mine', title: 'Seated card', status: 'doing', ownerAgentId: 'campaigns', shared: false, updatedAt: iso(NOW - 60) },

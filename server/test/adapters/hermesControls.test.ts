@@ -84,8 +84,8 @@ describe('Hermes control verbs', () => {
     const out = await adapter.stop!('campaigns', {});
     expect(out).toEqual({ ok: true, value: { note: 'Stopped Card t_run and parked it as blocked; unblock it (HR · Approvals) to run it again.' } });
     expect(calls).toEqual([
-      ['/fake/hermes', 'kanban', 'reclaim', 't_run', '--reason=Stopped from Dunder Mifflin OS'],
-      ['/fake/hermes', 'kanban', 'block', '--kind', 'needs_input', 't_run', 'Stopped from Dunder Mifflin OS; unblock it to run it again'],
+      ['/fake/hermes', 'kanban', 'reclaim', 't_run', '--reason=Stopped from Agents Ka Ghar'],
+      ['/fake/hermes', 'kanban', 'block', '--kind', 'needs_input', 't_run', 'Stopped from Agents Ka Ghar; unblock it to run it again'],
     ]);
   });
 
@@ -110,7 +110,7 @@ describe('Hermes control verbs', () => {
   it('hands a card to another bot with `kanban reassign --reclaim`', async () => {
     const { adapter, calls } = setup();
     expect(await adapter.reassign!('campaigns', 't_ready', 'tech')).toEqual({ ok: true, value: null });
-    expect(calls).toEqual([['/fake/hermes', 'kanban', 'reassign', 't_ready', 'tech', '--reclaim', '--reason=Reassigned from Dunder Mifflin OS']]);
+    expect(calls).toEqual([['/fake/hermes', 'kanban', 'reassign', 't_ready', 'tech', '--reclaim', '--reason=Reassigned from Agents Ka Ghar']]);
   });
 
   it('refuses to hand over a card that moved on, or to a profile that is not a bot', async () => {

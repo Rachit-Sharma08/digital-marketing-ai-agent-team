@@ -1,4 +1,4 @@
-// GET /api/unattributed (Creed's corner): read-only, signed in like every /api route, scrubbed.
+// GET /api/unattributed (Naina's corner): read-only, signed in like every /api route, scrubbed.
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AddressInfo } from 'node:net';
 import { createApp, type App } from '../src/http/app.ts';

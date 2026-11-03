@@ -16,10 +16,10 @@ const TAILNET = 'https://office-box.example-tailnet.ts.net:4318';
 const TAILNET_HOST = 'office-box.example-tailnet.ts.net';
 const fixture = loadFixture();
 const T = Date.parse(fixture.state.recordedAt) / 1000;
-const top = mkdtempSync(path.join(tmpdir(), 'dmos-remote-'));
+const top = mkdtempSync(path.join(tmpdir(), 'akg-remote-'));
 const dist = path.join(top, 'dist');
 mkdirSync(dist, { recursive: true });
-writeFileSync(path.join(dist, 'index.html'), '<!doctype html><title>Dunder Mifflin OS</title>');
+writeFileSync(path.join(dist, 'index.html'), '<!doctype html><title>Agents Ka Ghar</title>');
 const runner: Runner = async () => ({ stdout: '', stderr: '', code: 0, timedOut: false });
 
 type Reply = { status: number; headers: Record<string, string | string[] | undefined>; body: string };
@@ -70,7 +70,7 @@ describe('without a session', () => {
   });
 
   it('refuses every API call with 401 JSON', async () => {
-    for (const p of ['/api/office', '/api/events', '/api/rooms/ops/messages', '/api/portraits/dwight']) {
+    for (const p of ['/api/office', '/api/events', '/api/rooms/ops/messages', '/api/portraits/meera']) {
       const res = await send('GET', p);
       expect(res.status, p).toBe(401);
       expect(JSON.parse(res.body), p).toEqual({ error: 'Sign in required' });
@@ -81,7 +81,7 @@ describe('without a session', () => {
     const res = await send('GET', '/?demo=1');
     expect(res.status).toBe(303);
     expect(res.headers.location).toBe('/login?next=%2F%3Fdemo%3D1');
-    expect(res.body).not.toContain('Dunder Mifflin OS</title>');
+    expect(res.body).not.toContain('Agents Ka Ghar</title>');
   });
 });
 
@@ -154,8 +154,8 @@ describe('signing in', () => {
 
 describe('logs and rate limiting', () => {
   it('never writes the token to the log', async () => {
-    const quiet = process.env.DMOS_QUIET;
-    delete process.env.DMOS_QUIET;
+    const quiet = process.env.AKG_QUIET;
+    delete process.env.AKG_QUIET;
     const writes: string[] = [];
     const spy = vi.spyOn(process.stderr, 'write').mockImplementation((chunk: string | Uint8Array) => {
       writes.push(String(chunk));
@@ -166,7 +166,7 @@ describe('logs and rate limiting', () => {
       await form({ token: TOKEN });
     } finally {
       spy.mockRestore();
-      process.env.DMOS_QUIET = quiet;
+      process.env.AKG_QUIET = quiet;
     }
     const logged = writes.join('');
     expect(logged).toContain('auth.login_failed');

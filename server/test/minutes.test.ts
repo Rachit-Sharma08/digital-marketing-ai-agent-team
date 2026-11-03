@@ -82,7 +82,7 @@ describe('buildMeetings: which cards are meetings', () => {
 describe('a Council session', () => {
   const m = byId('council-t_c1');
 
-  it('groups the session cards, chaired by Pam (chief), with the date as its title', () => {
+  it('groups the session cards, chaired by Aanya (chief), with the date as its title', () => {
     expect(m).toMatchObject({ kind: 'council', roomId: 'council', title: 'Council 2027-01-15', status: 'adjourned' });
     expect(m.participantAgentIds).toEqual(['chief', 'cmo', 'cfo']);
     expect(m.agenda.map((a) => [a.title, a.ownerAgentId, a.status])).toEqual([

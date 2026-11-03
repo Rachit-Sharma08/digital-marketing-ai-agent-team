@@ -18,9 +18,9 @@ describe('parseIngestEvent (webhook event schema)', () => {
 
   it('accepts an approval request (with an optional callback for the decision) and its withdrawal', () => {
     expect(parse({ type: 'approval', id: 'deploy-42', title: 'Deploy v1.2 to production?', detail: 'Migrations: 3\nDowntime: none',
-      kind: 'permission', risk: 'high', callback: 'https://deploy.example.com/dmos/decision' }))
+      kind: 'permission', risk: 'high', callback: 'https://deploy.example.com/akg/decision' }))
       .toEqual({ ok: true, event: { type: 'approval', id: 'deploy-42', title: 'Deploy v1.2 to production?', detail: 'Migrations: 3\nDowntime: none',
-        kind: 'permission', risk: 'high', callback: 'https://deploy.example.com/dmos/decision', at: NOW } });
+        kind: 'permission', risk: 'high', callback: 'https://deploy.example.com/akg/decision', at: NOW } });
     expect(parse({ type: 'approval', id: 'q1', title: 'Which region?' })).toEqual({ ok: true, event: { type: 'approval', id: 'q1', title: 'Which region?', at: NOW } });
     expect(parse({ type: 'approval', id: 'local', title: 'x', callback: 'http://127.0.0.1:9000/decide' })).toMatchObject({ ok: true });
     expect(parse({ type: 'approval-withdrawn', id: 'deploy-42' })).toEqual({ ok: true, event: { type: 'approval-withdrawn', id: 'deploy-42', at: NOW } });

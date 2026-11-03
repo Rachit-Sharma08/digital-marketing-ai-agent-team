@@ -40,23 +40,23 @@ describe('parseCliArgs', () => {
 
 describe('serverEnv', () => {
   it('serves the built app and keeps the environment it was given', () => {
-    const env = serverEnv(run([]), { DMOS_PORT: '4500', HERMES_HOME: '/srv/hermes', OTHER: 'x' }, CTX);
-    expect(env).toMatchObject({ DMOS_SERVE_WEB: '1', DMOS_WEB_DIST: '/pkg/web/dist', DMOS_PORT: '4500', HERMES_HOME: '/srv/hermes', OTHER: 'x' });
-    expect(env.DMOS_SOURCE).toBeUndefined();
-    expect(env.DMOS_ALLOW_WRITES).toBeUndefined();
+    const env = serverEnv(run([]), { AKG_PORT: '4500', HERMES_HOME: '/srv/hermes', OTHER: 'x' }, CTX);
+    expect(env).toMatchObject({ AKG_SERVE_WEB: '1', AKG_WEB_DIST: '/pkg/web/dist', AKG_PORT: '4500', HERMES_HOME: '/srv/hermes', OTHER: 'x' });
+    expect(env.AKG_SOURCE).toBeUndefined();
+    expect(env.AKG_ALLOW_WRITES).toBeUndefined();
   });
 
   it('lets flags win over the environment, expanding ~', () => {
-    const env = serverEnv(run(['--demo', '--allow-writes', '--port', '4600', '--hermes-home', '~/hermes', '--portraits', '~/faces']), { DMOS_PORT: '4500' }, CTX);
+    const env = serverEnv(run(['--demo', '--allow-writes', '--port', '4600', '--hermes-home', '~/hermes', '--portraits', '~/faces']), { AKG_PORT: '4500' }, CTX);
     expect(env).toMatchObject({
-      DMOS_SOURCE: 'demo', DMOS_ALLOW_WRITES: '1', DMOS_PORT: '4600', HERMES_HOME: '/home/pat/hermes', DMOS_PORTRAITS_DIR: '/home/pat/faces',
+      AKG_SOURCE: 'demo', AKG_ALLOW_WRITES: '1', AKG_PORT: '4600', HERMES_HOME: '/home/pat/hermes', AKG_PORTRAITS_DIR: '/home/pat/faces',
     });
   });
 
   it('does not change the object it was given', () => {
-    const base = Object.freeze({ DMOS_PORT: '4500' });
+    const base = Object.freeze({ AKG_PORT: '4500' });
     serverEnv(run(['--port', '4600']), base, CTX);
-    expect(base).toEqual({ DMOS_PORT: '4500' });
+    expect(base).toEqual({ AKG_PORT: '4500' });
   });
 });
 
@@ -71,9 +71,9 @@ describe('expandHome', () => {
 describe('browserUrl', () => {
   it('points at loopback; the demo day is the office itself (no ?demo=1)', () => {
     expect(browserUrl({})).toBe('http://127.0.0.1:4318/');
-    expect(browserUrl({ DMOS_PORT: '4600', DMOS_HOST: '0.0.0.0' })).toBe('http://127.0.0.1:4600/');
-    expect(browserUrl({ DMOS_HOST: '::' })).toBe('http://127.0.0.1:4318/');
-    expect(browserUrl({ DMOS_SOURCE: 'demo' })).toBe('http://127.0.0.1:4318/');
+    expect(browserUrl({ AKG_PORT: '4600', AKG_HOST: '0.0.0.0' })).toBe('http://127.0.0.1:4600/');
+    expect(browserUrl({ AKG_HOST: '::' })).toBe('http://127.0.0.1:4318/');
+    expect(browserUrl({ AKG_SOURCE: 'demo' })).toBe('http://127.0.0.1:4318/');
   });
 });
 
@@ -98,7 +98,7 @@ describe('banner', () => {
   });
 
   it('describes the demo, writes and sign-in without ever printing the token', () => {
-    const text = banner({ DMOS_SOURCE: 'fixture', DMOS_ALLOW_WRITES: '1', DMOS_ACCESS_TOKEN: TOKEN }, 'http://127.0.0.1:4318/', HOME);
+    const text = banner({ AKG_SOURCE: 'fixture', AKG_ALLOW_WRITES: '1', AKG_ACCESS_TOKEN: TOKEN }, 'http://127.0.0.1:4318/', HOME);
     expect(text).toContain('recorded sample');
     expect(text).toContain('on: chat and task creation');
     expect(text).toContain('Sign-in: required');

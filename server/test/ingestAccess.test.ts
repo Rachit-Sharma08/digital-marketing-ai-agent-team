@@ -1,4 +1,4 @@
-// Inbound agent endpoints next to the access-token guards: they skip the cookie sign-in but need DMOS_INGEST_TOKEN, stay
+// Inbound agent endpoints next to the access-token guards: they skip the cookie sign-in but need AKG_INGEST_TOKEN, stay
 // rate-limited, work on a read-only server, and don't exist unless their adapter is configured.
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import type { AddressInfo } from 'node:net';
@@ -82,7 +82,7 @@ describe('a signed-in, read-only server with the webhook and claude-code adapter
     expect(snap.capabilities).toEqual({ writes: false });
     expect(snap.presence['temp-webhook-deploy-bot']).toMatchObject({ status: 'needs-input', activity: 'Approve?' });
     expect(snap.presence['temp-claude-code-paper-site']).toMatchObject({ status: 'working', activity: 'Reading a.ts' });
-    expect(snap.people.find((p) => p.id === 'dwight')?.bot?.capabilities).toMatchObject({ chat: true, createTask: true });
+    expect(snap.people.find((p) => p.id === 'meera')?.bot?.capabilities).toMatchObject({ chat: true, createTask: true });
     expect(snap.adapters?.map((a) => a.id)).toEqual(['hermes', 'webhook', 'claude-code']);
   });
 

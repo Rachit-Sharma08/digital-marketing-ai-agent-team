@@ -38,7 +38,7 @@ describe('Hermes approvals', () => {
   it('runs exactly the planned command for a decision', async () => {
     const { adapter, calls } = setup();
     expect(await adapter.resolveApproval!('t_ask.blocked', { approve: true, note: 'go' })).toEqual({ ok: true, value: null });
-    expect(calls).toEqual([['/fake/hermes', 'kanban', 'unblock', 't_ask', '--reason=Approved in Dunder Mifflin OS: go']]);
+    expect(calls).toEqual([['/fake/hermes', 'kanban', 'unblock', 't_ask', '--reason=Approved in Agents Ka Ghar: go']]);
   });
 
   it('re-reads the board and refuses a card that has moved on (the cache is not trusted)', async () => {

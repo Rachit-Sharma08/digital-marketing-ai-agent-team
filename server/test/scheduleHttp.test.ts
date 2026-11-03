@@ -13,7 +13,7 @@ import { LEAK_PATTERNS } from './helpers/leakScan.ts';
 const fixture = loadFixture();
 const T = Date.parse(fixture.state.recordedAt) / 1000; // Tuesday 2026-10-13, 12:11 in New York
 const NY = 'America/New_York';
-const home = mkdtempSync(path.join(tmpdir(), 'dmos-schedule-'));
+const home = mkdtempSync(path.join(tmpdir(), 'akg-schedule-'));
 const runner: Runner = async () => ({ stdout: '', stderr: '', code: 0, timedOut: false });
 const TOKEN = 'schedule-access-token-0123456789abcdef';
 
@@ -52,10 +52,10 @@ describe('GET /api/schedule', () => {
     expect(view.from).toBe('2026-10-12T04:00:00.000Z');
     expect(view.timeZone).toBe(NY);
     const people = new Set(view.jobs.map((j) => j.personId));
-    expect(people.has('pam')).toBe(true); // chief
-    expect(people.has('dwight')).toBe(true); // campaigns
+    expect(people.has('aanya')).toBe(true); // chief
+    expect(people.has('meera')).toBe(true); // campaigns
     for (const id of people) expect(id).toMatch(/^[a-z]+$/); // person ids, never profile keys like 'ai-strategist'
-    const morning = view.jobs.find((j) => j.personId === 'pam' && j.schedule === '30 8 * * 1-5');
+    const morning = view.jobs.find((j) => j.personId === 'aanya' && j.schedule === '30 8 * * 1-5');
     expect(morning).toMatchObject({ name: 'Morning report', repeats: 'cron', enabled: true });
     const runs = view.occurrences.filter((o) => o.jobKey === morning?.key).map((o) => [o.at, o.run]);
     expect(runs).toEqual([

@@ -10,10 +10,10 @@ tasks. What the office sends back goes to callback URLs the agent names: your an
 1. Make a token and export it where the server runs (at least 24 characters):
 
    ```sh
-   export DMOS_INGEST_TOKEN="$(openssl rand -hex 32)"
+   export AKG_INGEST_TOKEN="$(openssl rand -hex 32)"
    ```
 
-2. List the adapter in `~/.dunder-mifflin-os/config.yaml` (see [README.md](README.md#config)):
+2. List the adapter in `~/.agents-ka-ghar/config.yaml` (see [README.md](README.md#config)):
 
    ```yaml
    adapters:
@@ -26,18 +26,18 @@ tasks. What the office sends back goes to callback URLs the agent names: your an
 ## Send an event
 
 `POST http://127.0.0.1:4318/api/ingest/<agent-id>` with `Content-Type: application/json` and
-`Authorization: Bearer $DMOS_INGEST_TOKEN`. The agent id is 1-28 lower-case letters, digits or dashes; the agent
+`Authorization: Bearer $AKG_INGEST_TOKEN`. The agent id is 1-28 lower-case letters, digits or dashes; the agent
 appears on its first event. A success is `204 No Content`.
 
 ```sh
 curl -sS -X POST http://127.0.0.1:4318/api/ingest/deploy-bot \
-  -H "Authorization: Bearer $DMOS_INGEST_TOKEN" \
+  -H "Authorization: Bearer $AKG_INGEST_TOKEN" \
   -H 'Content-Type: application/json' \
   -d '{"type":"status","status":"working","activity":"Deploying v1.2 to staging","name":"Deploy Bot","role":"Ships releases"}'
 ```
 
 The server only listens on 127.0.0.1, so post from the same machine (or through the `tailscale serve` origin you set
-in `DMOS_PUBLIC_ORIGINS`).
+in `AKG_PUBLIC_ORIGINS`).
 
 ## Events
 
@@ -51,7 +51,7 @@ Unknown fields are refused, so a typo gets a 400 that names it.
 | `activity` | `text` (one line, ≤ 200) | What it is doing now. Marks the agent `working`. |
 | `task` | `id` (≤ 64 of `A-Z a-z 0-9 . _ -`), `title` (≤ 200), `status`: `todo` · `doing` · `blocked` · `done`; optional `room`, `shared` | Creates or updates one of its tasks. Done tasks drop off after two days. |
 | `message` | `text` (≤ 4000, may span lines) | A message in the agent's direct line (the chat in its window). |
-| `approval` | `id` (like a task id), `title` (≤ 200); optional `detail` (≤ 600, may span lines), `kind`: `permission` (default) · `question` · `task`, `risk`: `low` · `medium` (default) · `high`, `callback` | It waits on you: the request goes to the approvals inbox (Toby's desk) and the agent shows as needing you. Same `id` again replaces it. See [Approval requests](#approval-requests). |
+| `approval` | `id` (like a task id), `title` (≤ 200); optional `detail` (≤ 600, may span lines), `kind`: `permission` (default) · `question` · `task`, `risk`: `low` · `medium` (default) · `high`, `callback` | It waits on you: the request goes to the approvals inbox (Sarah's desk) and the agent shows as needing you. Same `id` again replaces it. See [Approval requests](#approval-requests). |
 | `approval-withdrawn` | `id` | It no longer waits for that request (answered elsewhere, timed out). |
 | `controls` | `verbs`: a list of `pause` · `stop` (`[]` withdraws them); `callback` (required with verbs) | Lets the office pause, resume and stop the agent: signed `control` events go to `callback`. See [Control verbs](#control-verbs). |
 
@@ -70,19 +70,19 @@ curl ... -d '{"type":"message","text":"Deployed v1.2 to staging. All checks gree
 
 ```sh
 curl -sS -X POST http://127.0.0.1:4318/api/ingest/deploy-bot \
-  -H "Authorization: Bearer $DMOS_INGEST_TOKEN" -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $AKG_INGEST_TOKEN" -H 'Content-Type: application/json' \
   -d '{"type":"approval","id":"deploy-42","title":"Deploy v1.2 to production?","detail":"3 migrations, no downtime","risk":"high",
-       "callback":"https://deploy.example.com/dmos/decision"}'
+       "callback":"https://deploy.example.com/akg/decision"}'
 ```
 
 When you click **Approve** or **Reject** in HR · Approvals (writes on, signed in if the server asks for it), the
 office writes the decision to its audit log and POSTs it to `callback`:
 
 ```http
-POST /dmos/decision HTTP/1.1
+POST /akg/decision HTTP/1.1
 Content-Type: application/json
-X-DMOS-Timestamp: 1791900000
-X-DMOS-Signature: sha256=5d1c…   (hex HMAC-SHA256 of "<timestamp>.<body>" keyed with DMOS_INGEST_TOKEN)
+X-AKG-Timestamp: 1791900000
+X-AKG-Signature: sha256=5d1c…   (hex HMAC-SHA256 of "<timestamp>.<body>" keyed with AKG_INGEST_TOKEN)
 
 {"type":"approval-decision","id":"deploy-42","agent":"deploy-bot","decision":"reject","note":"Not on a Friday","decidedAt":"2026-10-13T15:00:00.000Z"}
 ```
@@ -94,9 +94,9 @@ X-DMOS-Signature: sha256=5d1c…   (hex HMAC-SHA256 of "<timestamp>.<body>" keye
 
   ```js
   import { createHmac, timingSafeEqual } from 'node:crypto';
-  const ts = req.headers['x-dmos-timestamp'];
-  const want = `sha256=${createHmac('sha256', process.env.DMOS_INGEST_TOKEN).update(`${ts}.${rawBody}`).digest('hex')}`;
-  const got = String(req.headers['x-dmos-signature'] ?? '');
+  const ts = req.headers['x-akg-timestamp'];
+  const want = `sha256=${createHmac('sha256', process.env.AKG_INGEST_TOKEN).update(`${ts}.${rawBody}`).digest('hex')}`;
+  const got = String(req.headers['x-akg-signature'] ?? '');
   const ok = Math.abs(Date.now() / 1000 - Number(ts)) < 300
     && got.length === want.length && timingSafeEqual(Buffer.from(want), Buffer.from(got));
   ```
@@ -113,9 +113,9 @@ An agent that wants the office's **Pause**, **Resume** and **Stop** buttons offe
 restart; the office keeps them in memory):
 
 ```bash
-curl -sS -X POST http://127.0.0.1:4318/api/ingest/deploy-bot -H "Authorization: Bearer $DMOS_INGEST_TOKEN" \
+curl -sS -X POST http://127.0.0.1:4318/api/ingest/deploy-bot -H "Authorization: Bearer $AKG_INGEST_TOKEN" \
   -H 'Content-Type: application/json' \
-  -d '{"type":"controls","verbs":["pause","stop"],"callback":"https://deploy.example.com/dmos/control"}'
+  -d '{"type":"controls","verbs":["pause","stop"],"callback":"https://deploy.example.com/akg/control"}'
 ```
 
 When you confirm a verb in its window (writes on, signed in if the server asks for it), the office writes it to the
@@ -137,12 +137,12 @@ in the config; the desk is kept for it (shown offline) until its first event:
 
 ```yaml
 seats:
-  jim: { adapter: webhook, agent: deploy-bot, role: Release manager }
+  simran: { adapter: webhook, agent: deploy-bot, role: Release manager }
 ```
 
 ## Limits and safety
 
-- **Auth:** the bearer token, compared in constant time. Without a token the server won't start this adapter. It replaces the browser sign-in for this endpoint: a session cookie or `DMOS_ACCESS_TOKEN` won't do, and the endpoint works on a read-only server (it only reports).
+- **Auth:** the bearer token, compared in constant time. Without a token the server won't start this adapter. It replaces the browser sign-in for this endpoint: a session cookie or `AKG_ACCESS_TOKEN` won't do, and the endpoint works on a read-only server (it only reports).
 - **Validation:** the schema above; bodies over 16 KB get `413`, anything that isn't JSON `400`/`415`.
 - **Rate limits:** 120 events a minute per agent (`429` with `Retry-After`), 1200 a minute across all inbound
   endpoints, at most 64 agents at once.

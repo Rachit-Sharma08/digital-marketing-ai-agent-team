@@ -1,6 +1,6 @@
 # Architecture
 
-Dunder Mifflin OS is a browser dashboard for a fleet of AI agents, drawn as an isometric office. This page explains how
+Agents Ka Ghar is a browser dashboard for a fleet of AI agents, drawn as an isometric office. This page explains how
 the pieces fit together: the shared data contract, the agent adapters, how rooms map to places on the map, the
 security model, and how to add a character or a seat. For running it, see the [README](../README.md); for agent
 sources, [docs/adapters](adapters/README.md); for the threat model, [SECURITY.md](../SECURITY.md).
@@ -22,9 +22,9 @@ sources, [docs/adapters](adapters/README.md); for the threat model, [SECURITY.md
   office data (`office.ts` + `office/`: areas, walls, furniture, seats, staff), the demo day (`demo/`), the cron
   expander (`schedule/`) and demo fixtures. It is plain data and pure functions; nothing in it does I/O.
 - **`server/`** runs the adapters, seats their agents at characters, composes one snapshot, serves it over HTTP and
-  pushes changes over Server-Sent Events. It also serves the built web app (`DMOS_SERVE_WEB=1`, the CLI turns it on).
+  pushes changes over Server-Sent Events. It also serves the built web app (`AKG_SERVE_WEB=1`, the CLI turns it on).
 - **`web/`** is a Vite + React app. The map is an SVG renderer with a pinhole camera (`web/src/iso/projection.ts`) and
-  a painter's sort (`web/src/iso/depth.ts`); the OS chrome (top bar, windows, taskbar, Ask Pam) sits on top. Below
+  a painter's sort (`web/src/iso/depth.ts`); the OS chrome (top bar, windows, taskbar, Ask Aanya) sits on top. Below
   720 px the map becomes a list.
 
 ## The contract (`shared/contract.ts`)
@@ -38,7 +38,7 @@ The browser only ever sees display data. The main types:
 | `Room` | a chat room: `id`, `name`, `areaId` (where it is on the map), `kind` (`ops` · `team` · `dm` · `common`), `memberIds` |
 | `Task` | a card: `title`, `status` (`todo` · `doing` · `blocked` · `done`), `ownerId`, `roomId`, `shared` |
 | `ScheduledJob` | a person's scheduled job, with an optional parsed `rule` and `timeZone` (the calendar expands these) |
-| `Approval` | something an agent waits on you for (the inbox at Toby's desk), with a `risk` and whether it is `decidable` here |
+| `Approval` | something an agent waits on you for (the inbox at Sarah's desk), with a `risk` and whether it is `decidable` here |
 | `AgentCapabilities` | what an agent's adapter can do: `chat`, `createTask`, `approvals`, `pause`, `stop`, `runJob`, `reassign` |
 | `OfficeSnapshot` | everything above in one value, plus the server's own `capabilities.writes` and the list of adapters |
 | `ChatMessage` | `authorId` is a person id, a bot profile, or `'you'` for the human at the keyboard |
@@ -61,7 +61,7 @@ verbs, each behind a capability flag that is true exactly when the method exists
 
 Built in: `hermes` (reads `~/.hermes`: gateway state, kanban, sessions, cron; writes only through the `hermes` CLI),
 `webhook` (anything that can POST JSON), `claude-code` (Claude Code's `http` hooks) and `demo` (the scripted
-"Threat Level Midnight" day, `shared/demo/`). The invariants every adapter keeps are checked by one shared test
+"Campaign Daybook" day, `shared/demo/`). The invariants every adapter keeps are checked by one shared test
 suite, `server/test/adapters/contractSuite.ts`: free text is scrubbed, snapshots are immutable, room ids are global,
 inbound endpoints refuse a missing or wrong token. [docs/adapters](adapters/README.md) has the full contract and a
 how-to for writing a new adapter.
@@ -71,8 +71,8 @@ how-to for writing a new adapter.
 `server/src/office/` is the only place where agent ids turn into person ids:
 
 1. **Seating** (`seating.ts`). The built-in seating (`server/src/roster.ts`) puts each Hermes profile of the example
-   roster at an Office character's desk; `seats:` in `~/.dunder-mifflin-os/config.yaml` overrides it for any adapter.
-   Agents nobody placed sit at the spare desks as temps; the rest show up in Creed's corner (`unattributed.ts`).
+   roster at an team member's desk; `seats:` in `~/.agents-ka-ghar/config.yaml` overrides it for any adapter.
+   Agents nobody placed sit at the spare desks as temps; the rest show up in Naina's corner (`unattributed.ts`).
 2. **Compose** (`compose.ts`, `composeApprovals.ts`). Readings from every adapter plus the seating become one
    `OfficeSnapshot`. Free text is scrubbed again on the way out (`server/src/domain/scrub.ts`), so an adapter that
    forgets cannot leak a token or a home path to the browser.
@@ -111,23 +111,23 @@ All of the office is data in `shared/office/`: `areas.ts` (rectangles plus optio
 window and glass openings), `furniture-*.ts` (desks, shelves, appliances; desks carry up to six items), `seats.ts` and
 `staff.ts`. Units are floor units of about 0.5 m: x runs right, y runs to the back, z up. The layout follows the
 well-known isometric render of the show's office (see the README's acknowledgements): a long building with the
-elevator lobby at the back-left, Michael's office, the Conference Room, the stairwell, the Annex's waiting nook and the
+elevator lobby at the back-left, Zara's office, the Conference Room, the stairwell, the Annex's waiting nook and the
 Break Room along the back wall, the Bullpen and Reception in the middle, the Kitchen and Restrooms toward the right, the
 Annex at the right end and the Warehouse drawn as an inset floor behind the building.
 
 | Area id | Name | Floor | What is there |
 |---|---|---|---|
-| `lobby` | Elevator Lobby | carpet | the wall sign, the elevator, David Wallace's visitor chair |
+| `lobby` | Elevator Lobby | carpet | the wall sign, the elevator, Sophia D Souza's visitor chair |
 | `bullpen` | Bullpen | carpet | the sales desks, accounting in the front-left corner, spare desks |
-| `reception` | Reception | carpet | Pam's curved desk, Erin's side desk, the copier, the IT cart, the temp desk |
-| `michael` | Michael's Office | carpet | Michael's desk, guest chairs |
+| `reception` | Reception | carpet | Aanya's curved desk, Riya's side desk, the copier, the IT cart, the temp desk |
+| `zara` | Zara's Office | carpet | Zara's desk, guest chairs |
 | `conference` | Conference Room | carpet | rows of chairs facing a TV: the meeting seats for Ops, Council and shared tasks |
 | `stairwell` | Stairwell | carpet | the corridor and the stair room (the link down to the warehouse) |
-| `kitchen` | Kitchen | tile | counter, fridge, the round table where Sensei Ira sits |
+| `kitchen` | Kitchen | tile | counter, fridge, the round table where Isabella D Costa sits |
 | `restrooms` | Restrooms | tile | the men's and women's rooms and their stalls |
 | `breakroom` | Break Room | slate | vending machines, tables, the Party Planning Committee board |
-| `annex` | The Annex | carpet | Kelly, Ryan, Toby (HR · Approvals) and Holly |
-| `warehouse` | Warehouse (downstairs) | concrete | Darryl's office, Roy, shelving |
+| `annex` | The Annex | carpet | Priya, Tara, Sarah (HR · Approvals) and Ananya |
+| `warehouse` | Warehouse (downstairs) | concrete | Pooja's office, Sunita, shelving |
 
 ### Drawing
 
@@ -142,12 +142,12 @@ yet".
 The short version (the full threat model is in [SECURITY.md](../SECURITY.md)):
 
 - **Local and read-only by default.** The server binds `127.0.0.1`, checks the Host header (DNS rebinding), and answers
-  every write with `403` unless it runs with `--allow-writes` / `DMOS_ALLOW_WRITES=1`.
+  every write with `403` unless it runs with `--allow-writes` / `AKG_ALLOW_WRITES=1`.
 - **Two yeses for a write.** A write to an agent needs writes on and the adapter's capability; approvals and control
   verbs also need a confirmation in the page and an audit log entry written first (no log, no action).
-- **A token for anything remote.** Binding beyond loopback or publishing the app (`DMOS_PUBLIC_ORIGINS`) needs
-  `DMOS_ACCESS_TOKEN`; browsers sign in once and get an `HttpOnly`, `SameSite=Strict` cookie holding an HMAC.
-- **Inbound endpoints** (webhook, Claude Code hooks) exist only when configured, need `DMOS_INGEST_TOKEN`, validate
+- **A token for anything remote.** Binding beyond loopback or publishing the app (`AKG_PUBLIC_ORIGINS`) needs
+  `AKG_ACCESS_TOKEN`; browsers sign in once and get an `HttpOnly`, `SameSite=Strict` cookie holding an HMAC.
+- **Inbound endpoints** (webhook, Claude Code hooks) exist only when configured, need `AKG_INGEST_TOKEN`, validate
   and rate-limit every event and keep it in memory only.
 - **Secrets stay on the server.** Chat ids become opaque keys; all free text is scrubbed of tokens, chat ids, phone
   numbers and home paths; `server/test/liveLeak.test.ts` scans live responses for leaks. Commands run through
@@ -161,11 +161,11 @@ The short version (the full threat model is in [SECURITY.md](../SECURITY.md)):
 2. **Character.** Add an entry to `shared/office/staff.ts` with a unique `id`, `name`, `title`, its `seatId` and a
    `look`. Give it a `bot` only if it should be part of the built-in Hermes seating; otherwise leave it without one
    and seat an agent there from the config.
-3. **Agent.** To put an agent at the new desk without touching code, map it in `~/.dunder-mifflin-os/config.yaml`:
+3. **Agent.** To put an agent at the new desk without touching code, map it in `~/.agents-ka-ghar/config.yaml`:
 
    ```yaml
    seats:
-     toby: { adapter: webhook, agent: deploy-bot, role: Release checks }
+     sarah: { adapter: webhook, agent: deploy-bot, role: Release checks }
    ```
 
    To change the built-in Hermes seating instead, edit `server/src/roster.ts` (and, for group rooms,
@@ -179,7 +179,7 @@ the show (see [ASSETS-LICENSE](../ASSETS-LICENSE)).
 
 ## The demo day
 
-`shared/demo/` is a scripted, deterministic day ("Threat Level Midnight") on a 1x/10x/60x clock: who arrives when,
+`shared/demo/` is a scripted, deterministic day ("Campaign Daybook") on a 1x/10x/60x clock: who arrives when,
 which cards and jobs run, the Council meeting, the chili spill and the approval that waits on you. The `demo` adapter
 plays it on the server (`--demo`, Docker's demo profile), and the static build (`npm run build:demo-static`) runs the
 same adapter and office code in the browser, so the GitHub Pages demo needs no server.

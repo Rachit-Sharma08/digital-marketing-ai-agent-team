@@ -1,8 +1,8 @@
 # Agents Ka Ghar — Hinglish Guide
 
-AI agents ka office, browser me. 23 staff, isometric floor plan, status lights (working / meeting / idle / error / offline), har bande ka apna window (budget, tasks, chat), aur Toby ke desk par **approvals** — agent kaam rok kar tumhara "haan" maangta hai.
+AI agents ka office, browser me. 23 staff, isometric floor plan, status lights (working / meeting / idle / error / offline), har bande ka apna window (budget, tasks, chat), aur Sarah ke desk par **approvals** — agent kaam rok kar tumhara "haan" maangta hai.
 
-Ye `stephenlthorn/dunder-mifflin-os` (MIT license) ka local install hai. Office ka Dunder Mifflin theme jaan-boojh kar rakha hai — video wahi tha.
+Ye `stephenlthorn/agents-ka-ghar` (MIT license) ka local install hai. Office ka Agents Ka Ghar theme jaan-boojh kar rakha hai — video wahi tha.
 
 ---
 
@@ -21,7 +21,7 @@ Desktop par do icons hain:
 
 | Shortcut | Kya karta hai | URL |
 |---|---|---|
-| **Agents Ka Ghar (Demo)** | Scripted din "Threat Level Midnight" — fictional, kuch bhi Hermes se nahi padhta | http://127.0.0.1:4318 |
+| **Agents Ka Ghar (Demo)** | Scripted din "Campaign Daybook" — fictional, kuch bhi Hermes se nahi padhta | http://127.0.0.1:4318 |
 | **Agents Ka Ghar (Live Hermes)** | Tumhare asli Hermes fleet ko read-only dikhata hai | http://127.0.0.1:4319 |
 
 Shortcut double-click karo → CMD window khulegi → browser apne aap khul jayega. Band karne ke liye CMD window me `Ctrl+C` ya window close.
@@ -29,7 +29,7 @@ Shortcut double-click karo → CMD window khulegi → browser apne aap khul jaye
 Manual commands:
 
 ```bat
-cd /d D:\Projects\dunder-mifflin-os
+cd /d D:\Projects\agents-ka-ghar
 start-demo.cmd
 start-live.cmd
 ```
@@ -40,9 +40,9 @@ start-live.cmd
 
 - **Top bar** par clock, speed (1× / 10× / 60×), fleet summary. 60× par pura din ~9 minute me.
 - **Kisi bhi bande par click** → person window: kaam, tasks, budget, chat.
-- **`Ctrl+K`** (video me ⌘K) → "Ask Pam" search/commands.
+- **`Ctrl+K`** (video me ⌘K) → "Ask Aanya" search/commands.
 - **"N need you" button** → HR · Approvals inbox.
-- Demo timeline: **10:58 AM** par Dwight approval maangta hai, **11:40 AM** par script khud approve kar deta hai. Us window me dekhna ho to speed 60× rakho aur 10:50 ke aas-paas pohocho.
+- Demo timeline: **10:58 AM** par Meera approval maangta hai, **11:40 AM** par script khud approve kar deta hai. Us window me dekhna ho to speed 60× rakho aur 10:50 ke aas-paas pohocho.
 - Demo ka data sirf memory me hai — server band = sab reset. Tumhari asli files ko kuch nahi chhedta.
 
 ---
@@ -52,7 +52,7 @@ start-live.cmd
 `start-live.cmd` ye chalata hai:
 
 ```bat
-node bin\dunder-mifflin-os.mjs --port 4319 --hermes-home D:\hermes --open
+node bin\agents-ka-ghar.mjs --port 4319 --hermes-home D:\hermes --open
 ```
 
 - Tumhare Hermes profiles/kanban se bots, status, tasks padhta hai.
@@ -60,7 +60,7 @@ node bin\dunder-mifflin-os.mjs --port 4319 --hermes-home D:\hermes --open
 - Chat + task creation + live approvals chahiye to `start-live.cmd` me `--allow-writes` add kar do:
 
 ```bat
-node bin\dunder-mifflin-os.mjs --port 4319 --hermes-home D:\hermes --allow-writes --open
+node bin\agents-ka-ghar.mjs --port 4319 --hermes-home D:\hermes --allow-writes --open
 ```
 
 - Raat ko sab bots "offline" dikhte hain — ye normal hai, Hermes tab kaam nahi kar raha hota.
@@ -80,7 +80,7 @@ Matlab us naam ka profile folder nahi hai. App phir bhi 12 bots dikhata hai — 
 ## Rebuild / test (agar code chhedna ho)
 
 ```bat
-cd /d D:\Projects\dunder-mifflin-os
+cd /d D:\Projects\agents-ka-ghar
 npm run build
 npm run typecheck
 npm test
@@ -111,4 +111,4 @@ Server ke kuch tests Linux paths (`/home/...`, `~`) assume karte hain, isliye Wi
 
 ## Disclaimer
 
-Ye unofficial fan project hai — NBCUniversal / The Office se affiliated nahi. Personal use ke liye theek hai; public post karne se pehle naam/theme badal lena safer hai. MIT license original repo me hai.
+Ye unofficial fan project hai — the original rights holder / the workspace se affiliated nahi. Personal use ke liye theek hai; public post karne se pehle naam/theme badal lena safer hai. MIT license original repo me hai.

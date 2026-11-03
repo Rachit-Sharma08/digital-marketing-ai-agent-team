@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping out. Dunder Mifflin OS is a small, test-first TypeScript project; the notes below keep it that way.
+Thanks for helping out. Agents Ka Ghar is a small, test-first TypeScript project; the notes below keep it that way.
 
 ## Setup
 
@@ -8,7 +8,7 @@ You need Node 22.13 or newer.
 
 ```sh
 npm install
-npm run demo        # the demo day ("Threat Level Midnight"), no keys or Hermes: http://127.0.0.1:4318
+npm run demo        # the demo day ("Campaign Daybook"), no keys or Hermes: http://127.0.0.1:4318
 npm run demo:server # the server on recorded, redacted fixture data, plus the web app
 ```
 
@@ -31,7 +31,7 @@ npm run e2e:auth   # Playwright sign-in against the real server (fixture data)
 - **Small files and functions.** Aim for files under 400 lines and functions under 50.
 - **Immutable data.** Return new objects instead of changing the ones you were given.
 - **Validate at the edges.** Everything from Hermes, the network or the browser is untrusted until a guard accepts it.
-- **Security defaults stay on.** Loopback bind, read-only unless `DMOS_ALLOW_WRITES=1`, a token for remote access.
+- **Security defaults stay on.** Loopback bind, read-only unless `AKG_ALLOW_WRITES=1`, a token for remote access.
   A change that weakens one of these needs a strong reason and an update to `SECURITY.md`.
 - **The contract is shared.** `shared/contract.ts` is used by both the server and the browser. Keep changes additive
   and call them out in the pull request.

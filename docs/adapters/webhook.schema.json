@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Dunder Mifflin OS webhook event",
+  "title": "Agents Ka Ghar webhook event",
   "description": "The body of POST /api/ingest/:agentId. One event per request. Unknown fields are refused. Free text is scrubbed of tokens, chat ids, phone numbers and home paths before it reaches the browser.",
   "$defs": {
     "line": { "type": "string", "minLength": 1, "pattern": "^[^\\r\\n\\u0000-\\u0008\\u000b\\u000c\\u000e-\\u001f\\u007f]*$" },
@@ -74,7 +74,7 @@
     },
     {
       "title": "approval",
-      "description": "The agent is waiting on you: it shows in the approvals inbox (Toby's desk) and the agent is shown as needing you. With a callback, Approve/Reject POST the decision there (see webhook.md); without one, the item is shown only. Sending the same id again replaces it.",
+      "description": "The agent is waiting on you: it shows in the approvals inbox (Sarah's desk) and the agent is shown as needing you. With a callback, Approve/Reject POST the decision there (see webhook.md); without one, the item is shown only. Sending the same id again replaces it.",
       "type": "object",
       "additionalProperties": false,
       "required": ["type", "id", "title"],

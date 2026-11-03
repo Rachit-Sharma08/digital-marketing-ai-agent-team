@@ -5,7 +5,7 @@ orange ring) when it asks for permission, idle when it finishes its turn, offlin
 final answer each turn lands in the session's direct line. It uses Claude Code's
 [`http` hooks](https://code.claude.com/docs/en/hooks): Claude Code POSTs each hook event to the server, which by
 default only watches. It answers `204` with no decision, so your sessions behave exactly as they would without it.
-What a session asks you shows up in the approvals inbox at Toby's desk; if you turn on [decisions](#answer-permission-prompts-in-the-office),
+What a session asks you shows up in the approvals inbox at Sarah's desk; if you turn on [decisions](#answer-permission-prompts-in-the-office),
 you can allow or deny a permission prompt from there. The
 [Pixel Agents](https://github.com/pixel-agents-hq/pixel-agents) project showed that hooks are enough for this.
 
@@ -15,10 +15,10 @@ you can allow or deny a permission prompt from there. The
    `claude` from (Claude Code reads it from its own environment):
 
    ```sh
-   export DMOS_INGEST_TOKEN="$(openssl rand -hex 32)"   # e.g. in ~/.zshrc
+   export AKG_INGEST_TOKEN="$(openssl rand -hex 32)"   # e.g. in ~/.zshrc
    ```
 
-2. List the adapter in `~/.dunder-mifflin-os/config.yaml` and restart the server:
+2. List the adapter in `~/.agents-ka-ghar/config.yaml` and restart the server:
 
    ```yaml
    adapters:
@@ -27,29 +27,29 @@ you can allow or deny a permission prompt from there. The
    ```
 
 3. Add the hooks to `~/.claude/settings.json` (every session) or a project's `.claude/settings.local.json` (one
-   project). `npm run claude-code:hooks -w @dmos/server` prints this block for your port:
+   project). `npm run claude-code:hooks -w @akg/server` prints this block for your port:
 
 ```json
 {
   "hooks": {
-    "SessionStart": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "UserPromptSubmit": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "PreToolUse": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "PostToolUse": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "PostToolUseFailure": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "PermissionRequest": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 300, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "Notification": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "SubagentStart": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "SubagentStop": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "Stop": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "StopFailure": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }],
-    "SessionEnd": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $DMOS_INGEST_TOKEN"}, "allowedEnvVars": ["DMOS_INGEST_TOKEN"]}] }]
+    "SessionStart": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "UserPromptSubmit": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "PreToolUse": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "PostToolUse": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "PostToolUseFailure": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "PermissionRequest": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 300, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "Notification": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "SubagentStart": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "SubagentStop": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "Stop": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "StopFailure": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }],
+    "SessionEnd": [{ "hooks": [{"type": "http", "url": "http://127.0.0.1:4318/api/hooks/claude-code", "timeout": 2, "headers": {"Authorization": "Bearer $AKG_INGEST_TOKEN"}, "allowedEnvVars": ["AKG_INGEST_TOKEN"]}] }]
   }
 }
 ```
 
    If you merge it into existing settings, add these entries next to your own hooks. If your settings define
-   `allowedHttpHookUrls` or `httpHookAllowedEnvVars`, add the URL and `DMOS_INGEST_TOKEN` to them.
+   `allowedHttpHookUrls` or `httpHookAllowedEnvVars`, add the URL and `AKG_INGEST_TOKEN` to them.
 
 4. Start a new `claude` session. It appears at a spare desk as "Temp · Claude Code", named after the project folder.
 
@@ -82,13 +82,13 @@ adapters:
   - { kind: claude-code, decide: true, holdSeconds: 120 }   # holdSeconds: 5-270, default 120
 ```
 
-and start the server with `--allow-writes` (`DMOS_ALLOW_WRITES=1`). Then each permission request:
+and start the server with `--allow-writes` (`AKG_ALLOW_WRITES=1`). Then each permission request:
 
-1. raises the session's hand on the map, rings Pam's phone and appears in **HR · Approvals** (Toby's desk) with the
+1. raises the session's hand on the map, rings Aanya's phone and appears in **HR · Approvals** (Sarah's desk) with the
    tool, the command, file or URL it wants (secrets masked) and a risk (`high` for Bash, `medium` for edits and MCP
    tools, `low` for reads, searches and fetches);
 2. is held open until you click **Approve** (answers `allow`, once) or **Reject** (answers `deny`; your note becomes
-   the reason Claude sees: "Rejected in Dunder Mifflin OS: *note*"). Every decision is written to the audit log first;
+   the reason Claude sees: "Rejected in Agents Ka Ghar: *note*"). Every decision is written to the audit log first;
 3. if you don't decide within `holdSeconds`, if Claude Code gives up (the hook's `timeout` is 300 s) or if the session
    moves on, it is answered with no decision and Claude Code asks you in the terminal as usual.
 
@@ -100,7 +100,7 @@ Claude Code", without buttons. The office never answers on its own: no auto-appr
 
 With `--allow-writes`, a working session's window has **Stop current run**. Claude Code hooks can end a turn: the
 office answers the session's next `PreToolUse` or `PostToolUse` hook with `{"continue": false, "stopReason": "Stopped
-from Dunder Mifflin OS"}`, so Claude stops before or after its next tool call (a reply that is only text can't be cut
+from Agents Ka Ghar"}`, so Claude stops before or after its next tool call (a reply that is only text can't be cut
 short). The request lapses after two minutes if no tool hook comes, so it can never end a later, unrelated turn.
 There is no pause: hooks can end a turn but cannot hold or resume a session. Each stop is written to the audit log
 first.
@@ -113,7 +113,7 @@ To give a project a character, map it in the config:
 
 ```yaml
 seats:
-  jim: { adapter: claude-code, agent: paper-site, role: Pair programmer }
+  simran: { adapter: claude-code, agent: paper-site, role: Pair programmer }
 ```
 
 ## Privacy and limits
@@ -127,7 +127,7 @@ seats:
   what you can't see. It is masked (secret-looking variables and flags, `-u user:pass`, `Authorization` headers,
   `user:pass@` in URLs, API keys), scrubbed, capped at 400 characters, kept in memory only until the request is
   answered, and never logged; the audit log records the title, not the command.
-- **Auth:** the bearer token (constant-time compare); the server won't start this adapter without it. It replaces the browser sign-in for this endpoint: a session cookie or `DMOS_ACCESS_TOKEN` won't do, and the endpoint works on a read-only server (it only reports).
+- **Auth:** the bearer token (constant-time compare); the server won't start this adapter without it. It replaces the browser sign-in for this endpoint: a session cookie or `AKG_ACCESS_TOKEN` won't do, and the endpoint works on a read-only server (it only reports).
 - **Limits:** bodies up to 1 MB (a `PostToolUse` carries the tool's output); 600 events a minute per session;
   64 sessions at once; a session that goes quiet while working shows as idle after 15 minutes and is forgotten after
   6 hours.

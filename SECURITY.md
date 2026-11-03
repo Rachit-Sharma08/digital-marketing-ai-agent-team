@@ -6,30 +6,30 @@ Please report security problems **privately**: open this repository's **Security
 **Report a vulnerability** (GitHub private vulnerability reporting). Don't open a public issue, pull request or
 discussion for a suspected vulnerability.
 
-Include what you found, how to reproduce it, the version (`npx dunder-mifflin-os --version` or the commit) and how
+Include what you found, how to reproduce it, the version (`npx agents-ka-ghar --version` or the commit) and how
 you run it (npx, Docker or from source). Never paste real tokens, chat ids or Hermes data into a report; redacted
 examples are enough. You'll get an acknowledgement within 7 days. Fixes land on `main` and in the next release.
 
 ## Threat model
 
-Dunder Mifflin OS is a **local-first, read-only-by-default** dashboard for one person's own bots. It is built to be
+Agents Ka Ghar is a **local-first, read-only-by-default** dashboard for one person's own bots. It is built to be
 safe on a laptop with no configuration, and to be reachable from your other devices only when you explicitly
 publish it and set an access token.
 
 ### Defaults
 
-- **Loopback only.** The server binds `127.0.0.1` unless `DMOS_HOST` says otherwise. Requests must carry a
+- **Loopback only.** The server binds `127.0.0.1` unless `AKG_HOST` says otherwise. Requests must carry a
   `127.0.0.1` / `localhost` Host header (or the host of a configured public origin), which blocks DNS rebinding.
 - **Read-only.** Chat, task creation and every other write (any non-GET API route) answer `403` unless the server
-  runs with `DMOS_ALLOW_WRITES=1` (`--allow-writes`). The snapshot tells the browser, which hides those controls.
+  runs with `AKG_ALLOW_WRITES=1` (`--allow-writes`). The snapshot tells the browser, which hides those controls.
 - **Writes need a same-origin JSON request.** A POST that carries an `Origin` must come from the server's own origin,
   the Vite dev origin or a configured public origin, and must be `application/json`. Task creation is rate-limited.
 - **No token needed locally.** Local use (loopback bind, no public origins) has no sign-in.
 
 ### Remote access
 
-- Setting `DMOS_PUBLIC_ORIGINS` (e.g. a `tailscale serve` URL) or binding beyond loopback with `DMOS_HOST` (as the
-  Docker image does) makes the server **refuse to start without `DMOS_ACCESS_TOKEN`** (16+ characters; use
+- Setting `AKG_PUBLIC_ORIGINS` (e.g. a `tailscale serve` URL) or binding beyond loopback with `AKG_HOST` (as the
+  Docker image does) makes the server **refuse to start without `AKG_ACCESS_TOKEN`** (16+ characters; use
   `openssl rand -hex 24`). With a token, every request is checked, including ones that arrive on loopback.
 - Browsers sign in once on `/login`, a no-JavaScript form with a strict Content-Security-Policy. The token is compared
   in constant time; sign-in attempts are rate-limited (10 a minute, server-wide).
@@ -46,9 +46,9 @@ publish it and set an access token.
 ### Inbound agent endpoints (webhook, Claude Code)
 
 - `POST /api/ingest/:agentId` and `POST /api/hooks/claude-code` exist only while the `webhook` / `claude-code`
-  adapter is listed in `~/.dunder-mifflin-os/config.yaml`; otherwise they are `404`.
+  adapter is listed in `~/.agents-ka-ghar/config.yaml`; otherwise they are `404`.
 - Agents can't sign in with a cookie, so these two skip the sign-in and require `Authorization: Bearer
-  $DMOS_INGEST_TOKEN` instead: a separate secret of at least 24 characters, compared in constant time (hashed first),
+  $AKG_INGEST_TOKEN` instead: a separate secret of at least 24 characters, compared in constant time (hashed first),
   checked before the body is read. The server refuses to start either adapter without it. A session cookie or the
   access token does not open them, and the ingest token opens nothing else.
 - Every event is validated (strict schema, size cap: 16 KB for webhooks, 1 MB for Claude Code hooks), rate-limited
@@ -57,13 +57,13 @@ publish it and set an access token.
   what a pending permission request asks for (the command, a project-relative path or a URL without its query),
   masked and scrubbed, in memory only until it is answered, never logged.
 - They only report. They work on a read-only server; no inbound event can make an agent do anything. A write to an
-  agent (chat, tasks, approvals, control verbs) needs both `DMOS_ALLOW_WRITES=1` and that agent's adapter capability.
+  agent (chat, tasks, approvals, control verbs) needs both `AKG_ALLOW_WRITES=1` and that agent's adapter capability.
 
 ### Approvals
 
 - Deciding an approval (`POST /api/approvals/:id`) needs writes on, the adapter's `approvals` flag, a JSON body from
-  an allowed origin and, with `DMOS_ACCESS_TOKEN`, a signed-in browser. Decisions are rate-limited (30 a minute).
-- Each decision is appended to a local audit log (`~/.dunder-mifflin-os/audit.log` or `DMOS_AUDIT_LOG`; 0600 file in
+  an allowed origin and, with `AKG_ACCESS_TOKEN`, a signed-in browser. Decisions are rate-limited (30 a minute).
+- Each decision is appended to a local audit log (`~/.agents-ka-ghar/audit.log` or `AKG_AUDIT_LOG`; 0600 file in
   a 0700 directory; JSON lines with the time, approval id, agent, person, kind, risk, title, decision, scrubbed note
   and whether you were signed in) **before** the adapter acts. If it can't be written, nothing is done.
 - Nothing is ever approved automatically. Hermes decisions run fixed `hermes kanban` argv lists through `execFile`
@@ -71,13 +71,13 @@ publish it and set an access token.
   held only with `decide: true` and writes on, for at most `holdSeconds`, and otherwise falls back to the terminal.
 - Webhook decisions go only to the callback URL the agent gave: `https://`, or `http://` on loopback, no credentials,
   no redirects, 5-second timeout. They carry an HMAC-SHA256 signature of the timestamp and body keyed with
-  `DMOS_INGEST_TOKEN`; the token itself is never sent, and the callback URL never reaches the browser.
+  `AKG_INGEST_TOKEN`; the token itself is never sent, and the callback URL never reaches the browser.
 
 ### Control verbs and budgets
 
 - Pause, resume, stop, run-now and reassign (`POST /api/people/:id/actions`) need writes on, the adapter's flag (and
   the agent's own: a webhook agent offers verbs with a callback), a JSON body from an allowed origin, sign-in with
-  `DMOS_ACCESS_TOKEN`, and a confirmation step in the page. They are rate-limited (20 a minute). Arguments are checked
+  `AKG_ACCESS_TOKEN`, and a confirmation step in the page. They are rate-limited (20 a minute). Arguments are checked
   against a fresh snapshot (the job, the card and the new owner must belong to that desk and adapter).
 - Each verb is appended to the audit log (who asked: `local`, `signed-in` or `corporate`) **before** the adapter acts;
   no log, no action. Hermes verbs run fixed `hermes` argv lists through `execFile` (no shell) holding only validated

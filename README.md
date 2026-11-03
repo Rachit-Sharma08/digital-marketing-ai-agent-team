@@ -33,15 +33,15 @@ deterministic, so the same command always lands on the same specialist:
 
 | You type | Specialist | Desk |
 |---|---|---|
-| "audit my landing page SEO" | SEO analyst | Oscar |
-| "Google Ads copy for a Diwali sale" | Paid ads manager | Dwight |
-| "cold email sequence for SaaS founders" | Email marketer | Andy |
-| "3 Instagram captions for my bakery" | Social media lead | Kelly |
-| "why did conversions drop in GA4" | Analytics lead | Angela |
-| "design a thumbnail for this reel" | Creative director | Ryan |
+| "audit my landing page SEO" | SEO analyst | Neha |
+| "Google Ads copy for a Diwali sale" | Paid ads manager | Meera |
+| "cold email sequence for SaaS founders" | Email marketer | Aisha |
+| "3 Instagram captions for my bakery" | Social media lead | Priya |
+| "why did conversions drop in GA4" | Analytics lead | Fatima |
+| "design a thumbnail for this reel" | Creative director | Tara |
 | "fix the React bug on the pricing page" | Web developer | Sadiq |
-| "write a blog post about AI agents" | Content writer | Pam |
-| anything else | Marketing lead | Michael |
+| "write a blog post about AI agents" | Content writer | Aanya |
+| anything else | Marketing lead | Zara |
 
 Model tier is picked automatically too:
 
@@ -79,7 +79,7 @@ export GEMINI_API_KEY="your-key"
 Run it:
 
 ```bash
-node bin/dunder-mifflin-os.mjs --demo
+node bin/agents-ka-ghar.mjs --demo
 ```
 
 Open <http://127.0.0.1:4318>, click **✦ Team**, type a command.
@@ -91,7 +91,7 @@ Without a key the office still runs — only the console reports that no model i
 Live mode reads a real agent runtime **read-only**:
 
 ```bash
-node bin/dunder-mifflin-os.mjs --port 4319
+node bin/agents-ka-ghar.mjs --port 4319
 ```
 
 It reads status files, kanban cards, sessions and cron jobs from `~/.hermes` (or `%USERPROFILE%\.hermes`). It never
@@ -131,7 +131,7 @@ Example response:
 
 ```json
 {
-  "agent": { "kind": "social", "person": "kelly", "title": "Social media lead", "reason": "matched \"social\"; Gemini 3.5 Flash-Lite because short, cheap copy work" },
+  "agent": { "kind": "social", "person": "priya", "title": "Social media lead", "reason": "matched \"social\"; Gemini 3.5 Flash-Lite because short, cheap copy work" },
   "model": { "tier": "fast", "id": "gemini-3.5-flash-lite", "label": "Gemini 3.5 Flash-Lite" },
   "answer": "...",
   "tookMs": 1372
@@ -178,11 +178,11 @@ and this README does not pretend otherwise.
 
 ## Attribution
 
-This project is a fork of [dunder-mifflin-os](https://github.com/stephenlthorn/dunder-mifflin-os) by Stephen Thorn,
+This project is a fork of [agents-ka-ghar](https://github.com/stephenlthorn/agents-ka-ghar) by Stephen Thorn,
 used under the MIT licence. The office map, desk layout and UI foundations come from that project. The agent routing
 layer, the team console, the branding and the documentation here are new work.
 
-The office theme is a fan-styled homage, not an official product. **The Office** and **Dunder Mifflin** are trademarks
+The office theme is a fan-styled homage, not an official product. **the workspace** and **Agents Ka Ghar** are trademarks
 of their respective owners. No affiliation or endorsement is implied. The theme is presentational only — it can be
 replaced without touching the agent layer.
 

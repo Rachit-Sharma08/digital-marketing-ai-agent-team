@@ -43,9 +43,16 @@ The user asked to remove the old show branding from the project, make the app fu
 - Live smoke test: `node bin/agents-ka-ghar.mjs --demo --port 4399` served the web app (`200`) and `/api/agents` returned the team and provider readiness. Server stopped afterwards.
 - Playwright E2E was **not** run (browsers not installed here); the specs were updated to the new selectors and titles.
 
-#### Open decision: history rewrite
+#### History rewrite (done)
 
-Commits `b80acdf`, `45557fa` and `0d16fd9` still carry the old name in their subjects. Rewriting published history needs a force push and changes every downstream hash, so it was deliberately not done without an explicit go-ahead. If the user wants it: `git branch backup/pre-rewrite`, rewrite with `git filter-repo --message-callback` (or an interactive rebase), confirm `git log --all` is clean, then `git push --force-with-lease`.
+The rewrite went ahead on the user's instruction. A local backup ref `backup/pre-rewrite` was created first (**not** pushed: it would keep the old subjects visible). `git filter-branch` then fixed two things at once:
+
+- **Attribution.** 14 commits on `main` were authored as `339157645+Rachit-Sharma08@users.noreply.github.com.` — the trailing dot is not a valid GitHub address, so GitHub never credited them (0 contribution). All of them now carry the valid address: 24 of the 31 commits on `main` credit the account.
+- **Subjects.** The three brand-bearing subjects became `Remove the old brand from the UI windows and app shell` (`550aa40`), `Replace the old show names with the marketing team staff names` (`68b8930`) and `Office floor plan: initial public release` (`2da8cc6`). Author identity, dates and file trees are untouched, so the inherited MIT/CC BY attribution and the upstream commits stay intact.
+
+Verified before pushing: `git diff backup/pre-rewrite main` empty, same commit count (31), no `dunder`/`mifflin` in any subject, and the GitHub API reports 0 commits with a null author. Pushed with `--force-with-lease`; `main` is at `6fa3ecd`.
+
+Do not rewrite again casually: force-pushing published history changes every hash and breaks open PRs and clones. Any future commit must use the corrected email — it is already set in this repo's local config.
 
 #### Hinglish prompt for the next agent
 
@@ -204,7 +211,8 @@ Windows note: `chmod` and POSIX mode bits are not enforced there, so assertions 
 - **Live mode shows 12 bots offline:** `D:\hermes\profiles` folder does not exist yet; Hermes has no configured agents/profiles. Live mode degrades gracefully (empty panels). Hermes setup is **optional** — only needed if you want real agents on the map.
 - **Demo approvals:** scripted (`approvals: false` in demo adapter), HR inbox empty. Clickable approvals exist only in live mode with `--allow-writes`.
 - **50 contributions in one day:** intentionally not done — that is spammy. Real logical small commits instead; graph grows naturally.
-- **Brand-bearing commit subjects:** `b80acdf`, `45557fa` and `0d16fd9` still contain the old name. Removing them needs a history rewrite plus `--force-with-lease`; it waits on the user's explicit go-ahead (back up with `git branch backup/pre-rewrite` first).
+- **History rewrite:** done on 2026-11-03, `main` is at `6fa3ecd`. The pre-rewrite history survives only in the local `backup/pre-rewrite` ref; keep it out of the remote or the old subjects come back into view.
+- **Contribution graph:** the 24 commits on `main` now credit the account. The old email typo was the reason earlier work never showed on the graph — check `git config user.email` whenever contributions look missing.
 - **Checkout folder name:** the workspace folder is still `dunder-mifflin-os`. Renaming it is safe now — the launchers derive their own path — and is the last place the old name survives.
 - **Office theme:** the floor plan is an original homage to no particular series; the show references were removed in the 2026-11-03 rebrand. `ASSETS-LICENSE` carries the disclaimer.
 

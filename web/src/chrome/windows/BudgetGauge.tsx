@@ -1,4 +1,4 @@
-// "Corporate": a bot's budget gauges (today, this month) in its window, and every budget in Angela's ledger. Amber
+// "Corporate": a bot's budget gauges (today, this month) in its window, and every budget in Fatima's ledger. Amber
 // from 80%, red at 100%; unpriced usage says "can't price <model>" instead of counting as spend.
 import type { BudgetStatus, BudgetsReport } from '@shared/controls';
 import { budgetHeadline, gaugeLines } from '../../budgets/budgetModel';
@@ -33,7 +33,7 @@ export function BudgetGauge({ status }: { status: BudgetStatus }) {
   );
 }
 
-/** Angela's ledger: every budgeted bot, worst first. */
+/** Fatima's ledger: every budgeted bot, worst first. */
 export function BudgetList({ report, onOpen }: { report: BudgetsReport; onOpen: (personId: string) => void }) {
   if (!report.budgets.length) return null;
   return (

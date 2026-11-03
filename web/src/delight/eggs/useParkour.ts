@@ -1,5 +1,5 @@
 // "Parkour!" when you drag-pan the map fast: pointer handlers for the map's wrapper (they only listen; panning is
-// usePanZoom's job). At most once every 30 seconds, never in Toby mode.
+// usePanZoom's job). At most once every 30 seconds, never in Sarah mode.
 import { type PointerEvent, useMemo, useRef } from 'react';
 import type { OfficeSnapshot } from '@shared/contract';
 import { useDelight } from '../DelightContext';

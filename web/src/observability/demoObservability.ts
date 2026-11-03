@@ -5,11 +5,11 @@ import type { ModelUsage, TimelineEvent, TimelineResponse, UsagePeriod, UsageRep
 
 type Ev = Omit<TimelineEvent, 'id' | 'at'> & { ago: number };
 
-const DWIGHT: readonly Ev[] = [
+const MEERA_SCRIPT: readonly Ev[] = [
   { ago: 9, kind: 'tool.call', title: 'crm: list_leads, terminal', detail: '14 tool calls', count: 14, source: 'telegram' },
   { ago: 12, kind: 'task.started', title: 'Audit the Q4 campaign report', source: 'kanban' },
-  { ago: 25, kind: 'message.out', title: 'Fourteen new leads since this morning. Two bounced. I blame Andy.', source: 'telegram' },
-  { ago: 27, kind: 'message.in', title: '[Jan] How many new leads today?', source: 'telegram' },
+  { ago: 25, kind: 'message.out', title: 'Fourteen new leads since this morning. Two bounced. I blame Aisha.', source: 'telegram' },
+  { ago: 27, kind: 'message.in', title: '[Zara] How many new leads today?', source: 'telegram' },
   { ago: 60, kind: 'cron.ok', title: 'Lead digest', detail: 'delivered', source: 'cron' },
   { ago: 106, kind: 'cron.fail', title: 'Weekly campaign report', detail: 'RuntimeError: quota exceeded', source: 'cron' },
   { ago: 130, kind: 'cron.ok', title: 'Lead digest', detail: 'nothing to send', source: 'cron' },
@@ -45,7 +45,7 @@ export function demoTimeline(snapshot: OfficeSnapshot, personId: string): Timeli
   const now = Date.parse(snapshot.generatedAt);
   const since = new Date(now - 86_400_000).toISOString();
   if (!person?.bot) return { personId, available: false, reason: 'No bot yet', since, events: [], truncated: false };
-  const script = personId === 'dwight' ? DWIGHT : generic(snapshot, person);
+  const script = personId === 'meera' ? MEERA_SCRIPT : generic(snapshot, person);
   const events = [...script].sort((a, b) => a.ago - b.ago).map(({ ago, ...e }, i): TimelineEvent => ({ ...e, id: `demo-${personId}-${i}`, at: new Date(now - ago * 60_000).toISOString() }));
   return { personId, adapter: { id: 'hermes', label: 'Hermes' }, available: true, since, events, truncated: false };
 }

@@ -1,4 +1,4 @@
-// The delight layer's overlays: toasts (easter eggs), the Friday-evening Dundies invitation and the "Threat Level
+// The delight layer's overlays: toasts (easter eggs), the Friday-evening Highlights invitation and the "Threat Level
 // Midnight" credits. None of them takes a click it doesn't need: toasts and the credits let clicks through to the
 // office (the credits keep only their Close button), and the invitation is a small card you can ignore.
 import { useEffect } from 'react';
@@ -19,12 +19,12 @@ export function ToastStack({ toasts }: { toasts: readonly ShownToast[] }) {
   );
 }
 
-export function DundiesInvite({ awards, onStart, onDismiss }: { awards: number; onStart: () => void; onDismiss: () => void }) {
+export function HighlightsInvite({ awards, onStart, onDismiss }: { awards: number; onStart: () => void; onDismiss: () => void }) {
   return (
-    <section className="dundies-invite" role="region" aria-label="The Dundies are tonight">
-      <strong>The Dundies are tonight</strong>
-      <p>Michael has {awards} award{awards === 1 ? '' : 's'} to hand out for the week, all won on real numbers.</p>
-      <div className="dundies-invite-actions">
+    <section className="highlights-invite" role="region" aria-label="The Highlights are tonight">
+      <strong>The Highlights are tonight</strong>
+      <p>Zara has {awards} award{awards === 1 ? '' : 's'} to hand out for the week, all won on real numbers.</p>
+      <div className="highlights-invite-actions">
         <button type="button" className="primary" onClick={onStart}>Start the ceremony</button>
         <button type="button" onClick={onDismiss}>Not now</button>
       </div>
@@ -46,7 +46,7 @@ export function Credits({ snapshot, motion, onClose }: { snapshot: OfficeSnapsho
     <div className={`credits${motion ? ' is-rolling' : ''}`} role="dialog" aria-label={`${c.title} credits`} data-testid="credits">
       <button type="button" className="credits-close" onClick={onClose}>Close</button>
       <div className="credits-roll">
-        <p className="credits-kicker">A Michael Scott production</p>
+        <p className="credits-kicker">A Zara Khan production</p>
         <h2>{c.title}</h2>
         <h3>Starring</h3>
         <dl>{c.starring.map((s) => <div key={s.name}><dt>{s.name}</dt><dd>as {s.as}</dd></div>)}</dl>

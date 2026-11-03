@@ -23,7 +23,7 @@ export function MinutesMemo({ meeting: m, people, roomName, onBack }: Props) {
       </div>
       <article className="memo" aria-label={`Minutes: ${m.title}`} data-testid="memo">
         <header className="memo-head">
-          <p className="memo-letterhead">Dunder Mifflin · Scranton Branch</p>
+          <p className="memo-letterhead">Agents Ka Ghar · New Delhi Branch</p>
           <h3>Memorandum</h3>
           <dl className="memo-fields">
             <dt>To</dt><dd>All staff</dd>
@@ -65,7 +65,7 @@ export function MinutesMemo({ meeting: m, people, roomName, onBack }: Props) {
             </ul>
           </>
         )}
-        <footer className="memo-foot">Taken from the kanban record by Dunder Mifflin OS. No AI wrote these minutes.</footer>
+        <footer className="memo-foot">Taken from the kanban record by Agents Ka Ghar. No AI wrote these minutes.</footer>
       </article>
     </div>
   );

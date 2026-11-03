@@ -13,7 +13,7 @@ const deepFreeze = <T>(o: T): T => {
 const base = (): OfficeSnapshot => deepFreeze({
   generatedAt: '2026-10-13T15:00:00.000Z',
   people: [],
-  presence: { dwight: { status: 'working', activity: 'Auditing' }, pam: { status: 'idle' } },
+  presence: { meera: { status: 'working', activity: 'Auditing' }, aanya: { status: 'idle' } },
   rooms: [],
   tasks: [
     { id: 't1', title: 'One', status: 'doing', shared: false, updatedAt: '2026-10-13T14:00:00.000Z' },
@@ -24,15 +24,15 @@ const base = (): OfficeSnapshot => deepFreeze({
 describe('applyEvent', () => {
   it('replaces presence per person without mutating the snapshot', () => {
     const snap = base();
-    const next = applyEvent(snap, { presence: { dwight: { status: 'idle' } } });
-    expect(next.presence.dwight).toEqual({ status: 'idle' });
-    expect(next.presence.pam).toBe(snap.presence.pam);
-    expect(snap.presence.dwight.status).toBe('working');
+    const next = applyEvent(snap, { presence: { meera: { status: 'idle' } } });
+    expect(next.presence.meera).toEqual({ status: 'idle' });
+    expect(next.presence.aanya).toBe(snap.presence.aanya);
+    expect(snap.presence.meera.status).toBe('working');
     expect(next).not.toBe(snap);
   });
 
   it('adds presence for people it has not seen', () => {
-    expect(applyEvent(base(), { presence: { kelly: { status: 'working' } } }).presence.kelly.status).toBe('working');
+    expect(applyEvent(base(), { presence: { priya: { status: 'working' } } }).presence.priya.status).toBe('working');
   });
 
   it('replaces the whole task list when an event carries tasks', () => {
@@ -48,7 +48,7 @@ describe('applyEvent', () => {
 
   it('keeps tasks untouched by a presence-only event', () => {
     const snap = base();
-    expect(applyEvent(snap, { presence: { pam: { status: 'working' } } }).tasks).toBe(snap.tasks);
+    expect(applyEvent(snap, { presence: { aanya: { status: 'working' } } }).tasks).toBe(snap.tasks);
   });
 
   it('returns the same snapshot for an empty event', () => {

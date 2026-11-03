@@ -5,10 +5,10 @@ import { MEETING_META, durationText, filterMeetings, lineWho, presentText, proce
 const person = (id: string, name: string, bot = true): Person => ({
   id, name, title: '', seatId: `seat.${id}`, look: { skin: '#000', hair: '#000', hairStyle: 'short', shirt: '#fff' }, ...(bot ? { bot: { profile: id, role: '' } } : {}),
 });
-const PEOPLE = new Map([['pam', person('pam', 'Pam Beesly')], ['michael', person('michael', 'Michael Scott')]]);
+const PEOPLE = new Map([['aanya', person('aanya', 'Aanya Sharma')], ['zara', person('zara', 'Zara Khan')]]);
 const meeting = (m: Partial<Meeting>): Meeting => ({
   id: 'm1', kind: 'council', title: 'Council 2026-10-08', roomId: 'council', status: 'adjourned', startedAt: '2026-10-08T13:00:00Z',
-  participantIds: ['pam', 'michael'], agenda: [], lines: [], ...m,
+  participantIds: ['aanya', 'zara'], agenda: [], lines: [], ...m,
 });
 
 describe('durationText', () => {
@@ -22,8 +22,8 @@ describe('durationText', () => {
 
 describe('presentText', () => {
   it('lists who was present, the chair marked for a Council session', () => {
-    expect(presentText(meeting({}), PEOPLE)).toBe('Pam Beesly (chair), Michael Scott');
-    expect(presentText(meeting({ kind: 'shared-task' }), PEOPLE)).toBe('Pam Beesly (owner), Michael Scott');
+    expect(presentText(meeting({}), PEOPLE)).toBe('Aanya Sharma (chair), Zara Khan');
+    expect(presentText(meeting({ kind: 'shared-task' }), PEOPLE)).toBe('Aanya Sharma (owner), Zara Khan');
     expect(presentText(meeting({ participantIds: ['ghost'] }), PEOPLE)).toBe('ghost (chair)');
     expect(presentText(meeting({ participantIds: [] }), PEOPLE)).toBe('Nobody on record');
   });
@@ -31,7 +31,7 @@ describe('presentText', () => {
 
 describe('lineWho', () => {
   it('names a bot by its person, or the label it came with', () => {
-    expect(lineWho({ at: '', kind: 'comment', personId: 'pam', text: '' }, PEOPLE)).toBe('Pam Beesly');
+    expect(lineWho({ at: '', kind: 'comment', personId: 'aanya', text: '' }, PEOPLE)).toBe('Aanya Sharma');
     expect(lineWho({ at: '', kind: 'comment', author: 'You', text: '' }, PEOPLE)).toBe('You');
     expect(lineWho({ at: '', kind: 'closed', text: '' }, PEOPLE)).toBe('');
   });

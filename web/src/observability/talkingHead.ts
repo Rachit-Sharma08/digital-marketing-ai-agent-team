@@ -1,5 +1,5 @@
 // "The documentary crew": a to-camera summary of a bot's day, built from its timeline events by a template (no LLM
-// call). "Today Dwight ran Campaign report 3 times (1 failed at 09:14), finished 2 tasks, …". Pure.
+// call). "Today Meera ran Campaign report 3 times (1 failed at 09:14), finished 2 tasks, …". Pure.
 import type { TimelineEvent } from '@shared/observability';
 import { clockTime, startOfToday } from './timelineModel';
 

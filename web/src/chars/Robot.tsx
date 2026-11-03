@@ -1,4 +1,4 @@
-// Jarvis: a friendly desk robot instead of a person.
+// Maya: a friendly desk robot instead of a person.
 import type { Look } from '@shared/contract';
 import { shade } from '../iso/color';
 

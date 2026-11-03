@@ -4,7 +4,7 @@ import { BOT_COLORS, botColors, daysFor, hourLabel, laneRun, periodLabel, placeR
 
 const NY = 'America/New_York';
 const H = 3_600_000;
-const at = (iso: string, jobKey = 'pam-0', run: Occurrence['run'] = 'upcoming'): Occurrence => ({ jobKey, at: new Date(iso).toISOString(), run });
+const at = (iso: string, jobKey = 'aanya-0', run: Occurrence['run'] = 'upcoming'): Occurrence => ({ jobKey, at: new Date(iso).toISOString(), run });
 
 describe('daysFor', () => {
   it('a week runs Monday to Sunday, local midnight to midnight', () => {
@@ -56,7 +56,7 @@ describe('placeRuns', () => {
     expect(placed.lanes.get('2026-10-13')).toEqual([
       expect.objectContaining({ jobKey: 'sadiq-0', count: 24, run: 'failed', first: hourly[0], nextUp: false }),
     ]);
-    expect([...placed.cells.values()].flat().map((o) => o.jobKey)).toEqual(['pam-0']);
+    expect([...placed.cells.values()].flat().map((o) => o.jobKey)).toEqual(['aanya-0']);
   });
 
   it('leaves out runs outside the days shown', () => {
@@ -81,8 +81,8 @@ describe('botColors', () => {
       id, name: id, title: '', seatId: `seat.${id}`, look: { skin: '#000', hair: '#000', hairStyle: 'short', shirt: '#fff' },
       ...(bot ? { bot: { profile: id, role: '' } } : {}),
     });
-    const colors = botColors([p('pam', true), p('jim', false), p('dwight', true)]);
-    expect([...colors.entries()]).toEqual([['pam', BOT_COLORS[0]], ['dwight', BOT_COLORS[1]]]);
+    const colors = botColors([p('aanya', true), p('simran', false), p('meera', true)]);
+    expect([...colors.entries()]).toEqual([['aanya', BOT_COLORS[0]], ['meera', BOT_COLORS[1]]]);
   });
 });
 

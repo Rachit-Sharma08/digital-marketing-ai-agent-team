@@ -4,12 +4,12 @@ import { DEMO_NOW, DEMO_SNAPSHOT } from '@shared/fixtures/demo-snapshot';
 import { AreaWindow } from './AreaWindow';
 import { PersonWindow } from './PersonWindow';
 
-const dwight = DEMO_SNAPSHOT.people.find((p) => p.id === 'dwight')!;
+const meera = DEMO_SNAPSHOT.people.find((p) => p.id === 'meera')!;
 const ops = DEMO_SNAPSHOT.rooms.find((r) => r.id === 'ops')!;
 const noop = () => {};
 
 const person = (writable: boolean) => renderToStaticMarkup(
-  <PersonWindow person={dwight} snapshot={DEMO_SNAPSHOT} demo={false} writable={writable} now={Date.parse(DEMO_NOW)} onOpenArea={noop} />,
+  <PersonWindow person={meera} snapshot={DEMO_SNAPSHOT} demo={false} writable={writable} now={Date.parse(DEMO_NOW)} onOpenArea={noop} />,
 );
 const area = (writable: boolean) => renderToStaticMarkup(
   <AreaWindow areaId="conference" room={ops} snapshot={DEMO_SNAPSHOT} demo={false} writable={writable}
@@ -21,7 +21,7 @@ describe('read-only windows', () => {
     const html = person(false);
     expect(html).not.toContain('<form class="chat-form"');
     expect(html).toContain('class="read-only-hint"');
-    expect(html).toContain('DMOS_ALLOW_WRITES=1');
+    expect(html).toContain('AKG_ALLOW_WRITES=1');
   });
 
   it('replace the new-task form in the Ops room with the same hint', () => {

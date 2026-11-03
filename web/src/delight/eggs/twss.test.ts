@@ -14,14 +14,14 @@ describe('twssMatch', () => {
 });
 
 describe('twssFor (the toast)', () => {
-  const msg = { id: 'm1', roomId: 'dm-sales', authorId: 'dwight', text: 'That file is way too big to email.', at: '2026-10-13T15:00:00.000Z' };
+  const msg = { id: 'm1', roomId: 'dm-sales', authorId: 'meera', text: 'That file is way too big to email.', at: '2026-10-13T15:00:00.000Z' };
   it('quotes the real line and who said it', () => {
-    expect(twssFor(msg, 'Dwight Schrute', null, 0)).toEqual({ text: 'That’s what she said!', sub: '“That file is way too big to email.” — Dwight Schrute' });
+    expect(twssFor(msg, 'Meera Kaur', null, 0)).toEqual({ text: 'That’s what she said!', sub: '“That file is way too big to email.” — Meera Kaur' });
   });
 
   it('is capped: once every ten minutes', () => {
-    expect(twssFor(msg, 'Dwight', 1000, 1000 + TWSS_GAP_MS - 1)).toBeNull();
-    expect(twssFor(msg, 'Dwight', 1000, 1000 + TWSS_GAP_MS)).not.toBeNull();
-    expect(twssFor({ ...msg, text: 'All done.' }, 'Dwight', null, 0)).toBeNull();
+    expect(twssFor(msg, 'Meera', 1000, 1000 + TWSS_GAP_MS - 1)).toBeNull();
+    expect(twssFor(msg, 'Meera', 1000, 1000 + TWSS_GAP_MS)).not.toBeNull();
+    expect(twssFor({ ...msg, text: 'All done.' }, 'Meera', null, 0)).toBeNull();
   });
 });

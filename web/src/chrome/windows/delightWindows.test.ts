@@ -3,19 +3,19 @@ import { DEMO_SNAPSHOT } from '@shared/fixtures/demo-snapshot';
 import { titleOf } from './titles';
 import { INITIAL_WINDOWS, openWindow, windowId } from './windowState';
 
-describe('the Dundies and Creed\'s corner windows', () => {
+describe('the Highlights and Naina\'s corner windows', () => {
   it('there is one of each', () => {
-    expect(windowId({ kind: 'dundies' })).toBe('dundies');
-    expect(windowId({ kind: 'creed' })).toBe('creed');
-    expect(openWindow(openWindow(INITIAL_WINDOWS, { kind: 'creed' }), { kind: 'creed' }).windows).toHaveLength(1);
+    expect(windowId({ kind: 'highlights' })).toBe('highlights');
+    expect(windowId({ kind: 'naina' })).toBe('naina');
+    expect(openWindow(openWindow(INITIAL_WINDOWS, { kind: 'naina' }), { kind: 'naina' }).windows).toHaveLength(1);
   });
 
-  it('are titled with the joke, or plainly in Toby mode', () => {
-    const dundies = openWindow(INITIAL_WINDOWS, { kind: 'dundies' }).windows[0]!;
-    const creed = openWindow(INITIAL_WINDOWS, { kind: 'creed' }).windows[0]!;
-    expect(titleOf(dundies, DEMO_SNAPSHOT)).toBe('The Dundies');
-    expect(titleOf(dundies, DEMO_SNAPSHOT, true)).toBe('Weekly review');
-    expect(titleOf(creed, DEMO_SNAPSHOT)).toBe('Creed’s corner');
-    expect(titleOf(creed, DEMO_SNAPSHOT, true)).toBe('Unattributed activity');
+  it('are titled with the joke, or plainly in Sarah mode', () => {
+    const highlights = openWindow(INITIAL_WINDOWS, { kind: 'highlights' }).windows[0]!;
+    const naina = openWindow(INITIAL_WINDOWS, { kind: 'naina' }).windows[0]!;
+    expect(titleOf(highlights, DEMO_SNAPSHOT)).toBe('The Highlights');
+    expect(titleOf(highlights, DEMO_SNAPSHOT, true)).toBe('Weekly review');
+    expect(titleOf(naina, DEMO_SNAPSHOT)).toBe('Naina’s corner');
+    expect(titleOf(naina, DEMO_SNAPSHOT, true)).toBe('Unattributed activity');
   });
 });

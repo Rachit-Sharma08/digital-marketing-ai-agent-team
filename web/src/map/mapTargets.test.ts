@@ -9,7 +9,7 @@ const placements = placementsFor(DEMO_SNAPSHOT);
 const signs = signsFor(DEMO_SNAPSHOT);
 
 describe('map targets for keyboard navigation', () => {
-  it('lists every person, every room sign you can open and Angela\'s ledger', () => {
+  it('lists every person, every room sign you can open and Fatima\'s ledger', () => {
     const targets = mapTargets(DEMO_SNAPSHOT, placements, signs, new Set());
     expect(targets.filter((t) => t.key.startsWith('person:'))).toHaveLength(23);
     expect(targets.filter((t) => t.key.startsWith('area:')).map((t) => t.key).sort()).toEqual(
@@ -18,19 +18,19 @@ describe('map targets for keyboard navigation', () => {
   });
 
   it('leaves out people hidden by a fleet filter', () => {
-    const targets = mapTargets(DEMO_SNAPSHOT, placements, signs, new Set(['jim', 'pam']));
-    expect(targets.map((t) => t.key)).not.toContain('person:jim');
+    const targets = mapTargets(DEMO_SNAPSHOT, placements, signs, new Set(['simran', 'aanya']));
+    expect(targets.map((t) => t.key)).not.toContain('person:simran');
     expect(targets.filter((t) => t.key.startsWith('person:'))).toHaveLength(21);
   });
 });
 
 describe('camera targets', () => {
   it('a person\'s focus point sits just above their seat, wherever they are drawn', () => {
-    const michael = placements.find((p) => p.personId === 'michael')!;
-    expect(michael.seatId).toMatch(/^seat\.conf\./);
-    const seat = SEATS.find((s) => s.id === michael.seatId)!;
+    const zara = placements.find((p) => p.personId === 'zara')!;
+    expect(zara.seatId).toMatch(/^seat\.conf\./);
+    const seat = SEATS.find((s) => s.id === zara.seatId)!;
     const base = project(seat);
-    const pt = personFocusPoint(placements, 'michael')!;
+    const pt = personFocusPoint(placements, 'zara')!;
     expect(Math.abs(pt.x - base.x)).toBeLessThan(5);
     expect(pt.y).toBeLessThan(base.y);
     expect(base.y - pt.y).toBeLessThan(60);

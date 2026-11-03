@@ -5,7 +5,7 @@ import { budgetAlerts, budgetHeadline, corporateBadge, extraNeedYou, gaugeLines 
 const line = (over: Partial<BudgetLine>): BudgetLine => ({
   period: 'monthly', limit: 20, spent: 10, ratio: 0.5, level: 'ok', from: '2026-10-01T04:00:00.000Z', to: '2026-10-13T19:00:00.000Z', unpricedModels: [], ...over,
 });
-const status = (over: Partial<BudgetStatus>): BudgetStatus => ({ personId: 'dwight', name: 'Meera Kaur', level: 'ok', lines: [line({})], action: 'none', ...over });
+const status = (over: Partial<BudgetStatus>): BudgetStatus => ({ personId: 'meera', name: 'Meera Kaur', level: 'ok', lines: [line({})], action: 'none', ...over });
 const report = (budgets: BudgetStatus[]): BudgetsReport => ({ generatedAt: '2026-10-13T19:00:00.000Z', currency: 'USD', estimate: true, autoPause: false, warnAt: 0.8, budgets });
 
 describe('gaugeLines', () => {
@@ -50,8 +50,8 @@ describe('headlines, alerts and the top-bar badge', () => {
 
 describe('budget alerts in the "need you" count', () => {
   it('adds over-budget bots that do not already need you', () => {
-    const alerts = [status({ personId: 'kelly', level: 'over', action: 'alert' }), status({ personId: 'andy', level: 'over', action: 'alert' })];
-    expect(extraNeedYou(alerts, new Set(['andy']))).toBe(1);
+    const alerts = [status({ personId: 'priya', level: 'over', action: 'alert' }), status({ personId: 'aisha', level: 'over', action: 'alert' })];
+    expect(extraNeedYou(alerts, new Set(['aisha']))).toBe(1);
     expect(extraNeedYou([], new Set())).toBe(0);
   });
 });

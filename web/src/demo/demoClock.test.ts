@@ -4,7 +4,7 @@ import { DEMO_SNAPSHOT } from '@shared/fixtures/demo-snapshot';
 import { clockFromView, formatOfficeTime, isDemoDay, officeNowMs, parseClockView } from './demoClock';
 
 const VIEW = {
-  title: 'Threat Level Midnight', speed: 60, speeds: [1, 10, 60], time: '2005-03-24T10:00:00.000Z',
+  title: 'Campaign Daybook', speed: 60, speeds: [1, 10, 60], time: '2005-03-24T10:00:00.000Z',
   offsetMs: 90 * 60_000, day: 0, start: '08:30', end: '17:30',
 };
 

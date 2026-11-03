@@ -29,7 +29,7 @@ describe('furnitureParts', () => {
   });
 
   it('draws the desk top after the pedestal and the monitor after the top', () => {
-    const desk = FURNITURE.find((f) => f.id === 'bp.desk.dwight')!;
+    const desk = FURNITURE.find((f) => f.id === 'bp.desk.meera')!;
     const ids = furnitureParts(desk).map((p) => p.id.split('.').pop());
     expect(ids.indexOf('pedestal')).toBeLessThan(ids.indexOf('top'));
     expect(ids.indexOf('top')).toBeLessThan(ids.indexOf('monitor'));
@@ -63,9 +63,9 @@ describe('reference furniture', () => {
   });
 
   it('writes a wall sign’s label on the face toward the camera', () => {
-    const f = item('wall-sign', { d: 0.2, z: 1, h: 1.3, label: 'DUNDER MIFFLIN', facing: 's' });
+    const f = item('wall-sign', { d: 0.2, z: 1, h: 1.3, label: 'AGENTS KA GHAR', facing: 's' });
     const texts = decals(furnitureParts(f)).filter((d) => d.kind === 'text');
-    expect(texts.map((t) => (t.kind === 'text' ? t.text : '')).join(' ')).toBe('DUNDER MIFFLIN');
+    expect(texts.map((t) => (t.kind === 'text' ? t.text : '')).join(' ')).toBe('AGENTS KA GHAR');
     expect(texts.every((t) => t.kind === 'text' && t.axis === 'x' && t.at.y === f.y)).toBe(true);
   });
 
@@ -173,10 +173,10 @@ describe('reference furniture', () => {
 
 describe('seatParts', () => {
   it('puts the chair back in front of a person facing away from the camera', () => {
-    const phyllis = SEATS.find((s) => s.id === 'seat.phyllis')!;
-    expect(seatParts(phyllis).front.map((p) => p.id)).toEqual(['seat.phyllis.back']);
-    const jim = SEATS.find((s) => s.id === 'seat.jim')!;
-    expect(seatParts(jim).front).toEqual([]);
+    const lakshmi = SEATS.find((s) => s.id === 'seat.lakshmi')!;
+    expect(seatParts(lakshmi).front.map((p) => p.id)).toEqual(['seat.lakshmi.back']);
+    const simran = SEATS.find((s) => s.id === 'seat.simran')!;
+    expect(seatParts(simran).front).toEqual([]);
   });
 
   it('draws nothing for a place to stand (no chair)', () => {

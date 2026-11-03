@@ -16,38 +16,38 @@ describe('awaySummary', () => {
 
   it('lists errors and needs-you first, then other status changes', () => {
     const lines = awaySummary(before, after({
-      kelly: { status: 'idle' },
-      dwight: { status: 'error', activity: 'Ad account locked' },
-      andy: { status: 'working', activity: 'Welcoming new members' },
-      david: { status: 'needs-input', activity: 'Approve the Q4 budget?' },
+      priya: { status: 'idle' },
+      meera: { status: 'error', activity: 'Ad account locked' },
+      aisha: { status: 'working', activity: 'Welcoming new members' },
+      sophia: { status: 'needs-input', activity: 'Approve the Q4 budget?' },
     }), T0 + 12 * 60_000).lines;
     expect(lines.map((l) => [l.personId, l.kind])).toEqual([
-      ['dwight', 'error'], ['david', 'needs-you'], ['kelly', 'idle'], ['andy', 'working'],
+      ['meera', 'error'], ['sophia', 'needs-you'], ['priya', 'idle'], ['aisha', 'working'],
     ]);
     expect(lines.map((l) => l.text)).toEqual([
-      'Dwight hit an error: Ad account locked',
-      'David needs you: Approve the Q4 budget?',
-      'Kelly finished and is idle',
-      'Andy started working: Welcoming new members',
+      'Meera hit an error: Ad account locked',
+      'Sophia needs you: Approve the Q4 budget?',
+      'Priya finished and is idle',
+      'Aisha started working: Welcoming new members',
     ]);
   });
 
   it('describes meetings, recoveries and going offline or online', () => {
-    expect(texts(after({ dwight: { status: 'meeting', roomId: 'ops' } }))).toEqual(['Dwight joined Ops']);
-    expect(texts(after({ michael: { status: 'idle' } }))).toEqual(['Michael left Council']);
-    expect(texts(after({ sadiq: { status: 'idle' } }))).toEqual(['Sadiq recovered and is idle']);
-    expect(texts(after({ pam: { status: 'offline' } }))).toEqual(['Pam went offline']);
-    expect(texts(after({ ryan: { status: 'idle' } }))).toEqual(['Ryan came back online']);
-    expect(texts(after({ dwight: { status: 'working', activity: 'Calling Scranton leads' } }))).toEqual(['Dwight moved on to: Calling Scranton leads']);
+    expect(texts(after({ meera: { status: 'meeting', roomId: 'ops' } }))).toEqual(['Meera joined Ops']);
+    expect(texts(after({ zara: { status: 'idle' } }))).toEqual(['Zara left Council']);
+    expect(texts(after({ sadiq: { status: 'idle' } }))).toEqual(['Safina recovered and is idle']);
+    expect(texts(after({ aanya: { status: 'offline' } }))).toEqual(['Aanya went offline']);
+    expect(texts(after({ tara: { status: 'idle' } }))).toEqual(['Tara came back online']);
+    expect(texts(after({ meera: { status: 'working', activity: 'Calling New Delhi leads' } }))).toEqual(['Meera moved on to: Calling New Delhi leads']);
   });
 
   it('reports new, finished and blocked tasks', () => {
     const tasks: Task[] = [
       ...DEMO_SNAPSHOT.tasks.map((t) => (t.id === 'task-q4-audit' ? { ...t, status: 'done' as const } : t.id === 'task-content-cal' ? { ...t, status: 'blocked' as const } : t)),
-      { id: 'task-new', title: 'Order more paper', status: 'todo', ownerId: 'dwight', shared: false, updatedAt: '' },
+      { id: 'task-new', title: 'Order more paper', status: 'todo', ownerId: 'meera', shared: false, updatedAt: '' },
     ];
     expect(texts(after({}, tasks))).toEqual([
-      'New task for Dwight: Order more paper', 'Done: Audit the Q4 campaign report', 'Blocked: Thursday content calendar',
+      'New task for Meera: Order more paper', 'Done: Audit the Q4 campaign report', 'Blocked: Thursday content calendar',
     ]);
   });
 

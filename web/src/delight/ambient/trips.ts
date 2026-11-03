@@ -1,6 +1,6 @@
 // Ambient life: now and then an idle bot gets up for coffee, the vending machine or the water cooler, and comes back
 // a few minutes later. Rare (about one minute in twenty), seeded (the same minute always looks the same) and only for
-// bots that really are idle; never in Toby mode or with reduced motion (see delight/mode.ts). Pure.
+// bots that really are idle; never in Sarah mode or with reduced motion (see delight/mode.ts). Pure.
 import type { Seat } from '@shared/office';
 import { pick, rng } from '@shared/demo/random';
 import type { Placement } from '../../office/placement';

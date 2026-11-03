@@ -40,7 +40,7 @@ describe('buildScene', () => {
   it('seats the meeting pair in the front row of the Conference Room, facing the screen and drawn over the row behind', () => {
     const order = scene.map((d) => d.id);
     const seatOf = (id: string) => scene.find((d) => d.type === 'seat' && d.occupantId === id)!;
-    expect([seatOf('michael').id, seatOf('angela').id]).toEqual(['seat.conf.s1', 'seat.conf.s2']);
+    expect([seatOf('zara').id, seatOf('fatima').id]).toEqual(['seat.conf.s1', 'seat.conf.s2']);
     expect(OFFICE.seats.find((s) => s.id === 'seat.conf.s1')!.facing).toBe('w');
     const behind = scene.find((d) => d.id === 'seat.conf.n1')!; // the row behind, overlapping s2 on screen
     expect(inFront(scene.find((d) => d.id === 'seat.conf.s2')!.box, behind.box)).toBe(true);
@@ -58,7 +58,7 @@ describe('buildScene', () => {
   });
 
   it('sizes a forklift seat to the whole forklift', () => {
-    const roy = OFFICE.seats.find((s) => s.id === 'seat.roy')!;
-    expect(seatBox(roy).w).toBeGreaterThan(3);
+    const sunita = OFFICE.seats.find((s) => s.id === 'seat.sunita')!;
+    expect(seatBox(sunita).w).toBeGreaterThan(3);
   });
 });

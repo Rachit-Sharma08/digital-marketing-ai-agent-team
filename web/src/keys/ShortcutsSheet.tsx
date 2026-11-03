@@ -7,9 +7,9 @@ type Row = [keys: string[], what: string];
 function groups(paletteKey: string, singleKeys: boolean): [string, Row[]][] {
   return [
     ['Anywhere', [
-      [[paletteKey], 'Ask Pam: find anyone, any room, task or job'],
-      ...(singleKeys ? [[['/'], 'Ask Pam'] as Row, [['?'], 'This sheet'] as Row] : []),
-      [['Esc'], 'Close Ask Pam, this sheet, settings, or the top window'],
+      [[paletteKey], 'Ask Aanya: find anyone, any room, task or job'],
+      ...(singleKeys ? [[['/'], 'Ask Aanya'] as Row, [['?'], 'This sheet'] as Row] : []),
+      [['Esc'], 'Close Ask Aanya, this sheet, settings, or the top window'],
     ]],
     ['On the map', [
       [['Tab', '⇧ Tab'], 'Next / previous person or room, in reading order'],
@@ -18,7 +18,7 @@ function groups(paletteKey: string, singleKeys: boolean): [string, Row[]][] {
       [['Home', 'End'], 'First / last'],
       [['Enter', 'Space'], 'Open their window'],
     ]],
-    ['In Ask Pam', [
+    ['In Ask Aanya', [
       [['↑', '↓'], 'Move through the results'],
       [['Enter'], 'Open'],
       [['⇧ Enter'], 'Show on the map'],

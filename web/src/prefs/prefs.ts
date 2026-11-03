@@ -2,16 +2,16 @@
 import { type KeyValueStore, readStored, writeStored } from './storage';
 
 export type Prefs = {
-  paletteHotkey: boolean; // ⌘K / Ctrl+K opens Ask Pam
-  singleKeys: boolean; // "/" opens Ask Pam and "?" shows the shortcuts (single-key shortcuts must be switchable off)
+  paletteHotkey: boolean; // ⌘K / Ctrl+K opens Ask Aanya
+  singleKeys: boolean; // "/" opens Ask Aanya and "?" shows the shortcuts (single-key shortcuts must be switchable off)
   notifications: boolean; // browser notifications while you're away (also needs the browser's permission)
   chime: boolean; // a soft chime when a bot errors or needs you
   reduceMotion: boolean; // no camera glides or walk-ins (the system's reduced-motion setting counts too)
-  tobyMode: boolean; // no jokes, ambient life, sounds or easter eggs (?toby=1 does it too); see delight/mode.ts
+  tobyMode: boolean; // no jokes, ambient life, sounds or easter eggs (?sarah=1 does it too); see delight/mode.ts
 };
 
 export const DEFAULT_PREFS: Prefs = { paletteHotkey: true, singleKeys: true, notifications: false, chime: false, reduceMotion: false, tobyMode: false };
-export const PREFS_KEY = 'dmos.prefs.v1';
+export const PREFS_KEY = 'akg.prefs.v1';
 
 const KEYS = Object.keys(DEFAULT_PREFS) as (keyof Prefs)[];
 

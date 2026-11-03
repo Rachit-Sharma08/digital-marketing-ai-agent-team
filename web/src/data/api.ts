@@ -1,4 +1,4 @@
-// HTTP calls to the Dunder Mifflin OS server (via the Vite /api proxy) plus demo-mode stand-ins.
+// HTTP calls to the Agents Ka Ghar server (via the Vite /api proxy) plus demo-mode stand-ins.
 import type { ChatMessage, Task } from '@shared/contract';
 import { parseMessages, parseSnapshot } from './guards';
 import { shortName } from '../office/names';
@@ -12,7 +12,7 @@ const errorText = (status: number, body: unknown) =>
     ? (body as { error: string }).error
     : `Request failed (${status})`);
 
-/** The server wants a signed-in browser (remote access with DMOS_ACCESS_TOKEN). */
+/** The server wants a signed-in browser (remote access with AKG_ACCESS_TOKEN). */
 export class SignInRequiredError extends Error {
   constructor() {
     super('Sign in required');
@@ -67,7 +67,7 @@ export async function fetchMessages(roomId: string): Promise<{ messages: ChatMes
   const res = await fetch(`/api/rooms/${encodeURIComponent(roomId)}/messages`, { headers: { accept: 'application/json' } });
   if (!res.ok) throw new Error(errorText(res.status, await readJson(res)));
   const messages = parseMessages(await readJson(res));
-  const reason = res.headers.get('X-DMOS-Messages-Reason') ?? undefined;
+  const reason = res.headers.get('X-AKG-Messages-Reason') ?? undefined;
   return { messages, reason: messages.length === 0 ? reason : undefined };
 }
 
@@ -103,7 +103,7 @@ export async function createSharedTask(title: string, assignee: string, roomId =
 }
 
 /** The static demo page (demo.html) has no server behind it, so no photos: it says so in a meta tag. */
-const SERVERLESS = typeof document !== 'undefined' && document.querySelector('meta[name="dmos-serverless"]') !== null;
+const SERVERLESS = typeof document !== 'undefined' && document.querySelector('meta[name="akg-serverless"]') !== null;
 const NO_PHOTO = 'data:,'; // fails to load at once, without a request, so the drawn character stays
 
 /** A person's photo; the server falls back to their bot's headshot and 404s when there is neither. */

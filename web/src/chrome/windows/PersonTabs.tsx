@@ -21,14 +21,14 @@ type Props = {
   pendingControl?: PendingControl;
 };
 
-export const LEDGER_KEEPER = 'angela';
+export const LEDGER_KEEPER = 'fatima';
 
 export function PersonTabs({ person, snapshot, demo, writable, now, tab, onTab, onOpenArea, onOpenLedger, budget, pendingControl }: Props) {
   const desk = (
     <PersonWindow person={person} snapshot={snapshot} demo={demo} writable={writable} now={now} onOpenArea={onOpenArea} budget={budget} pendingControl={pendingControl} />
   );
   const ledger = person.id === LEDGER_KEEPER && (
-    <button type="button" className="ledger-link" onClick={onOpenLedger}>Open Angela’s ledger: tokens and cost per bot</button>
+    <button type="button" className="ledger-link" onClick={onOpenLedger}>Open Fatima’s ledger: tokens and cost per bot</button>
   );
   if (!person.bot) return <>{ledger}{desk}</>;
   const id = `tabs-${person.id}`;

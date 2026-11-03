@@ -13,12 +13,12 @@ describe('fleet filters', () => {
   });
 
   it('matches working, error and needs-you bots; "all" matches everyone', () => {
-    expect(matchesFilter(person('dwight'), { status: 'working' }, 'working')).toBe(true);
-    expect(matchesFilter(person('dwight'), { status: 'meeting' }, 'working')).toBe(false);
+    expect(matchesFilter(person('meera'), { status: 'working' }, 'working')).toBe(true);
+    expect(matchesFilter(person('meera'), { status: 'meeting' }, 'working')).toBe(false);
     expect(matchesFilter(person('sadiq'), { status: 'error' }, 'error')).toBe(true);
-    expect(matchesFilter(person('pam'), { status: 'needs-input' }, 'needs-you')).toBe(true);
-    expect(matchesFilter(person('jim'), { status: 'no-bot' }, 'all')).toBe(true);
-    expect(matchesFilter(person('jim'), { status: 'no-bot' }, 'working')).toBe(false);
+    expect(matchesFilter(person('aanya'), { status: 'needs-input' }, 'needs-you')).toBe(true);
+    expect(matchesFilter(person('simran'), { status: 'no-bot' }, 'all')).toBe(true);
+    expect(matchesFilter(person('simran'), { status: 'no-bot' }, 'working')).toBe(false);
   });
 
   it('lists who a filter hides (nobody for "all")', () => {
@@ -30,6 +30,6 @@ describe('fleet filters', () => {
 
   it('counts each filter', () => {
     expect(filterCounts(DEMO_SNAPSHOT)).toEqual({ working: 5, 'needs-you': 0, error: 1 });
-    expect(filterCounts(withPresence({ kelly: { status: 'needs-input' } }))['needs-you']).toBe(1);
+    expect(filterCounts(withPresence({ priya: { status: 'needs-input' } }))['needs-you']).toBe(1);
   });
 });

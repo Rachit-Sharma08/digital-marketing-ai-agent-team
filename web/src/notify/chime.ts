@@ -8,7 +8,7 @@ export const CHIME_GAIN = 0.07;
 type AudioCtor = new () => AudioContext;
 let ctx: AudioContext | null = null;
 
-/** The Dundies' fanfare: three rising notes, also synthesised. Only with the chime setting on, never in Toby mode. */
+/** The Highlights' fanfare: three rising notes, also synthesised. Only with the chime setting on, never in Sarah mode. */
 export const FANFARE_NOTES: readonly { freq: number; at: number; dur: number }[] = [
   { freq: 523.25, at: 0, dur: 0.22 }, // C5
   { freq: 659.25, at: 0.16, dur: 0.22 }, // E5

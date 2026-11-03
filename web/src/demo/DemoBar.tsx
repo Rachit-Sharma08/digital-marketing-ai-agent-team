@@ -1,4 +1,4 @@
-// The top bar while the office is the demo day: a "DEMO · Threat Level Midnight" badge (in place of Live/Demo), the
+// The top bar while the office is the demo day: a "DEMO · Campaign Daybook" badge (in place of Live/Demo), the
 // office clock (in place of the real one) and the speed control: 1x, 10x, 60x.
 import { useEffect, useState } from 'react';
 import { formatOfficeTime, officeNowMs } from './demoClock';

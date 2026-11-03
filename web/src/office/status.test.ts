@@ -2,32 +2,32 @@ import { describe, expect, it } from 'vitest';
 import type { Person } from '@shared/contract';
 import { chipText, fleetCounts, personLabel, presenceFor, statusWord } from './status';
 
-const dwight: Person = {
-  id: 'dwight', name: 'Dwight Schrute', title: 'ARM', seatId: 'seat.dwight', bot: { profile: 'campaigns', role: 'Campaigns' },
+const meera: Person = {
+  id: 'meera', name: 'Meera Kaur', title: 'ARM', seatId: 'seat.meera', bot: { profile: 'campaigns', role: 'Campaigns' },
   look: { skin: '#fff', hair: '#000', hairStyle: 'center-part', shirt: '#ff0' },
 };
-const jim: Person = { id: 'jim', name: 'Jim Halpert', title: 'Sales', seatId: 'seat.jim', look: dwight.look };
+const simran: Person = { id: 'simran', name: 'Simran Gill', title: 'Sales', seatId: 'seat.simran', look: meera.look };
 
 describe('presenceFor', () => {
   it('returns the reported presence', () => {
-    expect(presenceFor(dwight, { dwight: { status: 'working' } }).status).toBe('working');
+    expect(presenceFor(meera, { meera: { status: 'working' } }).status).toBe('working');
   });
   it('defaults a bot with no report to offline and a person without a bot to no-bot', () => {
-    expect(presenceFor(dwight, {}).status).toBe('offline');
-    expect(presenceFor(jim, {}).status).toBe('no-bot');
+    expect(presenceFor(meera, {}).status).toBe('offline');
+    expect(presenceFor(simran, {}).status).toBe('no-bot');
   });
   it('treats a reported status for someone without a bot as no-bot', () => {
-    expect(presenceFor(jim, { jim: { status: 'working' } }).status).toBe('no-bot');
+    expect(presenceFor(simran, { simran: { status: 'working' } }).status).toBe('no-bot');
   });
 });
 
 describe('personLabel', () => {
   it('reads "name — profile — status" for bots', () => {
-    expect(personLabel(dwight, { status: 'working' })).toBe('Dwight Schrute — campaigns — working');
-    expect(personLabel(dwight, { status: 'meeting' })).toBe('Dwight Schrute — campaigns — in a meeting');
+    expect(personLabel(meera, { status: 'working' })).toBe('Meera Kaur — campaigns — working');
+    expect(personLabel(meera, { status: 'meeting' })).toBe('Meera Kaur — campaigns — in a meeting');
   });
   it('reads "name — no bot yet" for unbotted staff', () => {
-    expect(personLabel(jim, { status: 'no-bot' })).toBe('Jim Halpert — no bot yet');
+    expect(personLabel(simran, { status: 'no-bot' })).toBe('Simran Gill — no bot yet');
   });
 });
 
@@ -68,8 +68,8 @@ describe('chipText', () => {
 
 describe('fleetCounts', () => {
   it('counts statuses across the bots only', () => {
-    const counts = fleetCounts([dwight, jim, { ...dwight, id: 'pam' }], { dwight: { status: 'working' }, pam: { status: 'error' } });
+    const counts = fleetCounts([meera, simran, { ...meera, id: 'aanya' }], { meera: { status: 'working' }, aanya: { status: 'error' } });
     expect(counts).toEqual({ working: 1, idle: 0, meeting: 0, offline: 0, error: 1, 'needs-input': 0, bots: 2, staff: 3 });
-    expect(fleetCounts([dwight], { dwight: { status: 'needs-input' } })['needs-input']).toBe(1);
+    expect(fleetCounts([meera], { meera: { status: 'needs-input' } })['needs-input']).toBe(1);
   });
 });

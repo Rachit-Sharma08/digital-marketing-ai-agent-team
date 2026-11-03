@@ -3,7 +3,7 @@ import type { CalendarJob } from '@shared/contract';
 import { RUN_META, inText, repeatsText } from './words';
 
 const job = (j: Partial<CalendarJob>): CalendarJob => ({
-  key: 'pam-0', personId: 'pam', name: 'Digest', schedule: '30 8 * * 1-5', repeats: 'cron', enabled: true, timeZone: 'America/New_York', ...j,
+  key: 'aanya-0', personId: 'aanya', name: 'Digest', schedule: '30 8 * * 1-5', repeats: 'cron', enabled: true, timeZone: 'America/New_York', ...j,
 });
 
 describe('repeatsText', () => {

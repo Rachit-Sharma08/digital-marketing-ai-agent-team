@@ -24,12 +24,12 @@ describe('room capabilities', () => {
 describe('taskAssignees', () => {
   it('offers only bots of the room\'s adapter that can take tasks', () => {
     const people = [
-      person('dwight', { profile: 'campaigns', role: '', adapter: 'hermes', capabilities: HERMES }),
-      person('jim', { profile: 'deploy-bot', role: '', adapter: 'webhook', capabilities: NONE }),
-      person('pam', { profile: 'chief', role: '' }), // older server: no adapter = Hermes
-      person('kevin'),
+      person('meera', { profile: 'campaigns', role: '', adapter: 'hermes', capabilities: HERMES }),
+      person('simran', { profile: 'deploy-bot', role: '', adapter: 'webhook', capabilities: NONE }),
+      person('aanya', { profile: 'chief', role: '' }), // older server: no adapter = Hermes
+      person('diya'),
     ];
-    expect(taskAssignees(room({ adapter: 'hermes', capabilities: HERMES }), people).map((p) => p.id)).toEqual(['dwight', 'pam']);
-    expect(taskAssignees(room(), people).map((p) => p.id)).toEqual(['dwight', 'pam']);
+    expect(taskAssignees(room({ adapter: 'hermes', capabilities: HERMES }), people).map((p) => p.id)).toEqual(['meera', 'aanya']);
+    expect(taskAssignees(room(), people).map((p) => p.id)).toEqual(['meera', 'aanya']);
   });
 });

@@ -1,4 +1,4 @@
-// The gear's popover: shortcuts, notifications (asked for only here, never on load), chime, motion and Toby mode.
+// The gear's popover: shortcuts, notifications (asked for only here, never on load), chime, motion and Sarah mode.
 // Saved per browser.
 import { useEffect, useId, useRef } from 'react';
 import type { Prefs } from '../prefs/prefs';
@@ -13,7 +13,7 @@ type Props = {
   onChime: (on: boolean) => void;
   onClose: () => void;
   anchor: React.RefObject<HTMLElement | null>;
-  tobyUrl?: boolean; // ?toby=1 in the address: Toby mode is on for this page whatever the switch says
+  tobyUrl?: boolean; // ?sarah=1 in the address: Sarah mode is on for this page whatever the switch says
 };
 
 const PERMISSION_TEXT: Record<NotifyPermission, string> = {
@@ -43,7 +43,7 @@ function Switch({ label, hint, checked, disabled, onChange }: { label: string; h
 }
 
 export function SettingsPopover({ prefs, paletteKey, permission, onPref, onNotifications, onChime, onClose, anchor, tobyUrl = false }: Props) {
-  const toby = prefs.tobyMode || tobyUrl;
+  const sarah = prefs.tobyMode || tobyUrl;
   const panel = useRef<HTMLDivElement>(null);
   const close = useRef(onClose);
   close.current = onClose;
@@ -62,8 +62,8 @@ export function SettingsPopover({ prefs, paletteKey, permission, onPref, onNotif
       <h2>Settings</h2>
       <fieldset>
         <legend>Shortcuts</legend>
-        <Switch label={`${paletteKey} opens Ask Pam`} checked={prefs.paletteHotkey} onChange={(on) => onPref('paletteHotkey', on)} />
-        <Switch label="Single-key shortcuts" hint="/ opens Ask Pam, ? shows all shortcuts" checked={prefs.singleKeys} onChange={(on) => onPref('singleKeys', on)} />
+        <Switch label={`${paletteKey} opens Ask Aanya`} checked={prefs.paletteHotkey} onChange={(on) => onPref('paletteHotkey', on)} />
+        <Switch label="Single-key shortcuts" hint="/ opens Ask Aanya, ? shows all shortcuts" checked={prefs.singleKeys} onChange={(on) => onPref('singleKeys', on)} />
       </fieldset>
       <fieldset>
         <legend>Notifications</legend>
@@ -74,7 +74,7 @@ export function SettingsPopover({ prefs, paletteKey, permission, onPref, onNotif
           disabled={permission === 'unsupported'}
           onChange={onNotifications}
         />
-        <Switch label="Chime" hint={toby ? 'Silent in Toby mode' : 'A soft desk bell when a bot errors or needs you (and the Dundies’ fanfare)'} checked={prefs.chime} onChange={onChime} />
+        <Switch label="Chime" hint={sarah ? 'Silent in Sarah mode' : 'A soft desk bell when a bot errors or needs you (and the Highlights’ fanfare)'} checked={prefs.chime} onChange={onChime} />
       </fieldset>
       <fieldset>
         <legend>Motion</legend>
@@ -83,9 +83,9 @@ export function SettingsPopover({ prefs, paletteKey, permission, onPref, onNotif
       <fieldset>
         <legend>Fun</legend>
         <Switch
-          label="Toby mode"
-          hint={tobyUrl ? 'On for this page (?toby=1 in the address).' : 'No jokes, ambient life, sounds or easter eggs: a plain dashboard with the same information.'}
-          checked={toby}
+          label="Sarah mode"
+          hint={tobyUrl ? 'On for this page (?sarah=1 in the address).' : 'No jokes, ambient life, sounds or easter eggs: a plain dashboard with the same information.'}
+          checked={sarah}
           disabled={tobyUrl}
           onChange={(on) => onPref('tobyMode', on)}
         />

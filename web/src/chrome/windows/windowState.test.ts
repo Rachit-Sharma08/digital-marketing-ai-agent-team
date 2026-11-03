@@ -5,13 +5,13 @@ const empty: WindowsState = { windows: [], nextZ: 1 };
 
 describe('window state', () => {
   it('opens a window on top and focuses an existing one instead of duplicating it', () => {
-    let s = openWindow(empty, { kind: 'person', personId: 'dwight' });
+    let s = openWindow(empty, { kind: 'person', personId: 'meera' });
     s = openWindow(s, { kind: 'area', areaId: 'conference' });
-    expect(s.windows.map((w) => w.id)).toEqual(['person:dwight', 'area:conference']);
+    expect(s.windows.map((w) => w.id)).toEqual(['person:meera', 'area:conference']);
     expect(topWindow(s)!.id).toBe('area:conference');
-    s = openWindow(s, { kind: 'person', personId: 'dwight' });
+    s = openWindow(s, { kind: 'person', personId: 'meera' });
     expect(s.windows).toHaveLength(2);
-    expect(topWindow(s)!.id).toBe('person:dwight');
+    expect(topWindow(s)!.id).toBe('person:meera');
   });
 
   it('cascades new windows so they do not stack exactly', () => {
@@ -48,12 +48,12 @@ describe('window state', () => {
 
 describe('person tabs and the ledger window', () => {
   it('opens a person on a tab, keeps the tab when they are opened again without one, and switches it', () => {
-    let s = openWindow(empty, { kind: 'person', personId: 'dwight', tab: 'timeline' });
-    expect(s.windows[0]!.ref).toEqual({ kind: 'person', personId: 'dwight', tab: 'timeline' });
-    s = openWindow(s, { kind: 'person', personId: 'dwight' });
-    expect(s.windows[0]!.ref).toEqual({ kind: 'person', personId: 'dwight', tab: 'timeline' });
-    s = setPersonTab(s, 'person:dwight', 'desk');
-    expect(s.windows[0]!.ref).toEqual({ kind: 'person', personId: 'dwight', tab: 'desk' });
+    let s = openWindow(empty, { kind: 'person', personId: 'meera', tab: 'timeline' });
+    expect(s.windows[0]!.ref).toEqual({ kind: 'person', personId: 'meera', tab: 'timeline' });
+    s = openWindow(s, { kind: 'person', personId: 'meera' });
+    expect(s.windows[0]!.ref).toEqual({ kind: 'person', personId: 'meera', tab: 'timeline' });
+    s = setPersonTab(s, 'person:meera', 'desk');
+    expect(s.windows[0]!.ref).toEqual({ kind: 'person', personId: 'meera', tab: 'desk' });
     expect(setPersonTab(s, 'nope', 'timeline')).toEqual(s);
   });
 

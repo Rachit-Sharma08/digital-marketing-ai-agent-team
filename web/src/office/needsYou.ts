@@ -1,10 +1,10 @@
-// "Needs you": who raises a hand on the map, the top bar's "N need you", when Pam's phone rings, and whether you can
+// "Needs you": who raises a hand on the map, the top bar's "N need you", when Aanya's phone rings, and whether you can
 // decide an approval from here. Pure functions over contract data. The canonical per-bot signal is status
 // `needs-input` (the fleet filters and notifications read it); approvals add bots in other states and agents without a desk.
 import type { Approval, OfficeSnapshot } from '@shared/contract';
 
-/** Toby Flenderson's HR desk is the approvals inbox: clicking him opens it. He stays "No bot yet" as a person. */
-export const HR_DESK = 'toby';
+/** Sarah D Souza's HR desk is the approvals inbox: clicking him opens it. He stays "No bot yet" as a person. */
+export const HR_DESK = 'sarah';
 
 const pending = (s: OfficeSnapshot): readonly Approval[] => s.approvals ?? [];
 
@@ -36,6 +36,6 @@ export function decideBlocker(s: OfficeSnapshot, a: Approval, writable: boolean)
   if (!a.decidable) return `Answer this one where ${a.from} runs; the office only shows it.`;
   const adapter = s.adapters?.find((x) => x.id === a.adapter);
   if (adapter && !adapter.capabilities.approvals) return `${adapter.label} agents can't take decisions from the office.`;
-  if (!writable) return 'Read-only: restart the server with DMOS_ALLOW_WRITES=1 (or --allow-writes) to decide here.';
+  if (!writable) return 'Read-only: restart the server with AKG_ALLOW_WRITES=1 (or --allow-writes) to decide here.';
   return null;
 }

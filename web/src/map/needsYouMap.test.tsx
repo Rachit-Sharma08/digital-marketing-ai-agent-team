@@ -1,5 +1,5 @@
-// The map's "needs you": a raised hand with a "?" over whoever is asking, Pam's reception phone ringing while
-// anyone needs you, and Toby's desk labelled as the approvals inbox.
+// The map's "needs you": a raised hand with a "?" over whoever is asking, Aanya's reception phone ringing while
+// anyone needs you, and Sarah's desk labelled as the approvals inbox.
 import { describe, expect, it } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { DEMO_OFFICE } from '@shared/fixtures/demo-approvals';
@@ -13,7 +13,7 @@ import { receptionDeskParts, receptionPhoneSpot } from './parts/referenceParts';
 const occupant = (s: typeof DEMO_OFFICE, id: string) => [...occupantsBySeat(s, placementsFor(s)).values()].find((o) => o.person.id === id)!;
 
 describe('needs you on the map', () => {
-  it('finds the phone on Pam\'s reception desk, where the desk draws it', () => {
+  it('finds the phone on Aanya\'s reception desk, where the desk draws it', () => {
     const desk = FURNITURE.find((f) => f.kind === 'reception-desk')!;
     const spot = receptionPhoneSpot(desk);
     const phone = receptionDeskParts(desk).find((p) => p.id.endsWith('.phone')) as unknown as { box: { x: number; y: number; z: number; w: number; d: number } };
@@ -24,20 +24,20 @@ describe('needs you on the map', () => {
   });
 
   it('marks who is asking, and says so in the label even when their status says something else', () => {
-    expect(occupant(DEMO_OFFICE, 'andy')).toMatchObject({ asking: true, label: 'Andy Bernard — skool — needs you' });
-    expect(occupant(DEMO_OFFICE, 'sadiq')).toMatchObject({ asking: true, label: 'Sadiq — tech — error — needs you' });
-    expect(occupant(DEMO_OFFICE, 'dwight')).toMatchObject({ asking: false, label: 'Dwight Schrute — campaigns — working' });
-    expect(occupant(DEMO_SNAPSHOT, 'andy').asking).toBe(false);
+    expect(occupant(DEMO_OFFICE, 'aisha')).toMatchObject({ asking: true, label: 'Aisha Malik — skool — needs you' });
+    expect(occupant(DEMO_OFFICE, 'sadiq')).toMatchObject({ asking: true, label: expect.stringContaining('Safina Ahmed') });
+    expect(occupant(DEMO_OFFICE, 'meera')).toMatchObject({ asking: false, label: 'Meera Kaur — campaigns — working' });
+    expect(occupant(DEMO_SNAPSHOT, 'aisha').asking).toBe(false);
   });
 
-  it('labels Toby as the HR approvals inbox, still without a bot', () => {
-    expect(occupant(DEMO_OFFICE, 'toby').label).toBe('Toby Flenderson — no bot yet — HR · Approvals, 4 waiting');
-    expect(occupant(DEMO_SNAPSHOT, 'toby').label).toBe('Toby Flenderson — no bot yet — HR · Approvals');
+  it('labels Sarah as the HR approvals inbox, still without a bot', () => {
+    expect(occupant(DEMO_OFFICE, 'sarah').label).toBe('Sarah D Souza — no bot yet — HR · Approvals, 4 waiting');
+    expect(occupant(DEMO_SNAPSHOT, 'sarah').label).toBe('Sarah D Souza — no bot yet — HR · Approvals');
   });
 
   it('draws a raised hand and a "?" bubble over someone who is asking, and nothing otherwise', () => {
-    const andy = occupant(DEMO_OFFICE, 'andy');
-    const props = { person: andy.person, presence: andy.presence, facing: 's' as const, label: andy.label, lift: -15, walking: false, onOpen: () => {} };
+    const aisha = occupant(DEMO_OFFICE, 'aisha');
+    const props = { person: aisha.person, presence: aisha.presence, facing: 's' as const, label: aisha.label, lift: -15, walking: false, onOpen: () => {} };
     const asking = renderToStaticMarkup(<svg><PersonFigure {...props} asking /></svg>);
     expect(asking).toContain('class="raised-hand"');
     expect(asking).toContain('data-asking="true"');

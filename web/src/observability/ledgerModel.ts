@@ -1,4 +1,4 @@
-// "Angela's ledger": rows of tokens and estimated cost per bot, sorted, with bar lengths to scale (0..1 of the
+// "Fatima's ledger": rows of tokens and estimated cost per bot, sorted, with bar lengths to scale (0..1 of the
 // biggest), plus the totals. A bot whose adapter keeps no usage says so instead of showing zeros. Pure.
 import { tokensIn, type UsageReport, type UsageSummary } from '@shared/observability';
 

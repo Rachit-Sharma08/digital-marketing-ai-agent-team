@@ -7,7 +7,7 @@ const summary = { inputTokens: 10, outputTokens: 5, cacheReadTokens: 100, cacheW
 describe('parseTimeline', () => {
   it('keeps well-formed events and drops the rest', () => {
     const t = parseTimeline({
-      personId: 'dwight', available: true, since: '2026-10-13T00:00:00Z', truncated: true, adapter: { id: 'hermes', label: 'Hermes' },
+      personId: 'meera', available: true, since: '2026-10-13T00:00:00Z', truncated: true, adapter: { id: 'hermes', label: 'Hermes' },
       events: [
         { id: 'a', at: '2026-10-13T10:00:00Z', kind: 'cron.ok', title: 'Lead digest', detail: 'delivered', source: 'cron', count: 2 },
         { id: 'b', at: 'not a time', kind: 'cron.ok', title: 'x' },
@@ -19,7 +19,7 @@ describe('parseTimeline', () => {
     expect(t?.events.map((e) => e.id)).toEqual(['a', 'd']);
     expect(t?.events[1]?.title).toHaveLength(200);
     expect(t?.events[1]).not.toHaveProperty('count');
-    expect(t).toMatchObject({ personId: 'dwight', available: true, truncated: true, adapter: { id: 'hermes', label: 'Hermes' } });
+    expect(t).toMatchObject({ personId: 'meera', available: true, truncated: true, adapter: { id: 'hermes', label: 'Hermes' } });
   });
 
   it('refuses something that is not a timeline', () => {
@@ -33,7 +33,7 @@ describe('parseUsageReport', () => {
   const good = {
     period: '7d', from: 'f', to: 't', generatedAt: 'g', currency: 'USD', estimate: true, priceTable: { asOf: '2026-10-06', source: 's', models: 9 },
     rows: [
-      { personId: 'dwight', name: 'Meera Kaur', adapterId: 'hermes', adapterLabel: 'Hermes', usage: summary },
+      { personId: 'meera', name: 'Meera Kaur', adapterId: 'hermes', adapterLabel: 'Hermes', usage: summary },
       { personId: 'temp-cc', name: 'paper-site', adapterId: 'claude-code', adapterLabel: 'Claude Code', usage: null, unavailable: 'No usage data from Claude Code' },
       { personId: 'bad', usage: summary },
     ],
@@ -42,7 +42,7 @@ describe('parseUsageReport', () => {
 
   it('keeps valid rows, null usage with its reason, and the totals', () => {
     const r = parseUsageReport(good);
-    expect(r?.rows.map((x) => x.personId)).toEqual(['dwight', 'temp-cc']);
+    expect(r?.rows.map((x) => x.personId)).toEqual(['meera', 'temp-cc']);
     expect(r?.rows[1]).toMatchObject({ usage: null, unavailable: 'No usage data from Claude Code' });
     expect(r?.rows[0]?.usage?.models[0]).toMatchObject({ model: 'claude-opus-5-5', cost: 1.5, costSource: 'price-table', calls: 2 });
     expect(r?.totals.cost).toBe(1.5);

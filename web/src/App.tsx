@@ -1,5 +1,5 @@
 // Agents Ka Ghar: top bar, the office floor plan (or the list view) as the desktop, OS windows, the taskbar, and
-// the overlays: Ask Pam (⌘K), the shortcuts sheet (?) and settings. The delight layer (delight/) rides along:
+// the overlays: Ask Aanya (⌘K), the shortcuts sheet (?) and settings. The delight layer (delight/) rides along:
 // creative corner, ambient life and easter eggs.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Approval, Presence, Task } from '@shared/contract';
@@ -34,26 +34,26 @@ import { playChime } from './notify/chime';
 import { useNotifications } from './notify/useNotifications';
 import { type FleetFilter, filterCounts, hiddenByFilter } from './office/filters';
 import { fleetCounts } from './office/status';
-import { AskPam } from './pam/AskPam';
+import { AskAanya } from './aanya/AskAanya';
 import { TeamConsole } from './team/TeamConsole';
-import { type PamItem, type ViewMode, buildPamItems } from './pam/items';
-import { usePamRecents } from './pam/usePamRecents';
+import { type AanyaItem, type ViewMode, buildAanyaItems } from './aanya/items';
+import { useAanyaRecents } from './aanya/useAanyaRecents';
 import { usePrefs } from './prefs/usePrefs';
 import { NARROW_QUERY, REDUCED_MOTION_QUERY, useMediaQuery } from './useMediaQuery';
 import { DelightContext } from './delight/DelightContext';
 import { useDelightState } from './delight/useDelightState';
-import { Credits, DundiesInvite, ToastStack } from './delight/DelightOverlays';
-import { delightPamItems } from './delight/pamItems';
-import { CREED_DESK } from './delight/creed/CreedNote';
+import { Credits, HighlightsInvite, ToastStack } from './delight/DelightOverlays';
+import { delightAanyaItems } from './delight/aanyaItems';
+import { NAINA_DESK } from './delight/naina/NainaNote';
 import { tobyFromUrl } from './delight/mode';
-import { useCeremonyInvite } from './delight/dundies/useCeremonyInvite';
+import { useCeremonyInvite } from './delight/highlights/useCeremonyInvite';
 
 const PALETTE_KEY = paletteKeyLabel(typeof navigator === 'undefined' ? '' : navigator.platform);
 
 export function App() {
   const { state, applyLocal } = useOffice();
   const { prefs, setPref } = usePrefs();
-  const { recents, remember } = usePamRecents();
+  const { recents, remember } = useAanyaRecents();
   const narrow = useMediaQuery(NARROW_QUERY);
   const reduceMotion = useMediaQuery(REDUCED_MOTION_QUERY) || prefs.reduceMotion;
   const [wins, setWins] = useState(INITIAL_WINDOWS);
@@ -70,7 +70,7 @@ export function App() {
   const budgets = useBudgets(snapshot, demo);
   const [pendingControl, setPendingControl] = useState<PendingControl | undefined>(undefined);
   const writable = writesAllowed(state);
-  const demoDay = useDemoClock(snapshot); // the scripted demo day ("Threat Level Midnight") runs on office time
+  const demoDay = useDemoClock(snapshot); // the scripted demo day ("Campaign Daybook") runs on office time
   const now = demoDay ? officeNowMs(demoDay.clock, Date.now()) : demo && snapshot ? Date.parse(snapshot.generatedAt) : Date.now();
   const view: ViewMode = viewPick ?? (narrow ? 'list' : 'map');
   const delight = useDelightState({
@@ -78,13 +78,13 @@ export function App() {
     now: () => (demoDay ? officeNowMs(demoDay.clock, Date.now()) : demo && snapshot ? Date.parse(snapshot.generatedAt) : Date.now()),
   });
   const { mode } = delight.value;
-  const invite = useCeremonyInvite(!mode.toby && delight.value.dundies.phase === 'ready', delight.value.wallClock().getTime());
+  const invite = useCeremonyInvite(!mode.sarah && delight.value.highlights.phase === 'ready', delight.value.wallClock().getTime());
 
   const openInbox = useCallback(() => setWins((s) => openWindow(s, { kind: 'approvals' })), []);
-  /** Toby stays "No bot yet" as a person; his HR desk is the approvals inbox. Creed's desk is Creed's corner. */
+  /** Sarah stays "No bot yet" as a person; his HR desk is the approvals inbox. Naina's desk is Naina's corner. */
   const openPerson = useCallback((personId: string) => setWins((s) => openWindow(s,
-    personId === HR_DESK ? { kind: 'approvals' } : personId === CREED_DESK ? { kind: 'creed' } : { kind: 'person', personId })), []);
-  const openDundies = useCallback(() => setWins((s) => openWindow(s, { kind: 'dundies' })), []);
+    personId === HR_DESK ? { kind: 'approvals' } : personId === NAINA_DESK ? { kind: 'naina' } : { kind: 'person', personId })), []);
+  const openHighlights = useCallback(() => setWins((s) => openWindow(s, { kind: 'highlights' })), []);
   const openArea = useCallback((areaId: string, roomId?: string) => setWins((s) => openWindow(s, { kind: 'area', areaId, roomId })), []);
   const openCalendar = useCallback(() => setWins((s) => openWindow(s, { kind: 'calendar' })), []);
   const openLedger = useCallback(() => setWins((s) => openWindow(s, { kind: 'ledger' })), []);
@@ -92,7 +92,7 @@ export function App() {
   const onTaskCreated = useCallback((task: Task) => {
     if (snapshot) applyLocal({ tasks: [...snapshot.tasks.filter((t) => t.id !== task.id), task] });
   }, [applyLocal, snapshot]);
-  const notify = useNotifications(snapshot, { ...prefs, chime: mode.sounds }, openPerson); // no sound in Toby mode
+  const notify = useNotifications(snapshot, { ...prefs, chime: mode.sounds }, openPerson); // no sound in Sarah mode
   usePhoneRing(snapshot, mode.sounds);
   const onDecided = useCallback((a: Approval, decision: Decision) => {
     if (!snapshot) return;
@@ -140,7 +140,7 @@ export function App() {
     return () => cancelAnimationFrame(frame);
   }, [chatFor, wins]);
 
-  const run = (item: PamItem, alt: boolean) => {
+  const run = (item: AanyaItem, alt: boolean) => {
     const act = alt && item.alt ? item.alt : item.action;
     if (item.kind !== 'action') remember(item.id);
     const keepsFocus = act.type === 'filter' || act.type === 'view';
@@ -162,8 +162,8 @@ export function App() {
           const seq = (p?.seq ?? 0) + 1;
           return { personId: act.personId, request: act.request, seq, taken: () => setPendingControl((q) => (q?.seq === seq ? undefined : q)) };
         });
-      case 'dundies': return openDundies();
-      case 'creed': return openPerson(CREED_DESK);
+      case 'highlights': return openHighlights();
+      case 'naina': return openPerson(NAINA_DESK);
       default: return openOverlay(act.type);
     }
   };
@@ -171,8 +171,8 @@ export function App() {
   const counts = useMemo(() => (snapshot ? fleetCounts(snapshot.people, snapshot.presence) : null), [snapshot]);
   const hidden = useMemo(() => (snapshot ? hiddenByFilter(snapshot, filter) : new Set<string>()), [snapshot, filter]);
   const creedCount = delight.value.unattributed.length;
-  const pamItems = useMemo(() => (snapshot ? [...buildPamItems(snapshot, { filter, view, writable }), ...delightPamItems({ toby: mode.toby, creedCount })] : []),
-    [snapshot, filter, view, writable, mode.toby, creedCount]);
+  const aanyaItems = useMemo(() => (snapshot ? [...buildAanyaItems(snapshot, { filter, view, writable }), ...delightAanyaItems({ sarah: mode.sarah, creedCount })] : []),
+    [snapshot, filter, view, writable, mode.sarah, creedCount]);
   const top = topWindow(wins);
   const source = state.phase === 'live'
     ? { kind: 'live' as const, detail: state.connected ? 'Live updates connected' : 'Live data; reconnecting to updates…' }
@@ -186,19 +186,19 @@ export function App() {
       onPref={setPref}
       onClose={() => closeOverlay(false)}
       onNotifications={(on) => { if (!on) setPref('notifications', false); else void notify.askPermission().then((ok) => setPref('notifications', ok)); }}
-      onChime={(on) => { setPref('chime', on); if (on && !mode.toby) playChime(); }}
+      onChime={(on) => { setPref('chime', on); if (on && !mode.sarah) playChime(); }}
       tobyUrl={tobyFromUrl(window.location.search)}
     />
   );
 
   return (
     <DelightContext.Provider value={delight.value}>
-    <div className={`os view-${view}${reduceMotion ? ' reduce-motion' : ''}${mode.toby ? ' toby-mode' : ''}`}>
+    <div className={`os view-${view}${reduceMotion ? ' reduce-motion' : ''}${mode.sarah ? ' sarah-mode' : ''}`}>
       <TopBar
         counts={counts}
         source={source}
         paletteKey={PALETTE_KEY}
-        onAskPam={() => toggle('palette')}
+        onAskAanya={() => toggle('palette')}
         onOpenTeam={() => setTeamOpen((o) => !o)}
         view={view}
         onToggleView={() => setViewPick(view === 'map' ? 'list' : 'map')}
@@ -236,17 +236,17 @@ export function App() {
       <Taskbar
         windows={wins.windows}
         topId={top?.id}
-        titleOf={(w) => titleOf(w, snapshot, mode.toby)}
+        titleOf={(w) => titleOf(w, snapshot, mode.sarah)}
         onActivate={(id) => setWins((s) => (topWindow(s)?.id === id ? toggleMinimize(s, id) : focusWindow(s, id)))}
-        hint={narrow ? 'Tap anyone to open their window.' : `Click anyone${view === 'map' ? ' on the map' : ''} to open their window. ${PALETTE_KEY} asks Pam.`}
+        hint={narrow ? 'Tap anyone to open their window.' : `Click anyone${view === 'map' ? ' on the map' : ''} to open their window. ${PALETTE_KEY} asks Aanya.`}
       />
       {overlay === 'palette' && snapshot && (
-        <AskPam snapshot={snapshot} items={pamItems} recents={recents} live={!demo} onRun={run} onClose={() => closeOverlay()} />
+        <AskAanya snapshot={snapshot} items={aanyaItems} recents={recents} live={!demo} onRun={run} onClose={() => closeOverlay()} />
       )}
       {overlay === 'shortcuts' && <ShortcutsSheet paletteKey={PALETTE_KEY} singleKeys={prefs.singleKeys} onClose={() => closeOverlay()} />}
       {teamOpen && <TeamConsole onClose={() => setTeamOpen(false)} />}
-      {invite.invited && delight.value.dundies.phase === 'ready' && delight.value.dundies.digest.awards.length > 0 && (
-        <DundiesInvite awards={delight.value.dundies.digest.awards.length} onStart={() => { invite.seen(); openDundies(); }} onDismiss={invite.seen} />
+      {invite.invited && delight.value.highlights.phase === 'ready' && delight.value.highlights.digest.awards.length > 0 && (
+        <HighlightsInvite awards={delight.value.highlights.digest.awards.length} onStart={() => { invite.seen(); openHighlights(); }} onDismiss={invite.seen} />
       )}
       {delight.credits && snapshot && <Credits snapshot={snapshot} motion={mode.motion} onClose={delight.closeCredits} />}
       <ToastStack toasts={delight.toasts} />

@@ -7,14 +7,14 @@ const key = (k: string, mods: Partial<HotkeyEvent> = {}): HotkeyEvent =>
 const ctx = (overlay: 'palette' | 'shortcuts' | 'settings' | null = null, prefs = DEFAULT_PREFS) => ({ overlay, prefs });
 
 describe('hotkeyAction', () => {
-  it('⌘K and Ctrl+K toggle Ask Pam, even while typing', () => {
+  it('⌘K and Ctrl+K toggle Ask Aanya, even while typing', () => {
     expect(hotkeyAction(key('k', { metaKey: true }), ctx())).toBe('toggle-palette');
     expect(hotkeyAction(key('K', { ctrlKey: true, typing: true }), ctx())).toBe('toggle-palette');
     expect(hotkeyAction(key('k', { ctrlKey: true, altKey: true }), ctx())).toBeNull();
     expect(hotkeyAction(key('k'), ctx())).toBeNull();
   });
 
-  it('"/" opens Ask Pam and "?" toggles the shortcuts sheet, but not while typing', () => {
+  it('"/" opens Ask Aanya and "?" toggles the shortcuts sheet, but not while typing', () => {
     expect(hotkeyAction(key('/'), ctx())).toBe('open-palette');
     expect(hotkeyAction(key('?', { shiftKey: true }), ctx())).toBe('toggle-shortcuts');
     expect(hotkeyAction(key('?', { shiftKey: true }), ctx('shortcuts'))).toBe('toggle-shortcuts');

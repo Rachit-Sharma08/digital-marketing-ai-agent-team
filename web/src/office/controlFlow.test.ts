@@ -7,7 +7,7 @@ describe('the in-page confirmation flow', () => {
     expect(asked).toEqual({ phase: 'confirm', request: { action: 'pause' } });
     const sending = sendFlow(asked);
     expect(sending).toEqual({ phase: 'sending', request: { action: 'pause' } });
-    expect(settleFlow(sending, { ok: true, text: 'Paused Dwight Schrute.' })).toEqual({ phase: 'idle', result: { ok: true, text: 'Paused Dwight Schrute.' } });
+    expect(settleFlow(sending, { ok: true, text: 'Paused Meera Kaur.' })).toEqual({ phase: 'idle', result: { ok: true, text: 'Paused Meera Kaur.' } });
   });
 
   it('never sends without a confirmation step', () => {
@@ -28,9 +28,9 @@ describe('the in-page confirmation flow', () => {
     const asked = askFor(IDLE, { action: 'reassign', args: { taskId: 't1', to: '' } });
     expect(readyToSend(asked)).toBe(false);
     expect(sendFlow(asked)).toBe(asked);
-    const picked = chooseTarget(asked, 'pam');
-    expect(picked).toEqual({ phase: 'confirm', request: { action: 'reassign', args: { taskId: 't1', to: 'pam' } } });
+    const picked = chooseTarget(asked, 'aanya');
+    expect(picked).toEqual({ phase: 'confirm', request: { action: 'reassign', args: { taskId: 't1', to: 'aanya' } } });
     expect(readyToSend(picked)).toBe(true);
-    expect(chooseTarget(askFor(IDLE, { action: 'pause' }), 'pam')).toEqual({ phase: 'confirm', request: { action: 'pause' } });
+    expect(chooseTarget(askFor(IDLE, { action: 'pause' }), 'aanya')).toEqual({ phase: 'confirm', request: { action: 'pause' } });
   });
 });

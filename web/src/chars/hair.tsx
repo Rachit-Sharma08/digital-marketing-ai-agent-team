@@ -140,7 +140,7 @@ export function BackHair({ style, color, cx, cy }: P) {
   }
 }
 
-/** A baseball cap (Roy). Front view shows the brim toward the facing side. */
+/** A baseball cap (Sunita). Front view shows the brim toward the facing side. */
 export function Cap({ color, cx, cy, back }: { color: string; cx: number; cy: number; back?: boolean }) {
   const brim = shade(color, -0.25);
   return (

@@ -1,4 +1,4 @@
-/* The documentary crew (a person's Timeline tab) and Angela's ledger (tokens and cost per bot). */
+/* The documentary crew (a person's Timeline tab) and Fatima's ledger (tokens and cost per bot). */
 
 .person-tabs > .tabs { margin-bottom: 10px; }
 .ledger-link {
@@ -57,7 +57,7 @@
 .tl-time { font-size: 11.5px; color: var(--muted); white-space: nowrap; padding-top: 2px; }
 .tl-empty, .tl-note { font-size: 12.5px; }
 
-/* Angela's ledger */
+/* Fatima's ledger */
 .window[data-window='ledger'], .window:has(.timeline-panel) { width: min(460px, calc(100vw - 24px)); }
 .ledger-window > .tabs { margin-bottom: 4px; }
 .ledger-list { list-style: none; margin: 0; padding: 0; border-top: 2px solid #b9d8c3; }

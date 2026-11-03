@@ -1,5 +1,5 @@
-// The open OS windows: person windows (Desk and Timeline tabs), room (area) windows, HR · Approvals, Angela's ledger,
-// the Party Planning Committee calendar, the Dundies and Creed's corner, each in a draggable frame (a sheet on phones).
+// The open OS windows: person windows (Desk and Timeline tabs), room (area) windows, HR · Approvals, Fatima's ledger,
+// the Party Planning Committee calendar, the Highlights and Naina's corner, each in a draggable frame (a sheet on phones).
 import type { Dispatch, SetStateAction } from 'react';
 import type { Approval, OfficeSnapshot, Task } from '@shared/contract';
 import type { BudgetsReport } from '@shared/controls';
@@ -16,8 +16,8 @@ import { titleOf } from './titles';
 import { WindowFrame } from './WindowFrame';
 import { MINUTES_TAB, type WindowsState, closeWindow, focusWindow, moveWindow, setAreaRoom, setPersonTab, toggleMinimize, topWindow } from './windowState';
 import { useDelight } from '../../delight/DelightContext';
-import { CreedWindow } from '../../delight/creed/CreedWindow';
-import { DundiesWindow } from '../../delight/dundies/DundiesWindow';
+import { NainaWindow } from '../../delight/naina/NainaWindow';
+import { HighlightsWindow } from '../../delight/highlights/HighlightsWindow';
 
 type Props = {
   wins: WindowsState;
@@ -35,7 +35,7 @@ type Props = {
   onOpenTimeline: (personId: string) => void;
   onOpenCalendar: () => void;
   budgets?: BudgetsReport | null; // Corporate
-  pendingControl?: PendingControl; // a control verb Ask Pam asked for
+  pendingControl?: PendingControl; // a control verb Ask Aanya asked for
 };
 
 export function WindowLayer({
@@ -48,7 +48,7 @@ export function WindowLayer({
       {wins.windows.map((w) => {
         const frame = {
           win: w,
-          title: titleOf(w, snapshot, mode.toby),
+          title: titleOf(w, snapshot, mode.sarah),
           sheet,
           onFocus: () => setWins((s) => (topWindow(s)?.id === w.id ? s : focusWindow(s, w.id))),
           onClose: () => setWins((s) => closeWindow(s, w.id)),
@@ -62,23 +62,23 @@ export function WindowLayer({
             </WindowFrame>
           );
         }
-        if (w.ref.kind === 'dundies') {
+        if (w.ref.kind === 'highlights') {
           return (
-            <WindowFrame key={w.id} {...frame} subtitle={mode.toby ? 'the last 7 days' : 'presented by Michael Scott'} size="wide">
-              <DundiesWindow snapshot={snapshot} live={!demo} onOpenPerson={onOpenPerson} />
+            <WindowFrame key={w.id} {...frame} subtitle={mode.sarah ? 'the last 7 days' : 'presented by Zara Khan'} size="wide">
+              <HighlightsWindow snapshot={snapshot} live={!demo} onOpenPerson={onOpenPerson} />
             </WindowFrame>
           );
         }
-        if (w.ref.kind === 'creed') {
+        if (w.ref.kind === 'naina') {
           return (
-            <WindowFrame key={w.id} {...frame} subtitle={mode.toby ? 'no desk can hold it' : 'Creed Bratton’s desk'}>
-              <CreedWindow now={now} />
+            <WindowFrame key={w.id} {...frame} subtitle={mode.sarah ? 'no desk can hold it' : 'Naina Desai’s desk'}>
+              <NainaWindow now={now} />
             </WindowFrame>
           );
         }
         if (w.ref.kind === 'approvals') {
           return (
-            <WindowFrame key={w.id} {...frame} subtitle="Toby Flenderson's desk">
+            <WindowFrame key={w.id} {...frame} subtitle="Sarah D Souza's desk">
               <ApprovalsWindow snapshot={snapshot} writable={writable} demo={demo} now={now} onDecided={onDecided} onOpenPerson={onOpenPerson}
                 budgetAlerts={budgetAlerts(budgets)} />
             </WindowFrame>

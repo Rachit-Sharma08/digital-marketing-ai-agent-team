@@ -15,14 +15,14 @@ describe('map model', () => {
   it('labels every occupant for screen readers', () => {
     const labels = [...occupantsBySeat(DEMO_SNAPSHOT, placements).values()].map((o) => o.label);
     expect(labels).toHaveLength(23);
-    expect(labels).toContain('Dwight Schrute — campaigns — working');
-    expect(labels).toContain('Jim Halpert — no bot yet');
+    expect(labels).toContain('Meera Kaur — campaigns — working');
+    expect(labels).toContain('Simran Gill — no bot yet');
   });
 
   it('makes one chip per person, naming the meeting room', () => {
     const chips = chipsFor(DEMO_SNAPSHOT, placements);
     expect(chips).toHaveLength(23);
-    expect(chips.find((c) => c.personId === 'michael')!.text).toBe('In Council');
+    expect(chips.find((c) => c.personId === 'zara')!.text).toBe('In Council');
   });
 
   it('labels room signs with their rooms', () => {

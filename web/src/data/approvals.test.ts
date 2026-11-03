@@ -5,7 +5,7 @@ import { parseEvent, parseSnapshot } from './guards';
 import { applyEvent } from './merge';
 
 const OK: Approval = {
-  id: 'hermes:t_ask.blocked', adapter: 'hermes', personId: 'andy', from: 'Andy Bernard', kind: 'question', title: 'Post the welcome thread?',
+  id: 'hermes:t_ask.blocked', adapter: 'hermes', personId: 'aisha', from: 'Aisha Malik', kind: 'question', title: 'Post the welcome thread?',
   detail: 'Draft is ready.', requestedAt: '2026-10-13T14:00:00.000Z', risk: 'medium', decidable: true,
   actions: { approve: 'Unblock it', reject: 'Archive the card' },
 };
@@ -20,7 +20,7 @@ describe('approvals in snapshots and events', () => {
     });
     expect(snap?.approvals?.[0]).toEqual(OK);
     expect(snap?.approvals).toHaveLength(2);
-    expect(snap?.approvals?.[1]).toMatchObject({ id: 'webhook:x.1', from: 'Andy Bernard' });
+    expect(snap?.approvals?.[1]).toMatchObject({ id: 'webhook:x.1', from: 'Aisha Malik' });
     expect(snap?.approvals?.[1]?.actions).toBeUndefined();
     expect(snap?.approvals?.[1]?.personId).toBeUndefined();
     expect(snap?.approvals?.[1]?.detail?.length).toBeLessThanOrEqual(1000);

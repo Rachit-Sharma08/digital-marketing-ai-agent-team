@@ -4,8 +4,8 @@ import { DEMO_SNAPSHOT } from '@shared/fixtures/demo-snapshot';
 import { portraitUrl } from '../data/api';
 import { Portrait, portraitView } from './Portrait';
 
-const dwight = DEMO_SNAPSHOT.people.find((p) => p.id === 'dwight')!;
-const jim = DEMO_SNAPSHOT.people.find((p) => p.id === 'jim')!;
+const meera = DEMO_SNAPSHOT.people.find((p) => p.id === 'meera')!;
+const simran = DEMO_SNAPSHOT.people.find((p) => p.id === 'simran')!;
 
 describe('portraitView', () => {
   it('shows the photo only in live mode once it has loaded; the drawn character otherwise', () => {
@@ -19,29 +19,29 @@ describe('portraitView', () => {
 
 describe('Portrait', () => {
   it('draws the mini character in demo mode and never asks the server', () => {
-    const html = renderToStaticMarkup(<Portrait person={dwight} live={false} />);
+    const html = renderToStaticMarkup(<Portrait person={meera} live={false} />);
     expect(html).toContain('data-state="drawn"');
     expect(html).toContain('<svg');
     expect(html).not.toContain('<img');
   });
 
   it('asks for /api/portraits/:id in live mode, with the drawn character showing until the photo arrives', () => {
-    const html = renderToStaticMarkup(<Portrait person={jim} live />);
-    expect(html).toMatch(/<img[^>]+src="\/api\/portraits\/jim"/);
+    const html = renderToStaticMarkup(<Portrait person={simran} live />);
+    expect(html).toMatch(/<img[^>]+src="\/api\/portraits\/simran"/);
     expect(html).toContain('data-state="loading"');
     expect(html).toContain('<svg');
   });
 
   it('is a labelled image in a window header and decorative next to a name', () => {
-    expect(renderToStaticMarkup(<Portrait person={dwight} live={false} />)).toContain('aria-label="Dwight Schrute portrait"');
-    const small = renderToStaticMarkup(<Portrait person={dwight} live size="sm" decorative />);
+    expect(renderToStaticMarkup(<Portrait person={meera} live={false} />)).toContain('aria-label="Meera Kaur portrait"');
+    const small = renderToStaticMarkup(<Portrait person={meera} live size="sm" decorative />);
     expect(small).toContain('aria-hidden="true"');
     expect(small).not.toContain('aria-label');
     expect(small).toContain('portrait-sm');
   });
 
   it('builds the portrait URL from the person id', () => {
-    expect(portraitUrl('dwight')).toBe('/api/portraits/dwight');
+    expect(portraitUrl('meera')).toBe('/api/portraits/meera');
     expect(portraitUrl('a/b')).toBe('/api/portraits/a%2Fb');
   });
 });

@@ -1,4 +1,4 @@
-// Chairs (office, conference, armchair, stool) and Roy's forklift. `front` parts may cover the person sitting in them.
+// Chairs (office, conference, armchair, stool) and Sunita's forklift. `front` parts may cover the person sitting in them.
 import type { ChairStyle, Facing, Seat } from '@shared/office';
 import { shade } from '../../iso/color';
 import type { Box3 } from '../../iso/projection';

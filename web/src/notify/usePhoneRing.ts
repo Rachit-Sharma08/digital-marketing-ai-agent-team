@@ -1,4 +1,4 @@
-// Pam's phone rings with the Settings chime (the Settings `chime` preference) when something new needs you that the
+// Aanya's phone rings with the Settings chime (the Settings `chime` preference) when something new needs you that the
 // needs-input notifications don't already chime for: a request from a bot in a meeting or in error, or from an agent
 // without a desk. Never on the first snapshot.
 import { useEffect, useRef } from 'react';

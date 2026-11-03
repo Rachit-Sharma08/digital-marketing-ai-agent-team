@@ -1,5 +1,5 @@
-// Stanley's crossword comes out at 15:00 for half an hour; its answer is a real number (the cards the bots finished
-// today). On Pretzel Day (19 October, "Initiation") the bots that finished a card get a free pretzel. Local time.
+// Aaliya's crossword comes out at 15:00 for half an hour; its answer is a real number (the cards the bots finished
+// today). On Snack Break (19 October, "Initiation") the bots that finished a card get a free pretzel. Local time.
 import type { OfficeSnapshot } from '@shared/contract';
 import { shortName } from '../../office/names';
 
@@ -35,6 +35,6 @@ export function crosswordClue(s: OfficeSnapshot, d: Date): { clue: string; answe
 export function pretzelLine(s: OfficeSnapshot, d: Date): string {
   const ids = [...new Set(doneToday(s, d).flatMap((t) => (t.ownerId ? [t.ownerId] : [])))];
   const names = ids.flatMap((id) => s.people.filter((p) => p.id === id && p.bot).map((p) => shortName(p.name)));
-  if (!names.length) return 'Pretzel Day! No bot has finished a card yet today, so the pretzels are still up for grabs.';
-  return `Pretzel Day! Free pretzels for the ${names.length} bot${names.length === 1 ? ' who' : 's who'} finished a card today: ${names.join(', ')}.`;
+  if (!names.length) return 'Snack Break! No bot has finished a card yet today, so the pretzels are still up for grabs.';
+  return `Snack Break! Free pretzels for the ${names.length} bot${names.length === 1 ? ' who' : 's who'} finished a card today: ${names.join(', ')}.`;
 }

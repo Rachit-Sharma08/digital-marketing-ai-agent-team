@@ -6,22 +6,22 @@ import { demoBudgets, demoControlReply, withDemoControls } from './demoCorporate
 describe('demo mode: controls and Corporate', () => {
   it('gives demo bots the Hermes control flags and their jobs ids, without touching people who have no bot', () => {
     const s = withDemoControls(DEMO_SNAPSHOT);
-    expect(s.people.find((p) => p.id === 'dwight')?.bot?.capabilities).toMatchObject({ pause: false, stop: true, runJob: true, reassign: true });
-    expect(s.people.find((p) => p.id === 'jim')?.bot).toBeUndefined();
-    expect(s.jobs?.dwight?.[0]?.id).toBe('demo-dwight-0');
+    expect(s.people.find((p) => p.id === 'meera')?.bot?.capabilities).toMatchObject({ pause: false, stop: true, runJob: true, reassign: true });
+    expect(s.people.find((p) => p.id === 'simran')?.bot).toBeUndefined();
+    expect(s.jobs?.meera?.[0]?.id).toBe('demo-meera-0');
     expect(withDemoControls(s)).toEqual(s); // idempotent
-    expect(DEMO_SNAPSHOT.jobs?.dwight?.[0]?.id).toBeUndefined(); // not mutated
+    expect(DEMO_SNAPSHOT.jobs?.meera?.[0]?.id).toBeUndefined(); // not mutated
   });
 
   it('has a fictional budget report: one near, one over, one unpriced', () => {
     const r = demoBudgets(DEMO_SNAPSHOT);
     expect(r.generatedAt).toBe(DEMO_SNAPSHOT.generatedAt);
-    expect(r.budgets.map((b) => [b.personId, b.level, b.action])).toEqual([['kelly', 'over', 'alert'], ['dwight', 'warn', 'none'], ['andy', 'unpriced', 'none']]);
-    expect(r.budgets.find((b) => b.personId === 'andy')?.lines[0]?.unpricedModels).toEqual(['pretzel-7b-local']);
+    expect(r.budgets.map((b) => [b.personId, b.level, b.action])).toEqual([['priya', 'over', 'alert'], ['meera', 'warn', 'none'], ['aisha', 'unpriced', 'none']]);
+    expect(r.budgets.find((b) => b.personId === 'aisha')?.lines[0]?.unpricedModels).toEqual(['pretzel-7b-local']);
   });
 
   it('answers a demo verb locally, saying nothing was sent', () => {
-    expect(demoControlReply('Pause Dwight?')).toBe('Demo: nothing was sent. Live, this would: pause Dwight.');
+    expect(demoControlReply('Pause Meera?')).toBe('Demo: nothing was sent. Live, this would: pause Meera.');
   });
 });
 

@@ -28,7 +28,7 @@ export function areaFrame(areaId: string, office: OfficeData = OFFICE): Bounds |
     [0, 1.6].flatMap((z) => [project({ x, y, z }), project({ x: x + w, y, z }), project({ x, y: y + h, z }), project({ x: x + w, y: y + h, z })])));
 }
 
-/** The accounting corner's sign that opens Angela's ledger (LedgerSign.tsx), on the floor in front of her desk. */
+/** The accounting corner's sign that opens Fatima's ledger (LedgerSign.tsx), on the floor in front of her desk. */
 export const LEDGER_SPOT = { x: 13.2, y: 1.2 };
 export const LEDGER_SIGN_ID = 'ledger'; // its data-area-sign, so the keyboard walks it like a room sign
 

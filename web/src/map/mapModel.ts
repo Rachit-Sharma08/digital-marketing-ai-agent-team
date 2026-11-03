@@ -21,7 +21,7 @@ export function placementsFor(s: OfficeSnapshot, office: OfficeData = OFFICE): P
   return placePeople(s.people, s.presence, s.rooms, office.seats);
 }
 
-/** A person's map label, plus "needs you" when an approval waits on them, and the inbox for Toby's HR desk. */
+/** A person's map label, plus "needs you" when an approval waits on them, and the inbox for Sarah's HR desk. */
 function mapLabel(s: OfficeSnapshot, person: Person, presence: Presence, asking: boolean): string {
   const base = personLabel(person, presence);
   if (person.id === HR_DESK) {
@@ -48,7 +48,7 @@ export function occupantsBySeat(
   }));
 }
 
-/** Where Pam's reception phone is drawn, on screen at map scale 1, with the perspective scale there. */
+/** Where Aanya's reception phone is drawn, on screen at map scale 1, with the perspective scale there. */
 export function phoneSpot(office: OfficeData = OFFICE): { x: number; y: number; k: number } | null {
   const desk = office.furniture.find((f) => f.kind === 'reception-desk');
   if (!desk) return null;

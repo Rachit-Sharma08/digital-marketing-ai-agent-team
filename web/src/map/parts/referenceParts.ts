@@ -1,4 +1,4 @@
-// Furniture seen in the Drawbotics render: Pam's curved reception desk, the DUNDER MIFFLIN wall sign, cubicle
+// Furniture seen in the Drawbotics render: Aanya's curved reception desk, the AGENTS KA GHAR wall sign, cubicle
 // partitions, the HR bulletin board, supply shelves with paper reams, open shelving full of coloured binders and the
 // Conference Room's TV on a stand.
 import type { Facing, Furniture } from '@shared/office';
@@ -30,7 +30,7 @@ function receptionDesk(f: Furniture) {
   return { mid, r0, r1, cx, cy, h, at, ri: r0 + 0.45 };
 }
 
-/** Where the reception phone sits (top of its handset): Pam's phone rings here when anyone needs you. */
+/** Where the reception phone sits (top of its handset): Aanya's phone rings here when anyone needs you. */
 export function receptionPhoneSpot(f: Furniture): Vec3 {
   const d = receptionDesk(f);
   const phone = d.at(-42, d.ri);

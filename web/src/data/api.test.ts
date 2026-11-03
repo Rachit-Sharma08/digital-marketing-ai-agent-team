@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { DEMO_SNAPSHOT } from '@shared/fixtures/demo-snapshot';
 import { SignInRequiredError, demoEcho, fetchSnapshot, interpretChatResponse, interpretTaskResponse, isDemoRequested } from './api';
 
-const msg = { id: 'm1', roomId: 'dm-campaigns', authorId: 'dwight', text: 'On it.', at: '2026-10-13T15:00:00.000Z' };
+const msg = { id: 'm1', roomId: 'dm-campaigns', authorId: 'meera', text: 'On it.', at: '2026-10-13T15:00:00.000Z' };
 
 describe('interpretChatResponse', () => {
   it('returns the bot reply messages on 200', () => {
@@ -32,9 +32,9 @@ describe('interpretTaskResponse', () => {
 
 describe('demoEcho', () => {
   it('returns the sent message and a local echo reply from the room lead', () => {
-    const [mine, reply] = demoEcho('dm-campaigns', 'Status?', { id: 'dwight', name: 'Dwight Schrute' }, 1000);
+    const [mine, reply] = demoEcho('dm-campaigns', 'Status?', { id: 'meera', name: 'Meera Kaur' }, 1000);
     expect(mine).toMatchObject({ roomId: 'dm-campaigns', authorId: 'you', text: 'Status?' });
-    expect(reply.authorId).toBe('dwight');
+    expect(reply.authorId).toBe('meera');
     expect(reply.text).toContain('Status?');
     expect(mine.id).not.toBe(reply.id);
   });

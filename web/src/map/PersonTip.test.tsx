@@ -7,26 +7,26 @@ const box = (left: number, top: number, width: number, height: number) => ({ lef
 
 describe('tipAnchor', () => {
   it('centres the tip above the figure, in the map wrapper\'s pixels', () => {
-    expect(tipAnchor('dwight', box(300, 400, 40, 60), { left: 100, top: 50 })).toEqual({ personId: 'dwight', x: 220, y: 350, below: false });
+    expect(tipAnchor('meera', box(300, 400, 40, 60), { left: 100, top: 50 })).toEqual({ personId: 'meera', x: 220, y: 350, below: false });
   });
 
   it('flips below the figure near the top edge', () => {
-    expect(tipAnchor('pam', box(300, 80, 40, 60), { left: 0, top: 50 })).toEqual({ personId: 'pam', x: 320, y: 90, below: true });
+    expect(tipAnchor('aanya', box(300, 80, 40, 60), { left: 0, top: 50 })).toEqual({ personId: 'aanya', x: 320, y: 90, below: true });
   });
 });
 
 describe('PersonTip', () => {
   it('shows a small round portrait, the name and the bot status', () => {
-    const html = renderToStaticMarkup(<PersonTip tip={{ personId: 'dwight', x: 10, y: 20, below: false }} snapshot={DEMO_SNAPSHOT} live={false} />);
+    const html = renderToStaticMarkup(<PersonTip tip={{ personId: 'meera', x: 10, y: 20, below: false }} snapshot={DEMO_SNAPSHOT} live={false} />);
     expect(html).toContain('role="tooltip"');
     expect(html).toContain('portrait-tip');
-    expect(html).toContain('Dwight Schrute');
+    expect(html).toContain('Meera Kaur');
     expect(html).toContain('campaigns · working');
     expect(html).toContain('Auditing the Q4 campaign report');
   });
 
   it('says "No bot yet" for unbotted staff and renders nothing for unknown ids', () => {
-    expect(renderToStaticMarkup(<PersonTip tip={{ personId: 'jim', x: 0, y: 0, below: false }} snapshot={DEMO_SNAPSHOT} live />)).toContain('No bot yet');
+    expect(renderToStaticMarkup(<PersonTip tip={{ personId: 'simran', x: 0, y: 0, below: false }} snapshot={DEMO_SNAPSHOT} live />)).toContain('No bot yet');
     expect(renderToStaticMarkup(<PersonTip tip={{ personId: 'nobody', x: 0, y: 0, below: false }} snapshot={DEMO_SNAPSHOT} live />)).toBe('');
   });
 });

@@ -1,5 +1,5 @@
 // "That's what she said": a toast when a line in chat sets it up. Only ever in the browser: nothing is sent to a bot.
-// It quotes the real line and who said it, at most once every ten minutes, and never in Toby mode.
+// It quotes the real line and who said it, at most once every ten minutes, and never in Sarah mode.
 import type { ChatMessage } from '@shared/contract';
 
 export const TWSS_GAP_MS = 10 * 60_000;

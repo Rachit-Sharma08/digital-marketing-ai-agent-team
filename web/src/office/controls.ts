@@ -10,7 +10,7 @@ export type ConfirmCopy = { title: string; detail: string; confirm: string; tone
 const NONE: OfferedControls = { pause: false, stop: false, runJob: false, reassign: false };
 const adapterOf = (p: Person) => p.bot?.adapter ?? 'hermes';
 
-/** What the person window and Ask Pam may offer. Data that predates control verbs carries no flags: nothing. */
+/** What the person window and Ask Aanya may offer. Data that predates control verbs carries no flags: nothing. */
 export function offeredControls(person: Person, writable: boolean): OfferedControls {
   const caps = person.bot?.capabilities;
   if (!writable || !caps) return NONE;

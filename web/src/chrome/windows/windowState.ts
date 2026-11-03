@@ -5,10 +5,10 @@ export type WindowRef =
   | { kind: 'person'; personId: string; tab?: PersonTab }
   | { kind: 'area'; areaId: string; roomId?: string }
   | { kind: 'approvals' }
-  | { kind: 'ledger' } // Angela's ledger: tokens and cost per bot
+  | { kind: 'ledger' } // Fatima's ledger: tokens and cost per bot
   | { kind: 'calendar' } // the Party Planning Committee calendar
-  | { kind: 'dundies' } // the weekly awards (Weekly review in Toby mode)
-  | { kind: 'creed' }; // Creed's corner: activity no desk can hold
+  | { kind: 'highlights' } // the weekly awards (Weekly review in Sarah mode)
+  | { kind: 'naina' }; // Naina's corner: activity no desk can hold
 export type WindowInfo = { id: string; ref: WindowRef; x: number; y: number; z: number; minimized: boolean };
 export type WindowsState = { windows: readonly WindowInfo[]; nextZ: number };
 

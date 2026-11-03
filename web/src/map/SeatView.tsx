@@ -26,7 +26,7 @@ export const SeatView = memo(function SeatView({ seat, occupant, onOpen }: Props
   const lift = -(seat.chair === 'forklift' ? 1.15 : seat.chair === 'none' ? 1.05 : 0.92) * Z_PX;
   const status = occupant?.presence.status;
   const { mode } = useDelight();
-  const spill = mode.jokes && status === 'error'; // Kevin's chili: the bot's error, at its desk
+  const spill = mode.jokes && status === 'error'; // Diya's chili: the bot's error, at its desk
   return (
     <g className={occupant?.dimmed ? 'seat is-dimmed' : 'seat'} data-seat={seat.id}>
       {occupant && status && (

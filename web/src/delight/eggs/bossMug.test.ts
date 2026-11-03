@@ -6,7 +6,7 @@ import { bossMugLine } from './bossMug';
 describe('the World’s Best Boss mug', () => {
   it('tells the boss (you) who is waiting on you, and for how long', () => {
     expect(bossMugLine(DEMO_OFFICE, Date.parse(DEMO_OFFICE.generatedAt))).toEqual({
-      text: 'World’s Best Boss', sub: '4 requests wait for you at Toby’s desk; the oldest for 1 h 35 min.',
+      text: 'World’s Best Boss', sub: '4 requests wait for you at Sarah’s desk; the oldest for 1 h 35 min.',
     });
   });
 

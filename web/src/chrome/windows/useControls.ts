@@ -1,5 +1,5 @@
 // A person window's control verbs: the confirmation flow (office/controlFlow.ts) plus sending. Live, the request is
-// POSTed and the server's sentence shown; in demo mode nothing is sent. Ask Pam opens a confirmation through `pending`.
+// POSTed and the server's sentence shown; in demo mode nothing is sent. Ask Aanya opens a confirmation through `pending`.
 import { useCallback, useEffect, useState } from 'react';
 import type { OfficeSnapshot, Person } from '@shared/contract';
 import type { ControlRequest } from '@shared/controls';
@@ -8,7 +8,7 @@ import { demoControlReply } from '../../budgets/demoCorporate';
 import { type ControlFlow, IDLE, askFor, cancelFlow, chooseTarget, readyToSend, sendFlow, settleFlow } from '../../office/controlFlow';
 import { confirmCopy } from '../../office/controls';
 
-/** A request from outside the window (Ask Pam); `seq` makes asking twice for the same thing open it again. The window
+/** A request from outside the window (Ask Aanya); `seq` makes asking twice for the same thing open it again. The window
  *  calls `taken` once it opened the confirmation, so reopening the window later doesn't ask again. */
 export type PendingControl = { personId: string; request: ControlRequest; seq: number; taken?: () => void };
 

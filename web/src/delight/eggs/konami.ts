@@ -1,4 +1,4 @@
-// The Konami code (↑ ↑ ↓ ↓ ← → ← → B A) rolls the "Threat Level Midnight" credits.
+// The Konami code (↑ ↑ ↓ ↓ ← → ← → B A) rolls the "Campaign Daybook" credits.
 export const KONAMI: readonly string[] = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
 
 export function konamiStep(progress: number, key: string): { progress: number; done: boolean } {

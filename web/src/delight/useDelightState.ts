@@ -1,4 +1,4 @@
-// The delight layer's state for the whole app: the switches, this week's Dundies, Creed's corner, idle trips,
+// The delight layer's state for the whole app: the switches, this week's Highlights, Naina's corner, idle trips,
 // daylight, the bobblehead, toasts and the easter eggs' listeners. App puts `value` in DelightContext.
 import { useCallback, useMemo, useRef, useState } from 'react';
 import type { ChatMessage, OfficeSnapshot } from '@shared/contract';
@@ -6,10 +6,10 @@ import type { Prefs } from '../prefs/prefs';
 import { daylightAt } from './ambient/daylight';
 import { tripsFor } from './ambient/trips';
 import { useBobble } from './ambient/useBobble';
-import { useUnattributed } from './creed/useUnattributed';
+import { useUnattributed } from './naina/useUnattributed';
 import { PLAIN, type DelightValue } from './DelightContext';
-import { trophyShelf } from './dundies/awards';
-import { useDundies } from './dundies/useDundies';
+import { trophyShelf } from './highlights/awards';
+import { useHighlights } from './highlights/useHighlights';
 import { type Toast, twssFor } from './eggs/twss';
 import { useKonami } from './eggs/useKonami';
 import { delightMode } from './mode';
@@ -39,7 +39,7 @@ export function useDelightState({ snapshot, prefs, demo, officeUtc, reduceMotion
   const officeNow = useCallback(() => clock.current(), []);
   const wallClock = useCallback(() => wallDate(clock.current(), officeUtc), [officeUtc]);
   const tick = useTick(officeUtc ? 2000 : 30_000, mode.trips || mode.ambient);
-  const dundies = useDundies(snapshot, { demo, enabled: true, now: officeNow });
+  const highlights = useHighlights(snapshot, { demo, enabled: true, now: officeNow });
   const unattributed = useUnattributed(snapshot, demo);
   const nodding = useBobble(snapshot, mode.ambient && mode.motion);
   const { toasts, push } = useToasts();
@@ -55,7 +55,7 @@ export function useDelightState({ snapshot, prefs, demo, officeUtc, reduceMotion
   const wall = wallClock();
   const daylight = mode.ambient ? daylightAt(wall.getHours() + wall.getMinutes() / 60) : null;
   void tick; // trips and daylight are read from the clock on every tick
-  const digest = dundies.phase === 'ready' ? dundies.digest : null;
+  const digest = highlights.phase === 'ready' ? highlights.digest : null;
   const trophies = useMemo(() => (mode.jokes ? trophyShelf(digest) : PLAIN.trophies), [mode.jokes, digest]);
 
   const toast = useCallback((t: Toast) => { if (mode.eggs) push(t); }, [mode.eggs, push]);
@@ -68,8 +68,8 @@ export function useDelightState({ snapshot, prefs, demo, officeUtc, reduceMotion
   }, [mode.eggs, push]);
 
   const value = useMemo<DelightValue>(() => ({
-    mode, dundies, trophies, trips, unattributed, daylight, nodding, officeNow, wallClock, toast, heard,
-  }), [mode, dundies, trophies, trips, unattributed, daylight, nodding, officeNow, wallClock, toast, heard]);
+    mode, highlights, trophies, trips, unattributed, daylight, nodding, officeNow, wallClock, toast, heard,
+  }), [mode, highlights, trophies, trips, unattributed, daylight, nodding, officeNow, wallClock, toast, heard]);
   const closeCredits = useCallback(() => setCredits(false), []);
   return { value, toasts, credits, closeCredits };
 }

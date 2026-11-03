@@ -1,4 +1,4 @@
-// Demo mode ("Threat Level Midnight" data): the demo bots behave like Hermes bots for control verbs (stop, run a job
+// Demo mode ("Campaign Daybook" data): the demo bots behave like Hermes bots for control verbs (stop, run a job
 // now, reassign; no pause) and Corporate has a fictional budget report. Nothing here is sent anywhere.
 import type { AgentCapabilities, OfficeSnapshot } from '@shared/contract';
 import type { BudgetLine, BudgetStatus, BudgetsReport } from '@shared/controls';
@@ -30,10 +30,10 @@ export function demoBudgets(s: OfficeSnapshot): BudgetsReport {
   });
   const name = (id: string) => s.people.find((p) => p.id === id)?.name ?? id;
   const budgets: BudgetStatus[] = [
-    { personId: 'kelly', name: name('kelly'), adapterLabel: 'Hermes', level: 'over', action: 'alert', note: "Hermes agents can't be paused; Corporate can only call you",
+    { personId: 'priya', name: name('priya'), adapterLabel: 'Hermes', level: 'over', action: 'alert', note: "Hermes agents can't be paused; Corporate can only call you",
       lines: [line('daily', 2, 2.35, 'over'), line('monthly', 40, 31.2, 'ok')] },
-    { personId: 'dwight', name: name('dwight'), adapterLabel: 'Hermes', level: 'warn', action: 'none', lines: [line('monthly', 20, 17.1, 'warn')] },
-    { personId: 'andy', name: name('andy'), adapterLabel: 'Hermes', level: 'unpriced', action: 'none', lines: [line('monthly', 10, null, 'unpriced', ['pretzel-7b-local'])] },
+    { personId: 'meera', name: name('meera'), adapterLabel: 'Hermes', level: 'warn', action: 'none', lines: [line('monthly', 20, 17.1, 'warn')] },
+    { personId: 'aisha', name: name('aisha'), adapterLabel: 'Hermes', level: 'unpriced', action: 'none', lines: [line('monthly', 10, null, 'unpriced', ['pretzel-7b-local'])] },
   ];
   return { generatedAt: s.generatedAt, currency: 'USD', estimate: true, autoPause: false, warnAt: 0.8, budgets };
 }

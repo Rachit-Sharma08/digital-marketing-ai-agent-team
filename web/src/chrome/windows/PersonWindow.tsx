@@ -15,7 +15,7 @@ import { type PendingControl, useControls } from './useControls';
 type Props = {
   person: Person; snapshot: OfficeSnapshot; demo: boolean; writable: boolean; now: number; onOpenArea: (areaId: string, roomId?: string) => void;
   budget?: BudgetStatus; // Corporate: this bot's budget, when it has one
-  pendingControl?: PendingControl; // Ask Pam asked for a control verb: open its confirmation
+  pendingControl?: PendingControl; // Ask Aanya asked for a control verb: open its confirmation
 };
 
 const areaName = (id?: string) => AREAS.find((a) => a.id === id)?.name ?? 'the office';

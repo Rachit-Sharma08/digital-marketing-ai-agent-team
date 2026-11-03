@@ -1,4 +1,4 @@
-// Pam's reception phone, drawn over the handset on her desk: it rings (a gentle shake and sound waves, plus how many
+// Aanya's reception phone, drawn over the handset on her desk: it rings (a gentle shake and sound waves, plus how many
 // need you) while anyone needs you, and sits quietly otherwise. Constant on-screen size (k). Decorative: the top
 // bar's "N need you" button is the accessible way in. The chime is played elsewhere (usePhoneRing), never here.
 type Props = { x: number; y: number; k: number; count: number };

@@ -92,7 +92,7 @@ function Sign({ s, k, onOpenArea }: { s: SignView; k: number; onOpenArea: (areaI
 
 type Props = {
   chips: readonly ChipInfo[]; signs: readonly SignInfo[]; scale: number; onOpenPerson: (id: string) => void; onOpenArea: (areaId: string) => void;
-  phone?: { x: number; y: number; count: number }; // Pam's reception phone; rings while count > 0
+  phone?: { x: number; y: number; count: number }; // Aanya's reception phone; rings while count > 0
 };
 
 export const Overlay = memo(function Overlay({ chips, signs, scale, onOpenPerson, onOpenArea, phone }: Props) {

@@ -47,10 +47,10 @@
 /* top bar buttons */
 .chrome-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; }
 .chrome-btn.icon-only { padding: 4px 7px; }
-.ask-pam-btn kbd { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); color: #fff; }
+.ask-aanya-btn kbd { background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.4); color: #fff; }
 
 @media (max-width: 1360px) {
-  .fleet .fleet-total, .ask-pam-btn kbd, .legend .btn-label { display: none; }
+  .fleet .fleet-total, .ask-aanya-btn kbd, .legend .btn-label { display: none; }
 }
 @media (max-width: 1180px) {
   .topbar .btn-label { display: none; }
@@ -62,7 +62,7 @@
   .chrome-btn { padding: 5px 7px; min-height: 34px; }
   .settings-panel { position: fixed; top: calc(var(--topbar-h) + 6px); left: 8px; right: 8px; width: auto; }
   .filter-bar { top: 8px; }
-  .pam-kind, .pam-foot { display: none; }
+  .aanya-kind, .aanya-foot { display: none; }
 }
 @media (max-width: 380px) {
   .brand-name { display: none; }

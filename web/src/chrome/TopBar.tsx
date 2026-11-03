@@ -1,4 +1,4 @@
-// OS top bar: logo, data source, "N need you" (opens HR · Approvals), fleet summary, Ask Pam, the calendar, the map/list
+// OS top bar: logo, data source, "N need you" (opens HR · Approvals), fleet summary, Ask Aanya, the calendar, the map/list
 // toggle, settings, legend and the clock. On the demo day, `demo` (the DemoBar: badge, office clock, speed) takes the
 // place of the data source and the clock.
 import { type ReactNode, type RefObject, useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ type Props = {
   counts: FleetCounts | null;
   source: { kind: 'loading' | 'live' | 'demo'; detail: string };
   paletteKey: string;
-  onAskPam: () => void;
+  onAskAanya: () => void;
   onOpenTeam?: () => void;
   view: 'map' | 'list';
   onToggleView: () => void;
@@ -23,7 +23,7 @@ type Props = {
   needYou?: number | null; // null/absent: not loaded yet
   onOpenInbox?: () => void;
   corporate?: CorporateBadge | null; // bots near / over budget; null/absent: nothing to say
-  onOpenCorporate?: () => void; // opens Angela's ledger, budgets first
+  onOpenCorporate?: () => void; // opens Fatima's ledger, budgets first
   demo?: ReactNode;
 };
 
@@ -75,14 +75,14 @@ function Corporate({ badge, onOpen }: { badge: CorporateBadge; onOpen: () => voi
   const count = badge.over || badge.warn;
   return (
     <button type="button" className={`chrome-btn corporate-btn ${badge.over ? 'is-over' : 'is-warn'}`} data-testid="corporate"
-      aria-label={`Corporate: ${badge.label}. Open Angela’s ledger`} title={`Corporate: ${badge.label}`} onClick={onOpen}>
+      aria-label={`Corporate: ${badge.label}. Open Fatima’s ledger`} title={`Corporate: ${badge.label}`} onClick={onOpen}>
       <span className="corporate-mark" aria-hidden="true">$</span><strong>{count}</strong><span className="btn-label">{badge.over ? 'over budget' : 'near budget'}</span>
     </button>
   );
 }
 
 export function TopBar({
-  counts, source, paletteKey, onAskPam, onOpenTeam, view, onToggleView, settingsOpen, onToggleSettings, gearRef, settings, readOnly = false, needYou = null, onOpenInbox,
+  counts, source, paletteKey, onAskAanya, onOpenTeam, view, onToggleView, settingsOpen, onToggleSettings, gearRef, settings, readOnly = false, needYou = null, onOpenInbox,
   onOpenCalendar, corporate = null, onOpenCorporate, demo,
 }: Props) {
   return (
@@ -97,7 +97,7 @@ export function TopBar({
         </span>
       )}
       {readOnly && (
-        <span className="source source-readonly" data-testid="read-only" title="Chat and new tasks are off. Restart the server with DMOS_ALLOW_WRITES=1 to turn them on.">
+        <span className="source source-readonly" data-testid="read-only" title="Chat and new tasks are off. Restart the server with AKG_ALLOW_WRITES=1 to turn them on.">
           Read-only
         </span>
       )}
@@ -115,8 +115,8 @@ export function TopBar({
         </ul>
       )}
       <div className="topbar-right">
-        <button type="button" className="chrome-btn ask-pam-btn" aria-label="Ask Pam: search and commands" aria-keyshortcuts="Meta+K Control+K" onClick={onAskPam}>
-          <SearchIcon /><span className="btn-label">Ask Pam</span><kbd>{paletteKey}</kbd>
+        <button type="button" className="chrome-btn ask-aanya-btn" aria-label="Ask Aanya: search and commands" aria-keyshortcuts="Meta+K Control+K" onClick={onAskAanya}>
+          <SearchIcon /><span className="btn-label">Ask Aanya</span><kbd>{paletteKey}</kbd>
         </button>
         {onOpenTeam && (
           <button type="button" className="chrome-btn" aria-label="Team console: type a command" title="Team console: type a command" onClick={onOpenTeam}>

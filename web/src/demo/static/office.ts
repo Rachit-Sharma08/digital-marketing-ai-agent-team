@@ -1,7 +1,7 @@
 // The office server, in the browser, for the static demo (GitHub Pages; no server at all). It runs the server's own
 // demo adapter and office service (seating, composition, scrubbing), so the static demo shows exactly what
-// `npx dunder-mifflin-os --demo` shows, and answers the same /api calls the app makes: the office, its event
-// stream, room messages, chat, new tasks, the demo clock, timelines, the ledger, Creed's corner, control verbs and
+// `npx agents-ka-ghar --demo` shows, and answers the same /api calls the app makes: the office, its event
+// stream, room messages, chat, new tasks, the demo clock, timelines, the ledger, Naina's corner, control verbs and
 // Corporate's budgets. Writes are on: they only reach in-memory demo bots, and verbs are audited in memory.
 import type { OfficeSnapshot } from '@shared/contract';
 import { createDemoAdapter } from '../../../../server/src/adapters/demo/adapter.ts';
@@ -74,14 +74,14 @@ export function createStaticOffice(options: StaticDemoOptions = {}): StaticOffic
     if (pathname === '/api/office') return json(200, await snapshot());
     if (pathname === '/api/demo/clock') return json(200, adapter.demo.clock());
     if (pathname === '/api/budgets') return json(200, await corporate.check());
-    if (pathname === '/api/unattributed') return json(200, unattributedReport(await service.read())); // Creed's corner
+    if (pathname === '/api/unattributed') return json(200, unattributedReport(await service.read())); // Naina's corner
     const observed = await observe(pathname, new URLSearchParams(search));
     if (observed) return observed;
     const room = MESSAGES.exec(pathname);
     const roomId = room ? decode(room[1]) : '';
     const page = isRoomIdShape(roomId) ? await service.messages(roomId, MESSAGES_LIMIT) : null;
     if (!page) return notFound(); // also photos and headshots: the demo has none
-    return json(200, page.messages, page.reason ? { 'X-DMOS-Messages-Reason': page.reason } : undefined);
+    return json(200, page.messages, page.reason ? { 'X-AKG-Messages-Reason': page.reason } : undefined);
   }
 
   async function post(pathname: string, body: unknown): Promise<ApiResponse> {

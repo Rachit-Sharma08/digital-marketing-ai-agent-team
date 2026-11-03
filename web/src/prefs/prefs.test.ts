@@ -21,11 +21,11 @@ describe('parsePrefs', () => {
     expect(prefs).not.toHaveProperty('evil');
   });
 
-  it('defaults: shortcuts on; notifications, chime, reduced motion and Toby mode off (jokes on, sounds off)', () => {
+  it('defaults: shortcuts on; notifications, chime, reduced motion and Sarah mode off (jokes on, sounds off)', () => {
     expect(DEFAULT_PREFS).toEqual({ paletteHotkey: true, singleKeys: true, notifications: false, chime: false, reduceMotion: false, tobyMode: false });
   });
 
-  it('keeps Toby mode when it is a boolean', () => {
+  it('keeps Sarah mode when it is a boolean', () => {
     expect(parsePrefs({ tobyMode: true }).tobyMode).toBe(true);
     expect(parsePrefs({ tobyMode: 'yes' }).tobyMode).toBe(false);
   });

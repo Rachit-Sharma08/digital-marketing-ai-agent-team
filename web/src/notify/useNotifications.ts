@@ -28,7 +28,7 @@ function applyFavicon(dot: boolean) {
 function notify(e: AttentionEvent, onOpen: (personId: string) => void) {
   try {
     const { title, body } = notificationText(e);
-    const n = new Notification(title, { body, tag: `dmos-${e.personId}` });
+    const n = new Notification(title, { body, tag: `akg-${e.personId}` });
     n.onclick = () => {
       window.focus();
       onOpen(e.personId);

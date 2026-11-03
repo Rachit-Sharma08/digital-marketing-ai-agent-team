@@ -1,7 +1,7 @@
 // The Party Planning Committee's notice on the break-room bulletin board: a small calendar page that opens the
 // committee's calendar. Keeps a constant on-screen size, like the room signs. A pointer shortcut only, so it stays out
 // of the map's keyboard order (people and rooms): keyboards and screen readers use the top bar's labelled Calendar
-// button, the Break Room window's link or Ask Pam.
+// button, the Break Room window's link or Ask Aanya.
 import { memo } from 'react';
 import { project } from '../iso/projection';
 

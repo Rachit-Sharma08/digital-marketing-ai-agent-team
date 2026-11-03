@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { DEMO_OFFICE } from '@shared/fixtures/demo-approvals';
 import { crosswordClue, crosswordTime, isPretzelDay, numberWord, pretzelLine } from './crossword';
 
-describe('Stanley\'s crossword', () => {
+describe('Aaliya\'s crossword', () => {
   it('comes out at 15:00 for half an hour', () => {
     expect(crosswordTime(new Date(2026, 9, 13, 14, 59))).toBe(false);
     expect(crosswordTime(new Date(2026, 9, 13, 15, 0))).toBe(true);
@@ -20,13 +20,13 @@ describe('Stanley\'s crossword', () => {
   });
 });
 
-describe('Pretzel Day', () => {
+describe('Snack Break', () => {
   it('is one day a year (19 October)', () => {
     expect(isPretzelDay(new Date(2026, 9, 19, 9))).toBe(true);
     expect(isPretzelDay(new Date(2026, 9, 18, 23, 59))).toBe(false);
   });
 
   it('hands a pretzel to every bot that finished a card today', () => {
-    expect(pretzelLine(DEMO_OFFICE, new Date(DEMO_OFFICE.generatedAt))).toBe('Pretzel Day! Free pretzels for the 1 bot who finished a card today: Team Lead.');
+    expect(pretzelLine(DEMO_OFFICE, new Date(DEMO_OFFICE.generatedAt))).toBe('Snack Break! Free pretzels for the 1 bot who finished a card today: Aanya.');
   });
 });

@@ -29,20 +29,20 @@ describe('formatUsd / formatTokens', () => {
 });
 
 describe('ledgerView', () => {
-  const rows = [row('kelly', summary(1000, 100, 2)), row('dwight', summary(5000, 500, 10)), row('jim', null, 'Claude Code'), row('pam', summary(9000, 900, null, ['MiniMax-M3']))];
+  const rows = [row('priya', summary(1000, 100, 2)), row('meera', summary(5000, 500, 10)), row('simran', null, 'Claude Code'), row('aanya', summary(9000, 900, null, ['MiniMax-M3']))];
 
   it('by cost: biggest spender first, bars to scale, unpriced and unavailable after', () => {
     const v = ledgerView(report(rows), 'cost');
-    expect(v.rows.map((r) => [r.personId, r.bar])).toEqual([['dwight', 1], ['kelly', 0.2], ['pam', 0], ['jim', 0]]);
-    expect(v.rows.find((r) => r.personId === 'pam')).toMatchObject({ valueText: '—', note: 'No price for MiniMax-M3' });
-    expect(v.rows.find((r) => r.personId === 'jim')).toMatchObject({ valueText: '', note: 'No usage data from Claude Code', available: false });
+    expect(v.rows.map((r) => [r.personId, r.bar])).toEqual([['meera', 1], ['priya', 0.2], ['aanya', 0], ['simran', 0]]);
+    expect(v.rows.find((r) => r.personId === 'aanya')).toMatchObject({ valueText: '—', note: 'No price for MiniMax-M3' });
+    expect(v.rows.find((r) => r.personId === 'simran')).toMatchObject({ valueText: '', note: 'No usage data from Claude Code', available: false });
     expect(v.totalText).toBe('$13.00');
     expect(v.partial).toBe(true);
   });
 
   it('by tokens: everyone with usage is to scale, unavailable rows still last', () => {
     const v = ledgerView(report(rows), 'tokens');
-    expect(v.rows.map((r) => r.personId)).toEqual(['pam', 'dwight', 'kelly', 'jim']);
+    expect(v.rows.map((r) => r.personId)).toEqual(['aanya', 'meera', 'priya', 'simran']);
     expect(v.rows[0]).toMatchObject({ bar: 1, valueText: '9.9k' });
     expect(v.rows[1]?.bar).toBeCloseTo(5500 / 9900, 6);
     expect(v.totalText).toBe('16.5k');

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { OfficeSnapshot } from '@shared/contract';
 import { finishedRun } from './bobble';
 
-export const BOBBLE_DESK = 'dwight';
+export const BOBBLE_DESK = 'meera';
 const NOD_MS = 3200;
 
 export function useBobble(snapshot: OfficeSnapshot | null, enabled: boolean): boolean {

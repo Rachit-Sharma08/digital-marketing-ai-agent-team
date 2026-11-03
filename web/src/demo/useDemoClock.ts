@@ -1,6 +1,6 @@
 // While the office is the demo day, keep its clock: read GET /api/demo/clock, re-sync now and then (someone else may
 // change the speed), and change the speed with POST /api/demo/clock. The same calls work against the server
-// (`npx dunder-mifflin-os --demo`) and the static demo, whose in-browser office answers them.
+// (`npx agents-ka-ghar --demo`) and the static demo, whose in-browser office answers them.
 import { useCallback, useEffect, useState } from 'react';
 import type { OfficeSnapshot } from '@shared/contract';
 import type { DemoClock, DemoClockView } from '@shared/demo/clock';

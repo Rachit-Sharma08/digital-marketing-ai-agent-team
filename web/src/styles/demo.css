@@ -15,7 +15,7 @@
 
 /* laptops: the demo bar takes room, so the other top-bar buttons go icon-only and the fleet summary keeps its chips */
 @media (max-width: 1500px) {
-  .topbar:has(.demo-bar) .btn-label, .topbar:has(.demo-bar) .ask-pam-btn kbd { display: none; }
+  .topbar:has(.demo-bar) .btn-label, .topbar:has(.demo-bar) .ask-aanya-btn kbd { display: none; }
 }
 @media (max-width: 1100px) {
   .demo-title { display: none; }

@@ -8,7 +8,7 @@ import { presenceFor } from '../office/status';
 export type ListRow = { person: Person; presence: Presence; where?: string };
 export type ListGroup = { areaId: string; name: string; rooms: Room[]; rows: ListRow[] };
 
-const AREA_ORDER = ['reception', 'bullpen', 'michael', 'conference', 'kitchen', 'annex', 'breakroom', 'stairwell', 'restrooms', 'lobby', 'warehouse'];
+const AREA_ORDER = ['reception', 'bullpen', 'zara', 'conference', 'kitchen', 'annex', 'breakroom', 'stairwell', 'restrooms', 'lobby', 'warehouse'];
 const RANK: Record<Presence['status'], number> = { 'needs-input': 0, error: 1, working: 2, meeting: 3, idle: 4, offline: 5, 'no-bot': 6 };
 const rank = (r: ListRow) => RANK[r.presence.status];
 const orderOf = (id: string) => (AREA_ORDER.includes(id) ? AREA_ORDER.indexOf(id) : AREA_ORDER.length);

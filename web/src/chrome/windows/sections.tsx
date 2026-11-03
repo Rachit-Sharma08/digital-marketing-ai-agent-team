@@ -21,7 +21,7 @@ export function StatusLine({ presence, now }: { presence: Presence; now: number 
 export function ReadOnlyHint({ what }: { what: string }) {
   return (
     <p className="read-only-hint" role="note">
-      Read-only: {what} is off. Restart the server with <code>DMOS_ALLOW_WRITES=1</code> (or <code>--allow-writes</code>) to turn it on.
+      Read-only: {what} is off. Restart the server with <code>AKG_ALLOW_WRITES=1</code> (or <code>--allow-writes</code>) to turn it on.
     </p>
   );
 }

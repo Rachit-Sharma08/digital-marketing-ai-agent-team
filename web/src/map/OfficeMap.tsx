@@ -24,7 +24,7 @@ import { useDelight } from '../delight/DelightContext';
 import { DELIGHT_OFFICE } from '../delight/ambient/spots';
 import { withTrips } from '../delight/ambient/trips';
 import { decorateChips, decorateOccupants } from '../delight/mapDecor';
-import { CreedLayer, MapEggs, TrophyLayer } from '../delight/MapDelight';
+import { NainaLayer, MapEggs, TrophyLayer } from '../delight/MapDelight';
 import { useParkour } from '../delight/eggs/useParkour';
 
 type Props = {
@@ -35,7 +35,7 @@ type Props = {
   reduceMotion?: boolean;
   onOpenPerson: (id: string) => void;
   onOpenArea: (areaId: string) => void;
-  onOpenLedger?: () => void; // the accounting corner's sign opens Angela's ledger
+  onOpenLedger?: () => void; // the accounting corner's sign opens Fatima's ledger
   onOpenCalendar?: () => void; // the Party Planning Committee pin in the break room
 };
 
@@ -77,8 +77,8 @@ const SceneLayer = memo(function SceneLayer({ snapshot, hidden, onOpenPerson }: 
   useEffect(() => {
     previous.current = new Map(placements.map((p) => [p.personId, p.seatId]));
   }, [placements]);
-  const occupants = useMemo(() => decorateOccupants(occupantsBySeat(snapshot, placements, walking, hidden), { count: unattributed.length, toby: mode.toby }),
-    [snapshot, placements, walking, hidden, unattributed.length, mode.toby]);
+  const occupants = useMemo(() => decorateOccupants(occupantsBySeat(snapshot, placements, walking, hidden), { count: unattributed.length, sarah: mode.sarah }),
+    [snapshot, placements, walking, hidden, unattributed.length, mode.sarah]);
   return (
     <g className="scene">
       {scene.map((d) => (
@@ -98,10 +98,10 @@ export function OfficeMap({
   const delight = useDelight();
   const placements = useMemo(() => placementsFor(snapshot), [snapshot]); // desks: keyboard order and "show on the map"
   const drawn = useMemo(() => withTrips(placements, delight.trips), [placements, delight.trips]); // where they are drawn
-  const creed = { count: delight.unattributed.length, toby: delight.mode.toby };
-  const allChips = useMemo(() => decorateChips(chipsFor(snapshot, drawn, DELIGHT_OFFICE), delight.trips, creed),
+  const naina = { count: delight.unattributed.length, sarah: delight.mode.sarah };
+  const allChips = useMemo(() => decorateChips(chipsFor(snapshot, drawn, DELIGHT_OFFICE), delight.trips, naina),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [snapshot, drawn, delight.trips, creed.count, creed.toby]);
+    [snapshot, drawn, delight.trips, naina.count, naina.sarah]);
   const chips = useMemo(() => (hidden.size ? allChips.filter((c) => !hidden.has(c.personId)) : allChips), [allChips, hidden]);
   const signs = useMemo(() => signsFor(snapshot), [snapshot]);
   const clickable = useMemo(() => new Set(signs.filter((s) => s.rooms.length).map((s) => s.area.id)), [signs]);
@@ -133,14 +133,14 @@ export function OfficeMap({
   return (
     <div className={`map-wrap${delight.nodding ? ' is-nodding' : ''}`} data-daylight={delight.daylight ?? undefined} ref={wrap} {...tipHandlers}
       onFocus={onFocus} onKeyDown={keys.onKeyDown} {...parkour}>
-      <svg ref={svg} className="office-map" role="group" aria-label="Dunder Mifflin office floor plan" {...handlers}>
+      <svg ref={svg} className="office-map" role="group" aria-label="Agents Ka Ghar office floor plan" {...handlers}>
         <Defs />
         <rect x={0} y={0} width="100%" height="100%" fill="url(#dm-bg)" />
         <g transform={`translate(${view.x.toFixed(1)} ${view.y.toFixed(1)}) scale(${view.scale.toFixed(4)})`}>
           <Floors office={OFFICE} scene={staticScene} clickableAreas={clickable} onArea={openArea} />
           <SceneLayer snapshot={snapshot} hidden={hidden} onOpenPerson={onOpenPerson} />
           <TrophyLayer placements={drawn} />
-          <CreedLayer placements={drawn} />
+          <NainaLayer placements={drawn} />
           <MapEggs snapshot={snapshot} scale={view.scale} />
           <Overlay chips={chips} signs={signs} scale={view.scale} onOpenPerson={onOpenPerson} onOpenArea={openArea} phone={phone} />
           {onOpenLedger && <LedgerSign scale={view.scale} onOpen={onOpenLedger} />}

@@ -14,15 +14,15 @@ describe('mobile list groups', () => {
   });
 
   it('puts people in a meeting under the room they are in', () => {
-    expect(names('conference')).toEqual(expect.arrayContaining(['michael', 'angela']));
-    expect(group('conference').rows.find((r) => r.person.id === 'michael')!.where).toBe('In Council');
+    expect(names('conference')).toEqual(expect.arrayContaining(['zara', 'fatima']));
+    expect(group('conference').rows.find((r) => r.person.id === 'zara')!.where).toBe('In Council');
     expect(group('conference').rooms.map((r) => r.id)).toEqual(['ops', 'council']);
   });
 
   it('sorts errors and busy bots above idle ones and people without bots', () => {
     const reception = names('reception');
     expect(reception[0]).toBe('sadiq'); // error
-    expect(reception.indexOf('pam')).toBeLessThan(reception.indexOf('erin'));
+    expect(reception.indexOf('aanya')).toBeLessThan(reception.indexOf('riya'));
   });
 
   it('keeps a room area with nobody in it (the Break Room hosts Skool)', () => {
@@ -37,9 +37,9 @@ describe('mobile list groups', () => {
   });
 
   it('lifts bots that need you above errors', () => {
-    const snap: OfficeSnapshot = { ...DEMO_SNAPSHOT, presence: { ...DEMO_SNAPSHOT.presence, jarvis: { status: 'needs-input' } } };
+    const snap: OfficeSnapshot = { ...DEMO_SNAPSHOT, presence: { ...DEMO_SNAPSHOT.presence, maya: { status: 'needs-input' } } };
     const rows = group('reception', listGroups(snap, 'all')).rows;
-    expect(rows.map((r) => r.person.id).slice(0, 2)).toEqual(['jarvis', 'sadiq']);
-    expect(group('reception', listGroups(snap, 'needs-you')).rows.map((r) => r.person.id)).toEqual(['jarvis']);
+    expect(rows.map((r) => r.person.id).slice(0, 2)).toEqual(['maya', 'sadiq']);
+    expect(group('reception', listGroups(snap, 'needs-you')).rows.map((r) => r.person.id)).toEqual(['maya']);
   });
 });

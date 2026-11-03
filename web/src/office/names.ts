@@ -1,5 +1,5 @@
 // The short name used on map chips, chat prompts and pickers: the first name, kept together with a leading title
-// ("Sensei Ira", not "Sensei").
+// ("Isabella D Costa", not "Sensei").
 const TITLES = new Set(['sensei', 'dr.', 'dr', 'mr.', 'mr', 'mrs.', 'mrs', 'ms.', 'ms']);
 
 export function shortName(name: string): string {

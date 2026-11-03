@@ -18,8 +18,8 @@ describe('demo timeline and ledger', () => {
     }
   });
 
-  it('tells Dwight\'s day with a failed campaign report', () => {
-    const t = demoTimeline(DEMO_SNAPSHOT, 'dwight');
+  it('tells Meera\'s day with a failed campaign report', () => {
+    const t = demoTimeline(DEMO_SNAPSHOT, 'meera');
     expect(t.events.some((e) => e.kind === 'cron.fail' && e.title === 'Weekly campaign report')).toBe(true);
   });
 

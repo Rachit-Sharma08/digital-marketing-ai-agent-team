@@ -20,7 +20,7 @@ function StandingLegs({ w, back = false }: { w: number; back?: boolean }) {
   );
 }
 
-/** A belt round the waist with a knot and two tails (Sensei Ira's black belt). */
+/** A belt round the waist with a knot and two tails (Isabella D Costa's black belt). */
 function FrontBelt({ color, w }: { color: string; w: number }) {
   return (
     <g className="belt">

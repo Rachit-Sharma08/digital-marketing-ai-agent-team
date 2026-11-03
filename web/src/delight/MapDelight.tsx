@@ -1,4 +1,4 @@
-// The delight layer on the map, above the drawing and below the chips: Dundie trophies on the winners' desks, Creed's
+// The delight layer on the map, above the drawing and below the chips: Highlight trophies on the winners' desks, Naina's
 // thought bubble, and the easter eggs you can click (the Office mug, Office crossword). Nothing here
 // blocks a click on anything else; trophies and the bubble take no pointer events at all. (The light through the
 // windows is CSS on the map: data-daylight.)
@@ -11,9 +11,9 @@ import { furnitureParts } from '../map/parts/furnitureParts';
 import { partBox } from '../map/parts/parts';
 import { DELIGHT_SEATS } from './ambient/spots';
 import { useDelight } from './DelightContext';
-import { CREED_DESK, CreedNote } from './creed/CreedNote';
-import { Trophy } from './dundies/Trophy';
-import { trophySpot } from './dundies/trophySpot';
+import { NAINA_DESK, NainaNote } from './naina/NainaNote';
+import { Trophy } from './highlights/Trophy';
+import { trophySpot } from './highlights/trophySpot';
 import { bossMugLine } from './eggs/bossMug';
 import { crosswordClue, crosswordTime, isPretzelDay, pretzelLine } from './eggs/crossword';
 
@@ -26,8 +26,8 @@ function topOf(partClass: string, furnitureId?: string) {
 }
 
 const MUG = topOf('boss-mug');
-const STANLEY = (() => {
-  const desk = FURNITURE.find((f) => f.id === 'bp.desk.stanley');
+const AALIYA_DESK = (() => {
+  const desk = FURNITURE.find((f) => f.id === 'bp.desk.aaliya');
   return desk ? { x: desk.x + desk.w * 0.3, y: desk.y + desk.d * 0.55, z: 1.5 } : null;
 })();
 
@@ -48,14 +48,14 @@ export const TrophyLayer = memo(function TrophyLayer({ placements }: { placement
 });
 
 /** Unattributed thought bubble, above the drawing so the desk clutter in front of him never hides it. */
-export const CreedLayer = memo(function CreedLayer({ placements }: { placements: readonly Placement[] }) {
+export const NainaLayer = memo(function NainaLayer({ placements }: { placements: readonly Placement[] }) {
   const { mode, unattributed } = useDelight();
-  const pl = placements.find((p) => p.personId === CREED_DESK);
+  const pl = placements.find((p) => p.personId === NAINA_DESK);
   const seat = pl && DELIGHT_SEATS.find((s) => s.id === pl.seatId);
   if (!mode.jokes || !seat || unattributed.length === 0) return null;
   const at = project({ x: seat.x, y: seat.y });
   const k = scaleAt(seat);
-  return <g transform={`translate(${at.x.toFixed(1)} ${(at.y - 0.92 * Z_PX * k).toFixed(1)}) scale(${k.toFixed(3)})`}><CreedNote count={unattributed.length} /></g>;
+  return <g transform={`translate(${at.x.toFixed(1)} ${(at.y - 0.92 * Z_PX * k).toFixed(1)}) scale(${k.toFixed(3)})`}><NainaNote count={unattributed.length} /></g>;
 });
 
 function Egg({ at, k, label, className, onClick, children }: { at: { x: number; y: number }; k: number; label: string; className: string; onClick: () => void; children?: React.ReactNode }) {
@@ -73,7 +73,7 @@ export function MapEggs({ snapshot, scale }: { snapshot: OfficeSnapshot; scale: 
   const { mode, toast, wallClock, officeNow } = useDelight();
   const k = Math.min(1.4, Math.max(0.5, 1 / scale));
   const mug = useMemo(() => (MUG ? project(MUG) : null), []);
-  const stanley = useMemo(() => (STANLEY ? project(STANLEY) : null), []);
+  const aaliya = useMemo(() => (AALIYA_DESK ? project(AALIYA_DESK) : null), []);
   if (!mode.eggs) return null;
   const today = wallClock();
   const pretzel = isPretzelDay(today);
@@ -81,11 +81,11 @@ export function MapEggs({ snapshot, scale }: { snapshot: OfficeSnapshot; scale: 
   return (
     <g className="map-eggs">
       {mug && <Egg at={mug} k={k} label="World’s Best Boss" className="egg-mug" onClick={() => toast(bossMugLine(snapshot, officeNow()))} />}
-      {stanley && crossword && (
-        <Egg at={stanley} k={k} label={pretzel ? 'Pretzel Day' : 'Stanley’s crossword'} className={pretzel ? 'egg-pretzel' : 'egg-crossword'}
+      {aaliya && crossword && (
+        <Egg at={aaliya} k={k} label={pretzel ? 'Snack Break' : 'Aaliya’s crossword'} className={pretzel ? 'egg-pretzel' : 'egg-crossword'}
           onClick={() => {
             const clue = crosswordClue(snapshot, today);
-            toast(pretzel ? { text: 'Pretzel Day!', sub: pretzelLine(snapshot, today) } : { text: 'Stanley’s crossword', sub: `${clue.clue}: ${clue.answer}` });
+            toast(pretzel ? { text: 'Snack Break!', sub: pretzelLine(snapshot, today) } : { text: 'Aaliya’s crossword', sub: `${clue.clue}: ${clue.answer}` });
           }}>
           {pretzel
             ? <path data-pretzel="" d="M-5 -2C-8 -6 -3 -9 0 -5C3 -9 8 -6 5 -2C3 1 -3 1 -5 -2ZM-2 -4L2 -1M2 -4L-2 -1" stroke="#9a5b1e" strokeWidth={1.8} fill="none" strokeLinecap="round" />

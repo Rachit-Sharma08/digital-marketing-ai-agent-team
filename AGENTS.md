@@ -12,7 +12,7 @@ This is a local, browser-based **AI agent team for digital marketing and vibe-co
 - **Workspace:** `D:\Projects\dunder-mifflin-os` — the folder still carries the old brand; the launchers resolve their own directory, so renaming the checkout is safe and needs no code change.
 - **Live repo:** `https://github.com/Rachit-Sharma08/digital-marketing-ai-agent-team` (public, `main`)
 - **Upstream remote:** `upstream` is the original author's repo (`git remote -v`; read-only, and its name there is his, not ours — do not push to it)
-- **Last commit:** the rebrand series ending at `18c8d33` (see §1A)
+- **Last commit:** the rebrand series ending at `6be6b9d` (see §1A)
 - **Working tree:** clean after the rebrand commits
 
 ## 1A. Current handoff for OpenCode
@@ -50,7 +50,14 @@ The rewrite went ahead on the user's instruction. A local backup ref `backup/pre
 - **Attribution.** 14 commits on `main` were authored as `339157645+Rachit-Sharma08@users.noreply.github.com.` — the trailing dot is not a valid GitHub address, so GitHub never credited them (0 contribution). All of them now carry the valid address: 24 of the 31 commits on `main` credit the account.
 - **Subjects.** The three brand-bearing subjects became `Remove the old brand from the UI windows and app shell` (`550aa40`), `Replace the old show names with the marketing team staff names` (`68b8930`) and `Office floor plan: initial public release` (`2da8cc6`). Author identity, dates and file trees are untouched, so the inherited MIT/CC BY attribution and the upstream commits stay intact.
 
-Verified before pushing: `git diff backup/pre-rewrite main` empty, same commit count (31), no `dunder`/`mifflin` in any subject, and the GitHub API reports 0 commits with a null author. Pushed with `--force-with-lease`; `main` is at `6fa3ecd`.
+Verified before pushing: `git diff backup/pre-rewrite main` empty, same commit count, no `dunder`/`mifflin` in any subject, and the GitHub API reports 0 commits with a null author.
+
+Two follow-up passes cleaned the messages further, each with its own local backup ref (`backup/pre-trailer-strip`, `backup/pre-final-msg`):
+
+- **AI co-author trailers removed.** 15 commits carried `Co-Authored-By: Codebuff` / `Co-Authored-By: Claude` plus `Generated with Codebuff` lines. GitHub counts co-authors as contributors, so those trailers put tool accounts on the repo's contributor list. Stripped; the API now reports zero `Co-Authored-By` lines and zero `Generated with` lines.
+- **Stale paths in bodies.** One upstream body still linked `stephenlthorn.github.io/<old-name>/og.png` and `docs/media/dmos-demo.gif`; it now points at this repo's Pages URL and `docs/media/akg-demo.gif`.
+
+Current state: `main` at `6be6b9d`, **2 contributors** (`Rachit-Sharma08` 25 commits, `stephenlthorn` 7 upstream commits — the API's `/contributors` endpoint is the ground truth). Attribution for the upstream author stays: the MIT `LICENSE` and `ASSETS-LICENSE` both name Stephen Thorn, so rewriting his commits to another author would contradict the repo's own licence files.
 
 Do not rewrite again casually: force-pushing published history changes every hash and breaks open PRs and clones. Any future commit must use the corrected email — it is already set in this repo's local config.
 
@@ -211,7 +218,7 @@ Windows note: `chmod` and POSIX mode bits are not enforced there, so assertions 
 - **Live mode shows 12 bots offline:** `D:\hermes\profiles` folder does not exist yet; Hermes has no configured agents/profiles. Live mode degrades gracefully (empty panels). Hermes setup is **optional** — only needed if you want real agents on the map.
 - **Demo approvals:** scripted (`approvals: false` in demo adapter), HR inbox empty. Clickable approvals exist only in live mode with `--allow-writes`.
 - **50 contributions in one day:** intentionally not done — that is spammy. Real logical small commits instead; graph grows naturally.
-- **History rewrite:** done on 2026-11-03, `main` is at `6fa3ecd`. The pre-rewrite history survives only in the local `backup/pre-rewrite` ref; keep it out of the remote or the old subjects come back into view.
+- **History rewrite:** done on 2026-11-03, `main` is at `6be6b9d`. Pre-rewrite history survives only in three local backup refs (`backup/pre-rewrite`, `backup/pre-trailer-strip`, `backup/pre-final-msg`); keep them off the remote or the old subjects come back into view, and delete them with `git branch -D` once you are happy.
 - **Contribution graph:** the 24 commits on `main` now credit the account. The old email typo was the reason earlier work never showed on the graph — check `git config user.email` whenever contributions look missing.
 - **Checkout folder name:** the workspace folder is still `dunder-mifflin-os`. Renaming it is safe now — the launchers derive their own path — and is the last place the old name survives.
 - **Office theme:** the floor plan is an original homage to no particular series; the show references were removed in the 2026-11-03 rebrand. `ASSETS-LICENSE` carries the disclaimer.

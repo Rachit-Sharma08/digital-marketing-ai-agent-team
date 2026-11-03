@@ -41,7 +41,7 @@ export function CalendarWindow({ snapshot, demo, now, onOpenPerson }: Props) {
   const jobs = useMemo(() => new Map((view?.jobs ?? []).map((j) => [j.key, j])), [view]);
   const placed = useMemo(() => placeRuns(view?.occurrences ?? [], days, timeZone), [view, days, timeZone]);
   const selected = selection && view ? view.occurrences.find((o) => o.jobKey === selection.jobKey && o.at === selection.at) ?? null : null;
-  const chair = people.get('angela')?.name ?? 'Angela Martin';
+  const chair = people.get('angela')?.name ?? 'Finance lead';
 
   const select = (o: Occurrence) => {
     setSelection({ jobKey: o.jobKey, at: o.at });

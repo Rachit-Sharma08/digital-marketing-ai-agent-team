@@ -1,7 +1,6 @@
-// "Threat Level Midnight": the scripted day the demo replays. Bots arrive, work their cards and hold a morning
-// standup; late morning brings the drama at once: the Council meets in the Conference Room, Kevin's import spills
-// chili (the day's one error) and Dwight waits for your OK (needs-input). After lunch Ops reviews the spill, jobs keep
-// firing, and everyone goes home. All of it is fiction: no real bots, people or data.
+// The scripted day the demo replays. Bots arrive, work their cards and hold a morning standup; late morning brings
+// the Council meeting, a data import hits an error, and someone waits for your OK (needs-input). After lunch Ops
+// reviews the error, jobs keep firing, and everyone goes home. All of it is fiction: no real bots, people or data.
 import type { Task } from '../contract';
 import type { DemoStatus } from './cast';
 import { hm } from './time';
@@ -120,12 +119,12 @@ const COUNCIL: Beat[] = [
 
 const CHILI: Beat[] = [
   p('10:40', 'imports', 'working', 'Importing the vendor price list'),
-  p('10:52', 'imports', 'error', 'Spilled chili on the import: 3,000 rows half-loaded'),
-  m('10:53', 'dm-imports', 'imports', 'Small problem with the import. Mostly the chili.'),
-  p('10:55', 'it', 'working', "Looking into Kevin's import"),
-  m('10:56', 'ops', 'it', "Kevin's import fell over halfway. Opening a cleanup task."),
+  p('10:52', 'imports', 'error', 'Import failed: 3,000 rows half-loaded'),
+  m('10:53', 'dm-imports', 'imports', 'Small problem with the import. Retrying carefully.'),
+  p('10:55', 'it', 'working', "Looking into the failed import"),
+  m('10:56', 'ops', 'it', "The import fell over halfway. Opening a cleanup task."),
   ...meeting('13:15', 'ops', 'Ops: import incident review', ['it', 'imports']),
-  m('13:16', 'ops', 'imports', 'In my defence, the chili was very good.'),
+  m('13:16', 'ops', 'imports', 'In my defence, the file was large.'),
   m('13:28', 'ops', 'it', 'Root cause: nothing stops a half-finished import. Adding a guard now.'),
   m('13:34', 'ops', 'frontdesk', 'Cleanup done. Kevin is re-running the import.'),
   p('13:35', 'it', 'working', 'Adding a guard to the import'),

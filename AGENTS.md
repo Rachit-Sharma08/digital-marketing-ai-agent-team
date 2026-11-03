@@ -7,11 +7,11 @@
 
 ## 1. Project overview
 
-This is a local, browser-based **AI agent team for digital marketing and vibe-coding**. It is a fork of [agents-ka-ghar](https://github.com/stephenlthorn/agents-ka-ghar) (MIT licence) with a new agent-routing layer, a team-console UI, autostart launchers, and documentation.
+This is a local, browser-based **AI agent team for digital marketing and vibe-coding**. It is a fork of [Stephen Thorn's office-map project](https://github.com/stephenlthorn) (MIT licence) with a new agent-routing layer, a team-console UI, autostart launchers, and documentation.
 
 - **Workspace:** `D:\Projects\dunder-mifflin-os` — the folder still carries the old brand; the launchers resolve their own directory, so renaming the checkout is safe and needs no code change.
 - **Live repo:** `https://github.com/Rachit-Sharma08/digital-marketing-ai-agent-team` (public, `main`)
-- **Upstream remote:** `https://github.com/stephenlthorn/agents-ka-ghar.git` (read-only fork source)
+- **Upstream remote:** `upstream` is the original author's repo (`git remote -v`; read-only, and its name there is his, not ours — do not push to it)
 - **Last commit:** the rebrand series ending at `18c8d33` (see §1A)
 - **Working tree:** clean after the rebrand commits
 

@@ -178,13 +178,12 @@ and this README does not pretend otherwise.
 
 ## Attribution
 
-This project is a fork of [agents-ka-ghar](https://github.com/stephenlthorn/agents-ka-ghar) by Stephen Thorn,
-used under the MIT licence. The office map, desk layout and UI foundations come from that project. The agent routing
+This project is a fork of the original office-map project by [Stephen Thorn](https://github.com/stephenlthorn),
+used under the MIT licence. The office map, desk layout and UI foundations come from that project; the agent routing
 layer, the team console, the branding and the documentation here are new work.
 
-The office theme is a fan-styled homage, not an official product. **the workspace** and **Agents Ka Ghar** are trademarks
-of their respective owners. No affiliation or endorsement is implied. The theme is presentational only — it can be
-replaced without touching the agent layer.
+The office theme is a presentational homage, not an official product. It is not affiliated with or endorsed by any
+rights holder. The theme can be replaced without touching the agent layer.
 
 See [LICENSE](LICENSE).
 

@@ -2,7 +2,7 @@
 
 AI agents ka office, browser me. 23 staff, isometric floor plan, status lights (working / meeting / idle / error / offline), har bande ka apna window (budget, tasks, chat), aur Sarah ke desk par **approvals** — agent kaam rok kar tumhara "haan" maangta hai.
 
-Ye `stephenlthorn/agents-ka-ghar` (MIT license) ka local install hai. Office ka Agents Ka Ghar theme jaan-boojh kar rakha hai — video wahi tha.
+Ye Stephen Thorn ke original office-map project (MIT license) ka local install hai. Office ka isometric theme jaan-boojh kar rakha hai — video wahi tha.
 
 ---
 

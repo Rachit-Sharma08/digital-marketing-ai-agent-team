@@ -15,12 +15,12 @@
   "author": "Stephen Thorn",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stephenlthorn/agents-ka-ghar.git"
+    "url": "git+https://github.com/Rachit-Sharma08/digital-marketing-ai-agent-team.git"
   },
   "bugs": {
-    "url": "https://github.com/stephenlthorn/agents-ka-ghar/issues"
+    "url": "https://github.com/Rachit-Sharma08/digital-marketing-ai-agent-team/issues"
   },
-  "homepage": "https://github.com/stephenlthorn/agents-ka-ghar#readme",
+  "homepage": "https://github.com/Rachit-Sharma08/digital-marketing-ai-agent-team#readme",
   "type": "module",
   "bin": {
     "agents-ka-ghar": "bin/agents-ka-ghar.mjs"

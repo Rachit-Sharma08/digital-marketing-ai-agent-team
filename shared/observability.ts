@@ -1,5 +1,5 @@
 // Activity timeline and token/cost usage: the data the server sends the browser for "the documentary crew" (a bot's
-// timeline) and "Angela's ledger" (tokens and estimated cost per bot). Additive to contract.ts; nothing here carries
+// timeline) and "Fatima's ledger" (tokens and estimated cost per bot). Additive to contract.ts; nothing here carries
 // message text beyond a short, scrubbed one-line summary, and task events carry titles only.
 
 /** What happened. Grouped in the UI as messages, tools, tasks, scheduled jobs, sessions and errors. */

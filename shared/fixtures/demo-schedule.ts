@@ -1,11 +1,11 @@
-// Demo-mode scheduled jobs for the Party Planning Committee calendar (no server). Invented, on Scranton time. Last
+// Demo-mode scheduled jobs for the Party Planning Committee calendar (no server). Invented, on New Delhi time. Last
 // and next runs are worked out from each rule around `now`, so the calendar lines up: one bot's job failed (Sadiq,
-// whose desk shows an error), one missed this morning's run (Andy), one is paused.
+// whose desk shows an error), one missed this morning's run (Aisha), one is paused.
 import type { ScheduleRule, ScheduledJob } from '../contract';
 import { parseCron } from '../schedule/cron';
 import { cronTimes, intervalTimes } from '../schedule/expand';
 
-export const DEMO_ZONE = 'America/New_York'; // Scranton, PA
+export const DEMO_ZONE = 'America/New_York'; // New Delhi, PA
 
 type DemoJob = {
   readonly personId: string;
@@ -18,22 +18,22 @@ type DemoJob = {
 
 const cron = (expr: string): ScheduleRule => ({ kind: 'cron', expr });
 const JOBS: readonly DemoJob[] = [
-  { personId: 'pam', name: 'Morning handoff digest', rule: cron('0 8 * * 1-5') },
-  { personId: 'pam', name: 'Council agenda', rule: cron('0 9 * * 1') },
-  { personId: 'michael', name: 'Marketing pulse', rule: cron('0 10 * * 1,3,5') },
-  { personId: 'angela', name: 'Party Planning Committee budget', rule: cron('0 15 * * 4') },
-  { personId: 'angela', name: 'Expense report sweep', rule: cron('30 16 * * 1-5') },
-  { personId: 'dwight', name: 'Lead follow-ups', rule: cron('45 7 * * 1-5') },
-  { personId: 'dwight', name: 'Weekly campaign report', rule: cron('0 16 * * 5') },
-  { personId: 'kelly', name: 'Post queue check', rule: { kind: 'interval', minutes: 120 } },
+  { personId: 'aanya', name: 'Morning handoff digest', rule: cron('0 8 * * 1-5') },
+  { personId: 'aanya', name: 'Council agenda', rule: cron('0 9 * * 1') },
+  { personId: 'zara', name: 'Marketing pulse', rule: cron('0 10 * * 1,3,5') },
+  { personId: 'fatima', name: 'Party Planning Committee budget', rule: cron('0 15 * * 4') },
+  { personId: 'fatima', name: 'Expense report sweep', rule: cron('30 16 * * 1-5') },
+  { personId: 'meera', name: 'Lead follow-ups', rule: cron('45 7 * * 1-5') },
+  { personId: 'meera', name: 'Weekly campaign report', rule: cron('0 16 * * 5') },
+  { personId: 'priya', name: 'Post queue check', rule: { kind: 'interval', minutes: 120 } },
   { personId: 'sadiq', name: 'Fleet health check', rule: cron('0 * * * *'), lastStatus: 'error: gateway timeout' },
   { personId: 'sadiq', name: 'Nightly backup verify', rule: cron('30 2 * * *'), enabled: false },
-  { personId: 'andy', name: 'Skool member digest', rule: cron('0 7 * * *'), missed: 1 },
-  { personId: 'oscar', name: 'Lesson plan review', rule: cron('0 13 * * 3') },
-  { personId: 'ira', name: 'Lunch macro reminder', rule: cron('30 12 * * *') },
-  { personId: 'jarvis', name: 'Inbox summary', rule: cron('0 8,12,17 * * *') },
-  { personId: 'ryan', name: 'Trend scan', rule: cron('0 6 * * 1-5'), lastStatus: 'failed: offline' },
-  { personId: 'david', name: 'Board digest', rule: cron('0 11 * * 5') },
+  { personId: 'aisha', name: 'Skool member digest', rule: cron('0 7 * * *'), missed: 1 },
+  { personId: 'neha', name: 'Lesson plan review', rule: cron('0 13 * * 3') },
+  { personId: 'isabella', name: 'Lunch macro reminder', rule: cron('30 12 * * *') },
+  { personId: 'maya', name: 'Inbox summary', rule: cron('0 8,12,17 * * *') },
+  { personId: 'tara', name: 'Trend scan', rule: cron('0 6 * * 1-5'), lastStatus: 'failed: offline' },
+  { personId: 'sophia', name: 'Board digest', rule: cron('0 11 * * 5') },
 ];
 
 const DAY_MS = 86_400_000;

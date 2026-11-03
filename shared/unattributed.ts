@@ -1,4 +1,4 @@
-// Creed's corner ("Creed knows something"): activity the office can't put at anyone's desk. Served by
+// Naina's corner ("Naina knows something"): activity the office can't put at anyone's desk. Served by
 // GET /api/unattributed; additive to contract.ts. Every text is short and scrubbed on the server like any other
 // display string, and agent ids are the adapter's own (never a chat id or a path).
 

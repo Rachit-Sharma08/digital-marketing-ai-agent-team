@@ -4,9 +4,9 @@ const chair = (id: string, areaId: string, x: number, y: number, facing: Furnitu
   id, kind: 'chair', areaId, x: x - 0.55, y: y - 0.55, w: 1.1, d: 1.1, facing, color,
 });
 
-// Elevator hallway, reception, Michael's office, conference room and stairwell (the left end and the back row).
+// Elevator hallway, reception, Zara's office, conference room and stairwell (the left end and the back row).
 export const FRONT_FURNITURE: readonly Furniture[] = [
-  { id: 'lobby.sign', kind: 'wall-sign', areaId: 'lobby', x: -1.6, y: 34.55, w: 5.8, d: 0.25, z: 1.5, h: 2.3, facing: 's', label: 'DUNDER MIFFLIN' },
+  { id: 'lobby.sign', kind: 'wall-sign', areaId: 'lobby', x: -1.6, y: 34.55, w: 5.8, d: 0.25, z: 1.5, h: 2.3, facing: 's', label: 'AGENTS KA GHAR' },
   // the elevator alcove: an open brushed-steel car, its doors on the hallway side
   { id: 'lobby.elevator', kind: 'elevator', areaId: 'lobby', x: 1.2, y: 19.7, w: 5.6, d: 6.1, h: 2.7, facing: 'n' },
   { id: 'lobby.plant1', kind: 'plant', areaId: 'lobby', x: 11.9, y: 33.9, w: 0.9, d: 0.9, h: 2.1 },
@@ -19,23 +19,23 @@ export const FRONT_FURNITURE: readonly Furniture[] = [
   { id: 'rec.armchair', kind: 'armchair', areaId: 'reception', x: 14.5, y: 21.8, w: 1.3, d: 1.3, facing: 's', color: '#9ea4aa' },
   { id: 'rec.side', kind: 'cabinet', areaId: 'reception', x: 15.1, y: 24.9, w: 1, d: 0.8, h: 1, color: '#6b4a33' },
   { id: 'rec.desk', kind: 'reception-desk', areaId: 'reception', x: 13.7, y: 13.6, w: 2.4, d: 5.2, facing: 'w' },
-  { id: 'rec.erin', kind: 'desk', areaId: 'reception', x: 10.4, y: 14.5, w: 1.6, d: 3.2, facing: 'w', items: ['monitor', 'phone', 'papers', 'mug', 'tray', 'plant'] },
+  { id: 'rec.riya', kind: 'desk', areaId: 'reception', x: 10.4, y: 14.5, w: 1.6, d: 3.2, facing: 'w', items: ['monitor', 'phone', 'papers', 'mug', 'tray', 'plant'] },
   { id: 'rec.binders', kind: 'supply-shelf', areaId: 'reception', x: 10.3, y: 11.3, w: 2.1, d: 1, h: 2.2, facing: 's' },
   { id: 'rec.supplies', kind: 'supplies', areaId: 'reception', x: 12.6, y: 11.4, w: 4.8, d: 1.2, h: 1.2 },
   { id: 'rec.copier', kind: 'copier', areaId: 'reception', x: 17.8, y: 11.3, w: 2, d: 1.5, h: 2 },
   { id: 'rec.it-cart', kind: 'it-cart', areaId: 'reception', x: 20.2, y: 11.4, w: 1.4, d: 1.1, h: 1.5 },
-  { id: 'rec.jarvis', kind: 'desk', areaId: 'reception', x: 18.6, y: 20.8, w: 3.2, d: 1.6, facing: 's', items: ['laptop', 'papers', 'pencup', 'folders', 'mug', 'tray'] },
+  { id: 'rec.maya', kind: 'desk', areaId: 'reception', x: 18.6, y: 20.8, w: 3.2, d: 1.6, facing: 's', items: ['laptop', 'papers', 'pencup', 'folders', 'mug', 'tray'] },
   { id: 'rec.plant', kind: 'plant', areaId: 'reception', x: 16.4, y: 25, w: 0.8, d: 0.8, h: 1.8 },
 
-  { id: 'mich.desk', kind: 'desk', areaId: 'michael', x: 15.6, y: 30.2, w: 3.8, d: 1.7, facing: 's', color: '#6b4a33',
+  { id: 'mich.desk', kind: 'desk', areaId: 'zara', x: 15.6, y: 30.2, w: 3.8, d: 1.7, facing: 's', color: '#6b4a33',
     items: ['monitor', 'boss-mug', 'nameplate', 'papers', 'phone', 'lamp'] },
-  chair('mich.guest1', 'michael', 16.5, 28.9, 'n', '#3b3f46'),
-  chair('mich.guest2', 'michael', 18.6, 28.9, 'n', '#3b3f46'),
-  { id: 'mich.armoire', kind: 'cabinet', areaId: 'michael', x: 20.6, y: 33.4, w: 2, d: 1.3, h: 3, color: '#7a5538' },
-  { id: 'mich.credenza', kind: 'cabinet', areaId: 'michael', x: 14.6, y: 34, w: 2.8, d: 0.75, h: 1.3, color: '#6b4a33' },
-  { id: 'mich.side', kind: 'cabinet', areaId: 'michael', x: 21.4, y: 28.4, w: 1.3, d: 1.3, h: 1.1, color: '#d9b25a' },
-  { id: 'mich.files', kind: 'cabinet', areaId: 'michael', x: 13.3, y: 26.4, w: 1, d: 1.4, h: 2 },
-  { id: 'mich.plant', kind: 'plant', areaId: 'michael', x: 13.4, y: 33.8, w: 1, d: 1, h: 2.2 },
+  chair('mich.guest1', 'zara', 16.5, 28.9, 'n', '#3b3f46'),
+  chair('mich.guest2', 'zara', 18.6, 28.9, 'n', '#3b3f46'),
+  { id: 'mich.armoire', kind: 'cabinet', areaId: 'zara', x: 20.6, y: 33.4, w: 2, d: 1.3, h: 3, color: '#7a5538' },
+  { id: 'mich.credenza', kind: 'cabinet', areaId: 'zara', x: 14.6, y: 34, w: 2.8, d: 0.75, h: 1.3, color: '#6b4a33' },
+  { id: 'mich.side', kind: 'cabinet', areaId: 'zara', x: 21.4, y: 28.4, w: 1.3, d: 1.3, h: 1.1, color: '#d9b25a' },
+  { id: 'mich.files', kind: 'cabinet', areaId: 'zara', x: 13.3, y: 26.4, w: 1, d: 1.4, h: 2 },
+  { id: 'mich.plant', kind: 'plant', areaId: 'zara', x: 13.4, y: 33.8, w: 1, d: 1, h: 2.2 },
 
   { id: 'conf.screen', kind: 'tv-stand', areaId: 'conference', x: 25, y: 28.6, w: 0.8, d: 3.8, h: 2.4, facing: 'e' },
   { id: 'conf.credenza', kind: 'cabinet', areaId: 'conference', x: 24.9, y: 34, w: 2.2, d: 0.75, h: 1.3, color: '#7a5538' },

@@ -31,7 +31,7 @@ export type Presence = {
 /** How much damage saying yes could do, as the agent's adapter judges it. */
 export type ApprovalRisk = 'low' | 'medium' | 'high';
 
-/** Something an agent is waiting on you for (the approvals inbox at Toby's HR desk). */
+/** Something an agent is waiting on you for (the approvals inbox at Sarah's HR desk). */
 export type Approval = {
   id: string; // '<adapter id>:<the adapter's own id>'; POST /api/approvals/:id decides it
   adapter: string; // AdapterInfo.id
@@ -62,8 +62,8 @@ export type Look = {
   mustache?: boolean;
   beard?: boolean;
   build?: 'slim' | 'average' | 'large';
-  robot?: boolean; // Jarvis
-  belt?: string; // a belt round the waist (Sensei Ira's black belt over his gi)
+  robot?: boolean; // Maya
+  belt?: string; // a belt round the waist (Isabella D Costa's black belt over his gi)
 };
 
 export type Person = {
@@ -169,7 +169,7 @@ export type Meeting = {
 export type MeetingsView = { from: string; to: string; generatedAt: string; meetings: Meeting[] };
 
 /**
- * What this server allows. `writes`: chat, task creation and any other write (off unless DMOS_ALLOW_WRITES=1).
+ * What this server allows. `writes`: chat, task creation and any other write (off unless AKG_ALLOW_WRITES=1).
  * A write to an agent needs this AND the agent's AgentCapabilities flag.
  */
 export type Capabilities = {

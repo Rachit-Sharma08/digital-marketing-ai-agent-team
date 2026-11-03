@@ -2,7 +2,7 @@
 // every viewer and every screenshot sees the same clock whatever their time zone. Minutes count from midnight.
 // Pure; shared by the server's `demo` adapter and the static (server-less) demo in the browser.
 
-export const DEMO_TITLE = 'Threat Level Midnight';
+export const DEMO_TITLE = 'Campaign Daybook';
 /** The day the demo replays (the date of the show's pilot, a Thursday). Only office time is ever shown. */
 export const DEMO_DATE = '2005-03-24';
 export const DEMO_SPEEDS = Object.freeze([1, 10, 60] as const);

@@ -18,10 +18,10 @@ describe('dayTimeline (what a demo bot did today, from the script)', () => {
     expect(k.some((x) => x.startsWith('activity:'))).toBe(true);
   });
 
-  it('records the chili: the import\'s error and its failed run', () => {
+  it('records the import error and its failed run', () => {
     const k = kinds('imports', '11:00');
-    expect(k).toContain('error:Spilled chili on the import: 3,000 rows half-loaded');
-    expect(dayTimeline('imports', hm('11:00'), 1).find((e) => e.kind === 'cron.fail')).toMatchObject({ title: 'Vendor price import', detail: 'error: chili on the keyboard' });
+    expect(k).toContain('error:Import failed: 3,000 rows half-loaded');
+    expect(dayTimeline('imports', hm('11:00'), 1).find((e) => e.kind === 'cron.fail')).toMatchObject({ title: 'Vendor price import', detail: 'error: import validation failed' });
   });
 
   it('only shows ambient work the bot was idle enough to pick up', () => {

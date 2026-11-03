@@ -1,5 +1,5 @@
 // The demo day's strays: open cards that nobody on the demo roster owns and that sit in no room, like a card whose
-// assignee was a profile that has since been deleted. The office lists them in Creed's corner. Fictional, like the
+// assignee was a profile that has since been deleted. The office lists them in Naina's corner. Fictional, like the
 // rest of the day.
 import type { Task } from '../contract';
 import { isoAt, hm } from './time';

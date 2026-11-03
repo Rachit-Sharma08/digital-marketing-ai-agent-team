@@ -10,7 +10,7 @@ const table = (id: string, cx: number, cy: number, r: number): Furniture => ({
 // Kitchen, restrooms, break room and the Annex (the right half of the building).
 export const BACK_FURNITURE: readonly Furniture[] = [
   // the kitchen in front of the stair room: white cabinets, counter and fridge along the stair room's front wall,
-  // two doormats, Sensei Ira's round table; his exercise corner in the bay by the restrooms; a waiting nook in the back passage
+  // two doormats, Isabella D Costa's round table; his exercise corner in the bay by the restrooms; a waiting nook in the back passage
   { id: 'kit.counter', kind: 'counter', areaId: 'kitchen', x: 41.8, y: 21.1, w: 7.8, d: 1.25, h: 1.8, items: ['coffee', 'sink', 'toaster', 'microwave'] },
   { id: 'kit.uppers', kind: 'wall-cabinets', areaId: 'kitchen', x: 41.8, y: 21.65, w: 7.8, d: 0.7, z: 2.55, h: 0.95 },
   { id: 'kit.fridge', kind: 'fridge', areaId: 'kitchen', x: 49.7, y: 20.8, w: 1.75, d: 1.55, h: 3.4 },
@@ -59,21 +59,21 @@ export const BACK_FURNITURE: readonly Furniture[] = [
   { id: 'brk.board', kind: 'bulletin', areaId: 'breakroom', x: 62.3, y: 34.55, w: 1.2, d: 0.25, z: 1.2, h: 1.3, facing: 's' },
   { id: 'brk.bin', kind: 'bin', areaId: 'breakroom', x: 71.1, y: 27.5, w: 0.7, d: 0.7, h: 1.1 },
 
-  // the Annex: Kelly by the break room, Ryan's cubicle, Toby and the HR wall, Holly's long desk at the front
-  { id: 'anx.kelly.desk', kind: 'desk', areaId: 'annex', x: 65.7, y: 16.6, w: 3.2, d: 1.6, facing: 's', items: ['monitor', 'mug', 'photo', 'candy', 'papers', 'plant'] },
-  { id: 'anx.files.kelly', kind: 'cabinet', areaId: 'annex', x: 69.9, y: 13, w: 1.9, d: 3.4, h: 2.4 },
-  { id: 'anx.ryan.desk', kind: 'desk', areaId: 'annex', x: 66.2, y: 3.5, w: 3.2, d: 1.6, facing: 's', items: ['laptop', 'mug', 'papers', 'pencup', 'folders'] },
-  { id: 'anx.ryan.back', kind: 'partition', areaId: 'annex', x: 69.8, y: 3.3, w: 0.2, d: 3, h: 2.3, color: '#9aa4ab' },
+  // the Annex: Priya by the break room, Tara's cubicle, Sarah and the HR wall, Ananya's long desk at the front
+  { id: 'anx.priya.desk', kind: 'desk', areaId: 'annex', x: 65.7, y: 16.6, w: 3.2, d: 1.6, facing: 's', items: ['monitor', 'mug', 'photo', 'candy', 'papers', 'plant'] },
+  { id: 'anx.files.priya', kind: 'cabinet', areaId: 'annex', x: 69.9, y: 13, w: 1.9, d: 3.4, h: 2.4 },
+  { id: 'anx.tara.desk', kind: 'desk', areaId: 'annex', x: 66.2, y: 3.5, w: 3.2, d: 1.6, facing: 's', items: ['laptop', 'mug', 'papers', 'pencup', 'folders'] },
+  { id: 'anx.tara.back', kind: 'partition', areaId: 'annex', x: 69.8, y: 3.3, w: 0.2, d: 3, h: 2.3, color: '#9aa4ab' },
   { id: 'anx.cube2.desk', kind: 'desk', areaId: 'annex', x: 60.3, y: 12, w: 3.2, d: 1.6, facing: 's', items: ['monitor', 'papers', 'phone', 'tray', 'binders'] },
   chair('anx.cube2.chair', 'annex', 61.9, 14.4, 's'),
   { id: 'anx.cube2.back', kind: 'partition', areaId: 'annex', x: 59.7, y: 15.4, w: 4.4, d: 0.2, h: 2.3 },
-  { id: 'anx.ryan.side', kind: 'partition', areaId: 'annex', x: 65.6, y: 3.3, w: 0.2, d: 3.3, h: 2.3, color: '#9aa4ab' },
-  { id: 'anx.toby.desk', kind: 'desk', areaId: 'annex', x: 67.9, y: 6.7, w: 3.2, d: 1.6, facing: 's', items: ['monitor', 'papers', 'photo', 'mug', 'tray', 'folders'] },
+  { id: 'anx.tara.side', kind: 'partition', areaId: 'annex', x: 65.6, y: 3.3, w: 0.2, d: 3.3, h: 2.3, color: '#9aa4ab' },
+  { id: 'anx.sarah.desk', kind: 'desk', areaId: 'annex', x: 67.9, y: 6.7, w: 3.2, d: 1.6, facing: 's', items: ['monitor', 'papers', 'photo', 'mug', 'tray', 'folders'] },
   { id: 'anx.hr.board', kind: 'bulletin', areaId: 'annex', x: 71.55, y: 6, w: 0.25, d: 4.2, z: 0.9, h: 1.4, facing: 'w' },
   { id: 'anx.hr.files', kind: 'cabinet', areaId: 'annex', x: 70.3, y: 19.4, w: 1.5, d: 3.2, h: 2.4 },
   { id: 'anx.hr.cooler', kind: 'water-cooler', areaId: 'annex', x: 70.6, y: 10.4, w: 0.9, d: 0.9, h: 2.4 },
   { id: 'anx.plant3', kind: 'plant', areaId: 'annex', x: 67.4, y: 24.6, w: 0.9, d: 0.9, h: 2 },
-  { id: 'anx.holly.desk', kind: 'desk', areaId: 'annex', x: 64.8, y: 0.3, w: 4.8, d: 1.7, facing: 's', items: ['monitor', 'plant', 'papers', 'mug', 'lamp', 'tray'] },
+  { id: 'anx.ananya.desk', kind: 'desk', areaId: 'annex', x: 64.8, y: 0.3, w: 4.8, d: 1.7, facing: 's', items: ['monitor', 'plant', 'papers', 'mug', 'lamp', 'tray'] },
   { id: 'anx.copier', kind: 'copier', areaId: 'annex', x: 52.2, y: 0.4, w: 1.6, d: 1.3, h: 1.7 },
   { id: 'anx.files', kind: 'cabinet', areaId: 'annex', x: 52.3, y: 4, w: 1.1, d: 2.6, h: 2 },
   { id: 'anx.plant1', kind: 'plant', areaId: 'annex', x: 70.9, y: 0.3, w: 0.9, d: 0.9, h: 2 },

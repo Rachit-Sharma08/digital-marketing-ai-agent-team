@@ -12,7 +12,7 @@ const kindsIn = (areaId: string) => FURNITURE.filter((f) => f.areaId === areaId)
 describe('office data', () => {
   it('has the areas of the floor plan plus the stairwell down to the warehouse', () => {
     expect(ids(AREAS).sort()).toEqual(
-      ['annex', 'breakroom', 'bullpen', 'conference', 'kitchen', 'lobby', 'michael', 'reception', 'restrooms', 'stairwell', 'warehouse'],
+      ['annex', 'breakroom', 'bullpen', 'conference', 'kitchen', 'lobby', 'reception', 'restrooms', 'stairwell', 'warehouse', 'zara'],
     );
   });
 
@@ -38,25 +38,25 @@ describe('office data', () => {
 
   it('seats people in the areas of the floor plan', () => {
     const area = (id: string) => SEATS.find((seat) => seat.id === STAFF.find((s) => s.id === id)!.seatId)!.areaId;
-    expect(area('pam')).toBe('reception');
-    expect(area('michael')).toBe('michael');
-    expect(area('dwight')).toBe('bullpen');
-    expect(area('kelly')).toBe('annex');
-    expect(area('david')).toBe('lobby');
-    expect(area('ira')).toBe('kitchen');
-    expect(area('darryl')).toBe('warehouse');
-    expect(area('roy')).toBe('warehouse');
+    expect(area('aanya')).toBe('reception');
+    expect(area('zara')).toBe('zara');
+    expect(area('meera')).toBe('bullpen');
+    expect(area('priya')).toBe('annex');
+    expect(area('sophia')).toBe('lobby');
+    expect(area('isabella')).toBe('kitchen');
+    expect(area('pooja')).toBe('warehouse');
+    expect(area('sunita')).toBe('warehouse');
   });
 
-  it("casts the health bot as Sensei Ira, Dwight's sensei, in a white gi at the kitchen table", () => {
-    const ira = STAFF.find((s) => s.id === 'ira')!;
-    expect(ira).toMatchObject({
-      name: 'Sensei Ira', title: "Health & fitness · Dwight's sensei", seatId: 'seat.ira',
+  it('assigns the wellness bot to Isabella at the kitchen table', () => {
+    const isabella = STAFF.find((s) => s.id === 'isabella')!;
+    expect(isabella).toMatchObject({
+      name: 'Isabella D Costa', title: 'Wellness and breaks', seatId: 'seat.isabella',
       bot: { profile: 'health', role: 'Personal health' },
     });
-    expect(ira.look).toMatchObject({ hairStyle: 'short', jacket: expect.stringMatching(/^#f/i), belt: expect.stringMatching(/^#[0-2]/) });
-    expect(ira.keepName).toBe(true); // the map says "Sensei Ira" even though Hermes may name the persona differently
-    expect(STAFF.filter((s) => s.keepName).map((s) => s.id)).toEqual(['ira']);
+    expect(isabella.look).toMatchObject({ hairStyle: 'short', jacket: expect.stringMatching(/^#e/i), belt: expect.stringMatching(/^#[0-2]/) });
+    expect(isabella.keepName).toBe(true);
+    expect(STAFF.filter((s) => s.keepName).map((s) => s.id)).toEqual(['isabella']);
   });
 
   it('has ten meeting seats in the conference room', () => {
@@ -88,14 +88,14 @@ describe('office data', () => {
   });
 
   it('maps a staff entry to a contract Person without sharing objects', () => {
-    const entry = STAFF.find((s) => s.id === 'dwight')!;
+    const entry = STAFF.find((s) => s.id === 'meera')!;
     const person = toPerson(entry);
-    expect(person).toMatchObject({ id: 'dwight', name: 'Dwight Schrute', seatId: entry.seatId, bot: { profile: 'campaigns' } });
+    expect(person).toMatchObject({ id: 'meera', name: 'Meera Kaur', seatId: entry.seatId, bot: { profile: 'campaigns' } });
     expect(person.look).not.toBe(entry.look);
   });
 });
 
-// The Drawbotics render of the Scranton office (docs/ARCHITECTURE.md, "Floor plan").
+// The Drawbotics render of the New Delhi office (docs/ARCHITECTURE.md, "Floor plan").
 describe('floor plan after the reference render', () => {
   const back = OFFICE.size.h;
   const main = AREAS.filter((a) => a.level === 'main');
@@ -108,16 +108,16 @@ describe('floor plan after the reference render', () => {
     expect(right).toBe(OFFICE.size.w);
   });
 
-  it('runs the back wall, left to right: lobby, Michael, conference, stairwell, break room', () => {
+  it('runs the back wall, left to right: lobby, Zara, conference, stairwell, break room', () => {
     const row = main.filter((a) => a.rect.y + a.rect.h === back).sort((a, b) => a.rect.x - b.rect.x).map((a) => a.id);
-    expect(row).toEqual(['lobby', 'michael', 'conference', 'stairwell', 'breakroom']);
+    expect(row).toEqual(['lobby', 'zara', 'conference', 'stairwell', 'breakroom']);
   });
 
   it('puts the elevator lobby at the far left, sticking out past the main room at the back', () => {
     expect(rect('lobby').x).toBe(Math.min(...main.map((a) => a.rect.x)));
     expect(rect('bullpen').x).toBeGreaterThan(rect('lobby').x);
     expect(rect('lobby').y).toBeGreaterThanOrEqual(rect('bullpen').y + rect('bullpen').h);
-    expect(FURNITURE.find((f) => f.kind === 'wall-sign' && f.areaId === 'lobby')?.label).toBe('DUNDER MIFFLIN');
+    expect(FURNITURE.find((f) => f.kind === 'wall-sign' && f.areaId === 'lobby')?.label).toBe('AGENTS KA GHAR');
     expect(kindsIn('lobby')).toEqual(expect.arrayContaining(['elevator', 'plant']));
   });
 
@@ -170,7 +170,7 @@ describe('floor plan after the reference render', () => {
   it('puts reception just inside the entrance: curved desk, waiting sofa and armchair, copier and supplies in front', () => {
     expect(rect('reception').x).toBe(rect('bullpen').x);
     expect(kindsIn('reception')).toEqual(expect.arrayContaining(['reception-desk', 'couch', 'armchair', 'copier', 'supplies']));
-    expect(seatOf('pam').areaId).toBe('reception');
+    expect(seatOf('aanya').areaId).toBe('reception');
   });
 
   it('fills the middle with the bullpen and puts the annex at the right end, restrooms at the front-right', () => {
@@ -182,15 +182,15 @@ describe('floor plan after the reference render', () => {
     expect(rect('breakroom').x).toBeGreaterThanOrEqual(rect('annex').x);
   });
 
-  it('seats the bullpen like the reference: Jim/Dwight near reception, accounting at the front-left, pairs by the front windows', () => {
+  it('seats the bullpen like the reference: Simran/Meera near reception, accounting at the front-left, pairs by the front windows', () => {
     const rec = rect('reception');
-    for (const id of ['jim', 'dwight']) expect(seatOf(id).x - (rec.x + rec.w), id).toBeLessThan(8);
-    for (const id of ['angela', 'oscar', 'kevin']) {
+    for (const id of ['simran', 'meera']) expect(seatOf(id).x - (rec.x + rec.w), id).toBeLessThan(8);
+    for (const id of ['fatima', 'neha', 'diya']) {
       expect(seatOf(id).x, id).toBeLessThan(rec.x + rec.w);
       expect(seatOf(id).y, id).toBeLessThan(rec.y);
     }
-    for (const id of ['creed', 'meredith', 'andy']) expect(seatOf(id).y, id).toBeLessThan(7);
-    expect(seatOf('phyllis').x).toBeGreaterThan(seatOf('jim').x);
+    for (const id of ['naina', 'amina', 'aisha']) expect(seatOf(id).y, id).toBeLessThan(7);
+    expect(seatOf('lakshmi').x).toBeGreaterThan(seatOf('simran').x);
   });
 
   it('seats meetings in chair rows facing the conference screen', () => {
@@ -318,7 +318,7 @@ describe('floor plan after the reference render', () => {
       expect(tables).toHaveLength(1);
       expect(FURNITURE.filter((f) => f.areaId === 'kitchen' && f.kind === 'chair').length).toBeGreaterThanOrEqual(3);
       const t = tables[0];
-      expect(Math.hypot(seatOf('ira').x - (t.x + t.w / 2), seatOf('ira').y - (t.y + t.d / 2))).toBeLessThan(3);
+      expect(Math.hypot(seatOf('isabella').x - (t.x + t.w / 2), seatOf('isabella').y - (t.y + t.d / 2))).toBeLessThan(3);
     });
 
     it('keeps the break room as the separate back-right room: vending machines, round tables, a bulletin board, plants', () => {
@@ -403,52 +403,52 @@ describe('floor plan after the reference render', () => {
       expect(Math.hypot(f.x + f.w / 2 - x, f.y + f.d / 2 - y), id).toBeLessThan(tol);
     };
     near('rec.desk', 14.9, 16.2, 1.5);
-    near('bp.desk.jim', 22.5, 16.2, 1.5);
-    near('bp.desk.dwight', 23.3, 13.8, 1.5);
-    near('bp.desk.phyllis', 30.5, 14.0, 1.6);
-    near('bp.desk.andy', 25.3, 4.2, 1.5);
-    near('bp.desk.creed', 35.1, 4.2, 1.5);
-    for (const [person, desk] of [['jim', 'bp.desk.jim'], ['dwight', 'bp.desk.dwight'], ['pam', 'rec.desk'], ['phyllis', 'bp.desk.phyllis'], ['andy', 'bp.desk.andy']]) {
+    near('bp.desk.simran', 22.5, 16.2, 1.5);
+    near('bp.desk.meera', 23.3, 13.8, 1.5);
+    near('bp.desk.lakshmi', 30.5, 14.0, 1.6);
+    near('bp.desk.aisha', 25.3, 4.2, 1.5);
+    near('bp.desk.naina', 35.1, 4.2, 1.5);
+    for (const [person, desk] of [['simran', 'bp.desk.simran'], ['meera', 'bp.desk.meera'], ['aanya', 'rec.desk'], ['lakshmi', 'bp.desk.lakshmi'], ['aisha', 'bp.desk.aisha']]) {
       const f = FURNITURE.find((g) => g.id === desk)!;
       const s = seatOf(person);
       expect(Math.hypot(s.x - (f.x + f.w / 2), s.y - (f.y + f.d / 2)), person).toBeLessThan(2.6); // seats move with their desks
     }
   });
 
-  it('places the annex like the original: Ryan’s glass cubicle by the end wall next to Holly, partitions and shelves by the restrooms', () => {
-    expect(seatOf('ryan').x).toBeGreaterThan(64);
-    expect(seatOf('ryan').y).toBeLessThan(10);
-    expect(Math.abs(seatOf('ryan').x - seatOf('holly').x)).toBeLessThan(3);
+  it('places the annex like the original: Tara’s glass cubicle by the end wall next to Ananya, partitions and shelves by the restrooms', () => {
+    expect(seatOf('tara').x).toBeGreaterThan(64);
+    expect(seatOf('tara').y).toBeLessThan(10);
+    expect(Math.abs(seatOf('tara').x - seatOf('ananya').x)).toBeLessThan(3);
     const byRestrooms = FURNITURE.filter((f) => f.areaId === 'annex' && f.x < 62 && f.y < 8);
     expect(byRestrooms.map((f) => f.kind)).toEqual(expect.arrayContaining(['partition', 'binder-shelf', 'desk']));
     const cabinets = FURNITURE.filter((f) => f.areaId === 'annex' && f.kind === 'cabinet' && (f.h ?? 0) >= 2.4 && f.x + f.w > 71);
     expect(cabinets.length).toBeGreaterThanOrEqual(2); // tall filing cabinets against the end wall
   });
 
-  // measured off the 4K original through the map's camera: Kelly's desk by the break-room door (≈ 67.3, 17.4), Toby's HR
+  // measured off the 4K original through the map's camera: Priya's desk by the break-room door (≈ 67.3, 17.4), Sarah's HR
   // desk under the HR board on the end wall (≈ 69.5, 7.5)
-  it('puts Kelly’s and Toby’s desks where the original has them, each person in a seat at their desk', () => {
+  it('puts Priya’s and Sarah’s desks where the original has them, each person in a seat at their desk', () => {
     const at = (id: string) => { const f = FURNITURE.find((g) => g.id === id)!; return { x: f.x + f.w / 2, y: f.y + f.d / 2 }; };
-    const kelly = at('anx.kelly.desk');
-    const toby = at('anx.toby.desk');
-    expect(Math.hypot(kelly.x - 67.3, kelly.y - 17.4)).toBeLessThan(0.8);
-    expect(Math.hypot(toby.x - 69.5, toby.y - 7.5)).toBeLessThan(0.8);
-    expect(Math.hypot(seatOf('kelly').x - kelly.x, seatOf('kelly').y - kelly.y)).toBeLessThan(2.6);
-    expect(Math.hypot(seatOf('toby').x - toby.x, seatOf('toby').y - toby.y)).toBeLessThan(2.6);
+    const priya = at('anx.priya.desk');
+    const sarah = at('anx.sarah.desk');
+    expect(Math.hypot(priya.x - 67.3, priya.y - 17.4)).toBeLessThan(0.8);
+    expect(Math.hypot(sarah.x - 69.5, sarah.y - 7.5)).toBeLessThan(0.8);
+    expect(Math.hypot(seatOf('priya').x - priya.x, seatOf('priya').y - priya.y)).toBeLessThan(2.6);
+    expect(Math.hypot(seatOf('sarah').x - sarah.x, seatOf('sarah').y - sarah.y)).toBeLessThan(2.6);
     const cube = at('anx.cube2.desk'); // the empty cubicle in the middle of the annex (≈ 61.9, 12.8)
     expect(Math.hypot(cube.x - 61.9, cube.y - 12.8)).toBeLessThan(0.8);
     const chair = FURNITURE.find((f) => f.id === 'anx.cube2.chair')!;
     expect(Math.hypot(chair.x + chair.w / 2 - cube.x, chair.y + chair.d / 2 - cube.y)).toBeLessThan(2.2);
     const board = FURNITURE.find((f) => f.id === 'anx.hr.board')!;
-    expect(board.y).toBeLessThan(toby.y);
-    expect(board.y + board.d).toBeGreaterThan(toby.y); // the HR board hangs on the end wall behind Toby
+    expect(board.y).toBeLessThan(sarah.y);
+    expect(board.y + board.d).toBeGreaterThan(sarah.y); // the HR board hangs on the end wall behind Sarah
   });
 
   it('gives the accounting corner the original’s supply cabinets: along the left wall, the front wall and behind the desks', () => {
     const supplies = FURNITURE.filter((f) => f.areaId === 'bullpen' && f.kind === 'supplies' && f.x < 22);
     expect(supplies.length).toBeGreaterThanOrEqual(3);
-    const angela = FURNITURE.find((f) => f.id === 'bp.desk.angela')!;
-    expect(supplies.some((f) => f.y > angela.y + angela.d && f.y < rect('reception').y)).toBe(true);
+    const fatima = FURNITURE.find((f) => f.id === 'bp.desk.fatima')!;
+    expect(supplies.some((f) => f.y > fatima.y + fatima.d && f.y < rect('reception').y)).toBe(true);
   });
 
   it('overlaps areas only where reception sits inside the open-plan bullpen', () => {

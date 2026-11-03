@@ -26,7 +26,7 @@ export const REPLIES: Readonly<Record<string, ReadonlyArray<string>>> = Object.f
   analyst: [
     'Good question. Let me pull the numbers before anyone guesses.',
     "The data says something slightly different. I'll send a summary.",
-    "I'll check it twice. Once for me, once for Michael.",
+    "I'll check it twice. Once for me, once for Zara.",
   ],
   imports: [
     'Okay. I can do that. Probably.',

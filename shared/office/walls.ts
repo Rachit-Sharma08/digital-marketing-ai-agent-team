@@ -53,7 +53,7 @@ export const WALLS: readonly Wall[] = [
   { id: 'ext.right', axis: 'y', at: 72, from: 0, to: 35, exterior: true, height: FULL, openings: [
     { from: 2.4, to: 6.6, kind: 'window-blinds' }, { from: 28.4, to: 32, kind: 'window-blinds' },
   ] },
-  // the back row's front wall: the hallway (open to its bay and the elevator), reception doors, Michael's office,
+  // the back row's front wall: the hallway (open to its bay and the elevator), reception doors, Zara's office,
   // conference room, and the opening into the corridor that leads to the stair door
   { id: 'backrow.front', axis: 'x', at: 26, from: -7, to: 44, openings: [
     { from: -6.85, to: -3.15, kind: 'door' }, { from: 1.2, to: 6.8, kind: 'door' },
@@ -62,8 +62,8 @@ export const WALLS: readonly Wall[] = [
     { from: 25, to: 26.6, kind: 'wood-door' }, { from: 27.1, to: 40.1, kind: 'glass' },
     { from: 40.9, to: 43.6, kind: 'door' },
   ] },
-  { id: 'lobby|michael', axis: 'y', at: 13, from: 26, to: 35 },
-  { id: 'michael|conference', axis: 'y', at: 24.5, from: 26, to: 35 },
+  { id: 'lobby|zara', axis: 'y', at: 13, from: 26, to: 35 },
+  { id: 'zara|conference', axis: 'y', at: 24.5, from: 26, to: 35 },
   { id: 'conference|stairwell', axis: 'y', at: 40.5, from: 26, to: 35 },
   // the stair room: a walled box behind the kitchen whose side walls stand full height like the original's, with the
   // stair door at the back of the corridor; its front wall carries the kitchen's cabinets, so it stands above the cut.

@@ -88,7 +88,7 @@ const STANDUP: Beat[] = [
 const COUNCIL: Beat[] = [
   ...meeting('10:30', 'council', 'Council: Q4 pricing review', ['manager', 'accounts', 'analyst', 'strategy']),
   p('10:30', 'frontdesk', 'meeting', 'Council: taking the minutes', 'council'),
-  m('10:31', 'council', 'manager', "Let's begin. Oscar, numbers?"),
+  m('10:31', 'council', 'manager', "Let's begin. Neha, numbers?"),
   m('10:36', 'council', 'analyst', 'Costs are up 4%. A 3% price rise keeps margins flat.'),
   m('10:44', 'council', 'accounts', 'Agreed, provided nobody expenses the celebration.'),
   m('10:52', 'council', 'strategy', 'Corporate can support 3%, if the biggest clients hear it from us first.'),
@@ -126,7 +126,7 @@ const CHILI: Beat[] = [
   ...meeting('13:15', 'ops', 'Ops: import incident review', ['it', 'imports']),
   m('13:16', 'ops', 'imports', 'In my defence, the file was large.'),
   m('13:28', 'ops', 'it', 'Root cause: nothing stops a half-finished import. Adding a guard now.'),
-  m('13:34', 'ops', 'frontdesk', 'Cleanup done. Kevin is re-running the import.'),
+  m('13:34', 'ops', 'frontdesk', 'Cleanup done. Diya is re-running the import.'),
   p('13:35', 'it', 'working', 'Adding a guard to the import'),
   p('13:35', 'imports', 'working', 'Re-running the import (carefully)'),
   p('14:05', 'imports', 'idle'),
@@ -202,7 +202,7 @@ export const DEMO_JOBS: ReadonlyArray<DemoJobSpec> = Object.freeze([
   { agent: 'analyst', name: 'Forecast refresh', schedule: 'Weekdays 08:40', enabled: true, runs: runs(20, '08:40') },
   {
     agent: 'imports', name: 'Vendor price import', schedule: 'Weekdays 10:40', enabled: true,
-    runs: [{ at: hm('10:40'), minutes: 12, status: 'error: chili on the keyboard' }, { at: hm('13:35'), minutes: 30 }],
+    runs: [{ at: hm('10:40'), minutes: 12, status: 'error: import validation failed' }, { at: hm('13:35'), minutes: 30 }],
   },
   { agent: 'social', name: 'Post queue check', schedule: 'Every 2 h', enabled: true, runs: runs(5, '09:30', '11:30', '13:30', '15:30') },
   { agent: 'community', name: 'Welcome new members', schedule: 'Thursdays 10:15', enabled: true, runs: runs(15, '10:15') },

@@ -14,19 +14,19 @@ export type DemoRoom = {
 export type DemoStatus = BotStatus;
 
 export const DEMO_CAST: ReadonlyArray<DemoAgent> = Object.freeze([
-  { agent: 'frontdesk', person: 'pam', role: 'Front desk: triage and handoffs' },
-  { agent: 'manager', person: 'michael', role: 'Boss: leads the marketing team' },
-  { agent: 'sales', person: 'dwight', role: 'Campaigns: leads and follow-ups' },
-  { agent: 'accounts', person: 'angela', role: 'Finance: invoices and expenses' },
-  { agent: 'analyst', person: 'oscar', role: 'SEO: reports and forecasts' },
-  { agent: 'imports', person: 'kevin', role: 'Data imports' },
-  { agent: 'social', person: 'kelly', role: 'Social media: posts and campaigns' },
-  { agent: 'community', person: 'andy', role: 'Community and email' },
-  { agent: 'research', person: 'ryan', role: 'AI research: weekly digest' },
-  { agent: 'strategy', person: 'david', role: 'Corporate strategy' },
+  { agent: 'frontdesk', person: 'aanya', role: 'Front desk: triage and handoffs' },
+  { agent: 'manager', person: 'zara', role: 'Boss: leads the marketing team' },
+  { agent: 'sales', person: 'meera', role: 'Campaigns: leads and follow-ups' },
+  { agent: 'accounts', person: 'fatima', role: 'Finance: invoices and expenses' },
+  { agent: 'analyst', person: 'neha', role: 'SEO: reports and forecasts' },
+  { agent: 'imports', person: 'diya', role: 'Data imports' },
+  { agent: 'social', person: 'priya', role: 'Social media: posts and campaigns' },
+  { agent: 'community', person: 'aisha', role: 'Community and email' },
+  { agent: 'research', person: 'tara', role: 'AI research: weekly digest' },
+  { agent: 'strategy', person: 'sophia', role: 'Corporate strategy' },
   { agent: 'it', person: 'sadiq', role: 'IT: deploys and monitoring' },
-  { agent: 'assistant', person: 'jarvis', role: 'General assistant' },
-  { agent: 'wellness', person: 'ira', role: 'Wellness: breaks and stretches' },
+  { agent: 'assistant', person: 'maya', role: 'General assistant' },
+  { agent: 'wellness', person: 'isabella', role: 'Wellness: breaks and stretches' },
 ].map((a) => Object.freeze(a)));
 
 const TEAM_ROOMS: ReadonlyArray<DemoRoom> = [

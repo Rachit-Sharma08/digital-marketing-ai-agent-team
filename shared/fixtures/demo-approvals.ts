@@ -1,4 +1,4 @@
-// What waits on you in demo mode: fictional requests for the approvals inbox at Toby's desk. No secrets, no real
+// What waits on you in demo mode: fictional requests for the approvals inbox at Sarah's desk. No secrets, no real
 // task titles. A working or idle bot with a request is shown as needing you, exactly as the server does it.
 import type { Approval, OfficeSnapshot } from '../contract';
 import { DEMO_NOW, DEMO_SNAPSHOT } from './demo-snapshot';
@@ -8,7 +8,7 @@ const UNBLOCK = { approve: 'Unblock it (your note goes on the card)', reject: 'A
 
 export const DEMO_APPROVALS: Approval[] = [
   {
-    id: 'hermes:t_demo_welcome.blocked', adapter: 'hermes', personId: 'andy', from: 'Andy Bernard', kind: 'question',
+    id: 'hermes:t_demo_welcome.blocked', adapter: 'hermes', personId: 'aisha', from: 'Aisha Malik', kind: 'question',
     title: 'Post the welcome thread to the Skool community?', detail: 'The draft is ready. Six new members joined this week; it tags all of them.',
     requestedAt: ago(7), risk: 'medium', decidable: true, actions: UNBLOCK,
   },
@@ -23,7 +23,7 @@ export const DEMO_APPROVALS: Approval[] = [
     requestedAt: ago(52), risk: 'low', decidable: true, actions: { approve: 'Mark it done', reject: 'Archive the card' },
   },
   {
-    id: 'hermes:t_demo_loop.triage', adapter: 'hermes', personId: 'kelly', from: 'Kelly Kapoor', kind: 'question',
+    id: 'hermes:t_demo_loop.triage', adapter: 'hermes', personId: 'priya', from: 'Priya Singh', kind: 'question',
     title: 'Instagram scheduling keeps failing', detail: 'Unblocked twice and blocked again for the same reason. Fix the cause in Hermes first.',
     requestedAt: ago(95), risk: 'medium', decidable: false,
   },

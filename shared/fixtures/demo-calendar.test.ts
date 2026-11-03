@@ -14,7 +14,7 @@ describe('demo schedule', () => {
   const jobs = demoScheduleJobs(NOW);
   const view = buildScheduleView({ jobs, span: WEEK, now: NOW, defaultTimeZone: DEMO_ZONE });
 
-  it('belongs to staff with bots, runs on Scranton time, and every job has a rule', () => {
+  it('belongs to staff with bots, runs on New Delhi time, and every job has a rule', () => {
     for (const [personId, list] of Object.entries(jobs)) {
       expect(BOTS.has(personId), personId).toBe(true);
       for (const j of list) expect(j).toMatchObject({ timeZone: 'America/New_York', rule: expect.any(Object) });

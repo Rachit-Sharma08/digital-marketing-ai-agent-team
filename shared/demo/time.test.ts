@@ -50,7 +50,7 @@ describe('demo clock', () => {
   it('round-trips through the clock view a browser receives', () => {
     const clock = startClock(T0, hm('12:00'), 10);
     const view = clockView(clock, T0 + 5000);
-    expect(view).toMatchObject({ speed: 10, speeds: [1, 10, 60], start: '08:30', end: '17:30', title: 'Threat Level Midnight' });
+    expect(view).toMatchObject({ speed: 10, speeds: [1, 10, 60], start: '08:30', end: '17:30', title: 'Campaign Daybook' });
     const copy = startClock(0, DAY_START, view.speed);
     const rebuilt = { ...copy, anchorRealMs: 7000, anchorSimMs: view.offsetMs };
     expect(minuteAt(rebuilt, 7000)).toBeCloseTo(minuteAt(clock, T0 + 5000), 6);

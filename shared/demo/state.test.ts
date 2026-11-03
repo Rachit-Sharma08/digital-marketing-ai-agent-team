@@ -14,7 +14,7 @@ describe('the demo cast', () => {
     const staff = new Set(STAFF.map((s) => s.id));
     for (const c of DEMO_CAST) expect(staff.has(c.person), c.person).toBe(true);
     expect(new Set(DEMO_CAST.map((c) => c.person)).size).toBe(DEMO_CAST.length);
-    for (const unbotted of ['jim', 'phyllis', 'stanley', 'toby']) expect(DEMO_CAST.some((c) => c.person === unbotted)).toBe(false);
+    for (const unbotted of ['simran', 'lakshmi', 'aaliya', 'sarah']) expect(DEMO_CAST.some((c) => c.person === unbotted)).toBe(false);
   });
 
   it('has a direct line per bot and team rooms whose members are bots', () => {
@@ -45,7 +45,7 @@ describe('the demo cast', () => {
 });
 
 describe('a day at the branch', () => {
-  it('starts with an empty office; the bots arrive through the morning (Ryan after lunch)', () => {
+  it('starts with an empty office; the bots arrive through the morning (Tara after lunch)', () => {
     const early = at('08:30');
     expect(Object.values(early.presence).every((p) => p.status === 'offline')).toBe(true);
     const morning = at('09:10');
@@ -64,10 +64,10 @@ describe('a day at the branch', () => {
     expect(Object.values(at('11:30').presence).some((p) => p.room === 'council')).toBe(false);
   });
 
-  it("has one error, Kevin's import, which IT cleans up in an Ops review", () => {
+  it('has one import error, which IT cleans up in an Ops review', () => {
     expect(at('10:45').presence.imports?.status).toBe('working');
     const spill = at('12:00');
-    expect(spill.presence.imports).toMatchObject({ status: 'error', activity: expect.stringMatching(/chili/i) });
+    expect(spill.presence.imports).toMatchObject({ status: 'error', activity: 'Import failed: 3,000 rows half-loaded' });
     expect(Object.entries(spill.presence).filter(([, p]) => p.status === 'error').map(([a]) => a)).toEqual(['imports']);
     expect(spill.jobs.imports?.[0]).toMatchObject({ name: 'Vendor price import', lastStatus: expect.stringMatching(/^error/) });
     expect(at('13:20').presence.imports).toMatchObject({ status: 'meeting', room: 'ops' });

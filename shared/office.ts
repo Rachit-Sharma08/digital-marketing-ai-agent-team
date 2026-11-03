@@ -1,4 +1,4 @@
-// Static office data for Dunder Mifflin OS: areas, walls (with door gaps), furniture, seats and the staff roster.
+// Static office data for Agents Ka Ghar: areas, walls (with door gaps), furniture, seats and the staff roster.
 // Pure data. Units: 1 ≈ 0.5 m; x → right, y → back, z → up. See docs/ARCHITECTURE.md for the floor plan.
 import type { Look, Person } from './contract';
 

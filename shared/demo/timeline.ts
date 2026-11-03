@@ -1,6 +1,6 @@
 // A demo bot's timeline: what it did today up to an office minute, straight from the script (its status changes,
 // cards, scheduled job runs and messages) plus the ambient work it picked up. Newest first, ISO office time. Pure;
-// the demo adapter serves it as the bot's timeline, so the demo day has a documentary crew (and real Dundies).
+// the demo adapter serves it as the bot's timeline, so the demo day has a documentary crew (and real Highlights).
 import type { TimelineEvent, TimelineKind } from '../observability';
 import { BEATS, DEMO_JOBS, DEMO_TASKS, type MessageBeat, type PresenceBeat, type TaskBeat } from './script';
 import { ambientWorkUpTo, dayStateAt } from './state';

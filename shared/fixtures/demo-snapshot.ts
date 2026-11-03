@@ -6,18 +6,18 @@ export const DEMO_NOW = '2026-10-13T15:00:00.000Z';
 const ago = (minutes: number) => new Date(Date.parse(DEMO_NOW) - minutes * 60_000).toISOString();
 
 const BOT_PRESENCE: Record<string, Presence> = {
-  pam: { status: 'working', activity: 'Routing 3 handoffs to the Council', since: ago(4) },
-  michael: { status: 'meeting', activity: 'Council: Q4 pricing review', since: ago(18), roomId: 'council' },
-  angela: { status: 'meeting', activity: 'Council: Q4 pricing review', since: ago(18), roomId: 'council' },
-  dwight: { status: 'working', activity: 'Auditing the Q4 campaign report', since: ago(12) },
-  oscar: { status: 'idle', since: ago(25) },
-  kelly: { status: 'working', activity: 'Scheduling 4 posts for Thursday', since: ago(2) },
-  andy: { status: 'idle', since: ago(41) },
-  ryan: { status: 'offline', since: ago(180) },
-  david: { status: 'idle', since: ago(65) },
+  aanya: { status: 'working', activity: 'Routing 3 handoffs to the Council', since: ago(4) },
+  zara: { status: 'meeting', activity: 'Council: Q4 pricing review', since: ago(18), roomId: 'council' },
+  fatima: { status: 'meeting', activity: 'Council: Q4 pricing review', since: ago(18), roomId: 'council' },
+  meera: { status: 'working', activity: 'Auditing the Q4 campaign report', since: ago(12) },
+  neha: { status: 'idle', since: ago(25) },
+  priya: { status: 'working', activity: 'Scheduling 4 posts for Thursday', since: ago(2) },
+  aisha: { status: 'idle', since: ago(41) },
+  tara: { status: 'offline', since: ago(180) },
+  sophia: { status: 'idle', since: ago(65) },
   sadiq: { status: 'error', activity: 'Gateway timeout on the deploy check', since: ago(9) },
-  jarvis: { status: 'working', activity: 'Summarising the inbox', since: ago(6) },
-  ira: { status: 'working', activity: 'Logging lunch macros', since: ago(3) },
+  maya: { status: 'working', activity: 'Summarising the inbox', since: ago(6) },
+  isabella: { status: 'working', activity: 'Logging lunch macros', since: ago(3) },
 };
 
 const people = STAFF.map(toPerson);
@@ -50,30 +50,30 @@ const dmRooms: Room[] = STAFF.filter((s) => s.bot).map((s) => ({
 }));
 
 const tasks: Task[] = [
-  { id: 'task-q4-pricing', title: 'Q4 pricing review', status: 'doing', ownerId: 'michael', roomId: 'council', shared: true, updatedAt: ago(18) },
+  { id: 'task-q4-pricing', title: 'Q4 pricing review', status: 'doing', ownerId: 'zara', roomId: 'council', shared: true, updatedAt: ago(18) },
   { id: 'task-fleet-health', title: 'Weekly fleet health check', status: 'blocked', ownerId: 'sadiq', roomId: 'ops', shared: true, updatedAt: ago(9) },
-  { id: 'task-ops-handoffs', title: 'Hand off the Nashua leads to Outreach', status: 'todo', ownerId: 'pam', roomId: 'ops', shared: true, updatedAt: ago(30) },
-  { id: 'task-q4-audit', title: 'Audit the Q4 campaign report', status: 'doing', ownerId: 'dwight', roomId: 'outreach', shared: false, updatedAt: ago(12) },
-  { id: 'task-content-cal', title: 'Thursday content calendar', status: 'doing', ownerId: 'kelly', roomId: 'content', shared: false, updatedAt: ago(2) },
-  { id: 'task-digest', title: 'Morning handoff digest', status: 'done', ownerId: 'pam', roomId: 'hq', shared: false, updatedAt: ago(95) },
-  { id: 'task-skool-welcome', title: 'Welcome thread for new Skool members', status: 'todo', ownerId: 'andy', roomId: 'skool', shared: false, updatedAt: ago(41) },
-  { id: 'task-inbox', title: 'Inbox summary', status: 'doing', ownerId: 'jarvis', roomId: 'dm-general', shared: false, updatedAt: ago(6) },
+  { id: 'task-ops-handoffs', title: 'Hand off the Nashua leads to Outreach', status: 'todo', ownerId: 'aanya', roomId: 'ops', shared: true, updatedAt: ago(30) },
+  { id: 'task-q4-audit', title: 'Audit the Q4 campaign report', status: 'doing', ownerId: 'meera', roomId: 'outreach', shared: false, updatedAt: ago(12) },
+  { id: 'task-content-cal', title: 'Thursday content calendar', status: 'doing', ownerId: 'priya', roomId: 'content', shared: false, updatedAt: ago(2) },
+  { id: 'task-digest', title: 'Morning handoff digest', status: 'done', ownerId: 'aanya', roomId: 'hq', shared: false, updatedAt: ago(95) },
+  { id: 'task-skool-welcome', title: 'Welcome thread for new Skool members', status: 'todo', ownerId: 'aisha', roomId: 'skool', shared: false, updatedAt: ago(41) },
+  { id: 'task-inbox', title: 'Inbox summary', status: 'doing', ownerId: 'maya', roomId: 'dm-general', shared: false, updatedAt: ago(6) },
 ];
 
 const ahead = (minutes: number) => new Date(Date.parse(DEMO_NOW) + minutes * 60_000).toISOString();
 
 const jobs: Record<string, ScheduledJob[]> = {
-  pam: [
+  aanya: [
     { name: 'Morning handoff digest', schedule: 'Weekdays 08:00', enabled: true, lastRunAt: ago(420), lastStatus: 'ok', nextRunAt: ahead(1020) },
     { name: 'Council agenda', schedule: 'Mondays 09:00', enabled: true, lastRunAt: ago(1800), lastStatus: 'ok', nextRunAt: ahead(8400) },
   ],
-  dwight: [{ name: 'Weekly campaign report', schedule: 'Fridays 16:00', enabled: true, lastRunAt: ago(5400), lastStatus: 'ok', nextRunAt: ahead(4380) }],
-  kelly: [{ name: 'Post queue check', schedule: 'Every 2 h', enabled: true, lastRunAt: ago(55), lastStatus: 'ok', nextRunAt: ahead(65) }],
+  meera: [{ name: 'Weekly campaign report', schedule: 'Fridays 16:00', enabled: true, lastRunAt: ago(5400), lastStatus: 'ok', nextRunAt: ahead(4380) }],
+  priya: [{ name: 'Post queue check', schedule: 'Every 2 h', enabled: true, lastRunAt: ago(55), lastStatus: 'ok', nextRunAt: ahead(65) }],
   sadiq: [
     { name: 'Fleet health check', schedule: 'Hourly', enabled: true, lastRunAt: ago(9), lastStatus: 'error: gateway timeout', nextRunAt: ahead(51) },
     { name: 'Nightly backup verify', schedule: 'Daily 02:30', enabled: false, lastRunAt: ago(2190), lastStatus: 'ok' },
   ],
-  ira: [{ name: 'Lunch macro reminder', schedule: 'Daily 12:30', enabled: true, lastRunAt: ago(150), lastStatus: 'ok', nextRunAt: ahead(1290) }],
+  isabella: [{ name: 'Lunch macro reminder', schedule: 'Daily 12:30', enabled: true, lastRunAt: ago(150), lastStatus: 'ok', nextRunAt: ahead(1290) }],
 };
 
 export const DEMO_SNAPSHOT: OfficeSnapshot = {

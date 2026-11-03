@@ -8,7 +8,7 @@ describe('demo snapshot', () => {
   });
 
   it('marks unbotted staff as no-bot and varies the bot statuses', () => {
-    expect(DEMO_SNAPSHOT.presence.jim.status).toBe('no-bot');
+    expect(DEMO_SNAPSHOT.presence.simran.status).toBe('no-bot');
     const statuses = new Set(Object.values(DEMO_SNAPSHOT.presence).map((p) => p.status));
     for (const s of ['working', 'idle', 'offline', 'error', 'meeting', 'no-bot']) expect(statuses.has(s as never), s).toBe(true);
   });
@@ -22,7 +22,7 @@ describe('demo snapshot', () => {
   });
 
   it('lists scheduled jobs for some bots', () => {
-    expect(DEMO_SNAPSHOT.jobs?.pam?.length).toBeGreaterThan(0);
+    expect(DEMO_SNAPSHOT.jobs?.aanya?.length).toBeGreaterThan(0);
     expect(Object.keys(DEMO_SNAPSHOT.jobs ?? {}).every((id) => DEMO_SNAPSHOT.people.some((p) => p.id === id))).toBe(true);
   });
 

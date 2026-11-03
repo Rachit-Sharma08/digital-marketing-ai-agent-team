@@ -56,7 +56,7 @@ export type BudgetStatus = {
 export type BudgetsReport = {
   generatedAt: string;
   currency: 'USD';
-  estimate: true; // costs are estimates (Angela's ledger rules)
+  estimate: true; // costs are estimates (Fatima's ledger rules)
   autoPause: boolean; // budgets.autoPause in config.yaml (default false)
   warnAt: number;
   budgets: BudgetStatus[]; // one per budgeted person, worst first

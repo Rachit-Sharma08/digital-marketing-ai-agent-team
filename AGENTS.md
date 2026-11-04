@@ -204,7 +204,7 @@ These rules apply to every agent and human working here. They override any tool'
 3. **No session or checkpoint commits.** Never use subjects like `wip`, `turn N start`, `baseline checkpoint`, or `agent session ...`. Commit the finished change, not the process.
 4. **No history rewrites.** No `rebase -i`, `filter-branch`, `filter-repo` or force-push on `main`. A wrong message stays; do better next time.
 5. **No contribution farming.** Never create a repo, branch, issue or PR just to raise the contribution graph. Self-merging throwaway PRs is banned.
-6. **Real volume.** At most 3–5 commits a day, only when there is real work. Never split one refactor into 20 micro-commits and push them together.
+6. **Real volume.** Commit as often as real work lands: a quiet day may have none, a heavy day several. Never pad the graph — no micro-commits of one refactor, no quota, no artificial spread.
 7. **Correct author.** Commit as the repo user (Rachit Sharma). No `Co-Authored-By` trailers for AI tools and no tool accounts in commit metadata.
 8. **Push once, green.** Run `npm run typecheck`, `npm test` and `npm run build` before pushing. One push per working session, not after every commit.
 9. **Verify the address.** `git config user.email` must be the GitHub noreply address, with no trailing dot.

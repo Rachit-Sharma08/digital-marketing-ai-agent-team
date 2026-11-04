@@ -62,15 +62,18 @@ const DEEP_WORDS = ['audit', 'strategy', 'plan', 'analyse', 'analyze', 'compare'
 
 const norm = (text: string): string => text.toLowerCase().replace(/\s+/g, ' ').trim();
 
-export function pickAgent(text: string, env: NodeJS.ProcessEnv = process.env): AgentPick {
+export function pickAgent(text: string, env: NodeJS.ProcessEnv = process.env, assignTo?: string | null): AgentPick {
   const t = norm(text);
-  const rule = RULES.find((r) => r.words.some((w) => t.includes(w))) ?? GENERAL;
+  const forced = assignTo ? (RULES.find((r) => r.person === assignTo) ?? (assignTo === GENERAL.person ? GENERAL : null)) : null;
+  const rule = forced ?? RULES.find((r) => r.words.some((w) => t.includes(w))) ?? GENERAL;
 
   // The boss always gets the strongest model tier.
   const tier: ModelTier = rule.person === 'zara' ? 'deep' : deepOrNormal(t, rule.kind);
 
   const model = modelFor(tier, env);
-  const by = rule.kind === 'general' ? 'no specific skill matched — handled by the boss' : `handled by ${rule.title}`;
+  const by = forced
+    ? rule.kind === 'general' ? 'assigned directly to the boss' : `assigned directly to ${rule.title}`
+    : rule.kind === 'general' ? 'no specific skill matched — handled by the boss' : `handled by ${rule.title}`;
   return {
     kind: rule.kind,
     person: rule.person,

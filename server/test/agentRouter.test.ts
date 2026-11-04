@@ -18,6 +18,17 @@ describe('pickAgent', () => {
     expect(pickAgent('audit the whole funnel and tell me why conversions dropped').model.tier).toBe('deep');
   });
 
+  it('can be pointed at one teammate directly', () => {
+    const direct = pickAgent('please handle this', { MISTRAL_API_KEY: 'present' }, 'meera');
+    expect(direct).toMatchObject({ kind: 'ads', person: 'meera' });
+    expect(direct.reason).toContain('assigned directly');
+    expect(pickAgent('please handle this', {}, 'zara')).toMatchObject({ kind: 'general', person: 'zara', model: { tier: 'deep' } });
+  });
+
+  it('ignores an unknown teammate id and routes normally', () => {
+    expect(pickAgent('instagram caption', {}, 'nobody')).toMatchObject({ kind: 'social', person: 'priya' });
+  });
+
   it('always explains itself and picks a real model id', () => {
     const pick = pickAgent('plan a launch campaign');
     expect(pick.reason).toContain(pick.model.label);

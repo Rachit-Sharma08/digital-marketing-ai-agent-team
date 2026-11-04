@@ -1,5 +1,5 @@
 @echo off
 title Agents Ka Ghar - Live (Hermes)
 cd /d "%~dp0"
-node bin\agents-ka-ghar.mjs --port 4319 --hermes-home D:\hermes --open
+node bin\agents-ka-ghar.mjs --port 4319 --hermes-home D:\hermes --allow-writes --open
 pause

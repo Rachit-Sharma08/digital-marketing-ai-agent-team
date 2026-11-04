@@ -21,6 +21,7 @@ import { useOffice } from './data/useOffice';
 import { DemoBar } from './demo/DemoBar';
 import { officeNowMs } from './demo/demoClock';
 import { useDemoClock } from './demo/useDemoClock';
+import { DispatchDock } from './dispatch/DispatchDock';
 import { writesAllowed } from './data/capabilities';
 import type { Overlay } from './keys/hotkeys';
 import { paletteKeyLabel } from './keys/hotkeys';
@@ -35,7 +36,6 @@ import { useNotifications } from './notify/useNotifications';
 import { type FleetFilter, filterCounts, hiddenByFilter } from './office/filters';
 import { fleetCounts } from './office/status';
 import { AskAanya } from './aanya/AskAanya';
-import { TeamConsole } from './team/TeamConsole';
 import { type AanyaItem, type ViewMode, buildAanyaItems } from './aanya/items';
 import { useAanyaRecents } from './aanya/useAanyaRecents';
 import { usePrefs } from './prefs/usePrefs';
@@ -62,7 +62,7 @@ export function App() {
   const [viewPick, setViewPick] = useState<ViewMode | null>(null);
   const [focusRequest, setFocusRequest] = useState<FocusRequest | null>(null);
   const [chatFor, setChatFor] = useState<string | null>(null);
-  const [teamOpen, setTeamOpen] = useState(false);
+  const [dispatchOpen, setDispatchOpen] = useState(false);
   const returnFocus = useRef<Element | null>(null);
   const gear = useRef<HTMLButtonElement>(null);
   const demo = state.phase === 'demo';
@@ -199,7 +199,6 @@ export function App() {
         source={source}
         paletteKey={PALETTE_KEY}
         onAskAanya={() => toggle('palette')}
-        onOpenTeam={() => setTeamOpen((o) => !o)}
         view={view}
         onToggleView={() => setViewPick(view === 'map' ? 'list' : 'map')}
         settingsOpen={overlay === 'settings'}
@@ -215,23 +214,29 @@ export function App() {
         demo={demoDay ? <DemoBar day={demoDay} writable={writable} /> : undefined}
       />
       <main className="desktop">
-        {!snapshot && <p className="loading" role="status">Opening the office…</p>}
-        {snapshot && view === 'map' && (
-          <OfficeMap snapshot={snapshot} live={!demo} hidden={hidden} focusRequest={focusRequest} reduceMotion={reduceMotion} onOpenPerson={openPerson} onOpenArea={openArea}
-            onOpenCalendar={openCalendar} onOpenLedger={openLedger} />
-        )}
-        {snapshot && view === 'list' && (
-          <ListView snapshot={snapshot} filter={filter} live={!demo} onFilter={setFilter} onOpenPerson={openPerson} onOpenArea={openArea} />
-        )}
-        {snapshot && view === 'map' && counts && (
-          <FilterBar filter={filter} shown={filter === 'all' ? 0 : filterCounts(snapshot)[filter]} bots={counts.bots} onClear={() => setFilter('all')} />
-        )}
-        {notify.report && <AwaySummary report={notify.report} onOpenPerson={openPerson} onDismiss={notify.dismissReport} />}
-        {snapshot && (
-          <WindowLayer wins={wins} setWins={setWins} snapshot={snapshot} demo={demo} writable={writable} now={now} sheet={narrow}
-            onOpenPerson={openPerson} onOpenArea={openArea} onTaskCreated={onTaskCreated} onDecided={onDecided} onOpenLedger={openLedger} onOpenTimeline={openTimeline}
-            onOpenCalendar={openCalendar} budgets={budgets} pendingControl={pendingControl} />
-        )}
+        <DispatchDock writable={writable} open={dispatchOpen} onClose={() => setDispatchOpen(false)} onOpenPerson={openPerson} />
+        <div className="stage">
+          {!snapshot && <p className="loading" role="status">Opening the office…</p>}
+          {snapshot && view === 'map' && (
+            <OfficeMap snapshot={snapshot} live={!demo} hidden={hidden} focusRequest={focusRequest} reduceMotion={reduceMotion} onOpenPerson={openPerson} onOpenArea={openArea}
+              onOpenCalendar={openCalendar} onOpenLedger={openLedger} />
+          )}
+          {snapshot && view === 'list' && (
+            <ListView snapshot={snapshot} filter={filter} live={!demo} onFilter={setFilter} onOpenPerson={openPerson} onOpenArea={openArea} />
+          )}
+          {snapshot && view === 'map' && counts && (
+            <FilterBar filter={filter} shown={filter === 'all' ? 0 : filterCounts(snapshot)[filter]} bots={counts.bots} onClear={() => setFilter('all')} />
+          )}
+          {notify.report && <AwaySummary report={notify.report} onOpenPerson={openPerson} onDismiss={notify.dismissReport} />}
+          {snapshot && (
+            <WindowLayer wins={wins} setWins={setWins} snapshot={snapshot} demo={demo} writable={writable} now={now} sheet={narrow}
+              onOpenPerson={openPerson} onOpenArea={openArea} onTaskCreated={onTaskCreated} onDecided={onDecided} onOpenLedger={openLedger} onOpenTimeline={openTimeline}
+              onOpenCalendar={openCalendar} budgets={budgets} pendingControl={pendingControl} />
+          )}
+          <button type="button" className="dispatch-fab" aria-label="Open the dispatch desk" onClick={() => setDispatchOpen(true)}>
+            <span aria-hidden="true">✦</span> Dispatch
+          </button>
+        </div>
       </main>
       <Taskbar
         windows={wins.windows}
@@ -244,7 +249,6 @@ export function App() {
         <AskAanya snapshot={snapshot} items={aanyaItems} recents={recents} live={!demo} onRun={run} onClose={() => closeOverlay()} />
       )}
       {overlay === 'shortcuts' && <ShortcutsSheet paletteKey={PALETTE_KEY} singleKeys={prefs.singleKeys} onClose={() => closeOverlay()} />}
-      {teamOpen && <TeamConsole onClose={() => setTeamOpen(false)} />}
       {invite.invited && delight.value.highlights.phase === 'ready' && delight.value.highlights.digest.awards.length > 0 && (
         <HighlightsInvite awards={delight.value.highlights.digest.awards.length} onStart={() => { invite.seen(); openHighlights(); }} onDismiss={invite.seen} />
       )}

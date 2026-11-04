@@ -33,7 +33,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: 0; flex: none; }
 
 .os { display: grid; grid-template-rows: var(--topbar-h) 1fr var(--taskbar-h); height: 100vh; overflow: hidden; }
-.desktop { position: relative; overflow: hidden; }
+.desktop { position: relative; overflow: hidden; display: flex; min-height: 0; }
 .loading { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
 
 /* top bar: the ink strip of the ledger */

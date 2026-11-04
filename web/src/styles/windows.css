@@ -5,7 +5,7 @@
 .window:focus { outline: none; }
 .window:focus-visible { outline: 3px solid #f2b632; }
 .window-bar {
-  display: flex; align-items: center; gap: 6px; padding: 8px 8px 8px 14px; background: linear-gradient(180deg, #2468bd, var(--dm-blue));
+  display: flex; align-items: center; gap: 6px; padding: 8px 8px 8px 14px; background: linear-gradient(180deg, #2468bd, var(--akg-blue));
   color: #fff; cursor: move; touch-action: none; user-select: none;
 }
 .window-titles { flex: 1; min-width: 0; }
@@ -29,7 +29,7 @@
 .persona-title { font-weight: 600; }
 .window-body .persona-alias { margin-top: -2px; font-size: 11.5px; color: var(--muted); }
 .tag { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 999px; background: #ece6da; color: #5d5446; margin-left: 4px; }
-.tag-bot { background: #e3edf9; color: var(--dm-blue-dark); margin-left: 0; font-weight: 700; }
+.tag-bot { background: #e3edf9; color: var(--akg-blue-dark); margin-left: 0; font-weight: 700; }
 .status-line { display: flex; align-items: center; flex-wrap: wrap; }
 .status-line .muted { margin-left: 4px; }
 .member-list li { display: flex; align-items: center; flex-wrap: wrap; }
@@ -37,7 +37,7 @@
 .facts { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; margin: 12px 0 0; }
 .facts dt { color: var(--muted); font-size: 12.5px; }
 .facts dd { margin: 0; }
-.link-btn { background: none; border: 0; padding: 0; color: var(--dm-blue); text-decoration: underline; text-underline-offset: 2px; display: inline-flex; align-items: center; }
+.link-btn { background: none; border: 0; padding: 0; color: var(--akg-blue); text-decoration: underline; text-underline-offset: 2px; display: inline-flex; align-items: center; }
 
 .task-list, .job-list, .member-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
 .task-list li { display: flex; gap: 8px; align-items: baseline; }
@@ -52,7 +52,7 @@
 
 .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin: -4px 0 8px; }
 .tab { border: 0; background: none; padding: 6px 12px; border-bottom: 3px solid transparent; font-weight: 600; color: var(--muted); }
-.tab[aria-selected='true'] { color: var(--dm-blue); border-bottom-color: var(--dm-blue); }
+.tab[aria-selected='true'] { color: var(--akg-blue); border-bottom-color: var(--akg-blue); }
 
 .chat { border: 1px solid var(--line); border-radius: 10px; background: #fff; display: flex; flex-direction: column; }
 .chat-log { list-style: none; margin: 0; padding: 10px; display: flex; flex-direction: column; gap: 6px; max-height: 220px; min-height: 90px; overflow: auto; }
@@ -62,16 +62,23 @@
 .msg-author { display: block; font-size: 11px; font-weight: 700; color: var(--muted); }
 .msg-text { white-space: pre-wrap; word-break: break-word; }
 .dots { display: inline-flex; gap: 3px; }
-.dots i { width: 6px; height: 6px; border-radius: 50%; background: #9d9486; animation: dm-typing 1.2s infinite ease-in-out; }
+.dots i { width: 6px; height: 6px; border-radius: 50%; background: #9d9486; animation: akg-typing 1.2s infinite ease-in-out; }
 .dots i:nth-child(2) { animation-delay: .15s; }
 .dots i:nth-child(3) { animation-delay: .3s; }
-@keyframes dm-typing { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+@keyframes akg-typing { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
 .chat-error { color: #a12d2d; font-size: 12.5px; margin: 6px 10px; }
 .chat-form, .new-task-row { display: flex; gap: 6px; padding: 8px; border-top: 1px solid var(--line); }
 .new-task-row { padding: 0; border: 0; }
 .chat-form input, .new-task input { flex: 1; min-width: 0; border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; background: #fff; }
 .new-task select { border: 1px solid var(--line); border-radius: 7px; padding: 6px; background: #fff; max-width: 130px; }
-.chat-form button, .new-task button { border: 0; background: var(--dm-blue); color: #fff; border-radius: 7px; padding: 7px 12px; font-weight: 600; }
+.chat-form button, .new-task button {
+  border: 0;
+  background: var(--akg-blue);
+  color: #fff;
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-weight: 600;
+}
 .chat-form button:disabled, .new-task button:disabled { opacity: .5; cursor: default; }
 .new-task { margin: 10px 0 4px; }
 .new-task h3 { margin-top: 4px; }

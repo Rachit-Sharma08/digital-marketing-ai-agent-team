@@ -1,6 +1,6 @@
 :root {
-  --dm-blue: #1f5fae;
-  --dm-blue-dark: #174a88;
+  --akg-blue: #1f5fae;
+  --akg-blue-dark: #174a88;
   --ink: #2d2a26;
   --muted: #6f675c;
   --paper: #fbfaf7;
@@ -31,11 +31,11 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 /* top bar */
 .topbar {
   display: flex; align-items: center; gap: 14px; padding: 0 14px; min-width: 0;
-  background: linear-gradient(180deg, #2468bd, var(--dm-blue)); color: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.15); z-index: 50;
+  background: linear-gradient(180deg, #2468bd, var(--akg-blue)); color: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.15); z-index: 50;
 }
 .brand { display: flex; align-items: center; gap: 9px; flex: none; }
 .brand-mark {
-  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; background: #fff; color: var(--dm-blue);
+  display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; background: #fff; color: var(--akg-blue);
   font-weight: 900; font-size: 14px; letter-spacing: -0.5px; box-shadow: inset 0 -2px 0 rgba(0,0,0,.12);
 }
 .brand-name { font-size: 17px; font-weight: 600; letter-spacing: 0.2px; white-space: nowrap; }
@@ -67,7 +67,7 @@ button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .taskbar { display: flex; align-items: center; gap: 6px; padding: 0 10px; background: #f6f3ec; border-top: 1px solid var(--line); overflow-x: auto; z-index: 50; }
 .taskbar-hint { font-size: 12.5px; color: var(--muted); }
 .task { border: 1px solid var(--line); background: #fff; border-radius: 6px; padding: 5px 12px; font-size: 12.5px; white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis; }
-.task.is-active { border-color: var(--dm-blue); color: var(--dm-blue); box-shadow: inset 0 -2px 0 var(--dm-blue); }
+.task.is-active { border-color: var(--akg-blue); color: var(--akg-blue); box-shadow: inset 0 -2px 0 var(--akg-blue); }
 .task.is-min { opacity: .65; }
 
 @media (max-width: 900px) {

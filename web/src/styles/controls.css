@@ -13,7 +13,7 @@
 .job-list li:has(.row-controls) .row-controls { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
 
 .control-confirm {
-  margin-top: 8px; padding: 9px 11px; border: 1px solid var(--line); border-left: 4px solid var(--dm-blue); border-radius: 9px; background: #f6f9fe;
+  margin-top: 8px; padding: 9px 11px; border: 1px solid var(--line); border-left: 4px solid var(--akg-blue); border-radius: 9px; background: #f6f9fe;
 }
 .control-confirm.tone-danger { border-left-color: #b8463b; background: #fdf5f3; }
 .window-body .control-confirm-title { margin: 0 0 3px; font-weight: 700; font-size: 13.5px; }
@@ -22,7 +22,7 @@
 .control-target select { border: 1px solid var(--line); border-radius: 6px; padding: 3px 6px; background: #fff; }
 .control-confirm-actions { display: flex; gap: 8px; }
 .control-confirm-actions button { border: 0; border-radius: 7px; padding: 6px 14px; font-weight: 700; }
-.control-confirm-actions .control-go { background: var(--dm-blue); color: #fff; }
+.control-confirm-actions .control-go { background: var(--akg-blue); color: #fff; }
 .control-confirm.tone-danger .control-go { background: #b8463b; }
 .control-confirm-actions .control-cancel { background: #ece8e1; color: var(--ink); }
 .control-confirm-actions button:disabled { opacity: .45; cursor: not-allowed; }

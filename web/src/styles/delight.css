@@ -52,7 +52,7 @@
 .highlight { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; background: #fff; border: 1px solid var(--line); border-left: 4px solid #d4a017; border-radius: 9px;
   animation: dm-reveal .5s ease-out both; }
 .highlight.is-warning { border-left-color: #d64545; }
-.is-plain .highlight { border-left-color: var(--dm-blue); animation: none; }
+.is-plain .highlight { border-left-color: var(--akg-blue); animation: none; }
 @keyframes dm-reveal { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: none; } }
 .highlight-icon { width: 26px; height: 32px; flex: none; }
 .highlight-text { min-width: 0; display: grid; gap: 2px; }
@@ -90,7 +90,7 @@
 .highlights-invite p { margin: 4px 0 8px; color: #4b453d; }
 .highlights-invite-actions { display: flex; gap: 8px; }
 .highlights-invite-actions button { border: 1px solid var(--line); background: #f6f3ec; border-radius: 7px; padding: 5px 11px; font-weight: 600; }
-.highlights-invite-actions .primary { background: var(--dm-blue); border-color: var(--dm-blue); color: #fff; }
+.highlights-invite-actions .primary { background: var(--akg-blue); border-color: var(--akg-blue); color: #fff; }
 
 /* "Campaign Daybook" credits: clicks pass through to the office, except Close */
 .credits { position: fixed; inset: 0; z-index: 800; pointer-events: none; display: flex; justify-content: center; overflow: hidden;

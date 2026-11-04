@@ -26,8 +26,8 @@
 }
 .window-body .memo p { margin: 4px 0; }
 .memo .memo-letterhead {
-  margin: 0 0 10px; padding-bottom: 6px; border-bottom: 3px double var(--dm-blue); font-family: var(--font); font-size: 12px;
-  font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--dm-blue);
+  margin: 0 0 10px; padding-bottom: 6px; border-bottom: 3px double var(--akg-blue); font-family: var(--font); font-size: 12px;
+  font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--akg-blue);
 }
 .window-body .memo h3 { margin: 0 0 10px; text-align: center; font-size: 19px; letter-spacing: 6px; text-transform: uppercase; color: #2b2721; }
 .memo-fields { display: grid; grid-template-columns: 54px 1fr; gap: 2px 8px; margin: 0 0 10px; padding-bottom: 10px; border-bottom: 1px solid #cfc4ae; }

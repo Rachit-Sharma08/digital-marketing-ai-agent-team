@@ -2,21 +2,26 @@
    HR · Approvals at Sarah's desk. Motion is gentle and stops for reduced motion (system or Settings). */
 
 /* raised hand + "?" bubble (map) */
-.raised-arm { transform-box: fill-box; transform-origin: 0% 100%; animation: dm-wave 1.6s ease-in-out infinite; }
-.ask-bubble { animation: dm-ask 2.4s ease-in-out infinite; }
-@keyframes dm-wave { 0%, 100% { transform: rotate(0deg); } 30% { transform: rotate(9deg); } 60% { transform: rotate(-4deg); } }
-@keyframes dm-ask { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.2px); } }
+.raised-arm { transform-box: fill-box; transform-origin: 0% 100%; animation: akg-wave 1.6s ease-in-out infinite; }
+.ask-bubble { animation: akg-ask 2.4s ease-in-out infinite; }
+@keyframes akg-wave { 0%, 100% { transform: rotate(0deg); } 30% { transform: rotate(9deg); } 60% { transform: rotate(-4deg); } }
+@keyframes akg-ask { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.2px); } }
 
-/* Aanya's reception phone */
-.reception-phone.is-ringing .handset { transform-box: fill-box; transform-origin: 50% 100%; animation: dm-ring 1.4s ease-in-out infinite; }
-.reception-phone .ring-arc { opacity: 0; animation: dm-ring-wave 1.4s ease-out infinite; }
+/* Aanya's reception phone */.reception-phone.is-ringing .handset {
+  transform-box: fill-box; transform-origin: 50% 100%;
+  animation: akg-ring 1.4s ease-in-out infinite;
+}
+.reception-phone .ring-arc {
+  opacity: 0;
+  animation: akg-ring-wave 1.4s ease-out infinite;
+}
 .reception-phone .ring-arc-2 { animation-delay: .18s; }
-@keyframes dm-ring {
+@keyframes akg-ring {
   0%, 40%, 100% { transform: rotate(0deg); }
   5%, 15%, 25% { transform: rotate(-10deg); }
   10%, 20%, 30% { transform: rotate(10deg); }
 }
-@keyframes dm-ring-wave { 0% { opacity: 0; } 12% { opacity: .9; } 45%, 100% { opacity: 0; } }
+@keyframes akg-ring-wave { 0% { opacity: 0; } 12% { opacity: .9; } 45%, 100% { opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   .raised-arm, .ask-bubble, .reception-phone.is-ringing .handset { animation: none; }
@@ -45,7 +50,7 @@
 .approval.risk-low { border-left-color: #8b9097; }
 .approval-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; font-size: 12px; color: var(--muted); }
 .approval-head .approval-from { font-weight: 700; color: var(--ink); font-size: 12.5px; }
-.approval-head .link-btn.approval-from { color: var(--dm-blue); }
+.approval-head .link-btn.approval-from { color: var(--akg-blue); }
 .approval-head time { margin-left: auto; }
 .risk-badge { padding: 1px 7px; border-radius: 999px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; background: #f6efe0; color: #8a5a00; }
 .risk-badge.risk-high { background: #fde8e8; color: #a32020; }

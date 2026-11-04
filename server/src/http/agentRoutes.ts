@@ -13,6 +13,8 @@ export type AgentRoute = { method: 'GET' | 'POST'; pattern: RegExp; handler: (ct
 const COMMAND = /^\/api\/agents\/command$/;
 const MAX_TEXT = 4000;
 const PERSON_ID = /^[a-z][a-z0-9-]{0,39}$/;
+const MODES = ['work', 'plan'] as const;
+type Mode = (typeof MODES)[number];
 
 export function agentRoutes(jsonBody: (ctx: Ctx) => Promise<Record<string, unknown> | null>): AgentRoute[] {
   const limiter = createRateLimiter({ max: 20, windowMs: 60_000 });
@@ -46,17 +48,20 @@ export function agentRoutes(jsonBody: (ctx: Ctx) => Promise<Record<string, unkno
         if (text.length > MAX_TEXT) return sendError(ctx.res, 400, `text must be at most ${MAX_TEXT} characters`, ctx.cors);
         const assignTo = typeof body.person === 'string' ? body.person.trim() : null;
         if (assignTo !== null && !PERSON_ID.test(assignTo)) return sendError(ctx.res, 400, 'person must be a teammate id', ctx.cors);
+        const rawMode = body.mode;
+        if (rawMode !== undefined && !MODES.includes(rawMode as Mode)) return sendError(ctx.res, 400, "mode must be 'work' or 'plan'", ctx.cors);
+        const mode: Mode = rawMode === 'plan' ? 'plan' : 'work';
 
         const pick = pickAgent(text, process.env, assignTo);
         const started = Date.now();
-        let out = await runCommand(pick, text);
+        let out = await runCommand(pick, text, { plan: mode === 'plan' });
         let used = pick;
         let assignedBy: 'boss' | 'direct' | 'self' = assignTo ? 'direct' : 'boss';
         // The boss desk is the only one that can fail before a specialist sees the brief: if its model rejects the
         // request, the content desk reads the same text and takes it. Other errors already cycled every provider.
         if (!out.ok && !assignTo && pick.kind === 'general' && (out.status === 400 || out.status === 404)) {
           const fallback = pickAgent('write it up');
-          const retry = await runCommand(fallback, text);
+          const retry = await runCommand(fallback, text, { plan: mode === 'plan' });
           if (retry.ok) {
             out = retry;
             used = { ...fallback, reason: `${fallback.reason}; the boss model did not answer, so the content desk took it` };
@@ -64,9 +69,10 @@ export function agentRoutes(jsonBody: (ctx: Ctx) => Promise<Record<string, unkno
           }
         }
         const agent = { kind: used.kind, person: used.person, title: used.title, reason: used.reason, assignedBy };
-        if (!out.ok) return sendJson(ctx.res, out.status, { error: out.error, agent }, ctx.cors);
+        if (!out.ok) return sendJson(ctx.res, out.status, { error: out.error, agent, mode }, ctx.cors);
         sendJson(ctx.res, 200, {
           agent,
+          mode,
           model: { tier: out.tier, provider: out.provider, id: out.model, label: out.label },
           answer: out.answer,
           tookMs: Date.now() - started,

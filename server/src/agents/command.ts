@@ -1,8 +1,11 @@
 // Runs one typed command through the picked teammate's model. Provider keys come only from the environment,
 // never config files or logs. A failed provider is skipped in favour of the next configured provider.
 import { PROVIDERS, availableProviders, providerHasKey, type AgentPick, type ModelTier, type ProviderId } from './router.ts';
+import { BOSS_VOICE, HUMAN_VOICE, PLANNER } from './voice.ts';
 
-const TIMEOUT_MS = 60_000;
+const TIMEOUT_MS = 90_000;
+
+export type CommandOptions = { readonly plan?: boolean };
 
 export type CommandResult =
   | { readonly ok: true; readonly answer: string; readonly provider: ProviderId; readonly model: string; readonly label: string; readonly tier: ModelTier }
@@ -24,6 +27,15 @@ export function hasKey(): boolean {
   return availableProviders().length > 0;
 }
 
+/** Every desk gets the human-voice rules; the boss also gets the decision rule, plan mode gets the week planner. */
+function systemFor(pick: AgentPick, plan: boolean): string {
+  const parts = [ROLE_PROMPTS[pick.kind] ?? ROLE_PROMPTS.general];
+  if (pick.kind === 'general') parts.push(BOSS_VOICE);
+  if (plan) parts.push(PLANNER);
+  parts.push(HUMAN_VOICE);
+  return parts.join('\n\n');
+}
+
 function keyFor(provider: ProviderId): string | undefined {
   return PROVIDERS.find((p) => p.id === provider)?.keyNames.map((name) => process.env[name]?.trim()).find(Boolean);
 }
@@ -34,16 +46,17 @@ function errorResult(status: number, message?: string): CommandResult {
   return { ok: false, status: status >= 500 ? 502 : status, error: message ?? `Model returned ${status}` };
 }
 
-async function callProvider(provider: ProviderId, pick: AgentPick, text: string): Promise<CommandResult> {
+async function callProvider(provider: ProviderId, pick: AgentPick, text: string, plan: boolean): Promise<CommandResult> {
   const config = PROVIDERS.find((p) => p.id === provider)!;
   const key = keyFor(provider);
   if (!key) return { ok: false, status: 501, error: `${config.label} is not configured.` };
   const model = process.env[`AKG_${provider.toUpperCase()}_${pick.model.tier.toUpperCase()}_MODEL`]?.trim() ?? config.models[pick.model.tier];
-  const system = `${ROLE_PROMPTS[pick.kind]}\nReply in the user's language (Hindi/Hinglish if they wrote so). Be brief: no preamble, no filler.`;
+  const system = systemFor(pick, plan);
+  const maxTokens = plan ? 4000 : 1200;
   const isGemini = provider === 'gemini';
   const body = isGemini
-    ? { systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: [{ text }] }], generationConfig: { temperature: 0.7, maxOutputTokens: 1024 } }
-    : { model, messages: [{ role: 'system', content: system }, { role: 'user', content: text }], temperature: 0.7, max_tokens: 1024, stream: false };
+    ? { systemInstruction: { parts: [{ text: system }] }, contents: [{ role: 'user', parts: [{ text }] }], generationConfig: { temperature: 0.7, maxOutputTokens: maxTokens } }
+    : { model, messages: [{ role: 'system', content: system }, { role: 'user', content: text }], temperature: 0.7, max_tokens: maxTokens, stream: false };
   const endpoint = isGemini
     ? `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(key)}`
     : provider === 'zai' ? 'https://api.z.ai/api/paas/v4/chat/completions'
@@ -62,14 +75,14 @@ async function callProvider(provider: ProviderId, pick: AgentPick, text: string)
   }
 }
 
-export async function runCommand(pick: AgentPick, text: string): Promise<CommandResult> {
+export async function runCommand(pick: AgentPick, text: string, options: CommandOptions = {}): Promise<CommandResult> {
   const providers = availableProviders();
   if (!providers.length) return { ok: false, status: 501, error: 'No model API key is set. Configure a provider key in the environment and restart.' };
   const start = providers.indexOf(pick.model.provider);
   const ordered = start >= 0 ? [...providers.slice(start), ...providers.slice(0, start)] : providers;
   let last: CommandResult = { ok: false, status: 502, error: 'All configured providers failed.' };
   for (const provider of ordered) {
-    const out = await callProvider(provider, pick, text);
+    const out = await callProvider(provider, pick, text, Boolean(options.plan));
     if (out.ok) return out;
     last = out;
   }

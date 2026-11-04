@@ -18,11 +18,12 @@ export type AgentPick = {
 };
 
 export const PROVIDERS: ReadonlyArray<{ readonly id: ProviderId; readonly label: string; readonly keyNames: ReadonlyArray<string>; readonly models: Readonly<Record<ModelTier, string>> }> = [
-  { id: 'zai', label: 'z.ai', keyNames: ['ZAI_API_KEY', 'Z_AI_API_KEY'], models: { fast: 'glm-4.5-air', balanced: 'glm-4.5', deep: 'glm-5' } },
-  { id: 'mistral', label: 'Mistral', keyNames: ['MISTRAL_API_KEY'], models: { fast: 'mistral-small-latest', balanced: 'mistral-medium-latest', deep: 'mistral-large-latest' } },
+  // Gemini first: its free tier is the project's original default and the most reliable key on this machine.
+  { id: 'gemini', label: 'Gemini', keyNames: ['GEMINI_API_KEY'], models: { fast: 'gemini-3.5-flash-lite', balanced: 'gemini-3.5-flash', deep: 'gemini-3.5-flash' } },
   { id: 'openrouter', label: 'OpenRouter', keyNames: ['OPENROUTER_API_KEY'], models: { fast: 'google/gemini-2.5-flash-lite', balanced: 'google/gemini-2.5-flash', deep: 'google/gemini-2.5-pro' } },
-  { id: 'nvidia', label: 'NVIDIA NIM', keyNames: ['NVIDIA_API_KEY', 'NVIDIA_NIM_API_KEY'], models: { fast: 'microsoft/phi-4-mini-instruct', balanced: 'nvidia/nemotron-3.5-bolt-e4b', deep: 'deepseek-ai/deepseek-v4-flash' } },
-  { id: 'gemini', label: 'Gemini', keyNames: ['GEMINI_API_KEY'], models: { fast: 'gemini-3.5-flash-lite', balanced: 'gemini-3.8-flash', deep: 'gemini-3.8-flash' } },
+  { id: 'nvidia', label: 'NVIDIA NIM', keyNames: ['NVIDIA_API_KEY', 'NVIDIA_NIM_API_KEY'], models: { fast: 'nvidia/nemotron-3.5-bolt-e4b', balanced: 'nvidia/nemotron-3.5-bolt-e4b', deep: 'deepseek-ai/deepseek-v4.1-flash' } },
+  { id: 'mistral', label: 'Mistral', keyNames: ['MISTRAL_API_KEY'], models: { fast: 'mistral-small-latest', balanced: 'mistral-medium-latest', deep: 'mistral-large-latest' } },
+  { id: 'zai', label: 'z.ai', keyNames: ['ZAI_API_KEY', 'Z_AI_API_KEY'], models: { fast: 'glm-4.5-air', balanced: 'glm-4.5', deep: 'glm-5' } },
 ];
 
 const modelOverride = (provider: ProviderId, tier: ModelTier, env: NodeJS.ProcessEnv): string | undefined => env[`AKG_${provider.toUpperCase()}_${tier.toUpperCase()}_MODEL`]?.trim() || undefined;
@@ -45,6 +46,7 @@ function modelFor(tier: ModelTier, env: NodeJS.ProcessEnv): ModelPick {
 
 // Order matters: the first kind whose keyword appears wins (ads before content, so "ad copy" is ads).
 const RULES: ReadonlyArray<{ readonly kind: AgentKind; readonly person: string; readonly title: string; readonly words: ReadonlyArray<string> }> = [
+  { kind: 'content', person: 'aanya', title: 'Content writer', words: ['content plan', 'content calendar', 'posting plan', '7-day plan', 'week plan'] },
   { kind: 'seo', person: 'neha', title: 'SEO analyst', words: ['seo', 'keyword', 'ranking', 'serp', 'backlink', 'meta tag', 'search console', 'schema'] },
   { kind: 'ads', person: 'meera', title: 'Campaigns lead', words: ['ads', 'ad copy', 'google ads', 'meta ads', 'campaign', 'roas', 'cpc', 'ctr', 'audience', 'retarget'] },
   { kind: 'email', person: 'aisha', title: 'Community & email', words: ['email', 'subject line', 'drip', 'sequence', 'newsletter', 'cold mail', 'follow-up'] },

@@ -4,15 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 import { STAFF_BY_ID } from '@shared/office';
 
 type TeamMember = { kind: string; person: string; title: string };
+type ProviderHealth = { id: string; label: string; ready: boolean };
 type AssignedBy = 'boss' | 'direct' | 'self';
+type Mode = 'work' | 'plan';
 
 type Reply = {
   agent: { kind: string; person: string; title: string; reason: string; assignedBy?: AssignedBy };
+  mode?: Mode;
   model: { tier: string; provider: string; id: string; label: string };
   answer: string;
   tookMs: number;
 };
-type ErrorBody = { error?: string; agent?: Reply['agent'] };
+type ErrorBody = { error?: string; agent?: Reply['agent']; mode?: Mode };
 
 type Entry = {
   id: string;
@@ -24,9 +27,12 @@ type Entry = {
   at: number;
 };
 
-type Result = Reply['agent'] & { answer?: string; error?: string; modelLabel?: string; tookMs?: number };
+type Result = Reply['agent'] & { answer?: string; error?: string; modelLabel?: string; tookMs?: number; mode?: Mode };
 
-const EXAMPLES = ['Instagram par Diwali sale ke 3 captions likho', 'Meri bakery landing page ka SEO audit karo', 'Next month ka content plan banao'];
+const EXAMPLES: Record<Mode, string[]> = {
+  work: ['Instagram par Diwali sale ke 3 captions likho', 'Meri bakery landing page ka SEO audit karo', 'Next month ka content plan banao'],
+  plan: ['Next week ka Instagram content plan banao', 'Bakery ke liye 7 din ke posts plan karo', 'Diwali campaign ka week plan banao'],
+};
 const STORE = 'akg.dispatch.log';
 const MAX_LOG = 4;
 
@@ -55,7 +61,9 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
 }) {
   const [text, setText] = useState('');
   const [target, setTarget] = useState('');
+  const [mode, setMode] = useState<Mode>('work');
   const [team, setTeam] = useState<TeamMember[]>([]);
+  const [providers, setProviders] = useState<ProviderHealth[]>([]);
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -66,8 +74,10 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
     let alive = true;
     fetch('/api/agents', { headers: { accept: 'application/json' } })
       .then((r) => (r.ok ? r.json() : null))
-      .then((body: { team?: TeamMember[] } | null) => {
-        if (!alive || !body || !Array.isArray(body.team)) return;
+      .then((body: { team?: TeamMember[]; providers?: ProviderHealth[] } | null) => {
+        if (!alive || !body) return;
+        if (Array.isArray(body.providers)) setProviders(body.providers.filter((p) => p && typeof p.label === 'string'));
+        if (!Array.isArray(body.team)) return;
         const list = body.team.filter((m) => m && typeof m.person === 'string' && typeof m.title === 'string');
         setTeam([...list].sort((a, b) => (a.person === 'zara' ? -1 : b.person === 'zara' ? 1 : 0)));
       })
@@ -87,7 +97,7 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
       const res = await fetch('/api/agents/command', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ text: value, ...(target ? { person: target } : {}) }),
+        body: JSON.stringify({ text: value, mode, ...(target ? { person: target } : {}) }),
       });
       const body = (await res.json().catch(() => null)) as Reply | ErrorBody | null;
       if (!res.ok) {
@@ -95,7 +105,7 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
         const message = (body as ErrorBody | null)?.error ?? `Request failed (${res.status})`;
         if (agent) {
           const assignedBy = agent.assignedBy ?? (target ? 'direct' : 'boss');
-          setResult({ ...agent, assignedBy, error: message });
+          setResult({ ...agent, assignedBy, error: message, mode: (body as ErrorBody | null)?.mode ?? mode });
           const entry: Entry = { id: `${Date.now()}`, text: value, person: agent.person, title: agent.title, assignedBy, status: 'waiting', at: Date.now() };
           setLog((old) => { const next = [entry, ...old].slice(0, MAX_LOG); saveLog(next); return next; });
         } else {
@@ -104,7 +114,7 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
         return;
       }
       const reply = body as Reply;
-      setResult({ ...reply.agent, assignedBy: reply.agent.assignedBy ?? (target ? 'direct' : 'boss'), answer: reply.answer, modelLabel: reply.model.label, tookMs: reply.tookMs });
+      setResult({ ...reply.agent, assignedBy: reply.agent.assignedBy ?? (target ? 'direct' : 'boss'), answer: reply.answer, modelLabel: reply.model.label, tookMs: reply.tookMs, mode: reply.mode ?? mode });
       const entry: Entry = {
         id: `${Date.now()}`, text: value, person: reply.agent.person, title: reply.agent.title,
         assignedBy: reply.agent.assignedBy ?? (target ? 'direct' : 'boss'), status: 'done', at: Date.now(),
@@ -133,6 +143,13 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
         </div>
         <h2>Give the team a job</h2>
         <p className="dispatch-sub">One brief. Zara reads it and picks the right desk — and if her desk is down, the specialist takes it directly.</p>
+        {providers.length > 0 && (
+          <p className="dispatch-providers" aria-label="Model providers">
+            {providers.map((p) => (
+              <span key={p.id} className={p.ready ? 'is-ready' : 'is-off'} title={`${p.label}: ${p.ready ? 'key ready' : 'no key set'}`}>{p.label}</span>
+            ))}
+          </p>
+        )}
       </header>
 
       <form className="dispatch-form" onSubmit={(e) => { e.preventDefault(); void send(); }}>
@@ -142,10 +159,15 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
           ref={input}
           rows={3}
           value={text}
-          placeholder="Kaam likho… (jaise: mere bakery ke liye 3 Instagram caption likho)"
+          placeholder={mode === 'plan' ? 'Plan likho… (jaise: bakery ke liye next week ka content plan)' : 'Kaam likho… (jaise: mere bakery ke liye 3 Instagram caption likho)'}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void send(); } }}
         />
+        <div className="dispatch-mode" role="group" aria-label="Brief type">
+          <button type="button" aria-pressed={mode === 'work'} onClick={() => setMode('work')}>Task</button>
+          <button type="button" aria-pressed={mode === 'plan'} onClick={() => setMode('plan')}>Content plan</button>
+        </div>
+        {mode === 'plan' && <p className="dispatch-mode-hint">A week of posts: angle, hook, format, owner and the metric to watch.</p>}
         <div className="dispatch-target">
           <label htmlFor="dispatch-person">Assign to</label>
           <select id="dispatch-person" value={target} onChange={(e) => setTarget(e.target.value)}>
@@ -154,11 +176,11 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
           </select>
         </div>
         <button className="dispatch-send" type="submit" disabled={!writable || busy || !text.trim()}>
-          {busy ? 'Handing over…' : 'Hand it over'}
+          {busy ? 'Thinking…' : mode === 'plan' ? 'Plan the week' : 'Hand it over'}
         </button>
         {!writable && <p className="dispatch-note">Read-only server: start it with <code>--allow-writes</code> to dispatch tasks.</p>}
         {!result && !error && writable && (
-          <p className="dispatch-examples">{EXAMPLES.map((e) => <button key={e} type="button" onClick={() => setText(e)}>{e}</button>)}</p>
+          <p className="dispatch-examples">{EXAMPLES[mode].map((e) => <button key={e} type="button" onClick={() => setText(e)}>{e}</button>)}</p>
         )}
       </form>
 
@@ -174,7 +196,7 @@ export function DispatchDock({ writable, open, onClose, onOpenPerson }: {
           <button type="button" className="link-btn dispatch-open" onClick={() => onOpenPerson(result.person)}>Open {nameOf(result.person)}’s desk</button>
           {result.answer && <div className="dispatch-answer">{result.answer}</div>}
           {result.error && <p className="dispatch-error" role="alert">{result.error} — the brief stays on {nameOf(result.person)}’s desk.</p>}
-          {result.modelLabel && <p className="dispatch-meta">{result.modelLabel} · {result.tookMs} ms</p>}
+          {result.modelLabel && <p className="dispatch-meta">{result.mode === 'plan' ? 'Content plan · ' : ''}{result.modelLabel} · {result.tookMs} ms</p>}
         </section>
       )}
 

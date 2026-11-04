@@ -3,13 +3,13 @@
 .demo-badge { white-space: nowrap; }
 .demo-title { text-transform: none; letter-spacing: 0.2px; }
 .demo-clock { min-width: 62px; text-align: right; }
-.demo-speed { display: inline-flex; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; overflow: hidden; }
+.demo-speed { display: inline-flex; border: 1px solid rgba(255,255,255,.35); border-radius: 2px; overflow: hidden; }
 .demo-speed button {
   background: transparent; border: 0; color: #fff; padding: 3px 8px; font-size: 12px; font-variant-numeric: tabular-nums;
 }
 .demo-speed button + button { border-left: 1px solid rgba(255,255,255,.25); }
 .demo-speed button:hover:not(:disabled) { background: rgba(255,255,255,.16); }
-.demo-speed button[aria-pressed='true'] { background: #f2b632; color: #3a2a05; font-weight: 700; }
+.demo-speed button[aria-pressed='true'] { background: var(--brass); color: var(--brass-ink); font-weight: 700; }
 .demo-speed button:disabled { cursor: not-allowed; opacity: .6; }
 .demo-speed button[aria-pressed='true']:disabled { opacity: .85; }
 

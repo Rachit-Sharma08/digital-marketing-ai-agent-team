@@ -111,4 +111,4 @@ Server ke kuch tests Linux paths (`/home/...`, `~`) assume karte hain, isliye Wi
 
 ## Disclaimer
 
-Ye unofficial fan project hai — the original rights holder / the workspace se affiliated nahi. Personal use ke liye theek hai; public post karne se pehle naam/theme badal lena safer hai. MIT license original repo me hai.
+Ye unofficial fan project hai — kisi bhi original rights holder se affiliated nahi. Personal use ke liye theek hai; public post karne se pehle naam/theme badal lena safer hai. MIT license original repo me hai.

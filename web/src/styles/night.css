@@ -1,0 +1,131 @@
+/* Nightshift (default) and Studio share one token set. Studio is the original ledger palette in app.css;
+   Nightshift swaps the tokens and fixes the few surfaces that hardcode cream. Scoped to the html attribute
+   so the boot script can paint the saved mode before React renders. */
+[data-light='night'] {
+  --akg-blue: #c9a25e;
+  --akg-blue-dark: #e3c07a;
+  --ink: #ece7db;
+  --muted: #a19a8d;
+  --paper: #12161b;
+  --line: #343c46;
+  --chrome: #1a2027;
+  --brass: #e0b25f;
+  --brass-ink: #1a1408;
+  --shadow: 4px 4px 0 rgba(0, 0, 0, .55), 0 18px 40px rgba(0, 0, 0, .5);
+  color-scheme: dark;
+}
+
+[data-light='night'] body {
+  background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(255, 255, 255, .028) 31px 32px), #0d1015;
+}
+
+/* the two bars that used ink as a fill */
+[data-light='night'] .topbar { background: #080b0f; color: var(--ink); border-bottom-color: var(--brass); }
+[data-light='night'] .window-bar { background: #080b0f; color: var(--ink); }
+[data-light='night'] .win-btn { color: var(--ink); border-color: rgba(236, 231, 219, .32); }
+[data-light='night'] .win-btn:hover { background: var(--ink); color: #12161b; }
+[data-light='night'] .brand-mark { background: var(--brass); color: var(--brass-ink); border-color: rgba(255, 255, 255, .25); }
+[data-light='night'] .topbar .chrome-btn { color: var(--ink); border-color: rgba(236, 231, 219, .32); }
+[data-light='night'] .topbar .chrome-btn:hover { background: var(--brass); border-color: var(--brass); color: var(--brass-ink); }
+[data-light='night'] .source { border-color: rgba(236, 231, 219, .35); }
+
+/* the map is the hero: dim it and light it like a room at night */
+[data-light='night'] .office-map { filter: brightness(.68) saturate(.84) contrast(1.03); }
+[data-light='night'] .map-wrap::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background:
+    radial-gradient(58% 48% at 24% 16%, rgba(224, 178, 95, .12), transparent 62%),
+    radial-gradient(120% 92% at 50% 8%, transparent 42%, rgba(5, 7, 10, .58) 100%),
+    linear-gradient(180deg, rgba(5, 7, 10, .16), transparent 28%);
+}
+[data-light='night'] .map-controls button { background: #1a2027; color: var(--ink); border-color: var(--line); box-shadow: 3px 3px 0 rgba(0, 0, 0, .5); }
+[data-light='night'] .map-controls button:hover { background: var(--brass); border-color: var(--brass); color: var(--brass-ink); }
+[data-light='night'] .person-tip { background: var(--chrome); border-color: var(--line); box-shadow: 3px 3px 0 rgba(0, 0, 0, .5); }
+
+/* dispatch desk */
+[data-light='night'] .dispatch { background: #10141a; border-right-color: var(--line); }
+[data-light='night'] .dispatch-head { background: #151a21; border-bottom-color: var(--line); }
+[data-light='night'] .dispatch-kicker { color: var(--brass); }
+[data-light='night'] .dispatch-form textarea { background: #171c23; border-color: var(--line); color: var(--ink); }
+[data-light='night'] .dispatch-target select { background: #171c23; border-color: var(--line); color: var(--ink); }
+[data-light='night'] .dispatch-close { background: #232a33; border-color: var(--line); color: var(--ink); }
+[data-light='night'] .dispatch-note code { background: #232a33; }
+[data-light='night'] .dispatch-examples button { border-color: var(--line); }
+[data-light='night'] .dispatch-card { background: #171c23; border-color: var(--line); box-shadow: 3px 3px 0 rgba(0, 0, 0, .45); }
+[data-light='night'] .dispatch-answer { border-top-color: var(--line); }
+[data-light='night'] .dispatch-log { background: #0e1217; border-top-color: var(--line); }
+[data-light='night'] .dispatch-entry { border-top-color: #2a313a; }
+[data-light='night'] .dispatch-error { background: #2a1615; color: #f0a79f; border-left-color: #c26a60; }
+
+/* windows, chat and the small paper tags */
+[data-light='night'] .portrait { background: #1b2027; }
+[data-light='night'] .tag, [data-light='night'] .badge-todo, [data-light='night'] .badge-done { background: #232a33; color: var(--muted); border-color: var(--line); }
+[data-light='night'] .tag-bot, [data-light='night'] .badge-doing { background: #1e2c24; color: #9fd6b0; border-color: #33503f; }
+[data-light='night'] .badge-blocked { background: #2a1615; border-color: #5a2f2b; color: #f0a79f; }
+[data-light='night'] .msg { background: #232a33; }
+[data-light='night'] .msg.mine { background: #24302b; }
+[data-light='night'] .tab[aria-selected='true'] { background: rgba(224, 178, 95, .1); }
+[data-light='night'] .chat-error { color: #f0a79f; }
+
+/* Ask Aanya, shortcuts, away card */
+[data-light='night'] .aanya-backdrop, [data-light='night'] .sheet-backdrop { background: rgba(4, 6, 9, .62); }
+[data-light='night'] .aanya-option.is-active { background: #232b26; }
+[data-light='night'] .aanya-glyph { background: #232a33; color: var(--muted); }
+[data-light='night'] .kind-room .aanya-glyph, [data-light='night'] .kind-place .aanya-glyph { background: #1e2c24; color: #9fd6b0; }
+[data-light='night'] .aanya-empty code { background: #232a33; }
+[data-light='night'] .aanya-foot { background: #171c23; }
+[data-light='night'] kbd { background: #232a33; border-color: #3d4550; color: var(--ink); }
+[data-light='night'] .shortcuts .shortcuts-close, [data-light='night'] .away-close { background: #232a33; color: var(--ink); }
+
+/* list view */
+[data-light='night'] .list-view { background: repeating-linear-gradient(0deg, transparent 0 31px, rgba(255, 255, 255, .028) 31px 32px), var(--paper); }
+[data-light='night'] .list-filters { background: var(--paper); }
+[data-light='night'] .list-row:hover { background: #1b2027; }
+[data-light='night'] .list-row:active { background: #232a33; }
+
+/* controls and budgets */
+[data-light='night'] .control-bar button:hover:not(:disabled), [data-light='night'] .row-controls button:hover { background: #232a33; border-color: var(--line); }
+[data-light='night'] .control-confirm { background: #1b2027; }
+[data-light='night'] .control-confirm.tone-danger { background: #2a1615; }
+[data-light='night'] .control-confirm-actions .control-cancel { background: #232a33; }
+[data-light='night'] .control-result.is-ok { background: #16261b; color: #9fd6b0; }
+[data-light='night'] .control-result.is-error { background: #2a1615; color: #f0a79f; }
+[data-light='night'] .budget-track { background: #232a33; }
+[data-light='night'] .corporate-calls { background: #2a1615; border-color: #5a2f2b; }
+
+/* calendar */
+[data-light='night'] .ppc-header { background: linear-gradient(180deg, #201a12, var(--paper)); }
+[data-light='night'] .window-body .ppc-header h3 { color: #e08a6f; }
+[data-light='night'] .cal-btn[aria-pressed='true'] { color: var(--brass-ink); }
+[data-light='night'] .cal-day.is-today { background: #221d12; }
+[data-light='night'] .window-body .cal-day-head, [data-light='night'] .cal-corner { background: #1b2027; }
+[data-light='night'] .cal-day.is-today .cal-day-head { background: #332a16; }
+[data-light='night'] .cal-lane-label, [data-light='night'] .cal-lane { background: #171c23; }
+[data-light='night'] .cal-hour-label, [data-light='night'] .cal-cell { border-top-color: #262d36; }
+[data-light='night'] .cal-next { background: #221d12; }
+[data-light='night'] .cal-job code { background: #232a33; }
+[data-light='night'] .ppc-open { background: #2a2416; color: var(--brass); border-color: var(--brass); }
+[data-light='night'] .ppc-open:hover { background: #332a17; }
+
+/* minutes and the memo */
+[data-light='night'] .mtg-row:hover { background: #1b2027; }
+[data-light='night'] .mtg-live { background: #1e2c24; color: #9fd6b0; }
+[data-light='night'] .mtg-blocked { background: #2a1615; color: #f0a79f; }
+[data-light='night'] .mtg-waiting { background: #232a33; color: var(--muted); }
+[data-light='night'] .mtg-done { background: #1c2430; color: #9fb0c4; }
+
+/* timeline and Fatima's ledger */
+[data-light='night'] .ledger-link { background: #16261b; color: #9fd6b0; border-color: #33503f; }
+[data-light='night'] .ledger-link:hover { background: #1d3325; }
+[data-light='night'] .tl-glyph { background: #232a33; color: var(--muted); }
+[data-light='night'] .tone-warn .tl-glyph { background: #2a2416; color: var(--brass); }
+[data-light='night'] .tone-bad .tl-glyph { background: #2a1615; color: #f0a79f; }
+[data-light='night'] .ledger-track { background: #232a33; }
+[data-light='night'] .ledger-total { background: #16261b; }
+
+/* risk badges and the small delight bits */
+[data-light='night'] .risk-badge { background: #2a2416; color: var(--brass); }
+[data-light='night'] .risk-badge.risk-high { background: #2a1615; color: #f0a79f; }
+[data-light='night'] .risk-badge.risk-low { background: #232a33; color: var(--muted); }
+[data-light='night'] .naina-kind { background: #2a2338; color: #c3a8e8; }
+[data-light='night'] .highlights-invite-actions button { background: #232a33; }

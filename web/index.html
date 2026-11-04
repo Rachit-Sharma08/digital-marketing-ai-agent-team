@@ -1,9 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-light="night">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#1c1b18" />
+    <meta name="theme-color" content="#0a0d11" />
+    <script>
+      // Paint the saved lighting mode before the bundle loads: Nightshift is the default, Studio is opt-in.
+      try { document.documentElement.dataset.light = localStorage.getItem('akg.light.v1') === 'studio' ? 'studio' : 'night'; } catch (e) { /* storage blocked */ }
+    </script>
     <meta name="description" content="A local-first AI marketing team drawn as an isometric office floor plan: live statuses, chat rooms, approvals, budgets and a team console." />
     <!-- Link previews (Open Graph, X/Twitter). og.png is served by the Pages demo, from web/public-demo. -->
     <meta property="og:type" content="website" />

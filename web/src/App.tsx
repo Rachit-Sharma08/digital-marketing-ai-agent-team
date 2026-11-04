@@ -47,6 +47,7 @@ import { delightAanyaItems } from './delight/aanyaItems';
 import { NAINA_DESK } from './delight/naina/NainaNote';
 import { tobyFromUrl } from './delight/mode';
 import { useCeremonyInvite } from './delight/highlights/useCeremonyInvite';
+import { applyLight, type Light, storedLight } from './theme/theme';
 
 const PALETTE_KEY = paletteKeyLabel(typeof navigator === 'undefined' ? '' : navigator.platform);
 
@@ -57,6 +58,7 @@ export function App() {
   const narrow = useMediaQuery(NARROW_QUERY);
   const reduceMotion = useMediaQuery(REDUCED_MOTION_QUERY) || prefs.reduceMotion;
   const [wins, setWins] = useState(INITIAL_WINDOWS);
+  const [light, setLight] = useState<Light>(storedLight);
   const [overlay, setOverlay] = useState<Overlay>(null);
   const [filter, setFilter] = useState<FleetFilter>('all');
   const [viewPick, setViewPick] = useState<ViewMode | null>(null);
@@ -140,6 +142,8 @@ export function App() {
     return () => cancelAnimationFrame(frame);
   }, [chatFor, wins]);
 
+  useEffect(() => { applyLight(light); }, [light]);
+
   const run = (item: AanyaItem, alt: boolean) => {
     const act = alt && item.alt ? item.alt : item.action;
     if (item.kind !== 'action') remember(item.id);
@@ -211,6 +215,8 @@ export function App() {
         onOpenInbox={openInbox}
         corporate={corporateBadge(budgets)}
         onOpenCorporate={openLedger}
+        light={light}
+        onToggleLight={() => setLight(light === 'night' ? 'studio' : 'night')}
         demo={demoDay ? <DemoBar day={demoDay} writable={writable} /> : undefined}
       />
       <main className="desktop">

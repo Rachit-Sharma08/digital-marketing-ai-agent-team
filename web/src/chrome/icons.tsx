@@ -2,6 +2,8 @@
 const common = { width: 16, height: 16, viewBox: '0 0 16 16', fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true, focusable: false };
 
 export const SearchIcon = () => <svg {...common}><circle cx="7" cy="7" r="4.6" /><path d="M10.4 10.4L14 14" /></svg>;
+export const SunIcon = () => <svg {...common}><circle cx="8" cy="8" r="3.2" /><path d="M8 1.2v1.8M8 13v1.8M1.2 8H3M13 8h1.8M3.1 3.1l1.3 1.3M11.6 11.6l1.3 1.3M12.9 3.1l-1.3 1.3M4.4 11.6l-1.3 1.3" /></svg>;
+export const MoonIcon = () => <svg {...common}><path d="M13.4 9.7A5.6 5.6 0 0 1 6.3 2.6a5.7 5.7 0 1 0 7.1 7.1z" /></svg>;
 export const ListIcon = () => <svg {...common}><path d="M5.5 4h8M5.5 8h8M5.5 12h8" /><circle cx="2.6" cy="4" r=".6" /><circle cx="2.6" cy="8" r=".6" /><circle cx="2.6" cy="12" r=".6" /></svg>;
 export const MapIcon = () => <svg {...common}><path d="M1.8 4.2L5.6 2.4l4.8 1.8 3.8-1.8v9.4l-3.8 1.8-4.8-1.8-3.8 1.8z" /><path d="M5.6 2.4v9.4M10.4 4.2v9.4" /></svg>;
 export const GearIcon = () => (

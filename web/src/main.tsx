@@ -13,6 +13,7 @@ import './styles/needsYou.css';
 import './styles/controls.css';
 import './styles/delight.css';
 import './styles/dispatch.css';
+import './styles/night.css';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Missing #root element');

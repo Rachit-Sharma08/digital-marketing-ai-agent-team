@@ -4,7 +4,8 @@
 import { type ReactNode, type RefObject, useEffect, useState } from 'react';
 import { type FleetCounts, STATUS_META } from '../office/status';
 import type { CorporateBadge } from '../budgets/budgetModel';
-import { CalendarIcon, GearIcon, InfoIcon, ListIcon, MapIcon, SearchIcon } from './icons';
+import { CalendarIcon, GearIcon, InfoIcon, ListIcon, MapIcon, MoonIcon, SearchIcon, SunIcon } from './icons';
+import type { Light } from '../theme/theme';
 
 type Props = {
   counts: FleetCounts | null;
@@ -23,6 +24,8 @@ type Props = {
   onOpenInbox?: () => void;
   corporate?: CorporateBadge | null; // bots near / over budget; null/absent: nothing to say
   onOpenCorporate?: () => void; // opens Fatima's ledger, budgets first
+  light: Light;
+  onToggleLight: () => void;
   demo?: ReactNode;
 };
 
@@ -82,7 +85,7 @@ function Corporate({ badge, onOpen }: { badge: CorporateBadge; onOpen: () => voi
 
 export function TopBar({
   counts, source, paletteKey, onAskAanya, view, onToggleView, settingsOpen, onToggleSettings, gearRef, settings, readOnly = false, needYou = null, onOpenInbox,
-  onOpenCalendar, corporate = null, onOpenCorporate, demo,
+  onOpenCalendar, corporate = null, onOpenCorporate, light, onToggleLight, demo,
 }: Props) {
   return (
     <header className="topbar">
@@ -124,6 +127,9 @@ export function TopBar({
         )}
         <button type="button" className="chrome-btn" aria-label={view === 'map' ? 'Show the list' : 'Show the map'} onClick={onToggleView}>
           {view === 'map' ? <ListIcon /> : <MapIcon />}<span className="btn-label">{view === 'map' ? 'List' : 'Map'}</span>
+        </button>
+        <button type="button" className="chrome-btn light-toggle" aria-label={`Switch to ${light === 'night' ? 'Studio' : 'Nightshift'} lighting`} title={`Switch to ${light === 'night' ? 'Studio' : 'Nightshift'} lighting`} onClick={onToggleLight}>
+          {light === 'night' ? <SunIcon /> : <MoonIcon />}<span className="btn-label">{light === 'night' ? 'Studio' : 'Nightshift'}</span>
         </button>
         <div className="settings">
           <button
